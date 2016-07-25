@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.garfield.myandroid.R;
-import com.garfield.myandroid.base.BaseActivity;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 

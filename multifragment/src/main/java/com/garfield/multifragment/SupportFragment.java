@@ -17,13 +17,15 @@ public class SupportFragment extends Fragment {
     protected SupportActivity mSupportActivity;
     private FragmentAnimator mFragmentAnimator;
 
+    private int mContainerId;   // 该Fragment所处的Container的id
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof SupportActivity) {
             this.mSupportActivity = (SupportActivity) context;
         } else {
-            throw new RuntimeException("must extends SupportActivity!");
+            throw new RuntimeException("Must extends SupportActivity!");
         }
     }
 
@@ -34,6 +36,8 @@ public class SupportFragment extends Fragment {
         if (mFragmentAnimator == null) {
             mFragmentAnimator = mSupportActivity.getFragmentAnimator();
         }
+        Bundle bundle = getArguments();
+        mContainerId = bundle.getInt(FragmentHelper.FRAGMENT_ARG_CONTAINER);
     }
 
     @Override

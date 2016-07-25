@@ -7,10 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.garfield.multifragment.SupportFragment;
+
 /**
  * Created by gaowei3 on 2016/7/18.
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends SupportFragment {
 
     protected abstract View createView(LayoutInflater inflater, ViewGroup container,
                                        Bundle savedInstanceState);
