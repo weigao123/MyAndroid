@@ -1,9 +1,11 @@
 package com.garfield.multifragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.garfield.multifragment.anim.FragmentAnimator;
 
@@ -15,6 +17,15 @@ public class SupportFragment extends Fragment {
     protected SupportActivity mSupportActivity;
     private FragmentAnimator mFragmentAnimator;
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof SupportActivity) {
+            this.mSupportActivity = (SupportActivity) context;
+        } else {
+            throw new RuntimeException("must extends SupportActivity!");
+        }
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,7 +38,11 @@ public class SupportFragment extends Fragment {
 
     @Override
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
-        return super.onCreateAnimation(transit, enter, nextAnim);
+        if (enter) {
+            return AnimationUtils.loadAnimation(mSupportActivity, mFragmentAnimator.getEnter());
+        } else {
+            return AnimationUtils.loadAnimation(mSupportActivity, mFragmentAnimator.getExit());
+        }
     }
 
     protected FragmentAnimator onCreateFragmentAnimator() {
