@@ -25,4 +25,7 @@ public class NewsFragment extends BaseFragment {
     }
 
 
+    void test() {
+
+    }
 }
