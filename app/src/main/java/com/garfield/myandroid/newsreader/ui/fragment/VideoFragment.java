@@ -1,4 +1,4 @@
-package com.garfield.myandroid.newsreader.ui;
+package com.garfield.myandroid.newsreader.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 /**
  * Created by gaowei3 on 2016/7/18.
  */
-public class ChatFragment extends BaseFragment {
+public class VideoFragment extends BaseFragment {
     @Override
     protected void initView() {
 

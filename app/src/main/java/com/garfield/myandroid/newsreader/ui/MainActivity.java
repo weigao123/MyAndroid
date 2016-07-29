@@ -7,6 +7,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.garfield.myandroid.R;
+import com.garfield.myandroid.newsreader.ui.fragment.BaseFragment;
+import com.garfield.myandroid.newsreader.ui.fragment.ChatFragment;
+import com.garfield.myandroid.newsreader.ui.fragment.NewsFragment;
+import com.garfield.myandroid.newsreader.ui.fragment.PersonalFragment;
+import com.garfield.myandroid.newsreader.ui.fragment.TestFragment;
+import com.garfield.myandroid.newsreader.ui.fragment.VideoFragment;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
@@ -30,14 +36,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mTabs[1] = findViewById(R.id.newsreader_main_video);
         mTabs[2] = findViewById(R.id.newsreader_main_chat);
         mTabs[3] = findViewById(R.id.newsreader_main_personal);
-        switchFragment(mFragmentClasses[0]);
+        //switchFragment(mFragmentClasses[0]);
+
+        startRootFragment(R.id.newsreader_main_fragment_container, TestFragment.class);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.newsreader_main_news:
-                switchFragment(mFragmentClasses[0]);
+                startFragment(TestFragment.class);
+                //switchFragment(mFragmentClasses[0]);
                 break;
             case R.id.newsreader_main_video:
                 switchFragment(mFragmentClasses[1]);

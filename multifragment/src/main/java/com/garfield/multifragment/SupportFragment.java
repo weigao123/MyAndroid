@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import com.garfield.multifragment.anim.DefaultHorizontalAnimator;
 import com.garfield.multifragment.anim.FragmentAnimator;
 
 /**
@@ -35,6 +36,9 @@ public class SupportFragment extends Fragment {
         mFragmentAnimator = onCreateFragmentAnimator();
         if (mFragmentAnimator == null) {
             mFragmentAnimator = mSupportActivity.getFragmentAnimator();
+            if (mFragmentAnimator == null) {
+                mFragmentAnimator = new DefaultHorizontalAnimator();
+            }
         }
         Bundle bundle = getArguments();
         mContainerId = bundle.getInt(FragmentHelper.FRAGMENT_ARG_CONTAINER);
@@ -51,5 +55,9 @@ public class SupportFragment extends Fragment {
 
     protected FragmentAnimator onCreateFragmentAnimator() {
         return null;
+    }
+
+    public int getContainerId() {
+        return mContainerId;
     }
 }

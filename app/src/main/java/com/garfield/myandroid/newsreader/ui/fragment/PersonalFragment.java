@@ -1,4 +1,4 @@
-package com.garfield.myandroid.newsreader.ui;
+package com.garfield.myandroid.newsreader.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
