@@ -6,4 +6,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="NewsReader" parent="AppTheme">
+        <item name="colorPrimary">@color/newsreader_color</item>
+        <item name="colorPrimaryDark">@color/newsreader_color</item>
+    </style>
+
 </resources>

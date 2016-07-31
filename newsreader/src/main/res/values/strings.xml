@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">NewsReader</string>
+
+
+    <!-- NewsReader -->
+    <string name="newsreader_news">新闻</string>
+    <string name="newsreader_video">视频</string>
+    <string name="newsreader_chat">聊天</string>
+    <string name="newsreader_personal">我</string>
+
+</resources>

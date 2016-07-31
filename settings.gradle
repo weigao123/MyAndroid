@@ -1,1 +1,1 @@
-include ':app', ':multifragment'
+include ':app', ':multifragment', ':newsreader', ':weixin', ':weixin2'
