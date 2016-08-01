@@ -1,7 +1,6 @@
 package com.garfield.baselib.widget;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -12,11 +11,9 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.garfield.baselib.R;
-import com.garfield.baselib.utils.SizeUtils;
 
 public class BottomBar extends LinearLayout {
     private static final int TRANSLATE_DURATION_MILLIS = 200;
@@ -24,10 +21,12 @@ public class BottomBar extends LinearLayout {
     private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
     private boolean mVisible = true;
     private boolean mHasShadow = false;
+    private int mUnSelectedColor;
+    private int mSelectedColor;
 
-    private LinearLayout mTabLayout;
+    private LinearLayout mItemLayout;
 
-    private LayoutParams mTabParams;
+    private LayoutParams mItemParams;
     private int mCurrentPosition = 0;
     private OnTabSelectedListener mListener;
 
@@ -62,16 +61,23 @@ public class BottomBar extends LinearLayout {
         View lineView = new View(context);
         lineView.setBackgroundColor(getResources().getColor(R.color.gray_trans));
         addView(lineView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
-        mTabLayout = new LinearLayout(context);
-        mTabLayout.setBackgroundColor(Color.WHITE);
-        mTabLayout.setOrientation(LinearLayout.HORIZONTAL);
-        addView(mTabLayout, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        mItemLayout = new LinearLayout(context);
+        mItemLayout.setBackgroundColor(Color.WHITE);
+        mItemLayout.setOrientation(LinearLayout.HORIZONTAL);
+        addView(mItemLayout, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-        mTabParams = new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
-        mTabParams.weight = 1;
+        mItemParams = new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
+        mItemParams.weight = 1;
     }
 
-    public BottomBar addItem(final BottomBarTab tab) {
+    public BottomBar setColor(int colorUnSelected, int colorSelected) {
+        mUnSelectedColor = colorUnSelected;
+        mSelectedColor = colorSelected;
+        return this;
+    }
+
+    public BottomBar addItem(int resource, String content) {
+        final BottomBarItem tab = new BottomBarItem(getContext(), resource, content, mUnSelectedColor, mSelectedColor);
         tab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,14 +90,14 @@ public class BottomBar extends LinearLayout {
                     mListener.onTabSelected(pos, mCurrentPosition);
                     tab.setSelected(true);
                     mListener.onTabUnselected(mCurrentPosition);
-                    mTabLayout.getChildAt(mCurrentPosition).setSelected(false);
+                    mItemLayout.getChildAt(mCurrentPosition).setSelected(false);
                     mCurrentPosition = pos;
                 }
             }
         });
-        tab.setTabPosition(mTabLayout.getChildCount());
-        tab.setLayoutParams(mTabParams);
-        mTabLayout.addView(tab);
+        tab.setTabPosition(mItemLayout.getChildCount());
+        tab.setLayoutParams(mItemParams);
+        mItemLayout.addView(tab);
         return this;
     }
 
@@ -100,10 +106,10 @@ public class BottomBar extends LinearLayout {
     }
 
     public void setCurrentItem(final int position) {
-        mTabLayout.post(new Runnable() {
+        mItemLayout.post(new Runnable() {
             @Override
             public void run() {
-                mTabLayout.getChildAt(position).performClick();
+                mItemLayout.getChildAt(position).performClick();
             }
         });
     }
@@ -128,8 +134,8 @@ public class BottomBar extends LinearLayout {
         super.onRestoreInstanceState(ss.getSuperState());
 
         if (mCurrentPosition != ss.position) {
-            mTabLayout.getChildAt(mCurrentPosition).setSelected(false);
-            mTabLayout.getChildAt(ss.position).setSelected(true);
+            mItemLayout.getChildAt(mCurrentPosition).setSelected(false);
+            mItemLayout.getChildAt(ss.position).setSelected(true);
         }
         mCurrentPosition = ss.position;
     }

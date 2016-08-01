@@ -2,10 +2,7 @@ package com.garfield.baselib.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
-import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.ViewGroup;
@@ -17,30 +14,30 @@ import android.widget.TextView;
 import com.garfield.baselib.R;
 
 
-public class BottomBarTab extends FrameLayout {
+public class BottomBarItem extends FrameLayout {
     private ImageView mIcon;
     private TextView mTvTitle;
     private Context mContext;
     private int mTabPosition = -1;
 
-    public BottomBarTab(Context context, @DrawableRes int icon, CharSequence title) {
-        this(context, null, icon, title);
+    private int mUnSelectedColor;
+    private int mSelectedColor;
+
+
+    public BottomBarItem(Context context, int icon, CharSequence title, int unSelectedColor, int selectedColor) {
+        super(context);
+        init(context, icon, title, unSelectedColor, selectedColor);
     }
 
-    public BottomBarTab(Context context, AttributeSet attrs, int icon, CharSequence title) {
-        this(context, attrs, 0, icon, title);
-    }
-
-    public BottomBarTab(Context context, AttributeSet attrs, int defStyleAttr, int icon, CharSequence title) {
-        super(context, attrs, defStyleAttr);
-        init(context, icon, title);
-    }
-
-    private void init(Context context, int icon, CharSequence title) {
+    private void init(Context context, int icon, CharSequence title, int unSelectedColor, int selectedColor) {
         mContext = context;
+        mUnSelectedColor = unSelectedColor;
+        mSelectedColor = selectedColor;
+
         TypedArray typedArray = context.obtainStyledAttributes(new int[]{R.attr.selectableItemBackgroundBorderless});
-        Drawable drawable = typedArray.getDrawable(0);
+        //Drawable drawable = typedArray.getDrawable(0);
         //setBackgroundDrawable(drawable);
+        //或：
         int backgroundResource = typedArray.getResourceId(0, 0);
         setBackgroundResource(backgroundResource);
         typedArray.recycle();
@@ -57,7 +54,7 @@ public class BottomBarTab extends FrameLayout {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
         mIcon.setImageResource(icon);
         mIcon.setLayoutParams(params);
-        mIcon.setColorFilter(ContextCompat.getColor(context, R.color.bottombar_tab_unselect));
+        mIcon.setColorFilter(ContextCompat.getColor(context, unSelectedColor));
         lLContainer.addView(mIcon);
 
         mTvTitle = new TextView(context);
@@ -65,7 +62,7 @@ public class BottomBarTab extends FrameLayout {
         LinearLayout.LayoutParams paramsTv = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         paramsTv.topMargin =  (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics());
         mTvTitle.setTextSize(10);
-        mTvTitle.setTextColor(ContextCompat.getColor(context, R.color.bottombar_tab_unselect));
+        mTvTitle.setTextColor(ContextCompat.getColor(context, unSelectedColor));
         mTvTitle.setLayoutParams(paramsTv);
         lLContainer.addView(mTvTitle);
 
@@ -76,11 +73,11 @@ public class BottomBarTab extends FrameLayout {
     public void setSelected(boolean selected) {
         super.setSelected(selected);
         if (selected) {
-            mIcon.setColorFilter(ContextCompat.getColor(mContext, R.color.bottombar_colorPrimary));
-            mTvTitle.setTextColor(ContextCompat.getColor(mContext, R.color.bottombar_colorPrimary));
+            mIcon.setColorFilter(ContextCompat.getColor(mContext, mSelectedColor));
+            mTvTitle.setTextColor(ContextCompat.getColor(mContext, mSelectedColor));
         } else {
-            mIcon.setColorFilter(ContextCompat.getColor(mContext, R.color.bottombar_tab_unselect));
-            mTvTitle.setTextColor(ContextCompat.getColor(mContext, R.color.bottombar_tab_unselect));
+            mIcon.setColorFilter(ContextCompat.getColor(mContext, mUnSelectedColor));
+            mTvTitle.setTextColor(ContextCompat.getColor(mContext, mUnSelectedColor));
         }
     }
 

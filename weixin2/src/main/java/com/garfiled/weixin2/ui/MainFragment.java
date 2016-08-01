@@ -1,13 +1,9 @@
 package com.garfiled.weixin2.ui;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.garfield.baselib.base.BaseFragment;
 import com.garfield.baselib.widget.BottomBar;
-import com.garfield.baselib.widget.BottomBarTab;
 import com.garfiled.weixin2.R;
 
 /**
@@ -25,10 +21,10 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
     @Override
     protected void initView(View view) {
         mBottomBar = (BottomBar) view.findViewById(R.id.bottomBar);
-        mBottomBar
-                .addItem(new BottomBarTab(mActivity, R.drawable.ic_message_white, "消息"))
-                .addItem(new BottomBarTab(mActivity, R.drawable.ic_contact_white, "联系人"))
-                .addItem(new BottomBarTab(mActivity, R.drawable.ic_discover_white, "发现"));
+        mBottomBar.setColor(R.color.bottombar_item_unselect, R.color.colorPrimary)
+                  .addItem(R.drawable.ic_message_white, "消息")
+                  .addItem(R.drawable.ic_contact_white, "联系人")
+                  .addItem(R.drawable.ic_discover_white, "发现");
         this.getView().setOnClickListener(this);
     }
 
