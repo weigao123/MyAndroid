@@ -12,13 +12,14 @@ import com.garfield.newsreader.R;
  * Created by gaowei3 on 2016/7/27.
  */
 public class TestFragment extends BaseFragment {
+
     @Override
-    protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_test, container, false);
+    protected int createView() {
+        return 0;
     }
 
     @Override
-    protected void initView() {
+    protected void initView(View view) {
 
     }
 }

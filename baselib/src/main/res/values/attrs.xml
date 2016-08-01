@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="BottomBar">
+        <attr name="hasShadow" format="boolean"/>
+        <attr name="shadowHeight" format="integer"/>
+        <attr name="barHeight" format="integer" />
+    </declare-styleable>
+
+</resources>

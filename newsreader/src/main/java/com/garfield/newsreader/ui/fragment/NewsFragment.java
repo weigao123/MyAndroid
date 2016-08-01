@@ -14,19 +14,14 @@ public class NewsFragment extends BaseFragment {
 
     private ViewPager mViewPager;
 
+
     @Override
-    protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_news, container, false);
+    protected int createView() {
+        return 0;
     }
 
     @Override
-    protected void initView() {
-        mViewPager = (ViewPager) getActivity().findViewById(R.id.newsreader_news_viewpager);
-        //mViewPager.setAdapter(mFragmentPagerAdapter);
-    }
-
-
-    void test(  ) {
+    protected void initView(View view) {
 
     }
 }

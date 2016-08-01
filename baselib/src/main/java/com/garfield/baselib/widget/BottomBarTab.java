@@ -1,4 +1,4 @@
-package com.garfield.baselib.view;
+package com.garfield.baselib.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -40,7 +40,9 @@ public class BottomBarTab extends FrameLayout {
         mContext = context;
         TypedArray typedArray = context.obtainStyledAttributes(new int[]{R.attr.selectableItemBackgroundBorderless});
         Drawable drawable = typedArray.getDrawable(0);
-        setBackgroundDrawable(drawable);
+        //setBackgroundDrawable(drawable);
+        int backgroundResource = typedArray.getResourceId(0, 0);
+        setBackgroundResource(backgroundResource);
         typedArray.recycle();
 
         LinearLayout lLContainer = new LinearLayout(context);

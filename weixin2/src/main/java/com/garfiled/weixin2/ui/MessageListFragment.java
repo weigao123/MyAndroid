@@ -1,4 +1,4 @@
-package com.garfield.newsreader.ui.fragment;
+package com.garfiled.weixin2.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,9 +8,10 @@ import android.view.ViewGroup;
 import com.garfield.baselib.base.BaseFragment;
 
 /**
- * Created by gaowei3 on 2016/7/18.
+ * Created by gaowei3 on 2016/8/1.
  */
-public class ChatFragment extends BaseFragment {
+public class MessageListFragment extends BaseFragment {
+
 
     @Override
     protected int createView() {
@@ -21,4 +22,5 @@ public class ChatFragment extends BaseFragment {
     protected void initView(View view) {
 
     }
+
 }

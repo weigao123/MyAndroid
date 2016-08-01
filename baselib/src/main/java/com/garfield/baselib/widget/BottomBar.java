@@ -1,6 +1,7 @@
-package com.garfield.baselib.view;
+package com.garfield.baselib.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -11,13 +12,18 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.garfield.baselib.R;
+import com.garfield.baselib.utils.SizeUtils;
 
 public class BottomBar extends LinearLayout {
     private static final int TRANSLATE_DURATION_MILLIS = 200;
 
     private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
     private boolean mVisible = true;
+    private boolean mHasShadow = false;
 
     private LinearLayout mTabLayout;
 
@@ -41,10 +47,21 @@ public class BottomBar extends LinearLayout {
     private void init(Context context, AttributeSet attrs) {
         setOrientation(VERTICAL);
 
-//        ImageView shadowView = new ImageView(context);
-//        shadowView.setBackgroundResource(R.drawable.actionbar_shadow_up);
-//        addView(shadowView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//        if (attrs != null) {
+//            TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.BottomBar);
+//            mHasShadow = ta.getBoolean(R.styleable.BottomBar_hasShadow, false);
+//            ta.recycle();
+//        }
+//
+//        if (mHasShadow) {
+//            ImageView shadowView = new ImageView(context);
+//            shadowView.setBackgroundResource(R.drawable.actionbar_shadow_up);
+//            addView(shadowView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//        }
 
+        View lineView = new View(context);
+        lineView.setBackgroundColor(getResources().getColor(R.color.gray_trans));
+        addView(lineView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
         mTabLayout = new LinearLayout(context);
         mTabLayout.setBackgroundColor(Color.WHITE);
         mTabLayout.setOrientation(LinearLayout.HORIZONTAL);

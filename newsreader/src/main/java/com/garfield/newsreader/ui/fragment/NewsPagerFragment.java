@@ -11,13 +11,14 @@ import com.garfield.baselib.base.BaseFragment;
  * Created by gaowei3 on 2016/7/18.
  */
 public class NewsPagerFragment extends BaseFragment {
+
     @Override
-    protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return null;
+    protected int createView() {
+        return 0;
     }
 
     @Override
-    protected void initView() {
+    protected void initView(View view) {
 
     }
 }

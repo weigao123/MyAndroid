@@ -5,4 +5,6 @@
 
     <color name="bottombar_colorPrimary">#F44336</color>
     <color name="bottombar_colorPrimaryDark">#D32F2F</color>
+    
+    <color name="gray_trans">#DDDDDD</color>
 </resources>

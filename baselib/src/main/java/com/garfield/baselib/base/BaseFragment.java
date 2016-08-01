@@ -12,20 +12,21 @@ import com.garfield.baselib.fragmentation.SupportFragment;
  */
 public abstract class BaseFragment extends SupportFragment {
 
-    protected abstract View createView(LayoutInflater inflater, ViewGroup container,
-                                       Bundle savedInstanceState);
+    protected abstract int createView();
 
-    protected abstract void initView();
+    protected abstract void initView(View view);
+    private View mRootView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return createView(inflater, container, savedInstanceState);
+        mRootView = inflater.inflate(createView(), container, false);
+        return mRootView;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        initView();
+        initView(mRootView);
     }
 }

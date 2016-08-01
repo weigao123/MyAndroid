@@ -15,7 +15,7 @@ import com.garfield.baselib.anim.FragmentAnimator;
  */
 public class SupportFragment extends Fragment {
 
-    protected SupportActivity mSupportActivity;
+    protected SupportActivity mActivity;
     private FragmentAnimator mFragmentAnimator;
 
     private int mContainerId;   // 该Fragment所处的Container的id
@@ -24,7 +24,7 @@ public class SupportFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof SupportActivity) {
-            this.mSupportActivity = (SupportActivity) context;
+            this.mActivity = (SupportActivity) context;
         } else {
             throw new RuntimeException("Must extends SupportActivity!");
         }
@@ -35,7 +35,7 @@ public class SupportFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mFragmentAnimator = onCreateFragmentAnimator();
         if (mFragmentAnimator == null) {
-            mFragmentAnimator = mSupportActivity.getFragmentAnimator();
+            mFragmentAnimator = mActivity.getFragmentAnimator();
             if (mFragmentAnimator == null) {
                 mFragmentAnimator = new DefaultHorizontalAnimator();
             }
@@ -47,9 +47,9 @@ public class SupportFragment extends Fragment {
     @Override
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
         if (enter) {
-            return AnimationUtils.loadAnimation(mSupportActivity, mFragmentAnimator.getEnter());
+            return AnimationUtils.loadAnimation(mActivity, mFragmentAnimator.getEnter());
         } else {
-            return AnimationUtils.loadAnimation(mSupportActivity, mFragmentAnimator.getExit());
+            return AnimationUtils.loadAnimation(mActivity, mFragmentAnimator.getExit());
         }
     }
 
