@@ -3,7 +3,7 @@ package com.garfield.newsreader.ui;
 import android.os.Bundle;
 import android.view.Menu;
 
-import com.garfield.multifragment.SupportActivity;
+import com.garfield.baselib.fragmentation.SupportActivity;
 
 /**
  * Created by gaowei3 on 2016/7/18.

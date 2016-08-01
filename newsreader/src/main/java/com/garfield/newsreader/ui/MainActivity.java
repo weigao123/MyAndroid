@@ -6,8 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
+import com.garfield.baselib.base.BaseActivity;
+import com.garfield.baselib.base.BaseFragment;
 import com.garfield.newsreader.R;
-import com.garfield.newsreader.ui.fragment.BaseFragment;
 import com.garfield.newsreader.ui.fragment.ChatFragment;
 import com.garfield.newsreader.ui.fragment.NewsFragment;
 import com.garfield.newsreader.ui.fragment.PersonalFragment;

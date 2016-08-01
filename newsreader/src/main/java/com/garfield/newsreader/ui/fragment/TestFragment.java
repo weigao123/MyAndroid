@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.garfield.baselib.base.BaseFragment;
 import com.garfield.newsreader.R;
 
 /**

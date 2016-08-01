@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.garfield.multifragment.SupportFragment;
+import com.garfield.baselib.fragmentation.SupportFragment;
 
 /**
  * Created by gaowei3 on 2016/7/18.
