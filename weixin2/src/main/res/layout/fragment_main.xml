@@ -2,8 +2,7 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent" >
 
     <FrameLayout
         android:id="@+id/main_fragment_container"
@@ -13,7 +12,6 @@
 
     <com.garfield.baselib.widget.BottomBar
         android:id="@+id/bottomBar"
-        android:clickable="true"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_bar_height"
         android:layout_gravity="bottom"/>

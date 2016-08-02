@@ -1,4 +1,4 @@
-package com.garfield.baselib.anim;
+package com.garfield.baselib.fragmentation.anim;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -39,7 +39,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mTabs[3] = findViewById(R.id.newsreader_main_personal);
         //switchFragment(mFragmentClasses[0]);
 
-        startRootFragment(R.id.newsreader_main_fragment_container, TestFragment.class);
     }
 
     @Override

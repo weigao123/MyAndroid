@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
-import com.garfield.baselib.anim.FragmentAnimator;
+import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 
 /**
  * Created by gaowei3 on 2016/7/22.
@@ -19,7 +19,7 @@ public class SupportActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         mFragmentAnimator = onCreateFragmentAnimator();
-        mFragmentHelper = new FragmentHelper();
+        getFragmentHelper();
     }
 
     protected FragmentAnimator onCreateFragmentAnimator() {
@@ -30,21 +30,39 @@ public class SupportActivity extends AppCompatActivity {
         return mFragmentAnimator;
     }
 
-    /**
-     * Root
-     */
-    public void startRootFragment(int containerId, Class toClass) {
-        startRootFragment(containerId, toClass, null);
-    }
-    public void startRootFragment(int containerId, Class toClass, Bundle bundle) {
-        Fragment to = Fragment.instantiate(getApplicationContext(), toClass.getName(), bundle);
-        if (to instanceof SupportFragment) {
-            startRootFragment(containerId, (SupportFragment)to);
+    public FragmentHelper getFragmentHelper() {
+        if (mFragmentHelper == null) {
+            mFragmentHelper = new FragmentHelper();
         }
+        return mFragmentHelper;
     }
-    public void startRootFragment(int containerId, SupportFragment to) {
-        mFragmentHelper.startRootFragment(getSupportFragmentManager(), containerId, to);
+
+    public void loadRootFragment(int containerId, SupportFragment to) {
+        mFragmentHelper.loadRootFragment(getSupportFragmentManager(), containerId, to);
     }
+
+    public void loadMultiRootFragment(int containerId, int showPosition, SupportFragment... toFragments) {
+        mFragmentHelper.loadMultiRootFragment(getSupportFragmentManager(), containerId, showPosition, toFragments);
+    }
+
+    public void showHideFragment(SupportFragment showFragment, SupportFragment hideFragment) {
+        mFragmentHelper.showHideFragment(getSupportFragmentManager(), showFragment, hideFragment);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * start with hide

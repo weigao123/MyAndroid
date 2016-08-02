@@ -12,13 +12,5 @@ import com.garfield.baselib.base.BaseFragment;
  */
 public class NewsPagerFragment extends BaseFragment {
 
-    @Override
-    protected int createView() {
-        return 0;
-    }
 
-    @Override
-    protected void initView(View view) {
-
-    }
 }

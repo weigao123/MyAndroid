@@ -13,13 +13,5 @@ import com.garfield.newsreader.R;
  */
 public class TestFragment extends BaseFragment {
 
-    @Override
-    protected int createView() {
-        return 0;
-    }
 
-    @Override
-    protected void initView(View view) {
-
-    }
 }

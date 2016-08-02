@@ -14,37 +14,57 @@ public class FragmentHelper {
 
     public static final String FRAGMENT_ARG_CONTAINER = "fragment_arg_container";
 
-    public void startRootFragment(FragmentManager fragmentManager, int containerId, SupportFragment to) {
+    void loadRootFragment(FragmentManager fragmentManager, int containerId, SupportFragment to) {
         bindContainerId(containerId, to);
-        startFragment(fragmentManager, null, to);
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        //ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        String toClassName = to.getClass().getName();
+        ft.add(containerId, to, toClassName);
+        //ft.addToBackStack(toClassName);
+        ft.commit();
     }
 
-    /**
-     * start with hide.
-     */
-    public void startFragment(FragmentManager fragmentManager, SupportFragment from, SupportFragment to) {
-        String toClassName = to.getClass().getName();
+    void loadMultiRootFragment(FragmentManager fragmentManager, int containerId, int showPosition, SupportFragment... tos) {
         FragmentTransaction ft = fragmentManager.beginTransaction();
-
         //ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-
-        if (from == null) {
-            // the arg has been put into fragment.
-            ft.add(to.getArguments().getInt(FRAGMENT_ARG_CONTAINER), to, toClassName);
-        } else {
-            bindContainerId(from.getContainerId(), to);
-            ft.add(from.getContainerId(), to, toClassName);
-            ft.hide(from);
+        for (int i = 0; i < tos.length; i++) {
+            SupportFragment to = tos[i];
+            bindContainerId(containerId, to);
+            String toName = to.getClass().getName();
+            ft.add(containerId, to, toName);
+            if (i != showPosition) {
+                ft.hide(to);
+            }
         }
+        ft.commit();
+    }
 
+
+    void showHideFragment(FragmentManager fragmentManager, SupportFragment showFragment, SupportFragment hideFragment) {
+        if (showFragment == hideFragment) return;
+        fragmentManager.beginTransaction().show(showFragment).hide(hideFragment).commit();
+    }
+
+
+
+    /**
+     * 前一个hide掉
+     */
+    void startFragment(FragmentManager fragmentManager, SupportFragment from, SupportFragment to) {
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        //ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        String toClassName = to.getClass().getName();
+        bindContainerId(from.getContainerId(), to);
+        ft.add(from.getContainerId(), to, toClassName);
+        ft.hide(from);
         ft.addToBackStack(toClassName);
         ft.commit();
     }
 
     /**
-     * start with remove
+     * 前一个remove掉
      */
-    public void startFragmentWithPop(FragmentManager fragmentManager, SupportFragment from, SupportFragment to) {
+    void startFragmentWithPop(FragmentManager fragmentManager, SupportFragment from, SupportFragment to) {
         fragmentManager.beginTransaction().remove(from).commit();
 
         String toName = to.getClass().getName();
@@ -56,7 +76,7 @@ public class FragmentHelper {
         ft.commit();
     }
 
-    public SupportFragment getTopFragment(FragmentManager fragmentManager) {
+    SupportFragment getTopFragment(FragmentManager fragmentManager) {
         List<Fragment> fragmentList = fragmentManager.getFragments();
         if (fragmentList == null) return null;
 
@@ -78,5 +98,11 @@ public class FragmentHelper {
         args.putInt(FRAGMENT_ARG_CONTAINER, containerId);
     }
 
+
+    SupportFragment findStackFragment(Class fragmentClass, FragmentManager fragmentManager) {
+        Fragment fragment;
+        fragment = fragmentManager.findFragmentByTag(fragmentClass.getName());
+        return (SupportFragment) fragment;
+    }
 
 }

@@ -15,13 +15,4 @@ public class NewsFragment extends BaseFragment {
     private ViewPager mViewPager;
 
 
-    @Override
-    protected int createView() {
-        return 0;
-    }
-
-    @Override
-    protected void initView(View view) {
-
-    }
 }
