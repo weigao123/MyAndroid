@@ -77,7 +77,7 @@ public class BottomBar extends LinearLayout {
     }
 
     public BottomBar addItem(int resource, String content) {
-        final BottomBarItem tab = new BottomBarItem(getContext(), resource, content, mUnSelectedColor, mSelectedColor);
+        final BottomBarTab tab = new BottomBarTab(getContext(), resource, content, mUnSelectedColor, mSelectedColor);
         tab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

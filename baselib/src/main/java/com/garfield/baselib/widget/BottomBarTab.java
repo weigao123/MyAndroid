@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.garfield.baselib.R;
 
 
-public class BottomBarItem extends FrameLayout {
+public class BottomBarTab extends FrameLayout {
     private ImageView mIcon;
     private TextView mTvTitle;
     private Context mContext;
@@ -24,7 +24,7 @@ public class BottomBarItem extends FrameLayout {
     private int mSelectedColor;
 
 
-    public BottomBarItem(Context context, int icon, CharSequence title, int unSelectedColor, int selectedColor) {
+    public BottomBarTab(Context context, int icon, CharSequence title, int unSelectedColor, int selectedColor) {
         super(context);
         init(context, icon, title, unSelectedColor, selectedColor);
     }
