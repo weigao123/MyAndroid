@@ -24,20 +24,22 @@ import com.garfiled.weixin2.R;
  */
 public class MainFragment extends MiddleFragment implements BottomBar.OnTabSelectedListener {
 
-    private SupportFragment[] mFragments = new SupportFragment[3];
+    private SupportFragment[] mFragments = new SupportFragment[4];
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         if (savedInstanceState == null) {
-            mFragments[0] = (SupportFragment) Fragment.instantiate(mActivity, MsgListFragment.class.getName());
-            mFragments[1] = (SupportFragment) Fragment.instantiate(mActivity, ContactFragment.class.getName());
-            mFragments[2] = (SupportFragment) Fragment.instantiate(mActivity, DiscoverFragment.class.getName());
-            loadMultiRootFragment(R.id.main_fragment_container, 0, mFragments[0], mFragments[1], mFragments[2]);
+            mFragments[0] = new MsgListFragment();
+            mFragments[1] = new ContactFragment();
+            mFragments[2] = new DiscoverFragment();
+            mFragments[3] = new SettingFragment();
+            loadMultiRootFragment(R.id.main_fragment_container, 0, mFragments[0], mFragments[1], mFragments[2], mFragments[3]);
         } else {
             mFragments[0] = findFragment(MsgListFragment.class);
             mFragments[1] = findFragment(ContactFragment.class);
             mFragments[2] = findFragment(DiscoverFragment.class);
+            mFragments[3] = findFragment(SettingFragment.class);
         }
         initView(view);
         return view;
@@ -46,9 +48,10 @@ public class MainFragment extends MiddleFragment implements BottomBar.OnTabSelec
     private void initView(View view) {
         BottomBar bottomBar = (BottomBar) view.findViewById(R.id.bottomBar);
         bottomBar.setColor(R.color.bottombar_item_unselect, R.color.colorPrimary)
-                  .addItem(R.drawable.ic_message_white, "消息")
-                  .addItem(R.drawable.ic_contact_white, "联系人")
-                  .addItem(R.drawable.ic_discover_white, "发现");
+                .addItem(R.drawable.ic_message_white, "消息")
+                .addItem(R.drawable.ic_contact_white, "联系人")
+                .addItem(R.drawable.ic_discover_white, "发现")
+                .addItem(R.drawable.ic_settings_white, "设置");
         bottomBar.setOnTabSelectedListener(this);
     }
 
