@@ -37,7 +37,7 @@ public class MsgListFragment extends BaseFragment implements Toolbar.OnMenuItemC
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.item_list:
+            case R.id.menu_item_list:
                 final PopupMenu popupMenu = new PopupMenu(mActivity, mToolbar, Gravity.END);
                 popupMenu.inflate(R.menu.fragment_msg_list);
                 popupMenu.show();

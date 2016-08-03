@@ -7,4 +7,9 @@
         <attr name="barHeight" format="integer" />
     </declare-styleable>
 
+    <declare-styleable name="CircleImageView">
+        <attr format="dimension" name="border_width"/>
+        <attr format="color" name="border_color"/>
+        <attr format="boolean" name="border_overlay"/>
+    </declare-styleable>
 </resources>

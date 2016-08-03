@@ -6,14 +6,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.garfield.baselib.base.BaseFragment;
-import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfiled.weixin2.R;
 
 import java.util.ArrayList;
@@ -44,12 +42,12 @@ public class ContactFragment extends BaseFragment {
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getFragmentManager());
-        adapter.addFragment(new ContactAllFragment(), "所有");
-        adapter.addFragment(new ContactAllFragment(), "收藏1");
-        adapter.addFragment(new ContactAllFragment(), "收藏2");
-        adapter.addFragment(new ContactAllFragment(), "收藏3");
-        adapter.addFragment(new ContactAllFragment(), "收藏4");
-        adapter.addFragment(new ContactAllFragment(), "收藏5");
+        adapter.addFragment(new ContactFirstFragment(), "所有");
+        adapter.addFragment(new ContactFirstFragment(), "收藏1");
+        adapter.addFragment(new ContactFirstFragment(), "收藏2");
+        adapter.addFragment(new ContactFirstFragment(), "收藏3");
+        adapter.addFragment(new ContactFirstFragment(), "收藏4");
+        adapter.addFragment(new ContactFirstFragment(), "收藏5");
 
 
         viewPager.setAdapter(adapter);
