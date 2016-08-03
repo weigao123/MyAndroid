@@ -9,6 +9,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
+import com.garfield.baselib.fragmentation.anim.DefaultNoAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 
 /**
@@ -43,7 +44,7 @@ public class SupportFragment extends Fragment {
         if (mFragmentAnimator == null) {
             mFragmentAnimator = mActivity.getFragmentAnimator();
             if (mFragmentAnimator == null) {
-                mFragmentAnimator = new DefaultHorizontalAnimator();
+                mFragmentAnimator = new DefaultNoAnimator();
             }
         }
         Bundle bundle = getArguments();

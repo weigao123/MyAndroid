@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.garfield.baselib.base.MiddleFragment;
 import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.baselib.fragmentation.anim.DefaultNoAnimator;
+import com.garfield.baselib.fragmentation.anim.DefaultVerticalAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.base.BaseFragment;
 import com.garfield.baselib.widget.BottomBar;
@@ -58,7 +59,7 @@ public class MainFragment extends MiddleFragment implements BottomBar.OnTabSelec
 
     @Override
     protected FragmentAnimator onCreateFragmentAnimator() {
-        return new DefaultNoAnimator();
+        return new DefaultVerticalAnimator();
     }
 
     @Override
