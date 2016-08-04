@@ -24,9 +24,8 @@ public class BottomBar extends LinearLayout {
     private int mUnSelectedColor;
     private int mSelectedColor;
 
-    private LinearLayout mItemLayout;
-
-    private LayoutParams mItemParams;
+    private LinearLayout mTabLayout;
+    private LayoutParams mTabParams;
     private int mCurrentPosition = 0;
     private OnTabSelectedListener mListener;
 
@@ -59,15 +58,17 @@ public class BottomBar extends LinearLayout {
 //        }
 
         View lineView = new View(context);
-        lineView.setBackgroundColor(getResources().getColor(R.color.gray_trans));
+        lineView.setBackgroundColor(getResources().getColor(R.color.gray));
         addView(lineView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
-        mItemLayout = new LinearLayout(context);
-        mItemLayout.setBackgroundColor(Color.WHITE);
-        mItemLayout.setOrientation(LinearLayout.HORIZONTAL);
-        addView(mItemLayout, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-        mItemParams = new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
-        mItemParams.weight = 1;
+        mTabLayout = new LinearLayout(context);
+        //会造成有阴影，如果都设置成白色，就看不出来阴影了
+        mTabLayout.setBackgroundColor(Color.WHITE);
+        mTabLayout.setOrientation(LinearLayout.HORIZONTAL);
+        addView(mTabLayout, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        mTabParams = new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
+        mTabParams.weight = 1;
     }
 
     public BottomBar setColor(int colorUnSelected, int colorSelected) {
@@ -90,14 +91,14 @@ public class BottomBar extends LinearLayout {
                     mListener.onTabSelected(pos, mCurrentPosition);
                     tab.setSelected(true);
                     mListener.onTabUnselected(mCurrentPosition);
-                    mItemLayout.getChildAt(mCurrentPosition).setSelected(false);
+                    mTabLayout.getChildAt(mCurrentPosition).setSelected(false);
                     mCurrentPosition = pos;
                 }
             }
         });
-        tab.setTabPosition(mItemLayout.getChildCount());
-        tab.setLayoutParams(mItemParams);
-        mItemLayout.addView(tab);
+        tab.setTabPosition(mTabLayout.getChildCount());
+        tab.setLayoutParams(mTabParams);
+        mTabLayout.addView(tab);
         return this;
     }
 
@@ -106,10 +107,10 @@ public class BottomBar extends LinearLayout {
     }
 
     public void setCurrentItem(final int position) {
-        mItemLayout.post(new Runnable() {
+        mTabLayout.post(new Runnable() {
             @Override
             public void run() {
-                mItemLayout.getChildAt(position).performClick();
+                mTabLayout.getChildAt(position).performClick();
             }
         });
     }
@@ -132,8 +133,8 @@ public class BottomBar extends LinearLayout {
         super.onRestoreInstanceState(ss.getSuperState());
 
         if (mCurrentPosition != ss.position) {
-            mItemLayout.getChildAt(mCurrentPosition).setSelected(false);
-            mItemLayout.getChildAt(ss.position).setSelected(true);
+            mTabLayout.getChildAt(mCurrentPosition).setSelected(false);
+            mTabLayout.getChildAt(ss.position).setSelected(true);
         }
         mCurrentPosition = ss.position;
     }

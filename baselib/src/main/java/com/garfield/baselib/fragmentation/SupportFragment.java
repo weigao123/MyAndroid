@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import com.garfield.baselib.base.BaseFragment;
 import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
 import com.garfield.baselib.fragmentation.anim.DefaultNoAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
@@ -15,11 +16,12 @@ import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 /**
  * Created by gaowei3 on 2016/7/22.
  */
-public class SupportFragment extends Fragment {
+public class SupportFragment extends BaseFragment {
 
     private static final String STATE_SAVE_IS_HIDDEN = "STATE_SAVE_IS_HIDDEN";
 
     protected SupportActivity mActivity;
+
     private FragmentAnimator mFragmentAnimator;
 
     private int mContainerId;   // 该Fragment所处的Container的id

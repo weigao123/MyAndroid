@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.garfield.baselib.base.BaseActivity;
 import com.garfield.baselib.base.BaseFragment;
+import com.garfield.baselib.fragmentation.SupportActivity;
 import com.garfield.newsreader.R;
 import com.garfield.newsreader.ui.fragment.ChatFragment;
 import com.garfield.newsreader.ui.fragment.NewsFragment;
@@ -15,7 +16,7 @@ import com.garfield.newsreader.ui.fragment.PersonalFragment;
 import com.garfield.newsreader.ui.fragment.TestFragment;
 import com.garfield.newsreader.ui.fragment.VideoFragment;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends SupportActivity implements View.OnClickListener {
 
     private Class[] mFragmentClasses = new Class[]{
             NewsFragment.class,

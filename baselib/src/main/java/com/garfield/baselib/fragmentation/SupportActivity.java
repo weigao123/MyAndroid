@@ -4,12 +4,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
+import com.garfield.baselib.base.BaseActivity;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 
 /**
  * Created by gaowei3 on 2016/7/22.
  */
-public class SupportActivity extends AppCompatActivity {
+public class SupportActivity extends BaseActivity {
 
     private FragmentAnimator mFragmentAnimator;
     private FragmentHelper mFragmentHelper;

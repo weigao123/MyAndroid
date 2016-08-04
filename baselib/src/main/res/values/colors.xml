@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="bottombar_item_unselect">#c9c9c9</color>
+
+    <color name="gray">#d4d4d4</color>
     
     <color name="gray_trans">#DDDDDD</color>
 </resources>

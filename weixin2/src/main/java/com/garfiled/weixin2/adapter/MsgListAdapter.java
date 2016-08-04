@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.garfiled.weixin2.R;
 import com.garfiled.weixin2.bean.ContactBean;
+import com.garfiled.weixin2.bean.MsgListBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,37 +17,40 @@ import java.util.List;
 /**
  * Created by gwball on 2016/8/3.
  */
-public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
+public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.ViewHolder> {
 
-    List<ContactBean> mData;
+    List<MsgListBean> mData;
 
-    public ContactAdapter(ArrayList<ContactBean> data) {
+    public MsgListAdapter(ArrayList<MsgListBean> data) {
         mData = data;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final ImageView mImageView;
-        public final TextView mTextView;
+        public final TextView mNameTextView;
+        public final TextView mContentTextView;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mImageView = (ImageView) view.findViewById(R.id.item_contact_image);
-            mTextView = (TextView) view.findViewById(R.id.item_contact_name);
+            mImageView = (ImageView) view.findViewById(R.id.item_msglist_head);
+            mNameTextView = (TextView) view.findViewById(R.id.item_msglist_name);
+            mContentTextView = (TextView) view.findViewById(R.id.item_msglist_content);
         }
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_contact, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_msglist, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.mTextView.setText(mData.get(position).getName());
         holder.mImageView.setImageResource(mData.get(position).getHeadImage());
+        holder.mNameTextView.setText(mData.get(position).getName());
+        holder.mContentTextView.setText(mData.get(position).getContent());
     }
 
     @Override
@@ -54,7 +58,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         return mData.size();
     }
 
-    public void setData(ArrayList<ContactBean> data) {
+    public void setData(ArrayList<MsgListBean> data) {
         mData = data;
     }
 }

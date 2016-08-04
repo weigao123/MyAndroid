@@ -35,6 +35,7 @@ public class BottomBarTab extends FrameLayout {
         mSelectedColor = selectedColor;
 
         TypedArray typedArray = context.obtainStyledAttributes(new int[]{R.attr.selectableItemBackgroundBorderless});
+        //点击产生波纹效果
         //Drawable drawable = typedArray.getDrawable(0);
         //setBackgroundDrawable(drawable);
         //或：

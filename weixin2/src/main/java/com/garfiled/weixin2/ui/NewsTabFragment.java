@@ -13,18 +13,17 @@ import com.garfiled.weixin2.adapter.ContactAdapter;
 import com.garfiled.weixin2.bean.ContactBean;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**
  * Created by gaowei3 on 2016/8/3.
  */
-public class ContactFirstFragment extends Fragment {
+public class NewsTabFragment extends Fragment {
 
     private Random mRandom = new Random();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        RecyclerView view = (RecyclerView) inflater.inflate(R.layout.fragment_contact_first, container, false);
+        RecyclerView view = (RecyclerView) inflater.inflate(R.layout.fragment_contact_tab, container, false);
         initRecyclerView(view);
         return view;
     }

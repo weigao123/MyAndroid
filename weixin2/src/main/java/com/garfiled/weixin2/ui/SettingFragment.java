@@ -7,12 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.garfield.baselib.base.BaseFragment;
+import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfiled.weixin2.R;
+import com.garfiled.weixin2.base.AppBaseFragment;
 
 /**
  * Created by gwball on 2016/8/2.
  */
-public class SettingFragment extends BaseFragment {
+public class SettingFragment extends AppBaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
@@ -21,8 +23,6 @@ public class SettingFragment extends BaseFragment {
     }
 
     private void initView(View view) {
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        toolbar.setTitle("设置");
     }
 
 }

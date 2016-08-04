@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/item_padding_left"
+        android:paddingRight="@dimen/item_padding_right"
+        android:minHeight="@dimen/item_height"
+        android:gravity="center_vertical" >
+        <ImageView
+            android:id="@+id/item_msglist_head"
+            android:layout_width="@dimen/contact_image_size"
+            android:layout_height="@dimen/contact_image_size"
+            android:scaleType="centerInside"
+            android:layout_marginRight="@dimen/item_head_margin_right" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/contact_text_size" >
+            <TextView
+                android:id="@+id/item_msglist_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:includeFontPadding="false"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:text="test"/>
+            <TextView
+                android:id="@+id/item_msglist_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:includeFontPadding="false"
+                android:textSize="14sp"
+                android:text="test2"/>
+        </RelativeLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/gray" />
+</LinearLayout>
