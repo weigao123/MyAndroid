@@ -1,1 +1,1 @@
-include ':app', ':baselib', ':newsreader', ':weixin', ':weixin2'
+include ':app', ':baselib', ':newsreader', ':weixin', ':weixin2', ':progress'
