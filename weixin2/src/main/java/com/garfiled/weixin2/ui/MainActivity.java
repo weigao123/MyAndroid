@@ -8,6 +8,7 @@ import com.garfield.baselib.base.MiddleActivity;
 import com.garfield.baselib.fragmentation.SupportActivity;
 import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfiled.weixin2.R;
+import com.nineoldandroids.view.ViewHelper;
 
 /**
  * Created by gaowei3 on 2016/7/31.
