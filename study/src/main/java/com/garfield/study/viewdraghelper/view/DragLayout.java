@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.garfield.baselib.utils.L;
 import com.garfield.study.R;
 import com.nineoldandroids.view.ViewHelper;
 
@@ -59,6 +60,14 @@ public class DragLayout extends FrameLayout {
 
     private ViewDragHelper.Callback dragHelperCallback = new ViewDragHelper.Callback() {
 
+        /**
+         *  拖动vg_left时，left和dx值一样
+         *
+         *  left是上次微分后的位置再加上这次微分手移动的距离dx
+         *  dx累计起来，就是手移动的总距离
+         *
+         *  left是由原来的位置加上dx计算而来的，而每次原来的位置都是0，所以left=dx
+         */
         @Override
         public int clampViewPositionHorizontal(View child, int left, int dx) {
             if (mainLeft + dx < 0) {
@@ -96,13 +105,25 @@ public class DragLayout extends FrameLayout {
             }
         }
 
+        /**
+         *  拖动vg_left时，left竟然和dx值一样，每次都很小，原因是每次都被重置布局
+         *
+         *  left如果在拖动状态取决于clampViewPositionHorizontal
+         *  dx是和上次调用时的位置偏移
+         *
+         *  从静止开始拖动，一开始left=0，拖动dx，则在这里left=dx，dx=dx，然后被vg_left.layout(0, 0, width, height)布局到0
+         *  又拖动dx，这时还是left=0，拖动dx，则这里left=dx，dx=dx，然后被vg_left.layout(0, 0, width, height)布局到0
+         *  所以left一直等于dx
+         *  如果把vg_left.layout重新布局去掉，left就是实际的位置了
+         *  dispatchDragEvent对View的缩放，估计是并没有改变View的layout坐标？
+         */
         @Override
         public void onViewPositionChanged(View changedView, int left, int top,
                 int dx, int dy) {
             if (changedView == vg_main) {
                 mainLeft = left;
             } else {
-                mainLeft = mainLeft + left;
+                mainLeft = mainLeft + dx;      //原来是mainLeft = mainLeft + left;
             }
             if (mainLeft < 0) {
                 mainLeft = 0;
