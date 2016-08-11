@@ -12,5 +12,6 @@
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:text="ViewDragHelper"
+        android:layout_marginTop="50dp"
         android:onClick="onClick"/>
 </LinearLayout>

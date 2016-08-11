@@ -60,25 +60,6 @@ public class DragLayout extends FrameLayout {
 
     private ViewDragHelper.Callback dragHelperCallback = new ViewDragHelper.Callback() {
 
-        /**
-         *  拖动vg_left时，left和dx值一样
-         *
-         *  left是上次微分后的位置再加上这次微分手移动的距离dx
-         *  dx累计起来，就是手移动的总距离
-         *
-         *  left是由原来的位置加上dx计算而来的，而每次原来的位置都是0，所以left=dx
-         */
-        @Override
-        public int clampViewPositionHorizontal(View child, int left, int dx) {
-            if (mainLeft + dx < 0) {
-                return 0;
-            } else if (mainLeft + dx > range) {
-                return range;
-            } else {
-                return left;
-            }
-        }
-
         @Override
         public boolean tryCaptureView(View child, int pointerId) {
             return true;
@@ -89,19 +70,23 @@ public class DragLayout extends FrameLayout {
             return width;
         }
 
+        /**
+         *  拖动vg_left时，left和dx值一样
+         *
+         *  dx是这次微分手移动的距离dx，移动的快dx就大，dx累计起来，就是手移动的总距离
+         *  left是上次微分后的位置再加上这次微分手移动的距离dx，left是以父左上角为坐标基点
+         *
+         *  left是由原来的位置加上dx计算而来的，而每次原来的位置都是0，所以left=dx
+         */
         @Override
-        public void onViewReleased(View releasedChild, float xvel, float yvel) {
-            super.onViewReleased(releasedChild, xvel, yvel);
-            if (xvel > 0) {
-                open();
-            } else if (xvel < 0) {
-                close();
-            } else if (releasedChild == vg_main && mainLeft > range * 0.3) {
-                open();
-            } else if (releasedChild == vg_left && mainLeft > range * 0.7) {
-                open();
+        public int clampViewPositionHorizontal(View child, int left, int dx) {
+            //L.d("clampViewPositionHorizontal dx: "+dx);
+            if (mainLeft + dx < 0) {
+                return 0;
+            } else if (mainLeft + dx > range) {
+                return range;
             } else {
-                close();
+                return left;
             }
         }
 
@@ -120,10 +105,12 @@ public class DragLayout extends FrameLayout {
         @Override
         public void onViewPositionChanged(View changedView, int left, int top,
                 int dx, int dy) {
+            //L.d("onViewPositionChanged left: "+left);
+            //L.d("onViewPositionChanged dx: "+dx);
             if (changedView == vg_main) {
                 mainLeft = left;
             } else {
-                mainLeft = mainLeft + dx;      //原来是mainLeft = mainLeft + left;
+                mainLeft = mainLeft + dx;      //以前是left;
             }
             if (mainLeft < 0) {
                 mainLeft = 0;
@@ -141,14 +128,30 @@ public class DragLayout extends FrameLayout {
 
             dispatchDragEvent(mainLeft);
         }
+
+        @Override
+        public void onViewReleased(View releasedChild, float xvel, float yvel) {
+            super.onViewReleased(releasedChild, xvel, yvel);
+            if (xvel > 0) {
+                open();
+            } else if (xvel < 0) {
+                close();
+            } else if (releasedChild == vg_main && mainLeft > range * 0.3) {
+                open();
+            } else if (releasedChild == vg_left && mainLeft > range * 0.7) {
+                open();
+            } else {
+                close();
+            }
+        }
     };
 
     public interface DragListener {
-        public void onOpen();
+        void onOpen();
 
-        public void onClose();
+        void onClose();
 
-        public void onDrag(float percent);
+        void onDrag(float percent);
     }
 
     public void setDragListener(DragListener dragListener) {

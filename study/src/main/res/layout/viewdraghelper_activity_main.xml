@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:text="wyfmor@163.com"
+            android:text="xxx"
             android:textColor="#ffffff"
             android:textSize="15sp" />
 
