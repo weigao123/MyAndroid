@@ -19,7 +19,7 @@ import com.garfield.baselib.utils.L;
 import com.garfield.study.R;
 import com.nineoldandroids.view.ViewHelper;
 
-public class DragLayout extends FrameLayout {
+public class DragLayout extends FrameLayout implements View.OnClickListener {
 
     private boolean isShowShadow = true;
 
@@ -91,7 +91,9 @@ public class DragLayout extends FrameLayout {
         }
 
         /**
-         *  拖动vg_left时，left竟然和dx值一样，每次都很小，原因是每次都被重置布局
+         *  核心是为了计算mainLeft的值
+         *
+         *  拖动vg_left时，left竟然和dx值一样，都是微分位移，原因是每次都被重置布局
          *
          *  left如果在拖动状态取决于clampViewPositionHorizontal
          *  dx是和上次调用时的位置偏移
@@ -107,10 +109,11 @@ public class DragLayout extends FrameLayout {
                 int dx, int dy) {
             //L.d("onViewPositionChanged left: "+left);
             //L.d("onViewPositionChanged dx: "+dx);
+
             if (changedView == vg_main) {
                 mainLeft = left;
             } else {
-                mainLeft = mainLeft + dx;      //以前是left;
+                mainLeft = mainLeft + dx;
             }
             if (mainLeft < 0) {
                 mainLeft = 0;
@@ -121,9 +124,15 @@ public class DragLayout extends FrameLayout {
             if (isShowShadow) {
                 iv_shadow.layout(mainLeft, 0, mainLeft + width, height);
             }
+            // 必须要有，拖拽vg_main时，ViewDragHelper直接作用于vg_main，所以vg_main会自动移动
+            // 拖拽vg_left时，vg_main不会跟着移动，需要手动layout
             if (changedView == vg_left) {
                 vg_left.layout(0, 0, width, height);
                 vg_main.layout(mainLeft, 0, mainLeft + width, height);
+            }
+
+            if (changedView == vg_main && left == 0) {
+                vg_left.layout(0, 0, width, height);
             }
 
             dispatchDragEvent(mainLeft);
@@ -172,6 +181,12 @@ public class DragLayout extends FrameLayout {
         vg_main.setDragLayout(this);
         vg_left.setClickable(true);
         vg_main.setClickable(true);
+        vg_main.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 
     public ViewGroup getVg_main() {
@@ -228,8 +243,10 @@ public class DragLayout extends FrameLayout {
 
     private void animateView(float percent) {
         float f1 = 1 - percent * 0.3f;
+        //主页一边移动，一边缩放
         ViewHelper.setScaleX(vg_main, f1);
         ViewHelper.setScaleY(vg_main, f1);
+        //侧页
         ViewHelper.setTranslationX(vg_left, -vg_left.getWidth() / 2.3f + vg_left.getWidth() / 2.3f * percent);
         ViewHelper.setScaleX(vg_left, 0.5f + 0.5f * percent);
         ViewHelper.setScaleY(vg_left, 0.5f + 0.5f * percent);
@@ -302,6 +319,7 @@ public class DragLayout extends FrameLayout {
     public void close(boolean animate) {
         if (animate) {
             if (dragHelper.smoothSlideViewTo(vg_main, 0, 0)) {
+                //invalidate();
                 ViewCompat.postInvalidateOnAnimation(this);
             }
         } else {
