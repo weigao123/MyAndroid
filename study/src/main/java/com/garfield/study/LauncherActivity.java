@@ -24,6 +24,10 @@ public class LauncherActivity extends BaseActivity {
             case R.id.main_viewdraghelper:
                 startActivity(new Intent(this, com.garfield.study.viewdraghelper.activity.MainActivity.class));
                 break;
+            case R.id.main_touch:
+                startActivity(new Intent(this, com.garfield.study.touch.MainActivity.class));
+                break;
+
         }
     }
 }

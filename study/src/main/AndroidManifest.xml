@@ -29,6 +29,7 @@
 
         <activity android:name="com.garfield.study.viewdraghelper.activity.MainActivity" />
         <activity android:name="com.garfield.study.viewdraghelper.activity.ImageActivity" />
+        <activity android:name="com.garfield.study.touch.MainActivity" />
     </application>
 
 </manifest>

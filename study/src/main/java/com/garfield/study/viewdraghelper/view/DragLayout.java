@@ -7,7 +7,7 @@ import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
-import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,9 +23,9 @@ public class DragLayout extends FrameLayout implements View.OnClickListener {
 
     private boolean isShowShadow = true;
 
-    private GestureDetectorCompat gestureDetector;
-    private ViewDragHelper dragHelper;
-    private DragListener dragListener;
+    private GestureDetectorCompat mGestureDetector;
+    private ViewDragHelper mDragHelper;
+    private DragListener mDragListener;
     private int range;
     private int width;
     private int height;
@@ -47,14 +47,63 @@ public class DragLayout extends FrameLayout implements View.OnClickListener {
 
     public DragLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        gestureDetector = new GestureDetectorCompat(context, new YScrollDetector());
-        dragHelper = ViewDragHelper.create(this, dragHelperCallback);
+        MyGestureDetector myGestureDetector = new MyGestureDetector();
+        mGestureDetector = new GestureDetectorCompat(context, myGestureDetector);
+        mGestureDetector.setOnDoubleTapListener(myGestureDetector);
+        mDragHelper = ViewDragHelper.create(this, dragHelperCallback);
     }
 
-    class YScrollDetector extends SimpleOnGestureListener {
+    class MyGestureDetector implements GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener {
+        @Override
+        public boolean onDown(MotionEvent e) {
+            L.d("onDown");
+            return false;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent e) {
+            L.d("onShowPress");
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            L.d("onSingleTapUp");
+            return false;
+        }
+
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float dx, float dy) {
+            L.d("onScroll");
             return Math.abs(dy) <= Math.abs(dx);
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+            L.d("onLongPress");
+        }
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            L.d("onFling");
+            return false;
+        }
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            L.d("onSingleTapConfirmed");
+            return false;
+        }
+
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+            L.d("onDoubleTap");
+            return false;
+        }
+
+        @Override
+        public boolean onDoubleTapEvent(MotionEvent e) {
+            L.d("onDoubleTapEvent");
+            return false;
         }
     }
 
@@ -164,7 +213,7 @@ public class DragLayout extends FrameLayout implements View.OnClickListener {
     }
 
     public void setDragListener(DragListener dragListener) {
-        this.dragListener = dragListener;
+        this.mDragListener = dragListener;
     }
 
     @Override
@@ -213,13 +262,14 @@ public class DragLayout extends FrameLayout implements View.OnClickListener {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return dragHelper.shouldInterceptTouchEvent(ev) && gestureDetector.onTouchEvent(ev);
+        mGestureDetector.onTouchEvent(ev);
+        return mDragHelper.shouldInterceptTouchEvent(ev);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         try {
-            dragHelper.processTouchEvent(e);
+            mDragHelper.processTouchEvent(e);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -227,17 +277,17 @@ public class DragLayout extends FrameLayout implements View.OnClickListener {
     }
 
     private void dispatchDragEvent(int mainLeft) {
-        if (dragListener == null) {
+        if (mDragListener == null) {
             return;
         }
         float percent = mainLeft / (float) range;
         animateView(percent);
-        dragListener.onDrag(percent);
+        mDragListener.onDrag(percent);
         Status lastStatus = status;
         if (lastStatus != getStatus() && status == Status.Close) {
-            dragListener.onClose();
+            mDragListener.onClose();
         } else if (lastStatus != getStatus() && status == Status.Open) {
-            dragListener.onOpen();
+            mDragListener.onOpen();
         }
     }
 
@@ -277,7 +327,7 @@ public class DragLayout extends FrameLayout implements View.OnClickListener {
 
     @Override
     public void computeScroll() {
-        if (dragHelper.continueSettling(true)) {
+        if (mDragHelper.continueSettling(true)) {
             ViewCompat.postInvalidateOnAnimation(this);
         }
     }
@@ -303,7 +353,7 @@ public class DragLayout extends FrameLayout implements View.OnClickListener {
 
     public void open(boolean animate) {
         if (animate) {
-            if (dragHelper.smoothSlideViewTo(vg_main, range, 0)) {
+            if (mDragHelper.smoothSlideViewTo(vg_main, range, 0)) {
                 ViewCompat.postInvalidateOnAnimation(this);
             }
         } else {
@@ -318,8 +368,7 @@ public class DragLayout extends FrameLayout implements View.OnClickListener {
 
     public void close(boolean animate) {
         if (animate) {
-            if (dragHelper.smoothSlideViewTo(vg_main, 0, 0)) {
-                //invalidate();
+            if (mDragHelper.smoothSlideViewTo(vg_main, 0, 0)) {
                 ViewCompat.postInvalidateOnAnimation(this);
             }
         } else {

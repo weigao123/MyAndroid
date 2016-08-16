@@ -14,4 +14,14 @@
         android:text="ViewDragHelper"
         android:layout_marginTop="50dp"
         android:onClick="onClick"/>
+
+    <Button
+        android:id="@+id/main_touch"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:text="Touch"
+        android:layout_marginTop="50dp"
+        android:onClick="onClick"/>
+
+
 </LinearLayout>
