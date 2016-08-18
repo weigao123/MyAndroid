@@ -5,12 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.garfield.baselib.base.BaseActivity;
+import com.garfield.baselib.swipeback.activity.SwipeBackActivity;
 import com.garfield.study.R;
 
 /**
  * Created by gaowei3 on 2016/8/10.
  */
-public class LauncherActivity extends BaseActivity {
+public class LauncherActivity extends SwipeBackActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
