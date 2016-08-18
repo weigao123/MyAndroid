@@ -27,7 +27,7 @@ public class OneView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         //L.d("OneView onTouchEvent: "+event.getAction());
         boolean b = super.onTouchEvent(event);
-        L.d("OneView onTouchEvent: "+b);
-        return b;
+        //L.d("OneView onTouchEvent: "+b);
+        return true;
     }
 }

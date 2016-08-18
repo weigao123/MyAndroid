@@ -27,7 +27,7 @@ public class OneViewGroup extends LinearLayout {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        L.d("OneViewGroup onInterceptTouchEvent: "+ev.getAction());
+//        L.d("OneViewGroup onInterceptTouchEvent: "+ev.getAction());
 //        if (ev.getAction() == MotionEvent.ACTION_MOVE) {
 //            L.d("OneViewGroup true");
 //            return true;
@@ -37,7 +37,7 @@ public class OneViewGroup extends LinearLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        L.d("OneViewGroup onTouchEvent: "+event.getAction());
+//        L.d("OneViewGroup onTouchEvent: "+event.getAction());
 
         return false;
     }

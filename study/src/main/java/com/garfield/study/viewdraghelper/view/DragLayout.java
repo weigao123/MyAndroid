@@ -9,6 +9,7 @@ import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -24,6 +25,7 @@ public class DragLayout extends FrameLayout implements View.OnClickListener {
     private boolean isShowShadow = true;
 
     private GestureDetectorCompat mGestureDetector;
+    private ScaleGestureDetector mScaleGestureDetector;
     private ViewDragHelper mDragHelper;
     private DragListener mDragListener;
     private int range;
@@ -49,6 +51,7 @@ public class DragLayout extends FrameLayout implements View.OnClickListener {
         super(context, attrs, defStyle);
         MyGestureDetector myGestureDetector = new MyGestureDetector();
         mGestureDetector = new GestureDetectorCompat(context, myGestureDetector);
+        mScaleGestureDetector = new ScaleGestureDetector(context, new MyScaleGestureDetector());
         mGestureDetector.setOnDoubleTapListener(myGestureDetector);
         mDragHelper = ViewDragHelper.create(this, dragHelperCallback);
     }
@@ -56,54 +59,75 @@ public class DragLayout extends FrameLayout implements View.OnClickListener {
     class MyGestureDetector implements GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener {
         @Override
         public boolean onDown(MotionEvent e) {
-            L.d("onDown");
+            //L.d("onDown");
             return false;
         }
 
         @Override
         public void onShowPress(MotionEvent e) {
-            L.d("onShowPress");
+            //L.d("onShowPress");
         }
 
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
-            L.d("onSingleTapUp");
+            //L.d("onSingleTapUp");
             return false;
         }
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float dx, float dy) {
-            L.d("onScroll");
+            //L.d("onScroll");
             return Math.abs(dy) <= Math.abs(dx);
         }
 
         @Override
         public void onLongPress(MotionEvent e) {
-            L.d("onLongPress");
+            //L.d("onLongPress");
         }
 
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            L.d("onFling");
+            //L.d("onFling");
             return false;
         }
 
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
-            L.d("onSingleTapConfirmed");
+            //L.d("onSingleTapConfirmed");
             return false;
         }
 
         @Override
         public boolean onDoubleTap(MotionEvent e) {
-            L.d("onDoubleTap");
+            //L.d("onDoubleTap");
             return false;
         }
 
         @Override
         public boolean onDoubleTapEvent(MotionEvent e) {
-            L.d("onDoubleTapEvent");
+            //L.d("onDoubleTapEvent");
             return false;
+        }
+    }
+
+    private class MyScaleGestureDetector implements ScaleGestureDetector.OnScaleGestureListener {
+
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            L.d("onScale: "+detector.getScaleFactor());
+
+            return false;
+        }
+
+        @Override
+        public boolean onScaleBegin(ScaleGestureDetector detector) {
+            L.d("onScaleBegin");
+            return true;
+        }
+
+        @Override
+        public void onScaleEnd(ScaleGestureDetector detector) {
+            L.d("onScaleEnd");
         }
     }
 
@@ -262,6 +286,7 @@ public class DragLayout extends FrameLayout implements View.OnClickListener {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+        mScaleGestureDetector.onTouchEvent(ev);
         mGestureDetector.onTouchEvent(ev);
         return mDragHelper.shouldInterceptTouchEvent(ev);
     }
