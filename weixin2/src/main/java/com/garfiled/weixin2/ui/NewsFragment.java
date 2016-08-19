@@ -47,7 +47,6 @@ public class NewsFragment extends AppBaseFragment {
         adapter.addFragment(new NewsTabFragment(), "收藏4");
         adapter.addFragment(new NewsTabFragment(), "收藏5");
 
-
         viewPager.setAdapter(adapter);
     }
 

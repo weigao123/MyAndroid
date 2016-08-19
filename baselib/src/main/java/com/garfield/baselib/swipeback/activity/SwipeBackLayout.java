@@ -445,6 +445,7 @@ public class SwipeBackLayout extends FrameLayout {
     }
 
     private class ViewDragCallback extends ViewDragHelper.Callback {
+        //保证每次划过比如来回滑过mScrollThreshold时，都能执行一次SwipeListener
         private boolean mIsScrollOverValid;
 
         @Override
@@ -465,6 +466,7 @@ public class SwipeBackLayout extends FrameLayout {
                 }
                 mIsScrollOverValid = true;
             }
+            // 不仅从边缘进入，还要按规定的方向滑行一段距离
             boolean directionCheck = false;
             if (mEdgeFlag == EDGE_LEFT || mEdgeFlag == EDGE_RIGHT) {
                 directionCheck = !mDragHelper.checkTouchSlop(ViewDragHelper.DIRECTION_VERTICAL, i);

@@ -36,6 +36,7 @@ public class MsgListFragment extends AppBaseFragment {
         //becyclerView.setItemAnimator(new DefaultItemAnimator());
         becyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.HORIZONTAL_LIST));
         becyclerView.setAdapter(new MsgListAdapter(getMsgList(30)));
+        becyclerView.set();
     }
 
     private ArrayList<MsgListBean> getMsgList(int sum) {

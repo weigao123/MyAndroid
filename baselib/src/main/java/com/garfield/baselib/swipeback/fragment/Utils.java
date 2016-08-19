@@ -1,5 +1,5 @@
 
-package com.garfield.baselib.swipeback.activity;
+package com.garfield.baselib.swipeback.fragment;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
@@ -7,6 +7,9 @@ import android.os.Build;
 
 import java.lang.reflect.Method;
 
+/**
+ * Created by Chaojun Wang on 6/9/14.
+ */
 public class Utils {
     private Utils() {
     }

@@ -1,5 +1,5 @@
 
-package com.garfield.baselib.swipeback.activity;
+package com.garfield.baselib.swipeback.fragment;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
