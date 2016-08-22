@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.garfield.baselib.utils.L;
 import com.garfiled.weixin2.R;
 import com.garfiled.weixin2.bean.ContactBean;
 import com.garfiled.weixin2.bean.MsgListBean;
@@ -47,10 +48,16 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.mImageView.setImageResource(mData.get(position).getHeadImage());
         holder.mNameTextView.setText(mData.get(position).getName());
         holder.mContentTextView.setText(mData.get(position).getContent());
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                L.d("position: "+position);
+            }
+        });
     }
 
     @Override

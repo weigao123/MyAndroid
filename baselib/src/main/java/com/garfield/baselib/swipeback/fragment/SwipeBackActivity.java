@@ -27,8 +27,10 @@ public class SwipeBackActivity extends AppCompatActivity {
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mSwipeBackLayout.setLayoutParams(params);
         mSwipeBackLayout.addSwipeListener(new SwipeBackLayout.SwipeListener() {
+
             @Override
-            public void onScrollStateChange(int state, float scrollPercent) {
+            public void onScrollStateChange(int state) {
+
             }
 
             @Override
@@ -37,7 +39,7 @@ public class SwipeBackActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onScrollOverThreshold() {
+            public void onDragScrolled(float scrollPercent) {
 
             }
         });
@@ -68,11 +70,11 @@ public class SwipeBackActivity extends AppCompatActivity {
     }
 
     public void setSwipeBackDirection(int edgeFlags) {
-        mSwipeBackLayout.setEdgeTrackingEnabled(edgeFlags);
+        mSwipeBackLayout.setEdgeOrientation(edgeFlags);
     }
 
     public void scrollToFinishActivity() {
         Utils.convertActivityToTranslucent(this);
-        getSwipeBackLayout().scrollToFinishActivity();
+        //getSwipeBackLayout().scrollToFinishActivity();
     }
 }
