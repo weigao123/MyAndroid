@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.garfield.baselib.adapter.DividerItemDecoration;
 import com.garfiled.weixin2.R;
 import com.garfiled.weixin2.adapter.MsgListAdapter;
+import com.garfiled.weixin2.adapter.OnItemClickListener;
 import com.garfiled.weixin2.base.AppBaseFragment;
 import com.garfiled.weixin2.bean.MsgListBean;
 
@@ -19,7 +20,7 @@ import java.util.Random;
 /**
  * Created by gaowei3 on 2016/8/1.
  */
-public class MsgListFragment extends AppBaseFragment {
+public class MsgListFragment extends AppBaseFragment implements OnItemClickListener {
 
     private Random mRandom = new Random();
 
@@ -35,7 +36,10 @@ public class MsgListFragment extends AppBaseFragment {
         becyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         //becyclerView.setItemAnimator(new DefaultItemAnimator());
         becyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.HORIZONTAL_LIST));
-        becyclerView.setAdapter(new MsgListAdapter(getMsgList(30)));
+
+        MsgListAdapter adapter = new MsgListAdapter(getMsgList(30));
+        becyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(this);
 
     }
 
@@ -80,5 +84,10 @@ public class MsgListFragment extends AppBaseFragment {
             case 4:
                 return "中国最大，世界第一";
         }
+    }
+
+    @Override
+    public void onItemClick(int position, View view) {
+        
     }
 }
