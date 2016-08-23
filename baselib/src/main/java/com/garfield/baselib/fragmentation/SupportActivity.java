@@ -10,7 +10,7 @@ import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 /**
  * Created by gaowei3 on 2016/7/22.
  */
-public class SupportActivity extends BaseActivity {
+public class SupportActivity extends BaseActivity implements ISupport {
 
     private FragmentAnimator mFragmentAnimator;
     private FragmentHelper mFragmentHelper;
@@ -38,10 +38,17 @@ public class SupportActivity extends BaseActivity {
         return mFragmentHelper;
     }
 
+    @Override
     public void loadRootFragment(int containerId, SupportFragment to) {
         mFragmentHelper.loadRootFragment(getSupportFragmentManager(), containerId, to);
     }
 
+    @Override
+    public void replaceLoadRootFragment(int containerId, SupportFragment toFragment, boolean addToBack) {
+
+    }
+
+    @Override
     public void loadMultiRootFragment(int containerId, int showPosition, SupportFragment... toFragments) {
         mFragmentHelper.loadMultiRootFragment(getSupportFragmentManager(), containerId, showPosition, toFragments);
     }
@@ -50,57 +57,57 @@ public class SupportActivity extends BaseActivity {
         mFragmentHelper.showHideFragment(getSupportFragmentManager(), showFragment, hideFragment);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * start with hide
-     */
-    public void startFragment(Class toClass) {
-        startFragment(toClass, null);
+    @Override
+    public void startFragment(SupportFragment toFragment) {
+        mFragmentHelper.startFragment(getSupportFragmentManager(), getTopFragment(), toFragment);
     }
-    public void startFragment(Class toClass, Bundle bundle) {
-        Fragment to = Fragment.instantiate(getApplicationContext(), toClass.getName(), bundle);
-        if (to instanceof SupportFragment) {
-            startFragment((SupportFragment)to);
-        }
-    }
-    public void startFragment(SupportFragment to) {
-        startFragment(mFragmentHelper.getTopFragment(getSupportFragmentManager()), to);
-    }
-    public void startFragment(SupportFragment from, SupportFragment to) {
-        mFragmentHelper.startFragment(getSupportFragmentManager(), from, to);
+
+    @Override
+    public void startFragment(SupportFragment toFragment, int launchMode) {
+
     }
 
     /**
      * start with remove
      */
-    public void startFragmentWithPop(Class toClass) {
-        startFragmentWithPop(toClass, null);
+    @Override
+    public void startFragmentWithPop(SupportFragment toFragment) {
+        mFragmentHelper.startFragmentWithPop(getSupportFragmentManager(), getTopFragment(), toFragment);
     }
-    public void startFragmentWithPop(Class toClass, Bundle bundle) {
-        Fragment to = Fragment.instantiate(getApplicationContext(), toClass.getName(), bundle);
-        if (to instanceof SupportFragment) {
-            startFragmentWithPop((SupportFragment)to);
-        }
+
+    @Override
+    public void startFragmentForResult(SupportFragment toFragment, int requestCode) {
+
     }
-    public void startFragmentWithPop(SupportFragment to) {
-        startFragmentWithPop(mFragmentHelper.getTopFragment(getSupportFragmentManager()), to);
+
+
+    @Override
+    public void popFragment() {
+
     }
-    public void startFragmentWithPop(SupportFragment from, SupportFragment to) {
-        mFragmentHelper.startFragmentWithPop(getSupportFragmentManager(), from, to);
+
+    @Override
+    public void popToFragment(Class<?> fragmentClass, boolean includeSelf) {
+
+    }
+
+    @Override
+    public void popToFragment(Class<?> fragmentClass, boolean includeSelf, Runnable afterPopTransactionRunnable) {
+
+    }
+
+
+
+
+
+    @Override
+    public SupportFragment getTopFragment() {
+        return mFragmentHelper.getTopFragment(getSupportFragmentManager());
+    }
+
+    @Override
+    public <T extends SupportFragment> T findFragment(Class<T> fragmentClass) {
+        return null;
     }
 
     @Override

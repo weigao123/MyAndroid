@@ -17,16 +17,13 @@ public class FragmentHelper {
     void loadRootFragment(FragmentManager fragmentManager, int containerId, SupportFragment to) {
         bindContainerId(containerId, to);
         FragmentTransaction ft = fragmentManager.beginTransaction();
-        //ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         String toClassName = to.getClass().getName();
         ft.add(containerId, to, toClassName);
-        //ft.addToBackStack(toClassName);
         ft.commit();
     }
 
     void loadMultiRootFragment(FragmentManager fragmentManager, int containerId, int showPosition, SupportFragment... tos) {
         FragmentTransaction ft = fragmentManager.beginTransaction();
-        //ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         for (int i = 0; i < tos.length; i++) {
             SupportFragment to = tos[i];
             bindContainerId(containerId, to);
@@ -48,7 +45,7 @@ public class FragmentHelper {
 
 
     /**
-     * 前一个hide掉
+     * 前一个hide掉，from不能是null
      */
     void startFragment(FragmentManager fragmentManager, SupportFragment from, SupportFragment to) {
         FragmentTransaction ft = fragmentManager.beginTransaction();
@@ -62,16 +59,16 @@ public class FragmentHelper {
     }
 
     /**
-     * 前一个remove掉
+     * 前一个remove掉，from不能是null
      */
     void startFragmentWithPop(FragmentManager fragmentManager, SupportFragment from, SupportFragment to) {
         fragmentManager.beginTransaction().remove(from).commit();
 
-        String toName = to.getClass().getName();
+        String toClassName = to.getClass().getName();
         FragmentTransaction ft = fragmentManager.beginTransaction()
                 //.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .add(from.getContainerId(), to, toName)
-                .addToBackStack(toName);
+                .add(from.getContainerId(), to, toClassName)
+                .addToBackStack(toClassName);
 
         ft.commit();
     }
@@ -97,7 +94,6 @@ public class FragmentHelper {
         }
         args.putInt(FRAGMENT_ARG_CONTAINER, containerId);
     }
-
 
     SupportFragment findStackFragment(Class fragmentClass, FragmentManager fragmentManager) {
         Fragment fragment;

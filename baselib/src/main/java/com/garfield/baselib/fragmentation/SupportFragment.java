@@ -16,7 +16,7 @@ import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 /**
  * Created by gaowei3 on 2016/7/22.
  */
-public class SupportFragment extends BaseFragment {
+public class SupportFragment extends BaseFragment implements ISupport {
 
     private static final String STATE_SAVE_IS_HIDDEN = "STATE_SAVE_IS_HIDDEN";
 
@@ -87,16 +87,64 @@ public class SupportFragment extends BaseFragment {
         outState.putBoolean(STATE_SAVE_IS_HIDDEN, isHidden());
     }
 
+    @Override
     public void loadRootFragment(int containerId, SupportFragment toFragment) {
         mFragmentHelper.loadRootFragment(getChildFragmentManager(), containerId, toFragment);
     }
 
+    @Override
+    public void replaceLoadRootFragment(int containerId, SupportFragment toFragment, boolean addToBack) {
+
+    }
+
+    @Override
     public void loadMultiRootFragment(int containerId, int showPosition, SupportFragment... toFragments) {
         mFragmentHelper.loadMultiRootFragment(getFragmentManager(), containerId, showPosition, toFragments);
     }
 
+    @Override
     public void showHideFragment(SupportFragment showFragment, SupportFragment hideFragment) {
-        mFragmentHelper.showHideFragment(getChildFragmentManager(), showFragment, hideFragment);
+        mFragmentHelper.showHideFragment(getFragmentManager(), showFragment, hideFragment);
+    }
+
+    @Override
+    public void startFragment(SupportFragment toFragment) {
+        mFragmentHelper.startFragment(getFragmentManager(), getTopFragment(), toFragment);
+    }
+
+    @Override
+    public void startFragment(SupportFragment toFragment, int launchMode) {
+
+    }
+
+    @Override
+    public void startFragmentWithPop(SupportFragment toFragment) {
+        mFragmentHelper.startFragmentWithPop(getFragmentManager(), getTopFragment(), toFragment);
+    }
+
+    @Override
+    public void startFragmentForResult(SupportFragment toFragment, int requestCode) {
+
+    }
+
+    @Override
+    public SupportFragment getTopFragment() {
+        return mFragmentHelper.getTopFragment(getFragmentManager());
+    }
+
+    @Override
+    public void popFragment() {
+
+    }
+
+    @Override
+    public void popToFragment(Class<?> fragmentClass, boolean includeSelf) {
+
+    }
+
+    @Override
+    public void popToFragment(Class<?> fragmentClass, boolean includeSelf, Runnable afterPopTransactionRunnable) {
+
     }
 
     public SupportFragment findFragment(Class fragmentClass) {

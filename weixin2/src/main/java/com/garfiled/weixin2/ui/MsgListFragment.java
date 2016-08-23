@@ -20,7 +20,7 @@ import java.util.Random;
 /**
  * Created by gaowei3 on 2016/8/1.
  */
-public class MsgListFragment extends AppBaseFragment implements OnItemClickListener {
+public class MsgListFragment extends AppBaseFragment {
 
     private Random mRandom = new Random();
 
@@ -39,7 +39,12 @@ public class MsgListFragment extends AppBaseFragment implements OnItemClickListe
 
         MsgListAdapter adapter = new MsgListAdapter(getMsgList(30));
         becyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, View view) {
+                startFragment();
+            }
+        });
 
     }
 
@@ -86,8 +91,4 @@ public class MsgListFragment extends AppBaseFragment implements OnItemClickListe
         }
     }
 
-    @Override
-    public void onItemClick(int position, View view) {
-        
-    }
 }
