@@ -212,6 +212,33 @@ public class SwipeBackLayout extends FrameLayout {
         }
     }
 
+    /**
+     * 先获取同级的Fragment，然后设置成可见
+     */
+    public void makePreFragmentVisible() {
+        if (mPreFragment == null) {
+            if (mFragment != null) {
+                List<Fragment> fragmentList = mFragment.getFragmentManager().getFragments();
+                if (fragmentList != null && fragmentList.size() > 1) {
+                    int index = fragmentList.indexOf(mFragment);
+                    for (int i = index - 1; i >= 0; i--) {
+                        Fragment fragment = fragmentList.get(i);
+                        if (fragment != null && fragment.getView() != null) {
+                            fragment.getView().setVisibility(VISIBLE);
+                            mPreFragment = fragment;
+                            break;
+                        }
+                    }
+                }
+            }
+        } else {
+            View preView = mPreFragment.getView();
+            if (preView != null && preView.getVisibility() != VISIBLE) {
+                preView.setVisibility(VISIBLE);
+            }
+        }
+    }
+
     private class ViewDragCallback extends ViewDragHelper.Callback {
 
         @Override
@@ -228,27 +255,8 @@ public class SwipeBackLayout extends FrameLayout {
                         listener.onEdgeTouch(mCurrentEdge);
                     }
                 }
-                if (mPreFragment == null) {
-                    if (mFragment != null) {
-                        List<Fragment> fragmentList = mFragment.getFragmentManager().getFragments();
-                        if (fragmentList != null && fragmentList.size() > 1) {
-                            int index = fragmentList.indexOf(mFragment);
-                            for (int i = index - 1; i >= 0; i--) {
-                                Fragment fragment = fragmentList.get(i);
-                                if (fragment != null && fragment.getView() != null) {
-                                    fragment.getView().setVisibility(VISIBLE);
-                                    mPreFragment = fragment;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    View preView = mPreFragment.getView();
-                    if (preView != null && preView.getVisibility() != VISIBLE) {
-                        preView.setVisibility(VISIBLE);
-                    }
-                }
+
+                makePreFragmentVisible();
             }
 
             return isEdgeTouched;

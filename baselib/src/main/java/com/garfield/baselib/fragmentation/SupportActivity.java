@@ -38,6 +38,8 @@ public class SupportActivity extends BaseActivity implements ISupport {
         return mFragmentHelper;
     }
 
+    /********  以下全都是加载第一级Fragment  **********/
+
     @Override
     public void loadRootFragment(int containerId, SupportFragment to) {
         mFragmentHelper.loadRootFragment(getSupportFragmentManager(), containerId, to);

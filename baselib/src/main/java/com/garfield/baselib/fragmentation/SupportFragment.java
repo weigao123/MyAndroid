@@ -99,13 +99,16 @@ public class SupportFragment extends BaseFragment implements ISupport {
 
     @Override
     public void loadMultiRootFragment(int containerId, int showPosition, SupportFragment... toFragments) {
+        // 这里必须使用getChildFragmentManager，才能使用getFragments()时不会把这些列出来
         mFragmentHelper.loadMultiRootFragment(getFragmentManager(), containerId, showPosition, toFragments);
     }
 
     @Override
     public void showHideFragment(SupportFragment showFragment, SupportFragment hideFragment) {
-        mFragmentHelper.showHideFragment(getFragmentManager(), showFragment, hideFragment);
+        mFragmentHelper.showHideFragment(getChildFragmentManager(), showFragment, hideFragment);
     }
+
+    /********  以上都是加载嵌套子Fragment，以下都是加载同级Fragment  **********/
 
     @Override
     public void startFragment(SupportFragment toFragment) {
