@@ -109,7 +109,7 @@ public class SupportFragment extends BaseFragment implements ISupport {
 
     @Override
     public void startFragment(SupportFragment toFragment) {
-        mFragmentHelper.startFragment(getFragmentManager(), getTopFragment(), toFragment);
+        mFragmentHelper.startFragment(getFragmentManager(), this, toFragment);
     }
 
     @Override
@@ -119,7 +119,7 @@ public class SupportFragment extends BaseFragment implements ISupport {
 
     @Override
     public void startFragmentWithPop(SupportFragment toFragment) {
-        mFragmentHelper.startFragmentWithPop(getFragmentManager(), getTopFragment(), toFragment);
+        mFragmentHelper.startFragmentWithPop(getFragmentManager(), this, toFragment);
     }
 
     @Override

@@ -8,6 +8,11 @@ import android.view.ViewGroup;
 import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.baselib.widget.BottomBar;
 import com.garfiled.weixin2.R;
+import com.garfiled.weixin2.event.StartBrotherEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by gaowei3 on 2016/7/31.
@@ -36,6 +41,7 @@ public class MainFragment extends SupportFragment implements BottomBar.OnTabSele
             mFragments[2] = findFragment(NewsFragment.class);
             mFragments[3] = findFragment(SettingFragment.class);
         }
+        EventBus.getDefault().register(this);
         initView(view);
         return view;
     }
@@ -65,5 +71,16 @@ public class MainFragment extends SupportFragment implements BottomBar.OnTabSele
     @Override
     public void onTabReselected(int position) {
 
+    }
+
+    @Subscribe
+    public void onEvent(StartBrotherEvent event) {
+        startFragment(event.targetFragment);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

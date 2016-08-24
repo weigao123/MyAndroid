@@ -13,6 +13,9 @@ import com.garfiled.weixin2.adapter.MsgListAdapter;
 import com.garfiled.weixin2.adapter.OnItemClickListener;
 import com.garfiled.weixin2.base.AppBaseFragment;
 import com.garfiled.weixin2.bean.MsgListBean;
+import com.garfiled.weixin2.event.StartBrotherEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -42,7 +45,7 @@ public class MsgListFragment extends AppBaseFragment {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position, View view) {
-                startFragment();
+                EventBus.getDefault().post(new StartBrotherEvent(new MsgFragment()));
             }
         });
 

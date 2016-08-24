@@ -10,7 +10,6 @@ public interface ISupport {
     int SINGLETOP = 2;
     int SINGLETASK = 3;
 
-
     /**
      * 加载根Fragment, 即Activity内的第一个Fragment 或 Fragment内的第一个子Fragment
      *
@@ -42,8 +41,8 @@ public interface ISupport {
 
     /**
      * 启动目标Fragment
-     *
-     * @param toFragment 目标Fragment
+     * 如果在Fragment里，from就是自己
+     * 如果在Activity里，from是最上层的Fragment
      */
     void startFragment(SupportFragment toFragment);
 
