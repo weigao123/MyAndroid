@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.garfield.baselib.base.BaseActivity;
-import com.garfield.baselib.swipeback.activity.SwipeBackActivity;
-import com.garfield.study.R;
+import com.garfield.baselib.swipeback.SwipeBackActivity;
 
 /**
  * Created by gaowei3 on 2016/8/10.

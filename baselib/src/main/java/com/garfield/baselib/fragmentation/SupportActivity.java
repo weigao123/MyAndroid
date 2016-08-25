@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import com.garfield.baselib.base.BaseActivity;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 
+import java.util.List;
+
 /**
  * Created by gaowei3 on 2016/7/22.
  */
@@ -114,7 +116,7 @@ public class SupportActivity extends BaseActivity implements ISupport {
 
     @Override
     public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+        if (getSupportFragmentManager().getBackStackEntryCount() >= 1) {
             super.onBackPressed();
         } else {
             finish();

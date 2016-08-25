@@ -1,4 +1,4 @@
-package com.garfield.baselib.swipeback.fragment;
+package com.garfield.baselib.swipeback;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
@@ -50,6 +51,7 @@ public class SwipeBackLayout extends FrameLayout {
     private Fragment mPreFragment;
 
     private boolean mEnable = true;
+    private boolean mOnlyEdgeDrag = true;
 
     private ViewDragHelper mDragHelper;
 
@@ -93,6 +95,10 @@ public class SwipeBackLayout extends FrameLayout {
         }
     }
 
+    public void setOnlyEdgeDrag(boolean onlyEdgeDrag) {
+        mOnlyEdgeDrag = onlyEdgeDrag;
+    }
+
     public void setEnable(boolean enable) {
         mEnable = enable;
     }
@@ -115,7 +121,7 @@ public class SwipeBackLayout extends FrameLayout {
         void onScrollStateChange(int state);
         //EDGE_LEFT, EDGE_RIGHT
         void onEdgeTouch(int edgeFlag);
-        void onDragScrolled(float scrollPercent);
+        void onDragPositionChanged(float scrollPercent);
     }
 
     public void setShadow(int resId, int edgeFlag) {
@@ -156,12 +162,13 @@ public class SwipeBackLayout extends FrameLayout {
     }
 
     /**
-     * 每次invalidate后，分别去绘制阴影和透明度
+     * 每次invalidate后，调用，分别去绘制阴影和透明度
      * canvas就是SwipeBackLayout自己
+     * 每次执行时，canvas就会被刷新，上次绘制的阴影等都被清空
      */
     @Override
     protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
-        //判断当前child是否是mContentView，其实只有一个child
+        //判断当前child是否是mContentView，确实只有一个child
         final boolean drawContent = child == mContentView;
         boolean drawChild = super.drawChild(canvas, child, drawingTime);
         if (mScrimOpacity > 0 && drawContent && mDragHelper.getViewDragState() != ViewDragHelper.STATE_IDLE) {
@@ -204,20 +211,12 @@ public class SwipeBackLayout extends FrameLayout {
         }
     }
 
-    @Override
-    public void computeScroll() {
-        mScrimOpacity = 1 - mScrollPercent;
-        if (mDragHelper.continueSettling(true)) {
-            ViewCompat.postInvalidateOnAnimation(this);
-        }
-    }
-
     /**
      * 先获取同级的Fragment，然后设置成可见
      */
-    public void makePreFragmentVisible() {
-        if (mPreFragment == null) {
-            if (mFragment != null) {
+    private void makePreVisible() {
+        if (mFragment != null) {
+            if (mPreFragment == null) {
                 List<Fragment> fragmentList = mFragment.getFragmentManager().getFragments();
                 if (fragmentList != null && fragmentList.size() > 1) {
                     int index = fragmentList.indexOf(mFragment);
@@ -230,11 +229,40 @@ public class SwipeBackLayout extends FrameLayout {
                         }
                     }
                 }
+            } else {
+                View preView = mPreFragment.getView();
+                if (preView != null && preView.getVisibility() != VISIBLE) {
+                    preView.setVisibility(VISIBLE);
+                }
             }
-        } else {
-            View preView = mPreFragment.getView();
-            if (preView != null && preView.getVisibility() != VISIBLE) {
-                preView.setVisibility(VISIBLE);
+        }
+    }
+
+    @Override
+    public void computeScroll() {
+        mScrimOpacity = 1 - mScrollPercent;
+        // 保证只有一次mScrollPercent > 1
+        if (mScrollPercent > 1) {
+            return;
+        }
+        if (mDragHelper.continueSettling(true)) {
+            ViewCompat.postInvalidateOnAnimation(this);
+        }
+    }
+
+    private void handleCloseSelf() {
+        // computeScroll里的修改保证mScrollPercent只有一次>1
+        if (mScrollPercent > 1) {
+            if (mFragment != null) {
+                if (!mFragment.isDetached()) {
+                    FragmentManager manager = mFragment.getFragmentManager();
+                    manager.popBackStack();
+                }
+            }
+            if (mActivity != null) {
+                if (!mActivity.isFinishing()) {
+                    mActivity.finish();
+                }
             }
         }
     }
@@ -255,8 +283,7 @@ public class SwipeBackLayout extends FrameLayout {
                         listener.onEdgeTouch(mCurrentEdge);
                     }
                 }
-
-                makePreFragmentVisible();
+                makePreVisible();
             }
 
             return isEdgeTouched;
@@ -271,34 +298,29 @@ public class SwipeBackLayout extends FrameLayout {
         public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
             super.onViewPositionChanged(changedView, left, top, dx, dy);
             if ((mCurrentEdge & EDGE_LEFT) != 0) {
-                mScrollPercent = Math.abs((float) left / (mContentView.getWidth() + mShadowLeft.getIntrinsicWidth()));
+                mScrollPercent = Math.abs((float) left / mContentView.getWidth());
             } else if ((mCurrentEdge & EDGE_RIGHT) != 0) {
-                mScrollPercent = Math.abs((float) left / (mContentView.getWidth() + mShadowRight.getIntrinsicWidth()));
+                mScrollPercent = Math.abs((float) left / mContentView.getWidth());
             }
-            invalidate();
-
             if (mListeners != null && mDragHelper.getViewDragState() == STATE_DRAGGING && mScrollPercent <= 1 && mScrollPercent > 0) {
                 for (SwipeListener listener : mListeners) {
-                    listener.onDragScrolled(mScrollPercent);
+                    listener.onDragPositionChanged(mScrollPercent);
                 }
             }
-
+            // 使阴影贴近Content，进行重绘
+            invalidate();
+            handleCloseSelf();
         }
 
         @Override
         public void onViewReleased(View releasedChild, float xvel, float yvel) {
             final int childWidth = releasedChild.getWidth();
-            final int childHeight = releasedChild.getHeight();
-
             int left = 0, top = 0;
             if ((mCurrentEdge & EDGE_LEFT) != 0) {
-                left = xvel > 0 || xvel == 0 && mScrollPercent > DEFAULT_SCROLL_THRESHOLD ? childWidth
-                        + mShadowLeft.getIntrinsicWidth() + OVERSCROLL_DISTANCE : 0;
+                left = xvel > 0 || xvel == 0 && mScrollPercent > DEFAULT_SCROLL_THRESHOLD ? childWidth + OVERSCROLL_DISTANCE : 0;
             } else if ((mCurrentEdge & EDGE_RIGHT) != 0) {
-                left = xvel < 0 || xvel == 0 && mScrollPercent > DEFAULT_SCROLL_THRESHOLD ? -(childWidth
-                        + mShadowLeft.getIntrinsicWidth() + OVERSCROLL_DISTANCE) : 0;
+                left = xvel < 0 || xvel == 0 && mScrollPercent > DEFAULT_SCROLL_THRESHOLD ? -(childWidth + OVERSCROLL_DISTANCE) : 0;
             }
-
             mDragHelper.settleCapturedViewAt(left, top);
             invalidate();
         }

@@ -16,6 +16,10 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".test.SwipeBackTestActivity"
+            android:theme="@style/AppTheme.SwipeBack"/>
+
     </application>
 
 </manifest>

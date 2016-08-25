@@ -1,5 +1,5 @@
 
-package com.garfield.baselib.swipeback.fragment;
+package com.garfield.baselib.swipeback;
 
 import android.app.Activity;
 import android.app.ActivityOptions;

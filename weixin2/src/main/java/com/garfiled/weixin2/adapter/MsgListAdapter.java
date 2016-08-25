@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MyViewHolder> {
 
-    private List<MsgListBean> mData;
+    private List<MsgListBean> mData = new ArrayList<>();
     private OnItemClickListener mClickListener;
 
     public MsgListAdapter(ArrayList<MsgListBean> data) {

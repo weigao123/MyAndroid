@@ -1,4 +1,4 @@
-package com.garfield.baselib.swipeback.fragment;
+package com.garfield.baselib.swipeback;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -38,7 +38,7 @@ public class SwipeBackFragment extends SupportFragment {
             }
 
             @Override
-            public void onDragScrolled(float scrollPercent) {
+            public void onDragPositionChanged(float scrollPercent) {
 
             }
         });

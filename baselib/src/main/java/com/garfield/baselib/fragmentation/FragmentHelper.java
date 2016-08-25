@@ -36,13 +36,10 @@ public class FragmentHelper {
         ft.commit();
     }
 
-
     void showHideFragment(FragmentManager fragmentManager, SupportFragment showFragment, SupportFragment hideFragment) {
         if (showFragment == hideFragment) return;
         fragmentManager.beginTransaction().show(showFragment).hide(hideFragment).commit();
     }
-
-
 
     /**
      * 前一个hide掉，from不能是null

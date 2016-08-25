@@ -16,4 +16,10 @@
     <style name="toolbar_text">
         <item name="android:textSize">20sp</item>
     </style>
+
+
+    <style name="AppTheme.SwipeBack">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
 </resources>

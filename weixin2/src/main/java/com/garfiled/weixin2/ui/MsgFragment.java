@@ -6,9 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.garfield.baselib.swipeback.fragment.SwipeBackFragment;
+import com.garfield.baselib.swipeback.SwipeBackFragment;
 import com.garfiled.weixin2.R;
-import com.garfiled.weixin2.base.AppBaseFragment;
 
 /**
  * Created by gaowei3 on 2016/8/4.

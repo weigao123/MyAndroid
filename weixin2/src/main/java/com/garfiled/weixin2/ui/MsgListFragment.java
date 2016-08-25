@@ -37,8 +37,9 @@ public class MsgListFragment extends AppBaseFragment {
     private void initView(View view) {
         RecyclerView becyclerView = (RecyclerView) view.findViewById(R.id.msglist_recyclerview);
         becyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        //becyclerView.setItemAnimator(new DefaultItemAnimator());
-        becyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.HORIZONTAL_LIST));
+        // becyclerView.setItemAnimator(new DefaultItemAnimator());
+        // 分隔线
+        becyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL_LIST));
 
         MsgListAdapter adapter = new MsgListAdapter(getMsgList(30));
         becyclerView.setAdapter(adapter);
