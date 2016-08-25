@@ -6,8 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 
 import com.garfield.baselib.adapter.DividerItemDecoration;
+import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
+import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
+import com.garfield.baselib.utils.L;
 import com.garfiled.weixin2.R;
 import com.garfiled.weixin2.adapter.MsgListAdapter;
 import com.garfiled.weixin2.adapter.OnItemClickListener;
@@ -94,5 +98,6 @@ public class MsgListFragment extends AppBaseFragment {
                 return "中国最大，世界第一";
         }
     }
+
 
 }

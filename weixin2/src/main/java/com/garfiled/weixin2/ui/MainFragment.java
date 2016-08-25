@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.garfield.baselib.fragmentation.SupportFragment;
+import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
+import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
+import com.garfield.baselib.utils.L;
 import com.garfield.baselib.widget.BottomBar;
 import com.garfiled.weixin2.R;
 import com.garfiled.weixin2.base.AppBaseFragment;
@@ -84,5 +87,10 @@ public class MainFragment extends SupportFragment implements BottomBar.OnTabSele
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected FragmentAnimator onCreateFragmentAnimator() {
+        return new DefaultHorizontalAnimator();
     }
 }

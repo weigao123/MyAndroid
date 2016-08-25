@@ -24,6 +24,6 @@ public class MainActivity extends AppBaseActivity {
         if (savedInstanceState == null) {
             loadRootFragment(R.id.main_activity_fragment_container, (SupportFragment) Fragment.instantiate(this, MainFragment.class.getName()));
         }
-        startActivity(new Intent(this, SwipeBackTestActivity.class));
+        //startActivity(new Intent(this, SwipeBackTestActivity.class));
     }
 }

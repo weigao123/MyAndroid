@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
+import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.swipeback.SwipeBackFragment;
 import com.garfiled.weixin2.R;
 import com.garfiled.weixin2.base.AppBaseFragment;
@@ -24,5 +26,10 @@ public class MsgFragment extends AppBaseFragment {
     }
 
     private void initView(View view) {
+    }
+
+    @Override
+    protected FragmentAnimator onCreateFragmentAnimator() {
+        return new DefaultHorizontalAnimator();
     }
 }
