@@ -6,13 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.garfield.baselib.base.BaseActivity;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
+import com.garfield.baselib.swipeback.SwipeBackActivity;
 
 import java.util.List;
 
 /**
  * Created by gaowei3 on 2016/7/22.
  */
-public class SupportActivity extends BaseActivity implements ISupport {
+public class SupportActivity extends SwipeBackActivity implements ISupport {
 
     private FragmentAnimator mFragmentAnimator;
     private FragmentHelper mFragmentHelper;

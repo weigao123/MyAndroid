@@ -6,17 +6,16 @@ import android.support.v4.widget.ViewDragHelper;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.garfield.baselib.fragmentation.SupportFragment;
+import com.garfield.baselib.base.BaseFragment;
 
 /**
  * Created by gaowei3 on 2016/8/24.
  */
-public class SwipeBackFragment extends SupportFragment {
+public class SwipeBackFragment extends BaseFragment {
 
     public static final int EDGE_LEFT = ViewDragHelper.EDGE_LEFT;
     public static final int EDGE_RIGHT = ViewDragHelper.EDGE_RIGHT;
-    public static final int EDGE_BOTTOM = ViewDragHelper.EDGE_BOTTOM;
-    public static final int EDGE_ALL = EDGE_LEFT | EDGE_RIGHT | EDGE_BOTTOM;
+    public static final int EDGE_ALL = EDGE_LEFT | EDGE_RIGHT;
 
     private SwipeBackLayout mSwipeBackLayout;
 
@@ -38,28 +37,32 @@ public class SwipeBackFragment extends SupportFragment {
             }
 
             @Override
-            public void onDragPositionChanged(float scrollPercent) {
+            public void onDragScrollChanged(float scrollPercent) {
 
             }
         });
     }
 
+    /**
+     * 必须被Fragment在onCreateView里调用，没有调用的话是没有被注入到View里的
+     */
     protected View attachToSwipeBack(View view) {
         mSwipeBackLayout.attachToFragment(this, view);
         return mSwipeBackLayout;
     }
 
-
-    public SwipeBackLayout getSwipeBackLayout() {
-        return mSwipeBackLayout;
-    }
-
-
+    /**
+     * 总开关，需要被Fragment打开
+     */
     public void setSwipeBackEnable(boolean enable) {
         mSwipeBackLayout.setEnable(enable);
     }
 
     public void setSwipeBackDirection(int edgeFlags) {
         mSwipeBackLayout.setEdgeOrientation(edgeFlags);
+    }
+
+    public SwipeBackLayout getSwipeBackLayout() {
+        return mSwipeBackLayout;
     }
 }

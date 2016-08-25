@@ -12,11 +12,12 @@ import com.garfield.baselib.base.BaseFragment;
 import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
 import com.garfield.baselib.fragmentation.anim.DefaultNoAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
+import com.garfield.baselib.swipeback.SwipeBackFragment;
 
 /**
  * Created by gaowei3 on 2016/7/22.
  */
-public class SupportFragment extends BaseFragment implements ISupport {
+public class SupportFragment extends SwipeBackFragment implements ISupport {
 
     private static final String STATE_SAVE_IS_HIDDEN = "STATE_SAVE_IS_HIDDEN";
 

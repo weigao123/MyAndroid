@@ -6,6 +6,8 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewCompat;
@@ -42,31 +44,29 @@ public class SwipeBackLayout extends FrameLayout {
     private static final float DEFAULT_SCROLL_THRESHOLD = 0.3f;
 
     private static final int OVERSCROLL_DISTANCE = 10;
+    private static final int PRE_SCROLL = 50;
 
-    private int mEdgeFlag;
+
+    private int mEdgeFlag = EDGE_LEFT;
+
+    // EDGE_LEFT、EDGE_RIGHT，二者之一
+    private int mCurrentEdge;
 
     private Activity mActivity;
     private View mContentView;
     private Fragment mFragment;
     private Fragment mPreFragment;
-
-    private boolean mEnable = true;
-    private boolean mOnlyEdgeDrag = true;
-
-    private ViewDragHelper mDragHelper;
-
-
-    private List<SwipeListener> mListeners;
-
-    private Drawable mShadowLeft;
-    private Drawable mShadowRight;
-
     private float mScrimOpacity;
     private float mScrollPercent;
 
-    private int mCurrentEdge;
+    private boolean mEnable = false;
+    private boolean mOnlyEdgeDrag = true;
 
+    private ViewDragHelper mDragHelper;
     private Rect mTmpRect = new Rect();
+    private List<SwipeListener> mListeners;
+    private Drawable mShadowLeft;
+    private Drawable mShadowRight;
 
     public SwipeBackLayout(Context context) {
         this(context, null);
@@ -95,10 +95,6 @@ public class SwipeBackLayout extends FrameLayout {
         }
     }
 
-    public void setOnlyEdgeDrag(boolean onlyEdgeDrag) {
-        mOnlyEdgeDrag = onlyEdgeDrag;
-    }
-
     public void setEnable(boolean enable) {
         mEnable = enable;
     }
@@ -121,7 +117,7 @@ public class SwipeBackLayout extends FrameLayout {
         void onScrollStateChange(int state);
         //EDGE_LEFT, EDGE_RIGHT
         void onEdgeTouch(int edgeFlag);
-        void onDragPositionChanged(float scrollPercent);
+        void onDragScrollChanged(float scrollPercent);
     }
 
     public void setShadow(int resId, int edgeFlag) {
@@ -241,7 +237,7 @@ public class SwipeBackLayout extends FrameLayout {
     @Override
     public void computeScroll() {
         mScrimOpacity = 1 - mScrollPercent;
-        // 保证只有一次mScrollPercent > 1
+        // 一旦>1就停止滑动，保证只有一次mScrollPercent > 1
         if (mScrollPercent > 1) {
             return;
         }
@@ -250,16 +246,34 @@ public class SwipeBackLayout extends FrameLayout {
         }
     }
 
-    private void handleCloseSelf() {
-        // computeScroll里的修改保证mScrollPercent只有一次>1
-        if (mScrollPercent > 1) {
-            if (mFragment != null) {
-                if (!mFragment.isDetached()) {
-                    FragmentManager manager = mFragment.getFragmentManager();
-                    manager.popBackStack();
+    private void scrollPreFragment() {
+        if (mPreFragment != null) {
+            View view = mPreFragment.getView();
+            if (view != null) {
+                if (mScrollPercent > 1 || mScrollPercent == 0) {
+                    view.scrollTo(0, 0);
+                } else {
+                    if (mCurrentEdge == EDGE_LEFT) {
+                        view.scrollTo((int) (PRE_SCROLL * (1 - mScrollPercent)), 0);
+                    } else if (mCurrentEdge == EDGE_RIGHT) {
+                        view.scrollTo((int) (PRE_SCROLL * (mScrollPercent - 1)), 0);
+                    }
                 }
             }
-            if (mActivity != null) {
+        }
+    }
+
+    private void handleScrollChanged() {
+        if (mFragment != null) {
+            // computeScroll里的修改保证mScrollPercent>1后，就停止滑动，不再执行此方法
+            if (mScrollPercent > 1) {
+                FragmentManager manager = mFragment.getFragmentManager();
+                manager.popBackStack();
+            }
+            scrollPreFragment();
+        }
+        if (mActivity != null) {
+            if (mScrollPercent > 1) {
                 if (!mActivity.isFinishing()) {
                     mActivity.finish();
                 }
@@ -285,7 +299,6 @@ public class SwipeBackLayout extends FrameLayout {
                 }
                 makePreVisible();
             }
-
             return isEdgeTouched;
         }
 
@@ -304,12 +317,12 @@ public class SwipeBackLayout extends FrameLayout {
             }
             if (mListeners != null && mDragHelper.getViewDragState() == STATE_DRAGGING && mScrollPercent <= 1 && mScrollPercent > 0) {
                 for (SwipeListener listener : mListeners) {
-                    listener.onDragPositionChanged(mScrollPercent);
+                    listener.onDragScrollChanged(mScrollPercent);
                 }
             }
             // 使阴影贴近Content，进行重绘
             invalidate();
-            handleCloseSelf();
+            handleScrollChanged();
         }
 
         @Override
@@ -346,7 +359,6 @@ public class SwipeBackLayout extends FrameLayout {
             }
         }
     }
-
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {

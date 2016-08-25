@@ -19,7 +19,6 @@
 
 
     <style name="AppTheme.SwipeBack">
-        <item name="android:windowIsTranslucent">true</item>
     </style>
 
 </resources>

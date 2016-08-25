@@ -8,8 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfiled.weixin2.R;
 import com.garfiled.weixin2.adapter.ContactAdapter;
+import com.garfiled.weixin2.base.AppBaseFragment;
 import com.garfiled.weixin2.bean.ContactBean;
 
 import java.util.ArrayList;
@@ -18,7 +20,9 @@ import java.util.Random;
 /**
  * Created by gaowei3 on 2016/8/3.
  */
-public class NewsTabFragment extends Fragment {
+
+// 不能直接继承AppBaseFragment，因为没有toolbar
+public class NewsTabFragment extends SupportFragment {
 
     private Random mRandom = new Random();
     @Override

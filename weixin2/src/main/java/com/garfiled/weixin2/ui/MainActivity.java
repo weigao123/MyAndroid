@@ -7,12 +7,13 @@ import android.support.v4.app.Fragment;
 import com.garfield.baselib.fragmentation.SupportActivity;
 import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfiled.weixin2.R;
+import com.garfiled.weixin2.base.AppBaseActivity;
 import com.garfiled.weixin2.test.SwipeBackTestActivity;
 
 /**
  * Created by gaowei3 on 2016/7/31.
  */
-public class MainActivity extends SupportActivity {
+public class MainActivity extends AppBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

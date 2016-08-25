@@ -8,24 +8,21 @@ import android.view.ViewGroup;
 
 import com.garfield.baselib.swipeback.SwipeBackFragment;
 import com.garfiled.weixin2.R;
+import com.garfiled.weixin2.base.AppBaseFragment;
 
 /**
  * Created by gaowei3 on 2016/8/4.
  */
-public class MsgFragment extends SwipeBackFragment {
-    private Toolbar mToolbar;
+public class MsgFragment extends AppBaseFragment {
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_msg, container, false);
         initView(view);
-        
+        setSwipeBackEnable(true);
         return attachToSwipeBack(view);
     }
 
     private void initView(View view) {
-        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        mToolbar.setTitle("微信");
-        mToolbar.setTitleTextAppearance(mActivity, R.style.toolbar_text);
-        mToolbar.inflateMenu(R.menu.fragment_msg_list);
     }
 }
