@@ -7,12 +7,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.Transformation;
 
 import com.garfield.baselib.base.BaseFragment;
 import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
 import com.garfield.baselib.fragmentation.anim.DefaultNoAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.swipeback.SwipeBackFragment;
+import com.garfield.baselib.R;
 
 /**
  * Created by gaowei3 on 2016/7/22.
@@ -51,7 +53,10 @@ public class SupportFragment extends SwipeBackFragment implements ISupport {
             }
         }
         Bundle bundle = getArguments();
-        mContainerId = bundle.getInt(FragmentHelper.FRAGMENT_ARG_CONTAINER);
+        // NewsTabFragment是由adapter启动，这类较为特殊，没有bundle
+        if (bundle != null) {
+            mContainerId = bundle.getInt(FragmentHelper.FRAGMENT_ARG_CONTAINER);
+        }
 
         if (savedInstanceState != null) {
             boolean isFragmentHidden = savedInstanceState.getBoolean(STATE_SAVE_IS_HIDDEN);
@@ -67,11 +72,23 @@ public class SupportFragment extends SwipeBackFragment implements ISupport {
 
     @Override
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
-        if (enter) {
-            return AnimationUtils.loadAnimation(mActivity, mFragmentAnimator.getEnter());
-        } else {
-            return AnimationUtils.loadAnimation(mActivity, mFragmentAnimator.getExit());
+        if (isFragmentSwipeBack()) {
+            return AnimationUtils.loadAnimation(mActivity, R.anim.no_anim);
         }
+        if (transit == FragmentTransaction.TRANSIT_FRAGMENT_OPEN) {
+            if (enter) {
+                return AnimationUtils.loadAnimation(mActivity, mFragmentAnimator.getEnter());
+            } else {
+                return AnimationUtils.loadAnimation(mActivity, mFragmentAnimator.getExit());
+            }
+        } else if (transit == FragmentTransaction.TRANSIT_FRAGMENT_CLOSE) {
+            if (enter) {
+                return AnimationUtils.loadAnimation(mActivity, mFragmentAnimator.getPopEnter());
+            } else {
+                return AnimationUtils.loadAnimation(mActivity, mFragmentAnimator.getPopExit());
+            }
+        }
+        return super.onCreateAnimation(transit, enter, nextAnim);
     }
 
     protected FragmentAnimator onCreateFragmentAnimator() {

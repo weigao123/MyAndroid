@@ -42,10 +42,10 @@ public class MsgListFragment extends AppBaseFragment {
         RecyclerView becyclerView = (RecyclerView) view.findViewById(R.id.msglist_recyclerview);
         becyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         // becyclerView.setItemAnimator(new DefaultItemAnimator());
-        // 分隔线
-        becyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL_LIST));
+        // 分隔线，但是设置背景的时候无法把分割线包含
+        // becyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL_LIST));
 
-        MsgListAdapter adapter = new MsgListAdapter(getMsgList(30));
+        MsgListAdapter adapter = new MsgListAdapter(mActivity, getMsgList(30));
         becyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -98,6 +98,5 @@ public class MsgListFragment extends AppBaseFragment {
                 return "中国最大，世界第一";
         }
     }
-
 
 }

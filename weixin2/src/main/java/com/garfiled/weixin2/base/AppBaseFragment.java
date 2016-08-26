@@ -25,11 +25,15 @@ public class AppBaseFragment extends SupportFragment implements Toolbar.OnMenuIt
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        // 这里不能使用mActivity，因为这个Activity下有好多个toolbar
         mToolbar = (Toolbar) getView().findViewById(R.id.toolbar);
-        mToolbar.setTitle("微信");
-        mToolbar.setTitleTextAppearance(mActivity, R.style.toolbar_text);
-        mToolbar.inflateMenu(R.menu.fragment_msg_list);
-        mToolbar.setOnMenuItemClickListener(this);
+        // NewsTabFragment没有toolbar
+        if (mToolbar != null) {
+            mToolbar.setTitle("微信");
+            mToolbar.setTitleTextAppearance(mActivity, R.style.toolbar_text);
+            mToolbar.inflateMenu(R.menu.fragment_msg_list);
+            mToolbar.setOnMenuItemClickListener(this);
+        }
     }
 
     @Override

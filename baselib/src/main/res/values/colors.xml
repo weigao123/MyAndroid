@@ -5,4 +5,6 @@
     <color name="gray">#d4d4d4</color>
     
     <color name="gray_trans">#DDDDDD</color>
+
+    <color name="black">#000000</color>
 </resources>

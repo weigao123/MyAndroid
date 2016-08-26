@@ -36,8 +36,6 @@ public class NewsFragment extends AppBaseFragment {
         tabLayout.setupWithViewPager(viewPager);
     }
 
-
-
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getFragmentManager());
         adapter.addFragment(new NewsTabFragment(), "所有");

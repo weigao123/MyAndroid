@@ -22,7 +22,7 @@ import java.util.Random;
  */
 
 // 不能直接继承AppBaseFragment，因为没有toolbar
-public class NewsTabFragment extends SupportFragment {
+public class NewsTabFragment extends AppBaseFragment {
 
     private Random mRandom = new Random();
     @Override

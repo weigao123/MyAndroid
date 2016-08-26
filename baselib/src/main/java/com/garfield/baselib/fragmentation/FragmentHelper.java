@@ -17,7 +17,7 @@ public class FragmentHelper {
     void loadRootFragment(FragmentManager fragmentManager, int containerId, SupportFragment to) {
         bindContainerId(containerId, to);
         FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        //ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         String toClassName = to.getClass().getName();
         ft.add(containerId, to, toClassName);
         ft.commit();

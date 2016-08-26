@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 
 import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
@@ -27,7 +28,7 @@ import org.greenrobot.eventbus.ThreadMode;
  * 不把BottomBar放在Activity中的原因是，要启动一个覆盖BottomBar的MsgFragment，否则无法覆盖
  * MainFragment包含1个BottomBar和3个Tab页Fragment
  */
-public class MainFragment extends SupportFragment implements BottomBar.OnTabSelectedListener {
+public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSelectedListener {
 
     private SupportFragment[] mFragments = new SupportFragment[4];
 
@@ -92,5 +93,11 @@ public class MainFragment extends SupportFragment implements BottomBar.OnTabSele
     @Override
     protected FragmentAnimator onCreateFragmentAnimator() {
         return new DefaultHorizontalAnimator();
+    }
+
+    @Override
+    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+        //L.d("MainFragment  transit: "+transit+"  enter:"+enter+"   nextAnim:"+nextAnim);
+        return super.onCreateAnimation(transit, enter, nextAnim);
     }
 }

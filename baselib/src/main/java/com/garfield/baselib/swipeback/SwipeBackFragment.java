@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.garfield.baselib.base.BaseFragment;
+import com.garfield.baselib.utils.L;
 
 /**
  * Created by gaowei3 on 2016/8/24.
@@ -54,8 +55,17 @@ public class SwipeBackFragment extends BaseFragment {
     /**
      * 总开关，需要被Fragment打开
      */
-    public void setSwipeBackEnable(boolean enable) {
+    protected void setSwipeBackEnable(boolean enable) {
         mSwipeBackLayout.setEnable(enable);
+    }
+
+    /**
+     * 手动滑动到关闭时，返回true
+     */
+    protected boolean isFragmentSwipeBack() {
+        Bundle bundle = getArguments();
+        boolean b = bundle != null && bundle.getBoolean(SwipeBackLayout.IS_FRAGMENT_SWIPEBACK);
+        return b;
     }
 
     public void setSwipeBackDirection(int edgeFlags) {

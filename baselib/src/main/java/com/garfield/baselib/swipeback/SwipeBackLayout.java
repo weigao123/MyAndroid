@@ -6,8 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewCompat;
@@ -19,11 +18,14 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.garfield.baselib.R;
+import com.garfield.baselib.utils.L;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SwipeBackLayout extends FrameLayout {
+
+    public static final String IS_FRAGMENT_SWIPEBACK = "is_fragment_swipeback";
 
     //可以让View进行fling快滑（惯性滑动）的速度，大于该速度就会滑动
     private static final int MIN_FLING_VELOCITY = 400; // dips per second
@@ -43,9 +45,12 @@ public class SwipeBackLayout extends FrameLayout {
     //滑动超过这个比例，就关闭
     private static final float DEFAULT_SCROLL_THRESHOLD = 0.3f;
 
-    private static final int OVERSCROLL_DISTANCE = 10;
-    private static final int PRE_SCROLL = 50;
+    // 有了这个，可能保证 percent>1
+    private static final int OVERSCROLL_DISTANCE = 20;
 
+    // 滑动关闭时，Pre显示的最远部分
+    private static final int PRE_SCROLL_SHOW = 50;
+    private int mPreScrollShow;
 
     private int mEdgeFlag = EDGE_LEFT;
 
@@ -60,7 +65,6 @@ public class SwipeBackLayout extends FrameLayout {
     private float mScrollPercent;
 
     private boolean mEnable = false;
-    private boolean mOnlyEdgeDrag = true;
 
     private ViewDragHelper mDragHelper;
     private Rect mTmpRect = new Rect();
@@ -83,6 +87,7 @@ public class SwipeBackLayout extends FrameLayout {
         setEdgeOrientation(EDGE_LEFT);
 
         final float density = getResources().getDisplayMetrics().density;
+        mPreScrollShow = (int) (PRE_SCROLL_SHOW * density);
         final float minVel = MIN_FLING_VELOCITY * density;
         mDragHelper.setMinVelocity(minVel);
     }
@@ -254,9 +259,9 @@ public class SwipeBackLayout extends FrameLayout {
                     view.scrollTo(0, 0);
                 } else {
                     if (mCurrentEdge == EDGE_LEFT) {
-                        view.scrollTo((int) (PRE_SCROLL * (1 - mScrollPercent)), 0);
+                        view.scrollTo((int) (mPreScrollShow * (1 - mScrollPercent)), 0);
                     } else if (mCurrentEdge == EDGE_RIGHT) {
-                        view.scrollTo((int) (PRE_SCROLL * (mScrollPercent - 1)), 0);
+                        view.scrollTo((int) (mPreScrollShow * (mScrollPercent - 1)), 0);
                     }
                 }
             }
@@ -267,8 +272,10 @@ public class SwipeBackLayout extends FrameLayout {
         if (mFragment != null) {
             // computeScroll里的修改保证mScrollPercent>1后，就停止滑动，不再执行此方法
             if (mScrollPercent > 1) {
+                setTwoFragmentState(true);
                 FragmentManager manager = mFragment.getFragmentManager();
-                manager.popBackStack();
+                manager.popBackStackImmediate();
+                setTwoFragmentState(false);
             }
             scrollPreFragment();
         }
@@ -281,8 +288,27 @@ public class SwipeBackLayout extends FrameLayout {
         }
     }
 
-    private class ViewDragCallback extends ViewDragHelper.Callback {
+    private void setTwoFragmentState(boolean state) {
+        L.d("set: "+state);
+        if (mFragment != null) {
+            Bundle bundle = mFragment.getArguments();
+            if (bundle == null) {
+                bundle = new Bundle();
+                mFragment.setArguments(bundle);
+            }
+            bundle.putBoolean(IS_FRAGMENT_SWIPEBACK, state);
+        }
+        if (mPreFragment != null) {
+            Bundle bundle = mPreFragment.getArguments();
+            if (bundle == null) {
+                bundle = new Bundle();
+                mPreFragment.setArguments(bundle);
+            }
+            bundle.putBoolean(IS_FRAGMENT_SWIPEBACK, state);
+        }
+    }
 
+    private class ViewDragCallback extends ViewDragHelper.Callback {
         @Override
         public boolean tryCaptureView(View view, int pointerId) {
             boolean isEdgeTouched = mDragHelper.isEdgeTouched(mEdgeFlag, pointerId);
