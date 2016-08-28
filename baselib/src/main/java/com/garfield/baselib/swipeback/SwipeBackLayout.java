@@ -18,14 +18,13 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.garfield.baselib.R;
-import com.garfield.baselib.utils.L;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SwipeBackLayout extends FrameLayout {
 
-    public static final String IS_FRAGMENT_SWIPEBACK = "is_fragment_swipeback";
+    public static final String FRAGMENT_POP_BACKING = "fragment_pop_backing";
 
     //可以让View进行fling快滑（惯性滑动）的速度，大于该速度就会滑动
     private static final int MIN_FLING_VELOCITY = 400; // dips per second
@@ -83,7 +82,7 @@ public class SwipeBackLayout extends FrameLayout {
 
     private void init() {
         mDragHelper = ViewDragHelper.create(this, new ViewDragCallback());
-        setShadow(R.drawable.shadow_left, EDGE_LEFT);
+        setShadow(R.drawable.shadow_left_gray, EDGE_LEFT);
         setEdgeOrientation(EDGE_LEFT);
 
         final float density = getResources().getDisplayMetrics().density;
@@ -96,7 +95,7 @@ public class SwipeBackLayout extends FrameLayout {
         mEdgeFlag = orientation;
         mDragHelper.setEdgeTrackingEnabled(orientation);
         if (orientation == EDGE_RIGHT || orientation == EDGE_ALL) {
-            setShadow(R.drawable.shadow_right, EDGE_RIGHT);
+            setShadow(R.drawable.shadow_right_gray, EDGE_RIGHT);
         }
     }
 
@@ -160,6 +159,19 @@ public class SwipeBackLayout extends FrameLayout {
         addView(view);
         mFragment = fragment;
         mContentView = view;
+        if (mPreFragment == null) {
+            List<Fragment> fragmentList = mFragment.getFragmentManager().getFragments();
+            if (fragmentList != null && fragmentList.size() > 1) {
+                int index = fragmentList.indexOf(mFragment);
+                for (int i = index - 1; i >= 0; i--) {
+                    Fragment preFragment = fragmentList.get(i);
+                    if (preFragment != null) {
+                        mPreFragment = preFragment;
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -212,33 +224,6 @@ public class SwipeBackLayout extends FrameLayout {
         }
     }
 
-    /**
-     * 先获取同级的Fragment，然后设置成可见
-     */
-    private void makePreVisible() {
-        if (mFragment != null) {
-            if (mPreFragment == null) {
-                List<Fragment> fragmentList = mFragment.getFragmentManager().getFragments();
-                if (fragmentList != null && fragmentList.size() > 1) {
-                    int index = fragmentList.indexOf(mFragment);
-                    for (int i = index - 1; i >= 0; i--) {
-                        Fragment fragment = fragmentList.get(i);
-                        if (fragment != null && fragment.getView() != null) {
-                            fragment.getView().setVisibility(VISIBLE);
-                            mPreFragment = fragment;
-                            break;
-                        }
-                    }
-                }
-            } else {
-                View preView = mPreFragment.getView();
-                if (preView != null && preView.getVisibility() != VISIBLE) {
-                    preView.setVisibility(VISIBLE);
-                }
-            }
-        }
-    }
-
     @Override
     public void computeScroll() {
         mScrimOpacity = 1 - mScrollPercent;
@@ -251,17 +236,26 @@ public class SwipeBackLayout extends FrameLayout {
         }
     }
 
-    private void scrollPreFragment() {
+    private void handlePreFragment() {
         if (mPreFragment != null) {
             View view = mPreFragment.getView();
             if (view != null) {
-                if (mScrollPercent > 1 || mScrollPercent == 0) {
+                if (mScrollPercent > 1) {
                     view.scrollTo(0, 0);
+                } else if (mScrollPercent == 0.0f) {
+                    view.scrollTo(0, 0);
+                    if (view.getVisibility() != INVISIBLE) {
+                        view.setVisibility(INVISIBLE);
+                    }
                 } else {
                     if (mCurrentEdge == EDGE_LEFT) {
                         view.scrollTo((int) (mPreScrollShow * (1 - mScrollPercent)), 0);
                     } else if (mCurrentEdge == EDGE_RIGHT) {
                         view.scrollTo((int) (mPreScrollShow * (mScrollPercent - 1)), 0);
+                    }
+                    if (view.getVisibility() != VISIBLE) {
+                        // 实际上mPreFragment.isHidden()还是true
+                        view.setVisibility(VISIBLE);
                     }
                 }
             }
@@ -272,12 +266,13 @@ public class SwipeBackLayout extends FrameLayout {
         if (mFragment != null) {
             // computeScroll里的修改保证mScrollPercent>1后，就停止滑动，不再执行此方法
             if (mScrollPercent > 1) {
-                setTwoFragmentState(true);
+                setFragmentPopBacking(true);
                 FragmentManager manager = mFragment.getFragmentManager();
+                // 相当于commit置反，把mFragment置remove，mPreFragment置show
                 manager.popBackStackImmediate();
-                setTwoFragmentState(false);
+                setFragmentPopBacking(false);
             }
-            scrollPreFragment();
+            handlePreFragment();
         }
         if (mActivity != null) {
             if (mScrollPercent > 1) {
@@ -288,15 +283,17 @@ public class SwipeBackLayout extends FrameLayout {
         }
     }
 
-    private void setTwoFragmentState(boolean state) {
-        L.d("set: "+state);
+    /**
+     * 设置是否正在pop back
+     */
+    private void setFragmentPopBacking(boolean state) {
         if (mFragment != null) {
             Bundle bundle = mFragment.getArguments();
             if (bundle == null) {
                 bundle = new Bundle();
                 mFragment.setArguments(bundle);
             }
-            bundle.putBoolean(IS_FRAGMENT_SWIPEBACK, state);
+            bundle.putBoolean(FRAGMENT_POP_BACKING, state);
         }
         if (mPreFragment != null) {
             Bundle bundle = mPreFragment.getArguments();
@@ -304,7 +301,7 @@ public class SwipeBackLayout extends FrameLayout {
                 bundle = new Bundle();
                 mPreFragment.setArguments(bundle);
             }
-            bundle.putBoolean(IS_FRAGMENT_SWIPEBACK, state);
+            bundle.putBoolean(FRAGMENT_POP_BACKING, state);
         }
     }
 
@@ -323,7 +320,6 @@ public class SwipeBackLayout extends FrameLayout {
                         listener.onEdgeTouch(mCurrentEdge);
                     }
                 }
-                makePreVisible();
             }
             return isEdgeTouched;
         }

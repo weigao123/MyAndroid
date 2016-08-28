@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="bottom_bar_height">55dp</dimen>
+    <dimen name="bottom_bar_height">53dp</dimen>
 
     <dimen name="textSmallSize">16sp</dimen>
     <dimen name="textNormalSize">20sp</dimen>

@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="SwipeBackLayout">
-        <item name="edge_size">50dip</item>
-        <item name="shadow_left">@drawable/shadow_left</item>
-        <item name="shadow_right">@drawable/shadow_right</item>
-        <item name="shadow_bottom">@drawable/shadow_bottom</item>
+
+    <style name="DialogBackgroundDim" parent="android:Theme.Panel">
+        <!-- 必须加上前缀android: 否则找不到  -->
+        <item name="android:backgroundDimEnabled">true</item>
     </style>
-
-
 
 </resources>

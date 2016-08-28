@@ -21,6 +21,7 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MyViewHo
     private Context mContext;
     private List<MsgListBean> mData = new ArrayList<>();
     private OnItemClickListener mClickListener;
+    private OnItemLongClickListener mLongClickListener;
 
     public MsgListAdapter(Context context, ArrayList<MsgListBean> data) {
         mContext = context;
@@ -44,7 +45,7 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MyViewHo
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_msglist, parent, false);
 
-        view.setBackgroundResource(R.drawable.press_color);
+        view.setBackgroundResource(R.drawable.bg_press_gray);
 //        TypedValue typedValue = new TypedValue();
 //        mContext.getTheme().resolveAttribute(R.attr.selectableItemBackground, typedValue, true);
 //        view.setBackgroundResource(typedValue.resourceId);
@@ -57,6 +58,16 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MyViewHo
                 if (mClickListener != null) {
                     mClickListener.onItemClick(position, v);
                 }
+            }
+        });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                int position = holder.getAdapterPosition();
+                if (mLongClickListener != null) {
+                    mLongClickListener.onItemLongPressed(position, v);
+                }
+                return true;
             }
         });
         return holder;
@@ -81,5 +92,8 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MyViewHo
 
     public void setOnItemClickListener(OnItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
+    }
+    public void setOnLongClickListener(OnItemLongClickListener itemLongClickListener) {
+        this.mLongClickListener = itemLongClickListener;
     }
 }

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="bottombar_item_unselect">#c9c9c9</color>
+    <color name="bottombar_item_unselect">#a1a1a1</color>
 
     <color name="gray">#d4d4d4</color>
-    
-    <color name="gray_trans">#DDDDDD</color>
+    <color name="gray_trans">#64161616</color>
 
+    <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+
+    <color name="pure_trans">#00000000</color>
 </resources>

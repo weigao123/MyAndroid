@@ -62,7 +62,7 @@ public class BottomBar extends LinearLayout {
         addView(lineView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
 
         mTabLayout = new LinearLayout(context);
-        //会造成有阴影，如果都设置成白色，就看不出来阴影了
+        //会造成有阴影，当把连着的另外的view也设置成白色，就看不出来阴影了
         mTabLayout.setBackgroundColor(Color.WHITE);
         mTabLayout.setOrientation(LinearLayout.HORIZONTAL);
         addView(mTabLayout, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));

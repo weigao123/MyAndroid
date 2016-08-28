@@ -11,5 +11,7 @@
         android:id="@+id/msglist_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:background="@color/white"/>
+    <!-- background是为了去BottomBar的阴影 -->
 </LinearLayout>

@@ -3,14 +3,10 @@ package com.garfield.baselib.fragmentation;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.Transformation;
 
-import com.garfield.baselib.base.BaseFragment;
-import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
 import com.garfield.baselib.fragmentation.anim.DefaultNoAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.swipeback.SwipeBackFragment;
@@ -72,7 +68,7 @@ public class SupportFragment extends SwipeBackFragment implements ISupport {
 
     @Override
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
-        if (isFragmentSwipeBack()) {
+        if (isFragmentPopBacking()) {
             return AnimationUtils.loadAnimation(mActivity, R.anim.no_anim);
         }
         if (transit == FragmentTransaction.TRANSIT_FRAGMENT_OPEN) {
@@ -169,7 +165,7 @@ public class SupportFragment extends SwipeBackFragment implements ISupport {
     }
 
     public SupportFragment findFragment(Class fragmentClass) {
-        return mFragmentHelper.findStackFragment(fragmentClass, getFragmentManager());
+        return mFragmentHelper.findStackFragment(getChildFragmentManager(), fragmentClass);
     }
 
 

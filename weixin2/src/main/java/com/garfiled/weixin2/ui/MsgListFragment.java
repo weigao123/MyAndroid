@@ -6,15 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 
-import com.garfield.baselib.adapter.DividerItemDecoration;
-import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
-import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
-import com.garfield.baselib.utils.L;
+import com.garfield.baselib.widget.MenuDialog;
 import com.garfiled.weixin2.R;
 import com.garfiled.weixin2.adapter.MsgListAdapter;
 import com.garfiled.weixin2.adapter.OnItemClickListener;
+import com.garfiled.weixin2.adapter.OnItemLongClickListener;
 import com.garfiled.weixin2.base.AppBaseFragment;
 import com.garfiled.weixin2.bean.MsgListBean;
 import com.garfiled.weixin2.event.StartBrotherEvent;
@@ -51,6 +48,19 @@ public class MsgListFragment extends AppBaseFragment {
             @Override
             public void onItemClick(int position, View view) {
                 EventBus.getDefault().post(new StartBrotherEvent(new MsgFragment()));
+            }
+        });
+        adapter.setOnLongClickListener(new OnItemLongClickListener() {
+            @Override
+            public void onItemLongPressed(int position, View view) {
+//                new AlertDialog.Builder(mActivity)
+//                        .setTitle("栈视图")
+//                        .setView(contentView)
+//                        .setPositiveButton("关闭", null)
+//                        .setCancelable(true)
+//                        .show();
+                MenuDialog menuDialog = new MenuDialog();
+                menuDialog.show(getChildFragmentManager(), "dialoglist");
             }
         });
 

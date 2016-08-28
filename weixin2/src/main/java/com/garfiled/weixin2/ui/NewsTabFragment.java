@@ -1,14 +1,12 @@
 package com.garfiled.weixin2.ui;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfiled.weixin2.R;
 import com.garfiled.weixin2.adapter.ContactAdapter;
 import com.garfiled.weixin2.base.AppBaseFragment;
@@ -27,7 +25,7 @@ public class NewsTabFragment extends AppBaseFragment {
     private Random mRandom = new Random();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        RecyclerView view = (RecyclerView) inflater.inflate(R.layout.fragment_contact_tab, container, false);
+        RecyclerView view = (RecyclerView) inflater.inflate(R.layout.fragment_news_tab, container, false);
         initRecyclerView(view);
         return view;
     }

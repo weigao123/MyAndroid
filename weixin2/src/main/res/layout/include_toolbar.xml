@@ -1,20 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- elevation 去阴影 -->
-<android.support.design.widget.AppBarLayout
+<!-- 必须有layout_scrollFlags，才能在news里滚动隐藏 -->
+<android.support.v7.widget.Toolbar
+    android:id="@+id/toolbar"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:elevation="0dp"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    android:layout_height="@dimen/toolbar_height"
+    android:background="?attr/colorPrimary"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    app:layout_scrollFlags="scroll|enterAlways|snap">
 
-    <!-- 可能是因为放在fragment的原因，必须要被AppBarLayout包含 -->
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/title_bar_height"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-</android.support.design.widget.AppBarLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:orientation="horizontal"
+        android:gravity="center_vertical" >
+        <FrameLayout
+            android:id="@+id/toolbar_search"
+            android:layout_width="40dp"
+            android:layout_height="@dimen/toolbar_height"
+            android:clickable="true"
+            android:background="@drawable/bg_press_blue">
+            <ImageView
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_gravity="center"
+                android:background="@color/pure_trans"
+                android:src="@drawable/icon_search"/>
+        </FrameLayout>
+        <FrameLayout
+            android:id="@+id/toolbar_add"
+            android:layout_width="60dp"
+            android:layout_height="@dimen/toolbar_height"
+            android:clickable="true"
+            android:background="@drawable/bg_press_blue">
+            <ImageView
+                android:id="@+id/toolbar_add_view"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_gravity="center"
+                android:background="@color/pure_trans"
+                android:src="@drawable/icon_add"/>
+        </FrameLayout>
+    </LinearLayout>
+</android.support.v7.widget.Toolbar>

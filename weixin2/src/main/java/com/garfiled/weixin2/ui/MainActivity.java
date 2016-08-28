@@ -15,6 +15,8 @@ import com.garfiled.weixin2.test.SwipeBackTestActivity;
  */
 public class MainActivity extends AppBaseActivity {
 
+    private boolean isBackPressedToBack = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,5 +27,14 @@ public class MainActivity extends AppBaseActivity {
             loadRootFragment(R.id.main_activity_fragment_container, (SupportFragment) Fragment.instantiate(this, MainFragment.class.getName()));
         }
         //   startActivity(new Intent(this, SwipeBackTestActivity.class));
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isBackPressedToBack) {
+            moveTaskToBack(false);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

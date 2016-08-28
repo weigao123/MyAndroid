@@ -93,7 +93,7 @@ public class FragmentHelper {
         args.putInt(FRAGMENT_ARG_CONTAINER, containerId);
     }
 
-    SupportFragment findStackFragment(Class fragmentClass, FragmentManager fragmentManager) {
+    SupportFragment findStackFragment(FragmentManager fragmentManager, Class fragmentClass) {
         Fragment fragment;
         fragment = fragmentManager.findFragmentByTag(fragmentClass.getName());
         return (SupportFragment) fragment;
