@@ -4,8 +4,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:gravity="center_horizontal"
-              tools:context=".LauncherActivity">
+              android:gravity="center_horizontal">
 
     <Button
         android:id="@+id/main_viewdraghelper"
@@ -23,5 +22,12 @@
         android:layout_marginTop="50dp"
         android:onClick="onClick"/>
 
+    <Button
+        android:id="@+id/main_speed_progress"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:text="Speed Progress"
+        android:layout_marginTop="50dp"
+        android:onClick="onClick"/>
 
 </LinearLayout>

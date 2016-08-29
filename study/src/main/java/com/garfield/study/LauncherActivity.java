@@ -26,6 +26,9 @@ public class LauncherActivity extends SwipeBackActivity {
             case R.id.main_touch:
                 startActivity(new Intent(this, com.garfield.study.touch.MainActivity.class));
                 break;
+            case R.id.main_speed_progress:
+                startActivity(new Intent(this, com.garfield.study.ui.ContainerActivity.class));
+                break;
 
         }
     }
