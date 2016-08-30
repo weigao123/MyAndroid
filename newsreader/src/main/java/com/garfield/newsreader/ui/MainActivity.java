@@ -46,16 +46,16 @@ public class MainActivity extends SupportActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.newsreader_main_news:
-                startFragment(TestFragment.class);
+                //startFragment(TestFragment.class);
                 break;
             case R.id.newsreader_main_video:
-                switchFragment(mFragmentClasses[1]);
+                //switchFragment(mFragmentClasses[1]);
                 break;
             case R.id.newsreader_main_chat:
-                switchFragment(mFragmentClasses[2]);
+                //switchFragment(mFragmentClasses[2]);
                 break;
             case R.id.newsreader_main_personal:
-                switchFragment(mFragmentClasses[3]);
+                //switchFragment(mFragmentClasses[3]);
                 break;
         }
     }

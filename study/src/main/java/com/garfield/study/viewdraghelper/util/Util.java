@@ -55,7 +55,6 @@ public class Util {
             final String[] columns = {MediaStore.Images.Media.DATA,
                     MediaStore.Images.Media._ID};
             final String orderBy = MediaStore.Images.Media._ID;
-            L.d("uri: " + MediaStore.Images.Media.INTERNAL_CONTENT_URI);
             Cursor imagecursor = act.managedQuery(
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns,
                     null, null, orderBy);
