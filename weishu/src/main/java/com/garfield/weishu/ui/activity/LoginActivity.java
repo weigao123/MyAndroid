@@ -6,7 +6,7 @@ import android.view.View;
 import com.garfield.baselib.widget.ClearableEditText;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.AppBaseActivity;
-import com.garfield.weishu.netease.NeteaseCloud;
+import com.garfield.weishu.sdk.nim.NeteaseCloud;
 
 /**
  * Created by gaowei3 on 2016/8/30.

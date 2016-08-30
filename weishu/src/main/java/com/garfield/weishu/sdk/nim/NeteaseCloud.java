@@ -1,4 +1,4 @@
-package com.garfield.weishu.netease;
+package com.garfield.weishu.sdk.nim;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;

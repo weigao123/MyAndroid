@@ -1,4 +1,4 @@
-package com.garfield.weishu.netease;
+package com.garfield.weishu.sdk.nim;
 
 /**
  * Created by gaowei3 on 2016/8/30.
