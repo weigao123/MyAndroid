@@ -4,9 +4,13 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Environment;
 
+import com.garfield.baselib.utils.L;
 import com.garfield.weishu.R;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.StatusBarNotificationConfig;
+import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
@@ -80,5 +84,29 @@ public class NeteaseCloud {
     // 如果已经存在用户登录信息，返回LoginInfo，否则返回null即可
     public static LoginInfo loginInfo() {
         return null;
+    }
+
+    public static void login(String account, String password) {
+        LoginInfo info = new LoginInfo(account, password); // config...
+        RequestCallback<LoginInfo> callback =
+                new RequestCallback<LoginInfo>() {
+                    @Override
+                    public void onSuccess(LoginInfo loginInfo) {
+                        L.d("login success");
+                    }
+
+                    @Override
+                    public void onFailed(int i) {
+                        L.d("login onFailed: "+i);
+
+                    }
+
+                    @Override
+                    public void onException(Throwable throwable) {
+
+                    }
+                };
+        NIMClient.getService(AuthService.class).login(info)
+                .setCallback(callback);
     }
 }
