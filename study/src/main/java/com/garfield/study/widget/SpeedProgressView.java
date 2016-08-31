@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -55,16 +56,15 @@ public class SpeedProgressView extends View {
     private Paint mSpeedArcPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Path mSpeedArcPath = new Path();
 
+    private Paint mBottomMaskPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Rect mBottomMaskRect;
+
     private Paint mSpeedTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private int mSpeedTextBaseline;
     private Paint mGearTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private int mGearTextBaseline;
     private Paint mUnitTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private int mUnitTextBaseline;
-
-    // 黑色遮罩
-    private Rect mBottomMaskRect;
-    private Drawable mBottomMaskDrawable;
 
     private Paint mGreenPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint mRedPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -78,7 +78,7 @@ public class SpeedProgressView extends View {
     private RectF mTrackArcRect;
 
     private int mWidth;
-    private int mHeight;
+    private int mHeight;   //根据角度计算的实际的高度，非控件高度
 
     //speed传入前
     private float mCurrentSpeed;
@@ -184,8 +184,10 @@ public class SpeedProgressView extends View {
 
         //底部遮罩
         mBottomMaskRect = new Rect(0, mWidth/2, mWidth, mHeight);
-        mBottomMaskDrawable = getResources().getDrawable(R.drawable.speed_progress_mask);
-        mBottomMaskDrawable.setBounds(mBottomMaskRect);
+        Shader bottomMaskShader = new LinearGradient(0, dottedArcRect.centerY(), 0, mHeight,
+                Color.parseColor("#00000000"),
+                Color.parseColor("#FF000000"), Shader.TileMode.CLAMP);
+        mBottomMaskPaint.setShader(bottomMaskShader);
 
         //速度头
         mGreenPaint.setColor(Color.parseColor("#00f79d"));
@@ -226,12 +228,13 @@ public class SpeedProgressView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         mWidth = MeasureSpec.getSize(widthMeasureSpec);
-        mHeight = MeasureSpec.getSize(heightMeasureSpec);
-        int bestHeight = (int)(Math.sin(Math.PI*(Angle/2-90)/180) * (mWidth/2)) + mWidth/2;
-        if (mHeight < bestHeight) {
-            mHeight = bestHeight;
+        int viewHeight = MeasureSpec.getSize(heightMeasureSpec);
+        mHeight = (int)(Math.sin(Math.PI*(Angle/2-90)/180) * (mWidth/2)) + mWidth/2;
+        if (viewHeight < mHeight) {
+            setMeasuredDimension(mWidth, mHeight);
+        } else {
+            setMeasuredDimension(mWidth, viewHeight);
         }
-        setMeasuredDimension(mWidth, mHeight);
         initView();
     }
 
@@ -248,7 +251,10 @@ public class SpeedProgressView extends View {
 
         canvas.drawPath(mDottedArcPath, mDottedArcPaint);
         canvas.drawPath(mSpeedArcPath, mSpeedArcPaint);
-        mBottomMaskDrawable.draw(canvas);
+
+        //mBottomMaskDrawable.draw(canvas);
+        canvas.drawRect(mBottomMaskRect, mBottomMaskPaint);
+
         canvas.save();
         canvas.translate(mTrackArcRect.centerX(), mTrackArcRect.centerY());
         canvas.rotate(mToAngle-180);
