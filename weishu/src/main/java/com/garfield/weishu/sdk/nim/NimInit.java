@@ -1,5 +1,6 @@
 package com.garfield.weishu.sdk.nim;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Environment;
@@ -18,10 +19,10 @@ import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 /**
  * Created by gaowei3 on 2016/8/30.
  */
-public class NeteaseCloud {
+public class NimInit {
 
     // 如果返回值为 null，则全部使用默认参数。
-    public static SDKOptions options() {
+    public static SDKOptions options(Context context) {
         SDKOptions options = new SDKOptions();
 
         // 如果将新消息通知提醒托管给 SDK 完成，需要添加以下配置。否则无需设置。
@@ -40,7 +41,7 @@ public class NeteaseCloud {
         // 如果 options 中没有设置这个值，SDK 会使用下面代码示例中的位置作为 SDK 的数据目录。
         // 该目录目前包含 log, file, image, audio, video, thumb 这6个目录。
         // 如果第三方 APP 需要缓存清理功能， 清理这个目录下面个子目录的内容即可。
-        String sdkPath = Environment.getExternalStorageDirectory() + "/" + "weishu" + "/nim";
+        String sdkPath = Environment.getExternalStorageDirectory() + "/" + context.getPackageName() + "/nim";
         options.sdkStorageRootPath = sdkPath;
 
         // 配置是否需要预下载附件缩略图，默认为 true
@@ -86,27 +87,42 @@ public class NeteaseCloud {
         return null;
     }
 
-    public static void login(String account, String password) {
-        LoginInfo info = new LoginInfo(account, password); // config...
+
+    /**
+     * 登录
+     */
+    public static void login(String account, String password, final LoginResult loginResult) {
+        LoginInfo info = new LoginInfo(account, password);
         RequestCallback<LoginInfo> callback =
                 new RequestCallback<LoginInfo>() {
                     @Override
                     public void onSuccess(LoginInfo loginInfo) {
+                        loginResult.onResult(LOGIN_SUCCESS);
                         L.d("login success");
                     }
 
                     @Override
-                    public void onFailed(int i) {
-                        L.d("login onFailed: "+i);
-
+                    public void onFailed(int code) {
+                        if (code == 302 || code == 404) {
+                            loginResult.onResult(LOGIN_FAILED_A_P_WRONG);
+                        } else {
+                            loginResult.onResult(LOGIN_FAILED_OTHER_REASON);
+                        }
+                        L.d("login onFailed: "+code);
                     }
-
                     @Override
                     public void onException(Throwable throwable) {
-
+                        loginResult.onResult(LOGIN_FAILED_OTHER_REASON);
                     }
                 };
         NIMClient.getService(AuthService.class).login(info)
                 .setCallback(callback);
+    }
+
+    public static final int LOGIN_SUCCESS = 0;
+    public static final int LOGIN_FAILED_A_P_WRONG = 1;
+    public static final int LOGIN_FAILED_OTHER_REASON = 2;
+    public interface LoginResult {
+        void onResult(int result);
     }
 }

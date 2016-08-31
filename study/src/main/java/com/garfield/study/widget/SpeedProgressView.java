@@ -13,6 +13,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.SweepGradient;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.AttributeSet;
@@ -28,30 +29,53 @@ import java.text.DecimalFormat;
  */
 public class SpeedProgressView extends View {
 
-    private int Angle = 270;
-    private int DottedWidth = 6;   //最好是偶数
-    private int TrackMargin = 40;
-    private int TrackWidth = 30;
-    private int MaxSpeed = 40;
+    public static final boolean StartTest = true;
+
+    private float MaxSpeed = 30;
+    private int Angle = 270;     //展开的总角度
+    private int SpeedTextSize = dp2px(50);
+    private int GearTextSize = dp2px(25);
+    private int UnitTextSize = dp2px(15);
+    private int DottedWidth = dp2px(4);
+    private int TrackMargin = dp2px(25);
+    private int TrackWidth = dp2px(25);
+    private int HeadInWidth = TrackWidth;
+    private int HeadInHeight = dp2px(5);
+    private int HeadOutWidth = HeadInWidth + dp2px(12);
+    private int HeadOutHeight = HeadInHeight + dp2px(12);
 
     private Paint mDottedArcPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Path mDottedArcPath = new Path();
 
     private Paint mTrackArcPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Path mTrackArcPath = new Path();
+    private Paint mTrackMaskPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Path mTrackMaskPath = new Path();
 
     private Paint mSpeedArcPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Path mSpeedArcPath = new Path();
 
     private Paint mSpeedTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private int mSpeedTextBaseline;
+    private Paint mGearTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private int mGearTextBaseline;
+    private Paint mUnitTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private int mUnitTextBaseline;
 
-    private Paint mMaskPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private Rect mMaskRect;
-    private Drawable mMaskDrawable;
+    // 黑色遮罩
+    private Rect mBottomMaskRect;
+    private Drawable mBottomMaskDrawable;
 
-    private Paint mHeadPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private Paint mHeadLightPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Paint mGreenPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Paint mRedPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Paint mHeadInPaint;
+    private Rect mHeadInRect;
+    private Drawable mGreenHeadDrawable;
+    private Drawable mRedHeadDrawable;
+    private Drawable mHeadOutDrawable;
+    private Rect mHeadOutRect;
+
+    private RectF mTrackArcRect;
 
     private int mWidth;
     private int mHeight;
@@ -59,8 +83,9 @@ public class SpeedProgressView extends View {
     //speed传入前
     private float mCurrentSpeed;
     //speed传入后
-    private float mToAngle = 270 - Angle / 2;
-    private RectF mTrackArcRect;
+    private float mToAngle = 270 - Angle / 2;    //0度
+
+    private int mGearSpeed;
 
     Handler mHandler = new Handler();
 
@@ -74,28 +99,7 @@ public class SpeedProgressView extends View {
 
     public SpeedProgressView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final DecimalFormat df = new DecimalFormat("#00.00");
-                while (true) {
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            String value = df.format(Math.random() * MaxSpeed);
-                            setSpeed(Float.parseFloat(value));
-
-                        }
-                    });
-                }
-            }
-        }).start();
+        startTest();
     }
 
     public void setSpeed(float speed) {
@@ -106,7 +110,20 @@ public class SpeedProgressView extends View {
         mCurrentSpeed = speed;
     }
 
+    public void setGearSpeed(int speed) {
+        mGearSpeed = speed;
+    }
+
+    public void setMaxSpeed(float speed) {
+        MaxSpeed = speed;
+    }
+
     private void initView() {
+        if (mTrackArcRect != null) {
+            return;
+        }
+        setBackgroundColor(Color.BLACK);
+
         //大圈
         RectF dottedArcRect = new RectF(DottedWidth/2, DottedWidth/2, mWidth - DottedWidth/2, mWidth - DottedWidth/2);
         mDottedArcPaint.setStyle(Paint.Style.STROKE);
@@ -124,7 +141,7 @@ public class SpeedProgressView extends View {
                 Color.parseColor("#ea0303")},
                 new float[]{0, 30/360f, 60/360f, 90/360f, 120/360f, 150/360f, 180/360f, 210/360f, 240/360f, 1});
         Matrix matrix = new Matrix();
-        matrix.setRotate(270-Angle/2, dottedArcRect.centerX(), dottedArcRect.centerY());
+        matrix.setRotate(270-Angle/2, dottedArcRect.centerX(), dottedArcRect.centerY());   //旋转到起点
         dottedShader.setLocalMatrix(matrix);
         mDottedArcPaint.setShader(dottedShader);
         Path pointRect = new Path();
@@ -134,12 +151,29 @@ public class SpeedProgressView extends View {
         mDottedArcPath.arcTo(dottedArcRect, 270 - Angle / 2, Angle);
 
         //轨道
-        mTrackArcRect = new RectF(TrackMargin, TrackMargin, mWidth - TrackMargin, mWidth - TrackMargin);
+        mTrackArcRect = new RectF(TrackMargin, TrackMargin, mWidth - TrackMargin, mWidth - TrackMargin);  //正方形
         mTrackArcPaint.setStyle(Paint.Style.STROKE);
         mTrackArcPaint.setStrokeWidth(TrackWidth);
-        mTrackArcPaint.setColor(Color.BLACK);
+        mTrackArcPaint.setShader(dottedShader);
         mTrackArcPath.reset();
         mTrackArcPath.arcTo(mTrackArcRect, 270 - Angle / 2, Angle);
+
+        //轨道遮罩
+        RectF trackMaskRect = new RectF(-mTrackArcRect.width()/2, -mTrackArcRect.height()/2,
+                mTrackArcRect.width()/2, mTrackArcRect.height()/2);  //较为特殊，要被旋转
+        Shader trackMaskShader = new SweepGradient(0, 0, new int[]{     //这个地方必须是0,0，因为旋转！！！
+                Color.parseColor("#BB000000"),
+                Color.parseColor("#FF000000"),
+                Color.parseColor("#FF000000")},
+                new float[]{0, 0.3f, 1});
+        Matrix trackMaskMatrix = new Matrix();
+        trackMaskMatrix.setRotate(270-Angle/2, 0, 0);   //必须是0,0
+        trackMaskShader.setLocalMatrix(trackMaskMatrix);
+        mTrackMaskPaint.setStyle(Paint.Style.STROKE);
+        mTrackMaskPaint.setStrokeWidth(TrackWidth+5);
+        mTrackMaskPaint.setShader(trackMaskShader);
+        mTrackMaskPath.reset();
+        mTrackMaskPath.arcTo(trackMaskRect, 270 - Angle / 2, Angle);
 
         //速度
         mSpeedArcPaint.setStyle(Paint.Style.STROKE);
@@ -148,32 +182,55 @@ public class SpeedProgressView extends View {
         mSpeedArcPath.reset();
         mSpeedArcPath.arcTo(mTrackArcRect, 270 - Angle / 2, 3);
 
-        //遮罩
-        mMaskRect = new Rect(0, mWidth/2, mWidth, mHeight);
-        mMaskDrawable = getResources().getDrawable(R.drawable.progress_shadow);
-        mMaskDrawable.setBounds(mMaskRect);
+        //底部遮罩
+        mBottomMaskRect = new Rect(0, mWidth/2, mWidth, mHeight);
+        mBottomMaskDrawable = getResources().getDrawable(R.drawable.speed_progress_mask);
+        mBottomMaskDrawable.setBounds(mBottomMaskRect);
 
         //速度头
-        mHeadPaint.setStyle(Paint.Style.STROKE);
-        mHeadPaint.setStrokeWidth(TrackWidth);
-        mHeadPaint.setColor(Color.parseColor("#00f79d"));
-        mHeadLightPaint.setStyle(Paint.Style.STROKE);
-        mHeadLightPaint.setStrokeWidth(TrackWidth+8);
-        mHeadLightPaint.setColor(Color.parseColor("#8800f79d"));
+        mGreenPaint.setColor(Color.parseColor("#00f79d"));
+        mHeadInPaint = mGreenPaint;
+        mRedPaint.setColor(Color.parseColor("#d00202"));
+        mHeadInRect = new Rect(-(int)mTrackArcRect.width()/2- HeadInWidth /2,       //这两个较特殊，要被旋转
+                -HeadInHeight /2, -(int)mTrackArcRect.width()/2+ HeadInWidth /2, HeadInHeight /2);
+        mHeadOutRect = new Rect(-(int)mTrackArcRect.width()/2- HeadOutWidth /2,
+                -HeadOutHeight /2, -(int)mTrackArcRect.width()/2+ HeadOutWidth /2, HeadOutHeight /2);
+        mGreenHeadDrawable = getResources().getDrawable(R.drawable.speed_progress_head_green);
+        mGreenHeadDrawable.setBounds(mHeadOutRect);
+        mRedHeadDrawable = getResources().getDrawable(R.drawable.speed_progress_head_red);
+        mRedHeadDrawable.setBounds(mHeadOutRect);
+        mHeadOutDrawable = mGreenHeadDrawable;
 
         //字体
-        mSpeedTextPaint.setTextSize(72);
+        Typeface typeFace = Typeface.createFromAsset(getResources().getAssets(), "NettoOT-Light.otf");
+        mSpeedTextPaint.setTextSize(SpeedTextSize);
         mSpeedTextPaint.setColor(Color.WHITE);
+        mSpeedTextPaint.setTypeface(typeFace);
         mSpeedTextPaint.setTextAlign(Paint.Align.CENTER);
         Paint.FontMetricsInt fontMetrics = mSpeedTextPaint.getFontMetricsInt();
         mSpeedTextBaseline = (int) mTrackArcRect.centerY() - (fontMetrics.bottom + fontMetrics.top) / 2;
-
+        mGearTextPaint.setTextSize(GearTextSize);
+        mGearTextPaint.setColor(Color.WHITE);
+        mGearTextPaint.setTypeface(typeFace);
+        mGearTextPaint.setTextAlign(Paint.Align.CENTER);
+        fontMetrics = mGearTextPaint.getFontMetricsInt();
+        mGearTextBaseline = mWidth*9/32 - (fontMetrics.bottom + fontMetrics.top) / 2;
+        mUnitTextPaint.setTextSize(UnitTextSize);
+        mUnitTextPaint.setColor(Color.WHITE);
+        mUnitTextPaint.setTypeface(typeFace);
+        mUnitTextPaint.setTextAlign(Paint.Align.CENTER);
+        fontMetrics = mUnitTextPaint.getFontMetricsInt();
+        mUnitTextBaseline = mWidth*11/16 - (fontMetrics.bottom + fontMetrics.top) / 2;
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         mWidth = MeasureSpec.getSize(widthMeasureSpec);
-        mHeight = (int)(Math.sin(Math.PI*(Angle/2-90)/180) * (mWidth/2)) + mWidth/2;
+        mHeight = MeasureSpec.getSize(heightMeasureSpec);
+        int bestHeight = (int)(Math.sin(Math.PI*(Angle/2-90)/180) * (mWidth/2)) + mWidth/2;
+        if (mHeight < bestHeight) {
+            mHeight = bestHeight;
+        }
         setMeasuredDimension(mWidth, mHeight);
         initView();
     }
@@ -182,16 +239,30 @@ public class SpeedProgressView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawPath(mTrackArcPath, mTrackArcPaint);
+
+        canvas.save();
+        canvas.translate(mTrackArcRect.centerX(), mTrackArcRect.centerY());
+        canvas.rotate(mToAngle-(270-Angle/2));
+        canvas.drawPath(mTrackMaskPath, mTrackMaskPaint);
+        canvas.restore();
+
         canvas.drawPath(mDottedArcPath, mDottedArcPaint);
         canvas.drawPath(mSpeedArcPath, mSpeedArcPaint);
-        mMaskDrawable.draw(canvas);
-        canvas.drawArc(mTrackArcRect, mToAngle - 3.5f, 4, false, mHeadLightPaint);
-        canvas.drawArc(mTrackArcRect, mToAngle - 3, 3, false, mHeadPaint);
+        mBottomMaskDrawable.draw(canvas);
+        canvas.save();
+        canvas.translate(mTrackArcRect.centerX(), mTrackArcRect.centerY());
+        canvas.rotate(mToAngle-180);
+        canvas.drawRect(mHeadInRect, mHeadInPaint);
+        mHeadOutDrawable.draw(canvas);
+        canvas.restore();
 
         canvas.drawText(mCurrentSpeed+"", mTrackArcRect.centerX(), mSpeedTextBaseline, mSpeedTextPaint);
+        canvas.drawText(mGearSpeed+"档", mTrackArcRect.centerX(), mGearTextBaseline, mGearTextPaint);
+        canvas.drawText("Km/h", mTrackArcRect.centerX(), mUnitTextBaseline, mUnitTextPaint);
 
         //边框
         //canvas.drawRect(new RectF(0, 0, mWidth, mHeight), mDottedArcPaint);
+        //canvas.drawRect(mTrackArcRect, mDottedArcPaint);
     }
 
     private void animateTo(float toSpeed) {
@@ -208,18 +279,45 @@ public class SpeedProgressView extends View {
         animator.start();
     }
 
-    public void setCurrentSpeed(float currentSpeed) {
+    private void setCurrentSpeed(float currentSpeed) {
         mSpeedArcPath.reset();
         float sweepAngle = currentSpeed / MaxSpeed * Angle;
         mToAngle = 270 - Angle / 2 + sweepAngle;
-        if (mToAngle < 340) {
-            mHeadPaint.setColor(Color.parseColor("#00f79d"));
-            mHeadLightPaint.setColor(Color.parseColor("#5577F7C9"));
+        if (mToAngle < 350) {
+            mHeadInPaint = mGreenPaint;
+            mHeadOutDrawable = mGreenHeadDrawable;
         } else {
-            mHeadLightPaint.setColor(Color.parseColor("#66d00202"));
-            mHeadPaint.setColor(Color.parseColor("#d00202"));
+            mHeadInPaint = mRedPaint;
+            mHeadOutDrawable = mRedHeadDrawable;
         }
         mSpeedArcPath.arcTo(mTrackArcRect, 270 - Angle / 2, sweepAngle);
         postInvalidate();
+    }
+
+    private void startTest() {
+        if (StartTest) {
+            mHandler.postDelayed(mRunnable, 2000);
+        }
+    }
+
+    private Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            final DecimalFormat df = new DecimalFormat("#00.0");
+            String value = df.format(Math.random() * MaxSpeed);
+            setSpeed(Float.parseFloat(value));
+            mHandler.postDelayed(mRunnable, 2000);
+        }
+    };
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        mHandler.removeCallbacksAndMessages(null);
+    }
+
+    private int dp2px(float var1) {
+        float var2 = getResources().getDisplayMetrics().density;
+        return (int)(var1 * var2 + 0.5F);
     }
 }

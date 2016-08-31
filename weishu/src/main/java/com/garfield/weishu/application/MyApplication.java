@@ -2,7 +2,7 @@ package com.garfield.weishu.application;
 
 import android.app.Application;
 
-import com.garfield.weishu.sdk.nim.NeteaseCloud;
+import com.garfield.weishu.sdk.nim.NimInit;
 import com.netease.nimlib.sdk.NIMClient;
 
 /**
@@ -15,7 +15,7 @@ public class MyApplication extends Application {
         super.onCreate();
 
         //init以外的所有方法，都只能在UI进程中调用
-        NIMClient.init(this, NeteaseCloud.loginInfo(), NeteaseCloud.options());
+        NIMClient.init(this, NimInit.loginInfo(), NimInit.options(this));
 
 
     }
