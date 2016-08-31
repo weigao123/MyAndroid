@@ -19,7 +19,7 @@ import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 /**
  * Created by gaowei3 on 2016/8/30.
  */
-public class NimInit {
+public class NimUtils {
 
     // 如果返回值为 null，则全部使用默认参数。
     public static SDKOptions options(Context context) {

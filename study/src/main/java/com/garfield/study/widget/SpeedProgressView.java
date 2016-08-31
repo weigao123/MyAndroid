@@ -251,8 +251,6 @@ public class SpeedProgressView extends View {
 
         canvas.drawPath(mDottedArcPath, mDottedArcPaint);
         canvas.drawPath(mSpeedArcPath, mSpeedArcPaint);
-
-        //mBottomMaskDrawable.draw(canvas);
         canvas.drawRect(mBottomMaskRect, mBottomMaskPaint);
 
         canvas.save();
