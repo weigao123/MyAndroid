@@ -19,6 +19,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 
 import com.garfield.study.R;
@@ -32,7 +33,9 @@ public class SpeedProgressView extends View {
 
     public static final boolean StartTest = true;
 
-    private float MaxSpeed = 30;
+    private float MaxSpeed = 40;
+    private float OverSpeed = 30;
+    private float AnimatorSpeed = 40;
     private int Angle = 270;     //展开的总角度
     private int SpeedTextSize = dp2px(50);
     private int GearTextSize = dp2px(25);
@@ -83,11 +86,12 @@ public class SpeedProgressView extends View {
     //speed传入前
     private float mCurrentSpeed;
     //speed传入后
+    private float mToSpeed;
     private float mToAngle = 270 - Angle / 2;    //0度
 
     private int mGearSpeed;
 
-    Handler mHandler = new Handler();
+    private Handler mHandler;
 
     public SpeedProgressView(Context context) {
         this(context, null);
@@ -106,6 +110,7 @@ public class SpeedProgressView extends View {
         if (speed > MaxSpeed) {
             speed = MaxSpeed;
         }
+        mToSpeed = speed;
         animateTo(speed);
         mCurrentSpeed = speed;
     }
@@ -118,10 +123,12 @@ public class SpeedProgressView extends View {
         MaxSpeed = speed;
     }
 
+    public void setOverSpeed(float speed) {
+        OverSpeed = speed;
+    }
+
     private void initView() {
-        if (mTrackArcRect != null) {
-            return;
-        }
+        if (mTrackArcRect != null) return;
         setBackgroundColor(Color.BLACK);
 
         //大圈
@@ -271,23 +278,18 @@ public class SpeedProgressView extends View {
 
     private void animateTo(float toSpeed) {
         Animator animator = ObjectAnimator.ofFloat(this, "currentSpeed", mCurrentSpeed, toSpeed);
-        animator.setInterpolator(new LinearInterpolator());
-        float percent = Math.abs(toSpeed - mCurrentSpeed) / 40;
-        if (0 <= percent && percent < 0.3f) {
-            animator.setDuration((long) (1200 * percent));
-        } else if (0.3f <= percent && percent < 0.6f) {
-            animator.setDuration((long) (1000 * percent));
-        } else {
-            animator.setDuration((long) (800 * percent));
-        }
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        float diffSpeed = Math.abs(toSpeed - mCurrentSpeed);
+        animator.setDuration((int)(diffSpeed * AnimatorSpeed));
         animator.start();
     }
 
     private void setCurrentSpeed(float currentSpeed) {
         mSpeedArcPath.reset();
         float sweepAngle = currentSpeed / MaxSpeed * Angle;
+        float overSpeedSweepAngle = OverSpeed / MaxSpeed * Angle;   //超速时的角度
         mToAngle = 270 - Angle / 2 + sweepAngle;
-        if (mToAngle < 350) {
+        if (sweepAngle < overSpeedSweepAngle) {
             mHeadInPaint = mGreenPaint;
             mHeadOutDrawable = mGreenHeadDrawable;
         } else {
@@ -300,24 +302,31 @@ public class SpeedProgressView extends View {
 
     private void startTest() {
         if (StartTest) {
-            mHandler.postDelayed(mRunnable, 2000);
+            final DecimalFormat df = new DecimalFormat("#00.0");
+            final int delayTime = 2000;
+            mHandler = new Handler();
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    String value = df.format(Math.random() * MaxSpeed);
+                    setSpeed(Float.parseFloat(value));
+//                    if (mCurrentSpeed == MaxSpeed) {
+//                        setSpeed(0);
+//                    } else {
+//                        setSpeed(MaxSpeed);
+//                    }
+                    mHandler.postDelayed(this, delayTime);
+                }
+            }, delayTime);
         }
     }
-
-    private Runnable mRunnable = new Runnable() {
-        @Override
-        public void run() {
-            final DecimalFormat df = new DecimalFormat("#00.0");
-            String value = df.format(Math.random() * MaxSpeed);
-            setSpeed(Float.parseFloat(value));
-            mHandler.postDelayed(mRunnable, 2000);
-        }
-    };
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        mHandler.removeCallbacksAndMessages(null);
+        if (mHandler != null) {
+            mHandler.removeCallbacksAndMessages(null);
+        }
     }
 
     private int dp2px(float var1) {
