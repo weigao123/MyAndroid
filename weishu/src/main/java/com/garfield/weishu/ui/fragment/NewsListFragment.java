@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by gaowei3 on 2016/8/1.
  */
-public class NewsFragment extends AppBaseFragment {
+public class NewsListFragment extends AppBaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);

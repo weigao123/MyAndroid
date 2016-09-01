@@ -30,7 +30,7 @@ public class MsgListFragment extends AppBaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_msglist, container, false);
+        View view = inflater.inflate(R.layout.fragment_msg_list, container, false);
         initView(view);
         return view;
     }
