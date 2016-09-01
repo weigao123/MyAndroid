@@ -20,7 +20,6 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.LinearInterpolator;
 
 import com.garfield.study.R;
 
@@ -31,11 +30,11 @@ import java.text.DecimalFormat;
  */
 public class SpeedProgressView extends View {
 
-    public static final boolean StartTest = true;
+    public static final boolean StartTest = false;
 
     private float MaxSpeed = 40;
     private float OverSpeed = 30;
-    private float AnimatorSpeed = 40;
+    private int AnimatorTimePerAngle = 5;
     private int Angle = 270;     //展开的总角度
     private int SpeedTextSize = dp2px(50);
     private int GearTextSize = dp2px(25);
@@ -85,9 +84,12 @@ public class SpeedProgressView extends View {
 
     //speed传入前
     private float mCurrentSpeed;
+    private float mCurrentAngle = 270 - Angle / 2;    //以3点方向为0度
     //speed传入后
     private float mToSpeed;
-    private float mToAngle = 270 - Angle / 2;    //0度
+    private float mToAngle = 270 - Angle / 2;
+
+    private float mThisAngle = 270 - Angle / 2;
 
     private int mGearSpeed;
 
@@ -111,8 +113,11 @@ public class SpeedProgressView extends View {
             speed = MaxSpeed;
         }
         mToSpeed = speed;
-        animateTo(speed);
-        mCurrentSpeed = speed;
+        float sweepAngle = mToSpeed / MaxSpeed * Angle;
+        mToAngle = 270 - Angle / 2 + sweepAngle;
+        animateTo();
+        mCurrentSpeed = mToSpeed;
+        mCurrentAngle = mToAngle;
     }
 
     public void setGearSpeed(int speed) {
@@ -252,7 +257,7 @@ public class SpeedProgressView extends View {
 
         canvas.save();
         canvas.translate(mTrackArcRect.centerX(), mTrackArcRect.centerY());
-        canvas.rotate(mToAngle-(270-Angle/2));
+        canvas.rotate(mThisAngle-(270-Angle/2));
         canvas.drawPath(mTrackMaskPath, mTrackMaskPaint);
         canvas.restore();
 
@@ -262,7 +267,7 @@ public class SpeedProgressView extends View {
 
         canvas.save();
         canvas.translate(mTrackArcRect.centerX(), mTrackArcRect.centerY());
-        canvas.rotate(mToAngle-180);
+        canvas.rotate(mThisAngle-180);
         canvas.drawRect(mHeadInRect, mHeadInPaint);
         mHeadOutDrawable.draw(canvas);
         canvas.restore();
@@ -276,19 +281,23 @@ public class SpeedProgressView extends View {
         //canvas.drawRect(mTrackArcRect, mDottedArcPaint);
     }
 
-    private void animateTo(float toSpeed) {
-        Animator animator = ObjectAnimator.ofFloat(this, "currentSpeed", mCurrentSpeed, toSpeed);
+    private void animateTo() {
+        Animator animator = ObjectAnimator.ofFloat(this, "currentSpeed", mCurrentSpeed, mToSpeed);
         animator.setInterpolator(new AccelerateDecelerateInterpolator());
-        float diffSpeed = Math.abs(toSpeed - mCurrentSpeed);
-        animator.setDuration((int)(diffSpeed * AnimatorSpeed));
+        float diffAngle = Math.abs(mToAngle - mCurrentAngle);
+        int diffTime = (int)(diffAngle * AnimatorTimePerAngle);
+        if (diffTime < 500) {
+            diffTime = 500;
+        }
+        animator.setDuration(diffTime);
         animator.start();
     }
 
-    private void setCurrentSpeed(float currentSpeed) {
+    private void setCurrentSpeed(float thisSpeed) {
         mSpeedArcPath.reset();
-        float sweepAngle = currentSpeed / MaxSpeed * Angle;
+        float sweepAngle = thisSpeed / MaxSpeed * Angle;
         float overSpeedSweepAngle = OverSpeed / MaxSpeed * Angle;   //超速时的角度
-        mToAngle = 270 - Angle / 2 + sweepAngle;
+        mThisAngle = 270 - Angle / 2 + sweepAngle;
         if (sweepAngle < overSpeedSweepAngle) {
             mHeadInPaint = mGreenPaint;
             mHeadOutDrawable = mGreenHeadDrawable;
@@ -309,7 +318,19 @@ public class SpeedProgressView extends View {
                 @Override
                 public void run() {
                     String value = df.format(Math.random() * MaxSpeed);
-                    setSpeed(Float.parseFloat(value));
+                    float speed = Float.parseFloat(value);
+                    setSpeed(speed);
+                    int gear = 0;
+                    if (speed <= MaxSpeed/4 && speed > 0) {
+                        gear = 1;
+                    } else if (speed <= MaxSpeed * 2/4) {
+                        gear = 2;
+                    } else if (speed <= MaxSpeed * 3/4) {
+                        gear = 3;
+                    } else if (speed <= MaxSpeed * 4/4) {
+                        gear = 4;
+                    }
+                    setGearSpeed(gear);
 //                    if (mCurrentSpeed == MaxSpeed) {
 //                        setSpeed(0);
 //                    } else {
