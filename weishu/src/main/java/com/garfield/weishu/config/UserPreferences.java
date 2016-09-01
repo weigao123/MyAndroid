@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
 /**
  * Created by hzxuwen on 2015/4/13.
  */
-public class Preferences {
+public class UserPreferences {
     private static final String KEY_USER_ACCOUNT = "account";
     private static final String KEY_USER_TOKEN = "token";
 
@@ -38,6 +38,6 @@ public class Preferences {
     }
 
     static SharedPreferences getSharedPreferences() {
-        return AppCache.getContext().getSharedPreferences("weishu", Context.MODE_PRIVATE);
+        return AppCache.getContext().getSharedPreferences("weishu_user", Context.MODE_PRIVATE);
     }
 }

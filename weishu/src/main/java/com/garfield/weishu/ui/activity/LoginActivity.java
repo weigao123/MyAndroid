@@ -8,8 +8,11 @@ import android.widget.Toast;
 import com.garfield.baselib.widget.ClearableEditText;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.AppBaseActivity;
-import com.garfield.weishu.config.Preferences;
-import com.garfield.weishu.sdk.nim.NimUtils;
+import com.garfield.weishu.config.AppCache;
+import com.garfield.weishu.config.SettingsPreferences;
+import com.garfield.weishu.config.UserPreferences;
+import com.garfield.weishu.sdk.nim.NimHelper;
+import com.netease.nimlib.sdk.NIMClient;
 
 /**
  * Created by gaowei3 on 2016/8/30.
@@ -43,26 +46,38 @@ public class LoginActivity extends AppBaseActivity {
     private void login() {
         final String account = mAccountText.getText().toString().toLowerCase();
         final String password = mPasswordText.getText().toString().toLowerCase();
-        NimUtils.login(account, password, new NimUtils.LoginResult() {
+        NimHelper.login(account, password, new NimHelper.LoginResult() {
                     @Override
                     public void onResult(int result) {
-                        if (result == NimUtils.LOGIN_SUCCESS) {
+                        if (result == NimHelper.LOGIN_SUCCESS) {
                             Toast.makeText(LoginActivity.this, R.string.login_success, Toast.LENGTH_SHORT).show();
                             saveLoginInfo(account, password);
-                            finish();
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                        } else if (result == NimUtils.LOGIN_FAILED_A_P_WRONG) {
+
+                            // 初始化消息提醒
+                            NIMClient.toggleNotification(SettingsPreferences.getNotificationToggle());
+
+                            // 初始化免打扰
+                            if (SettingsPreferences.getStatusConfig() == null) {
+                                SettingsPreferences.setStatusConfig(AppCache.getNotificationConfig());
+                            }
+                            NIMClient.updateStatusBarNotificationConfig(SettingsPreferences.getStatusConfig());
+
+                            //finish();
+                            //startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        } else if (result == NimHelper.LOGIN_FAILED_A_P_WRONG) {
                             Toast.makeText(LoginActivity.this, R.string.login_account_or_password_wrong, Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(LoginActivity.this, R.string.login_failed, Toast.LENGTH_SHORT).show();
                         }
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        finish();
                     }
                 });
     }
 
     private void saveLoginInfo(final String account, final String token) {
-        Preferences.saveUserAccount(account);
-        Preferences.saveUserToken(token);
+        UserPreferences.saveUserAccount(account);
+        UserPreferences.saveUserToken(token);
     }
 
 

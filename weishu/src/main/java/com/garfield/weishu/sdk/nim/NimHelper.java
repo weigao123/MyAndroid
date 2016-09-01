@@ -7,19 +7,26 @@ import android.os.Environment;
 
 import com.garfield.baselib.utils.L;
 import com.garfield.weishu.R;
+import com.garfield.weishu.config.AppCache;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
+import com.netease.nimlib.sdk.msg.MessageNotifierCustomization;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by gaowei3 on 2016/8/30.
  */
-public class NimUtils {
+public class NimHelper {
 
     // 如果返回值为 null，则全部使用默认参数。
     public static SDKOptions options(Context context) {
@@ -79,6 +86,7 @@ public class NimUtils {
                 return null;
             }
         };
+        AppCache.setNotificationConfig(config);
         return options;
     }
 
@@ -86,6 +94,24 @@ public class NimUtils {
     public static LoginInfo loginInfo() {
         return null;
     }
+
+
+
+
+    private MessageNotifierCustomization messageNotifierCustomization = new MessageNotifierCustomization() {
+        @Override
+        public String makeNotifyContent(String nick, IMMessage message) {
+            return null; // 采用SDK默认文案
+        }
+
+        @Override
+        public String makeTicker(String nick, IMMessage message) {
+            return null; // 采用SDK默认文案
+        }
+    };
+
+
+
 
 
     /**
