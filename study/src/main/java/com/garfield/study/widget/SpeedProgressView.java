@@ -330,7 +330,7 @@ public class SpeedProgressView extends View {
             mHeadOutDrawable = mRedHeadDrawable;
         }
         mSpeedArcPath.arcTo(mTrackArcRect, 270 - Angle / 2, sweepAngle);
-        mTrackMaskPath.arcTo(mSpecialTrackArcRect, 270 - Angle / 2, Angle/2+270-mThisAngle);    //起点必须是这个，这才是paint的第一个点
+        mTrackMaskPath.arcTo(mSpecialTrackArcRect, 270 - Angle / 2, Angle/2+270-mThisAngle);    //起点必须是这个，这才是paint的第一个点，可能是因为旋转造成的
         postInvalidate();
     }
 
