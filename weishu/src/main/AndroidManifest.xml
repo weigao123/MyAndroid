@@ -28,22 +28,21 @@
 
 
     <application
-        android:name="com.garfield.weishu.application.MyApplication"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:icon="@drawable/ic_launcher">
-
-
-
         <activity
-            android:name=".ui.activity.LoginActivity">
+            android:name=".ui.activity.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.activity.LoginActivity"/>
 
         <activity
             android:name=".ui.activity.MainActivity" />
@@ -55,7 +54,7 @@
 
 
 
-
+        <!--网易云信-->
         <!-- APP key, 可以在这里设置，也可以在 SDKOptions 中提供。
             如果 SDKOptions 中提供了，取 SDKOptions 中的值。 -->
         <meta-data
