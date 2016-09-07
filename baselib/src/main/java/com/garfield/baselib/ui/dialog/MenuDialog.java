@@ -1,4 +1,4 @@
-package com.garfield.baselib.widget;
+package com.garfield.baselib.ui.dialog;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;

@@ -6,9 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.garfield.baselib.widget.LetterIndexView;
+import com.garfield.baselib.ui.widget.LetterIndexView;
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.AppBaseFragment;
 
 /**
  * Created by gaowei3 on 2016/8/1.

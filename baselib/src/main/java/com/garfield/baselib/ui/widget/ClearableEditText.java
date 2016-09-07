@@ -1,4 +1,4 @@
-package com.garfield.baselib.widget;
+package com.garfield.baselib.ui.widget;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -16,51 +16,50 @@ import com.garfield.baselib.R;
 /**
  * 带有图标和删除符号的可编辑输入框，用户可以自定义传入的显示图标
  * 
- * @author 
- * 
  */
 public class ClearableEditText extends EditText implements OnTouchListener, TextWatcher {
 
 	// 删除符号
-	Drawable deleteImage = getResources().getDrawable(R.drawable.icon_edit_delete);
+	private Drawable deleteImage = getResources().getDrawable(R.drawable.icon_edit_delete);
 
-	Drawable icon;
+	private Drawable headIcon;
 
-	public ClearableEditText(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		init();
-	}
+    public ClearableEditText(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        init();
+    }
 
-	public ClearableEditText(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		init();
-	}
+    public ClearableEditText(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init();
+    }
 
-	public ClearableEditText(Context context) {
-		super(context);
-		init();
-	}
+    public ClearableEditText(Context context) {
+        super(context);
+        init();
+    }
 
 	private void init() {
+		setBackgroundResource(0);
 		ClearableEditText.this.setOnTouchListener(this);
 		ClearableEditText.this.addTextChangedListener(this);
-		deleteImage.setBounds(0, 0, deleteImage.getIntrinsicWidth(), deleteImage.getIntrinsicHeight());
+		deleteImage.setBounds(0, 0, (int)getTextSize(), (int)getTextSize());
 		manageClearButton();
 	}
 
 	/**
-	 * 传入显示的图标资源id
+	 * 传入左边要显示的图标资源id
 	 * 
 	 * @param id
 	 */
 	public void setIconResource(int id) {
-		icon = getResources().getDrawable(id);
-		icon.setBounds(0, 0, icon.getIntrinsicWidth(), icon.getIntrinsicHeight());
+		headIcon = getResources().getDrawable(id);
+		headIcon.setBounds(0, 0, headIcon.getIntrinsicWidth(), headIcon.getIntrinsicHeight());
 		manageClearButton();
 	}
 
     /**
-     * 传入删除图标资源id
+     * 传入右边要删除的图标资源id
      * @param id
      */
     public void setDeleteImage(int id) {
@@ -77,12 +76,11 @@ public class ClearableEditText extends EditText implements OnTouchListener, Text
 	}
 
 	void removeClearButton() {
-		this.setCompoundDrawables(this.icon, this.getCompoundDrawables()[1], null, this.getCompoundDrawables()[3]);
+		this.setCompoundDrawables(this.headIcon, this.getCompoundDrawables()[1], null, this.getCompoundDrawables()[3]);
 	}
 
 	void addClearButton() {
-		this.setCompoundDrawables(this.icon, this.getCompoundDrawables()[1], deleteImage,
-				this.getCompoundDrawables()[3]);
+		this.setCompoundDrawables(this.headIcon, this.getCompoundDrawables()[1], deleteImage, this.getCompoundDrawables()[3]);
 	}
 
 	@Override
@@ -93,7 +91,7 @@ public class ClearableEditText extends EditText implements OnTouchListener, Text
 			return false;
 		if (event.getAction() != MotionEvent.ACTION_UP)
 			return false;
-		if (event.getX() > et.getWidth() - et.getPaddingRight() - deleteImage.getIntrinsicWidth()) {
+		if (event.getX() > et.getWidth() - et.getPaddingRight() - deleteImage.getBounds().width()) {
 			et.setText("");
 			ClearableEditText.this.removeClearButton();
 		}

@@ -1,11 +1,12 @@
 package com.garfield.weishu.ui.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.AppBaseActivity;
 import com.garfield.weishu.ui.fragment.MainFragment;
 
 /**
@@ -14,6 +15,21 @@ import com.garfield.weishu.ui.fragment.MainFragment;
 public class MainActivity extends AppBaseActivity {
 
     private boolean isBackPressedToBack = false;
+
+    public static void start(Context context) {
+        start(context, null);
+    }
+
+    public static void start(Context context, Intent extras) {
+        Intent intent = new Intent();
+        intent.setClass(context, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        if (extras != null) {
+            intent.putExtras(extras);
+        }
+        context.startActivity(intent);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

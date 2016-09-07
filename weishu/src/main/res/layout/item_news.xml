@@ -7,7 +7,7 @@
     android:paddingRight="16dp"
     android:gravity="center_vertical">
 
-    <com.garfield.baselib.widget.CircleImageView
+    <com.garfield.baselib.ui.widget.CircleImageView
         android:id="@+id/item_contact_image"
         android:layout_width="@dimen/contact_image_size"
         android:layout_height="@dimen/contact_image_size"

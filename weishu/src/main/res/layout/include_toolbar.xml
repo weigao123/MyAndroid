@@ -17,7 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:orientation="horizontal"
-        android:gravity="center_vertical" >
+        android:gravity="center_vertical"
+        android:visibility="gone">
         <FrameLayout
             android:id="@+id/toolbar_search"
             android:layout_width="40dp"

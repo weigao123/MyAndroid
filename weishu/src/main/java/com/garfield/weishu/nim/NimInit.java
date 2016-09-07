@@ -6,12 +6,15 @@ import android.graphics.Color;
 import android.os.Environment;
 import android.text.TextUtils;
 
+import com.garfield.baselib.utils.L;
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.config.UserPreferences;
+import com.netease.nimlib.sdk.AbortableFuture;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.StatusBarNotificationConfig;
+import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
@@ -22,7 +25,7 @@ import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 public class NimInit {
 
     public static void initSDK(Context context) {
-        NIMClient.init(context, getLoginInfo(), getOptions());
+        NIMClient.init(context, getLoginInfo(), null);
     }
 
 
@@ -100,11 +103,36 @@ public class NimInit {
 
     public static final int LOGIN_SUCCESS = 0;
     public static final int LOGIN_FAILED_A_P_WRONG = 1;
+    public static final int LOGIN_FAILED = 2;
+
     public interface LoginResult {
         void onResult(int result);
     }
 
-    public static void login(String account, String password, LoginResult callback) {
+    public static AbortableFuture<LoginInfo> login(String account, String password, final LoginResult callback) {
+        AbortableFuture<LoginInfo> loginRequest = NIMClient.getService(AuthService.class).login(new LoginInfo(account, password));
+        loginRequest.setCallback(new RequestCallback<LoginInfo>() {
 
+            @Override
+            public void onSuccess(LoginInfo loginInfo) {
+                callback.onResult(LOGIN_SUCCESS);
+            }
+
+            @Override
+            public void onFailed(int code) {
+                L.d("login result : "+code);
+                if (code == 302 || code == 404) {
+                    callback.onResult(LOGIN_FAILED_A_P_WRONG);
+                } else {
+                    callback.onResult(LOGIN_FAILED);
+                }
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+                callback.onResult(LOGIN_FAILED);
+            }
+        });
+        return loginRequest;
     }
 }

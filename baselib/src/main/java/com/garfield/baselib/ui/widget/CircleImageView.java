@@ -1,4 +1,4 @@
-package com.garfield.baselib.widget;
+package com.garfield.baselib.ui.widget;
 
 /**
  * Created by gwball on 2016/8/3.

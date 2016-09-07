@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.AppBaseFragment;
 
 /**
  * Created by gwball on 2016/8/2.

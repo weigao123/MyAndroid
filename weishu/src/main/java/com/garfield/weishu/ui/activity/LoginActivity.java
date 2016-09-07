@@ -1,16 +1,20 @@
 package com.garfield.weishu.ui.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
-import com.garfield.baselib.widget.ClearableEditText;
+import com.garfield.baselib.ui.dialog.DialogMaker;
+import com.garfield.baselib.ui.widget.ClearableEditText;
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.AppBaseActivity;
 import com.garfield.weishu.config.UserPreferences;
 import com.garfield.weishu.nim.NimInit;
-import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.AbortableFuture;
+import com.netease.nimlib.sdk.auth.LoginInfo;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 
 /**
@@ -18,8 +22,13 @@ import com.netease.nimlib.sdk.NIMClient;
  */
 public class LoginActivity extends AppBaseActivity {
 
-    private ClearableEditText mAccountText;
-    private ClearableEditText mPasswordText;
+    @BindView(R.id.login_account)
+    ClearableEditText mAccountText;
+
+    @BindView(R.id.login_password)
+    ClearableEditText mPasswordText;
+
+    private AbortableFuture<LoginInfo> mLoginRequest;
 
 
     @Override
@@ -30,22 +39,29 @@ public class LoginActivity extends AppBaseActivity {
     }
 
     private void initView() {
-        mAccountText = (ClearableEditText) findViewById(R.id.login_account);
-        mPasswordText = (ClearableEditText) findViewById(R.id.login_password);
+
     }
 
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.login_login:
-                login();
-                break;
-        }
+    @Override
+    protected int getToolbarTitle() {
+        return R.string.please_login;
     }
 
-    private void login() {
+    @OnClick(R.id.login_login)
+    void login() {
+        DialogMaker.showProgressDialog(this, getString(R.string.logining), true, new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                if (mLoginRequest != null) {
+                    mLoginRequest.abort();
+                    onLoginDone();
+                }
+            }
+        }).setCanceledOnTouchOutside(false);
+
         final String account = mAccountText.getText().toString().toLowerCase();
         final String password = mPasswordText.getText().toString().toLowerCase();
-        NimInit.login(account, password, new NimInit.LoginResult() {
+        mLoginRequest = NimInit.login(account, password, new NimInit.LoginResult() {
             @Override
             public void onResult(int result) {
                 if (result == NimInit.LOGIN_SUCCESS) {
@@ -58,6 +74,7 @@ public class LoginActivity extends AppBaseActivity {
                 } else {
                     Toast.makeText(LoginActivity.this, R.string.login_failed, Toast.LENGTH_SHORT).show();
                 }
+                onLoginDone();
             }
         });
     }
@@ -67,5 +84,8 @@ public class LoginActivity extends AppBaseActivity {
         UserPreferences.saveUserToken(token);
     }
 
-
+    private void onLoginDone() {
+        mLoginRequest = null;
+        DialogMaker.dismissProgressDialog();
+    }
 }

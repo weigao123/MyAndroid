@@ -9,7 +9,6 @@ import android.view.animation.Animation;
 import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.AppBaseFragment;
 
 /**
  * Created by gaowei3 on 2016/8/4.

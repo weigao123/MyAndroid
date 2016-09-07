@@ -1,4 +1,4 @@
-package com.garfield.weishu.base;
+package com.garfield.weishu.ui.fragment;
 
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;

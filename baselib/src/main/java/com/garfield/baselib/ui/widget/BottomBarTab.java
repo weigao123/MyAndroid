@@ -1,4 +1,4 @@
-package com.garfield.baselib.widget;
+package com.garfield.baselib.ui.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;

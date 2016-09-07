@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.AppBaseActivity;
 
 /**
  * Created by gaowei3 on 2016/8/25.

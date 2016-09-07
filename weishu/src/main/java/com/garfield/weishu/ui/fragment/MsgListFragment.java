@@ -7,12 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.garfield.baselib.widget.MenuDialog;
+import com.garfield.baselib.ui.dialog.MenuDialog;
 import com.garfield.weishu.R;
 import com.garfield.weishu.adapter.MsgListAdapter;
 import com.garfield.weishu.adapter.OnItemClickListener;
 import com.garfield.weishu.adapter.OnItemLongClickListener;
-import com.garfield.weishu.base.AppBaseFragment;
 import com.garfield.weishu.bean.MsgListBean;
 import com.garfield.weishu.event.StartBrotherEvent;
 

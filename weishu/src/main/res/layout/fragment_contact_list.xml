@@ -14,7 +14,7 @@
         android:listSelector="@color/pure_trans"
         android:scrollbars="none"/>
 
-    <com.garfield.baselib.widget.LetterIndexView
+    <com.garfield.baselib.ui.widget.LetterIndexView
         android:id="@+id/contact_letter_index"
         android:layout_width="25dp"
         android:layout_height="match_parent"

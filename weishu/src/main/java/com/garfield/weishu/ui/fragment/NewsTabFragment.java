@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import com.garfield.weishu.R;
 import com.garfield.weishu.adapter.ContactAdapter;
-import com.garfield.weishu.base.AppBaseFragment;
 import com.garfield.weishu.bean.ContactBean;
 
 import java.util.ArrayList;

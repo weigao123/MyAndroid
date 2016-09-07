@@ -9,9 +9,8 @@ import android.view.animation.Animation;
 import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
-import com.garfield.baselib.widget.BottomBar;
+import com.garfield.baselib.ui.widget.BottomBar;
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.AppBaseFragment;
 import com.garfield.weishu.event.StartBrotherEvent;
 
 import org.greenrobot.eventbus.EventBus;
