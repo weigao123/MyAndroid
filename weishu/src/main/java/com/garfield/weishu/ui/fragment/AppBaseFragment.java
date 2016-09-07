@@ -2,6 +2,7 @@ package com.garfield.weishu.ui.fragment;
 
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,9 @@ import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.baselib.utils.SizeUtils;
 import com.garfield.weishu.R;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 
 /**
  * Created by gaowei3 on 2016/8/4.
@@ -22,9 +26,21 @@ public class AppBaseFragment extends SupportFragment implements View.OnClickList
     private Toolbar mToolbar;
     private PopupWindow mPopupWindow;
 
+    private Unbinder mUnbinder;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mRootView = super.onCreateView(inflater, container, savedInstanceState);
+        if (mRootView != null) {
+            mUnbinder = ButterKnife.bind(this, mRootView);
+        }
+        return mRootView;
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         // 这里不能使用mActivity，因为这个Activity下有好多个toolbar
         mToolbar = (Toolbar) getView().findViewById(R.id.toolbar);
         // NewsTabFragment没有toolbar
@@ -84,4 +100,11 @@ public class AppBaseFragment extends SupportFragment implements View.OnClickList
 
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mUnbinder != null) {
+            mUnbinder.unbind();
+        }
+    }
 }

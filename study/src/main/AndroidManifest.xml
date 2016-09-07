@@ -31,6 +31,10 @@
         <activity android:name="com.garfield.study.viewdraghelper.activity.ImageActivity" />
         <activity android:name="com.garfield.study.touch.MainActivity" />
         <activity android:name="com.garfield.study.ui.ContainerActivity" />
+
+        <activity
+            android:name="com.garfield.study.ui.SwipeBackTestActivity"
+            android:theme="@style/AppTheme.SwipeBack"/>
     </application>
 
 </manifest>

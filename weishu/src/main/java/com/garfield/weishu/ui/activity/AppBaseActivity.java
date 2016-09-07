@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import com.garfield.baselib.fragmentation.SupportActivity;
 import com.garfield.weishu.R;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -15,6 +16,7 @@ import butterknife.ButterKnife;
  */
 public class AppBaseActivity extends SupportActivity implements View.OnClickListener {
 
+    @BindView(R.id.toolbar)
     private Toolbar mToolbar;
 
     @Override
@@ -22,8 +24,6 @@ public class AppBaseActivity extends SupportActivity implements View.OnClickList
         super.onStart();
         ButterKnife.bind(this);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        // NewsTabFragment没有toolbar
         if (mToolbar != null) {
             mToolbar.setTitle(getToolbarTitle());
             mToolbar.setTitleTextAppearance(this, R.style.toolbar_text);

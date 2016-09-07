@@ -18,20 +18,21 @@ import java.util.Random;
  * Created by gaowei3 on 2016/8/3.
  */
 
-// 不能直接继承AppBaseFragment，因为没有toolbar
 public class NewsTabFragment extends AppBaseFragment {
 
     private Random mRandom = new Random();
+    private RecyclerView mRecyclerView;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        RecyclerView view = (RecyclerView) inflater.inflate(R.layout.fragment_news_tab, container, false);
-        initRecyclerView(view);
-        return view;
+    protected int onGetFragmentLayout() {
+        return R.layout.fragment_news_tab;
     }
 
-    private void initRecyclerView(RecyclerView recyclerView) {
-        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        recyclerView.setAdapter(new ContactAdapter(getContactList(30)));
+    @Override
+    protected void onInitView(View view) {
+        mRecyclerView = (RecyclerView) view;
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mRecyclerView.getContext()));
+        mRecyclerView.setAdapter(new ContactAdapter(getContactList(30)));
     }
 
     private ArrayList<ContactBean> getContactList(int sum) {

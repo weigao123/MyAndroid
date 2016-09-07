@@ -49,9 +49,7 @@
             android:name=".ui.activity.MainActivity"
             android:hardwareAccelerated="true"/>
 
-        <activity
-            android:name=".ui.activity.SwipeBackTestActivity"
-            android:theme="@style/AppTheme.SwipeBack"/>
+
 
 
 

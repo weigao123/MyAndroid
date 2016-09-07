@@ -18,12 +18,8 @@ public class MsgFragment extends AppBaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_msg, container, false);
-        initView(view);
         setSwipeBackEnable(true);
         return attachToSwipeBack(view);
-    }
-
-    private void initView(View view) {
     }
 
     @Override

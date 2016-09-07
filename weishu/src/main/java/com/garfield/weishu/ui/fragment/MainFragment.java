@@ -44,11 +44,11 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
             mFragments[3] = findFragment(SettingFragment.class);
         }
         EventBus.getDefault().register(this);
-        initView(view);
         return view;
     }
 
-    private void initView(View view) {
+    @Override
+    protected void onInitView(View view) {
         BottomBar bottomBar = (BottomBar) view.findViewById(R.id.bottomBar);
         bottomBar.setColor(R.color.bottombar_item_unselect, R.color.colorPrimary)
                 .addItem(R.drawable.ic_message_white, "消息")

@@ -18,6 +18,7 @@ import com.garfield.baselib.fragmentation.SupportFragment;
 public abstract class BaseFragment extends Fragment {
 
     protected BaseActivity mActivity;
+    protected View mRootView;
 
     @Override
     public void onAttach(Context context) {
@@ -34,22 +35,24 @@ public abstract class BaseFragment extends Fragment {
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (onGetFragmentLayout() != 0) {
+            mRootView = inflater.inflate(onGetFragmentLayout(), container, false);
+            onInitView(mRootView);
+        }
+        return mRootView;
+    }
+
+    protected void onInitView(View view) {
+
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+    protected int onGetFragmentLayout() {
+        return 0;
     }
 }

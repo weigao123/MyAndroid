@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.garfield.baselib.ui.dialog.MenuDialog;
 import com.garfield.weishu.R;
@@ -20,6 +21,8 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.Random;
 
+import butterknife.BindView;
+
 /**
  * Created by gaowei3 on 2016/8/1.
  */
@@ -27,14 +30,16 @@ public class MsgListFragment extends AppBaseFragment {
 
     private Random mRandom = new Random();
 
+    @BindView(R.id.network_status_bar)
+    LinearLayout mNetworkStateBar;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_msg_list, container, false);
-        initView(view);
-        return view;
+    protected int onGetFragmentLayout() {
+        return R.layout.fragment_msg_list;
     }
 
-    private void initView(View view) {
+    @Override
+    protected void onInitView(View view) {
         RecyclerView becyclerView = (RecyclerView) view.findViewById(R.id.msglist_recyclerview);
         becyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         // becyclerView.setItemAnimator(new DefaultItemAnimator());

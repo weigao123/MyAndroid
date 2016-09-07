@@ -16,8 +16,6 @@
 
 
 
-    <style name="AppTheme.SwipeBack">
-    </style>
 
     <style name="Fullscreen" parent="AppTheme">
         <item name="windowActionBar">false</item>

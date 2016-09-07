@@ -18,13 +18,12 @@ public class ContactListFragment extends AppBaseFragment {
     private LetterIndexView mLetterIndexView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_contact_list, container, false);
-        initView(view);
-        return view;
+    protected int onGetFragmentLayout() {
+        return R.layout.fragment_contact_list;
     }
 
-    private void initView(View view) {
+    @Override
+    protected void onInitView(View view) {
         mListView = (ListView) view.findViewById(R.id.contact_list_view);
         mLetterIndexView = (LetterIndexView) view.findViewById(R.id.contact_letter_index);
     }

@@ -6,7 +6,8 @@
 
     <color name="xx">#001C1F26</color>
 
-    <color name="color_blue_3a9efb">#3a9efb</color>
-    <color name="color_blue_0888ff">#0888ff</color>
+    <color name="blue_3a9efb">#3a9efb</color>
+    <color name="blue_0888ff">#0888ff</color>
+    <color name="network_state_bg">#ee4b62</color>
 
 </resources>

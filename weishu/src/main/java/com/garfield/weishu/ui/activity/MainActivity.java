@@ -14,7 +14,7 @@ import com.garfield.weishu.ui.fragment.MainFragment;
  */
 public class MainActivity extends AppBaseActivity {
 
-    private boolean isBackPressedToBack = false;
+    public static final boolean isBackPressedToBack = true;
 
     public static void start(Context context) {
         start(context, null);
@@ -40,7 +40,6 @@ public class MainActivity extends AppBaseActivity {
         if (savedInstanceState == null) {
             loadRootFragment(R.id.main_activity_fragment_container, (SupportFragment) Fragment.instantiate(this, MainFragment.class.getName()));
         }
-        //   startActivity(new Intent(this, SwipeBackTestActivity.class));
     }
 
     @Override

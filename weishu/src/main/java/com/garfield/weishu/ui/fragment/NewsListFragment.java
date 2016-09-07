@@ -19,14 +19,14 @@ import java.util.List;
  * Created by gaowei3 on 2016/8/1.
  */
 public class NewsListFragment extends AppBaseFragment {
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_news, container, false);
-        initView(view);
-        return view;
+    protected int onGetFragmentLayout() {
+        return R.layout.fragment_news;
     }
 
-    private void initView(View view) {
+    @Override
+    protected void onInitView(View view) {
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
