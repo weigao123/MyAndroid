@@ -1,20 +1,29 @@
 package com.garfield.weishu.ui.fragment;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.garfield.baselib.ui.widget.LetterIndexView;
 import com.garfield.weishu.R;
+import com.garfield.weishu.contact.ContactDataAdapter;
+import com.garfield.weishu.contact.ContactDataProvider;
+import com.garfield.weishu.contact.ItemTypes;
+
+import butterknife.BindView;
 
 /**
  * Created by gaowei3 on 2016/8/1.
  */
 public class ContactListFragment extends AppBaseFragment {
 
-    private ListView mListView;
+    @BindView(R.id.contact_list_view)
+    ListView mListView;
+
+    private ContactDataAdapter adapter;
+
+
+    @BindView(R.id.contact_letter_index)
     private LetterIndexView mLetterIndexView;
 
     @Override
@@ -23,9 +32,13 @@ public class ContactListFragment extends AppBaseFragment {
     }
 
     @Override
-    protected void onInitView(View view) {
-        mListView = (ListView) view.findViewById(R.id.contact_list_view);
-        mLetterIndexView = (LetterIndexView) view.findViewById(R.id.contact_letter_index);
+    protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
+        ContactDataProvider dataProvider = new ContactDataProvider(ItemTypes.FRIEND);
+
+        adapter = new ContactDataAdapter(mActivity, dataProvider);
+
+        mListView.setAdapter(adapter);
+
     }
 
 

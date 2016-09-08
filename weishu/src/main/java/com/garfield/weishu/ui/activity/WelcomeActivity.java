@@ -16,9 +16,8 @@ public class WelcomeActivity extends AppBaseActivity {
     private static boolean firstEnter = true; // 是否首次进入
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
+    protected int onGetActivityLayout() {
+        return R.layout.activity_welcome;
     }
 
     @Override
@@ -28,7 +27,7 @@ public class WelcomeActivity extends AppBaseActivity {
             @Override
             public void run() {
                 if (canAutoLogin()) {
-                    MainActivity.start(WelcomeActivity.this, null);
+                    MainActivity.start(WelcomeActivity.this);
                 } else {
                     startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
                 }

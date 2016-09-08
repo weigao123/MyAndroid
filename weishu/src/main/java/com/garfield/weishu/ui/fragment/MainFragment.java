@@ -29,8 +29,12 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
     private SupportFragment[] mFragments = new SupportFragment[4];
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+    protected int onGetFragmentLayout() {
+        return R.layout.fragment_main;
+    }
+
+    @Override
+    protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             mFragments[0] = new MsgListFragment();
             mFragments[1] = new ContactListFragment();
@@ -44,12 +48,8 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
             mFragments[3] = findFragment(SettingFragment.class);
         }
         EventBus.getDefault().register(this);
-        return view;
-    }
 
-    @Override
-    protected void onInitView(View view) {
-        BottomBar bottomBar = (BottomBar) view.findViewById(R.id.bottomBar);
+        BottomBar bottomBar = (BottomBar) rootView.findViewById(R.id.bottomBar);
         bottomBar.setColor(R.color.bottombar_item_unselect, R.color.colorPrimary)
                 .addItem(R.drawable.ic_message_white, "消息")
                 .addItem(R.drawable.ic_contact_white, "联系人")
@@ -57,8 +57,6 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
                 .addItem(R.drawable.ic_settings_white, "设置");
         bottomBar.setOnTabSelectedListener(this);
     }
-
-
 
     @Override
     public void onTabSelected(int position, int prePosition) {

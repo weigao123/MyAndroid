@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.baselib.utils.SizeUtils;
 import com.garfield.weishu.R;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -25,16 +27,24 @@ public class AppBaseFragment extends SupportFragment implements View.OnClickList
 
     private Toolbar mToolbar;
     private PopupWindow mPopupWindow;
-
     private Unbinder mUnbinder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mRootView = super.onCreateView(inflater, container, savedInstanceState);
-        if (mRootView != null) {
+        if (onGetFragmentLayout() != 0) {
+            mRootView = inflater.inflate(onGetFragmentLayout(), container, false);
             mUnbinder = ButterKnife.bind(this, mRootView);
+            onInitViewAndData(mRootView, savedInstanceState);
         }
         return mRootView;
+    }
+
+    protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
+
+    }
+
+    protected int onGetFragmentLayout() {
+        return 0;
     }
 
     @Override
@@ -42,19 +52,19 @@ public class AppBaseFragment extends SupportFragment implements View.OnClickList
         super.onActivityCreated(savedInstanceState);
 
         // 这里不能使用mActivity，因为这个Activity下有好多个toolbar
-        mToolbar = (Toolbar) getView().findViewById(R.id.toolbar);
+        mToolbar = (Toolbar) mRootView.findViewById(R.id.toolbar);
         // NewsTabFragment没有toolbar
         if (mToolbar != null) {
             mToolbar.setTitle(R.string.app_name);
             mToolbar.setTitleTextAppearance(mActivity, R.style.toolbar_text);
+            mToolbar.findViewById(R.id.toolbar_control_view).setVisibility(View.VISIBLE);
             //mToolbar.inflateMenu(R.menu.fragment_msg_list);
             //mToolbar.setOnMenuItemClickListener(this);
 
-            ImageView addView = (ImageView) getView().findViewById(R.id.toolbar_add_view);
+            ImageView addView = (ImageView) mToolbar.findViewById(R.id.toolbar_add_view);
             addView.setRotation(45);
-            //addView.setColorFilter(ContextCompat.getColor(mActivity, R.color.white));
-            getView().findViewById(R.id.toolbar_add).setOnClickListener(this);
-            getView().findViewById(R.id.toolbar_search).setOnClickListener(this);
+            mToolbar.findViewById(R.id.toolbar_add).setOnClickListener(this);
+            mToolbar.findViewById(R.id.toolbar_search).setOnClickListener(this);
         }
     }
 

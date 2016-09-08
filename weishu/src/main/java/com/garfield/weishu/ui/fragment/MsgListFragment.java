@@ -3,9 +3,7 @@ package com.garfield.weishu.ui.fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.garfield.baselib.ui.dialog.MenuDialog;
@@ -39,8 +37,8 @@ public class MsgListFragment extends AppBaseFragment {
     }
 
     @Override
-    protected void onInitView(View view) {
-        RecyclerView becyclerView = (RecyclerView) view.findViewById(R.id.msglist_recyclerview);
+    protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
+        RecyclerView becyclerView = (RecyclerView) rootView.findViewById(R.id.msglist_recyclerview);
         becyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         // becyclerView.setItemAnimator(new DefaultItemAnimator());
         // 分隔线，但是设置背景的时候无法把分割线包含

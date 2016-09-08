@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.WindowManager;
 
 import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.weishu.R;
@@ -30,12 +31,14 @@ public class MainActivity extends AppBaseActivity {
         context.startActivity(intent);
     }
 
+    @Override
+    protected int onGetActivityLayout() {
+        return R.layout.activity_main;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+    protected void onInitViewAndData(Bundle savedInstanceState) {
+        super.onInitViewAndData(savedInstanceState);
         // 旋转时会非空
         if (savedInstanceState == null) {
             loadRootFragment(R.id.main_activity_fragment_container, (SupportFragment) Fragment.instantiate(this, MainFragment.class.getName()));

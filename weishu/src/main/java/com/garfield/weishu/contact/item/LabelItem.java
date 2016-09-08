@@ -1,0 +1,20 @@
+package com.garfield.weishu.contact.item;
+
+import com.garfield.weishu.contact.ItemTypes;
+
+public class LabelItem extends AbsContactItem {
+    private final String text;
+
+    public LabelItem(String text) {
+        this.text = text;
+    }
+
+    @Override
+    public int getItemType() {
+        return ItemTypes.LABEL;
+    }
+
+    public final String getText() {
+        return text;
+    }
+}

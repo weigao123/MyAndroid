@@ -6,9 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.garfield.weishu.R;
 
@@ -26,10 +24,10 @@ public class NewsListFragment extends AppBaseFragment {
     }
 
     @Override
-    protected void onInitView(View view) {
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
+    protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
+        ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
-        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
     }
 

@@ -30,16 +30,9 @@ public class LoginActivity extends AppBaseActivity {
 
     private AbortableFuture<LoginInfo> mLoginRequest;
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        initView();
-    }
-
-    private void initView() {
-
+    protected int onGetActivityLayout() {
+        return R.layout.activity_login;
     }
 
     @Override

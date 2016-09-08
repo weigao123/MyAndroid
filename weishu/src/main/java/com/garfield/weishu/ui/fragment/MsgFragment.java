@@ -16,18 +16,23 @@ import com.garfield.weishu.R;
 public class MsgFragment extends AppBaseFragment {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_msg, container, false);
-        setSwipeBackEnable(true);
-        return attachToSwipeBack(view);
+    protected int onGetFragmentLayout() {
+        return R.layout.fragment_msg;
     }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        mRootView = attachToSwipeBack(mRootView);
+        setSwipeBackEnable(true);
+        return mRootView;
+    }
+
 
     @Override
     protected FragmentAnimator onCreateFragmentAnimator() {
         return new DefaultHorizontalAnimator();
     }
-
-
 
     @Override
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {

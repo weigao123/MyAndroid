@@ -3,9 +3,7 @@ package com.garfield.weishu.ui.fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.garfield.weishu.R;
 import com.garfield.weishu.adapter.ContactAdapter;
@@ -29,8 +27,8 @@ public class NewsTabFragment extends AppBaseFragment {
     }
 
     @Override
-    protected void onInitView(View view) {
-        mRecyclerView = (RecyclerView) view;
+    protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
+        mRecyclerView = (RecyclerView) rootView;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mRecyclerView.getContext()));
         mRecyclerView.setAdapter(new ContactAdapter(getContactList(30)));
     }
