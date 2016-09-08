@@ -9,7 +9,7 @@ import com.garfield.weishu.contact.ContactDataAdapter;
 
 
 public abstract class AbsContactViewHolder<T extends AbsContactItem> {
-    protected View view;
+    protected View mRootView;
 
     protected Context context;
 
@@ -22,11 +22,11 @@ public abstract class AbsContactViewHolder<T extends AbsContactItem> {
     public abstract View inflate(LayoutInflater inflater);
 
     public final View getView() {
-        return view;
+        return mRootView;
     }
 
     public void createView(Context context) {
         this.context = context;
-        this.view = inflate(LayoutInflater.from(context));
+        this.mRootView = inflate(LayoutInflater.from(context));
     }
 }

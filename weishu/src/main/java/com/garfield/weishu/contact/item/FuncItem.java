@@ -5,28 +5,20 @@ import com.garfield.weishu.contact.ItemTypes;
 
 public class FuncItem extends AbsContactItem {
 
-	private int resource;
-    private String content;
+	private int imageId;
+    private String name;
 
-	public FuncItem(int resource, String content) {
-        this.resource = resource;
-        this.content = content;
+	public FuncItem(int imageId, String name) {
+        this.imageId = imageId;
+        this.name = name;
 	}
 
-    public int getResource() {
-        return resource;
+    public int getImageId() {
+        return imageId;
     }
 
-    public void setResource(int resource) {
-        this.resource = resource;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
+    public String getName() {
+        return name;
     }
 
     @Override

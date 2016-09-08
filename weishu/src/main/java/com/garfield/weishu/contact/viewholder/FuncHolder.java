@@ -11,22 +11,21 @@ import com.garfield.weishu.contact.item.FuncItem;
 
 public class FuncHolder extends AbsContactViewHolder<FuncItem> {
 
-    protected ImageView head;
+    private ImageView head;
 
-    protected TextView name;
+    private TextView name;
 
     @Override
     public void refresh(ContactDataAdapter adapter, int position, final FuncItem item) {
-
+        head.setImageResource(item.getImageId());
+        name.setText(item.getName());
     }
 
     @Override
     public View inflate(LayoutInflater inflater) {
         View view = inflater.inflate(R.layout.item_contact, null);
-
         head = (ImageView) view.findViewById(R.id.item_contact_image);
         name = (TextView) view.findViewById(R.id.item_contact_name);
-
         return view;
     }
 }

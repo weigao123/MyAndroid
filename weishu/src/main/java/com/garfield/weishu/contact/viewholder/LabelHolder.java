@@ -11,19 +11,17 @@ import com.garfield.weishu.contact.item.LabelItem;
 
 public class LabelHolder extends AbsContactViewHolder<LabelItem> {
 
-    protected TextView name;
+    private TextView name;
 
     @Override
     public void refresh(ContactDataAdapter adapter, int position, final LabelItem item) {
-
+        name.setText(item.getText());
     }
 
     @Override
     public View inflate(LayoutInflater inflater) {
-        View view = inflater.inflate(R.layout.item_contact, null);
-
-
-
+        View view = inflater.inflate(R.layout.item_contact_label, null);
+        name = (TextView) view.findViewById(R.id.item_contact_label);
         return view;
     }
 }

@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 
 import com.garfield.weishu.contact.item.AbsContactItem;
 import com.garfield.weishu.contact.viewholder.AbsContactViewHolder;
+import com.garfield.weishu.contact.viewholder.ContactHolder;
+import com.garfield.weishu.contact.viewholder.LabelHolder;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,12 +29,17 @@ public class ContactDataAdapter extends BaseAdapter {
         this.context = context;
         this.dataProvider = dataProvider;
         this.viewHolderMap = new HashMap<>(6);
+
     }
 
     public void addViewHolder(int itemDataType, Class<? extends AbsContactViewHolder<? extends AbsContactItem>> viewHolder) {
         this.viewHolderMap.put(itemDataType, viewHolder);
     }
 
+    public void load() {
+        ContactTask task = new ContactTask();
+        task.execute();
+    }
     @Override
     public int getCount() {
         return datas != null ? datas.size() : 0;
@@ -101,14 +108,28 @@ public class ContactDataAdapter extends BaseAdapter {
         return viewHolderMap.size();
     }
 
-    private static class ContactTask extends AsyncTask<Void, Void, Void> {
+    private class ContactTask extends AsyncTask<Void, Void, List<AbsContactItem>> {
 
         @Override
-        protected Void doInBackground(Void... params) {
-            return null;
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected List<AbsContactItem> doInBackground(Void... params) {
+            return dataProvider.provide();
+        }
+
+        @Override
+        protected void onPostExecute(List<AbsContactItem> datas) {
+            updateData(datas);
         }
     }
 
+    private void updateData(List<AbsContactItem> datas) {
+        this.datas = datas;
+        notifyDataSetChanged();
+    }
 
 
 

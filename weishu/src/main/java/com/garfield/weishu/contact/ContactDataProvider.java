@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class ContactDataProvider {
     private int[] itemTypes;
+    private List<AbsContactItem> funcData;
 
     public ContactDataProvider(int... itemTypes) {
         this.itemTypes = itemTypes;
@@ -30,7 +31,7 @@ public class ContactDataProvider {
     private List<AbsContactItem> provide(int itemType) {
         switch (itemType) {
             case ItemTypes.FUNC:
-
+                return generateFuncData();
             case ItemTypes.FRIEND:
             case ItemTypes.TEAM:
             case ItemTypes.TEAMS.ADVANCED_TEAM:
@@ -42,11 +43,13 @@ public class ContactDataProvider {
     }
 
     private List<AbsContactItem> generateFuncData() {
-        List<AbsContactItem> data = new ArrayList<>();
-        data.add(new FuncItem(R.drawable.ic_friend, "朋友"));
-        data.add(new FuncItem(R.drawable.ic_friend, "朋友"));
-        data.add(new FuncItem(R.drawable.ic_friend, "朋友"));
-        data.add(new FuncItem(R.drawable.ic_friend, "朋友"));
-        return data;
+        //if (funcData == null) {
+            funcData = new ArrayList<>();
+            funcData.add(new FuncItem(R.drawable.ic_friend, "朋友"));
+            funcData.add(new FuncItem(R.drawable.ic_friend, "朋友"));
+            funcData.add(new FuncItem(R.drawable.ic_friend, "朋友"));
+            funcData.add(new FuncItem(R.drawable.ic_friend, "朋友"));
+        //}
+        return funcData;
     }
 }
