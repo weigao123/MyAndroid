@@ -47,10 +47,6 @@ public class MainActivity extends AppBaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (isBackPressedToBack) {
-            moveTaskToBack(false);
-        } else {
-            super.onBackPressed();
-        }
+        procBackPressed(isBackPressedToBack);
     }
 }

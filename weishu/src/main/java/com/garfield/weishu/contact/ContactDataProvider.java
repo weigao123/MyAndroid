@@ -3,6 +3,8 @@ package com.garfield.weishu.contact;
 import com.garfield.weishu.R;
 import com.garfield.weishu.contact.item.AbsContactItem;
 import com.garfield.weishu.contact.item.FuncItem;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.friend.FriendService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.List;
  */
 public class ContactDataProvider {
     private int[] itemTypes;
-    private List<AbsContactItem> funcData;
+    private static List<AbsContactItem> funcData;
 
     public ContactDataProvider(int... itemTypes) {
         this.itemTypes = itemTypes;
@@ -43,13 +45,34 @@ public class ContactDataProvider {
     }
 
     private List<AbsContactItem> generateFuncData() {
-        //if (funcData == null) {
+        if (funcData == null) {
             funcData = new ArrayList<>();
-            funcData.add(new FuncItem(R.drawable.ic_friend, "朋友"));
-            funcData.add(new FuncItem(R.drawable.ic_friend, "朋友"));
-            funcData.add(new FuncItem(R.drawable.ic_friend, "朋友"));
-            funcData.add(new FuncItem(R.drawable.ic_friend, "朋友"));
-        //}
+            funcData.add(new FuncItem(FuncItem.TYPE_NEW_FRIEND));
+            funcData.add(new FuncItem(FuncItem.TYPE_ADVANCED_GROUP));
+            funcData.add(new FuncItem(FuncItem.TYPE_DISCUSSION_GROUP));
+            funcData.add(new FuncItem(FuncItem.TYPE_BLACK_LIST));
+        }
         return funcData;
     }
+
+    private void generateFriendList() {
+        List<String> friends = NIMClient.getService(FriendService.class).getFriendAccounts();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

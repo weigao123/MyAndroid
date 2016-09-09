@@ -25,7 +25,7 @@ import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 public class NimInit {
 
     public static void initSDK(Context context) {
-        NIMClient.init(context, getLoginInfo(), null);
+        NIMClient.init(context, null, null);
     }
 
 

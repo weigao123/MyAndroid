@@ -17,4 +17,8 @@ public class SettingFragment extends AppBaseFragment {
         return R.layout.fragment_setting;
     }
 
+    @Override
+    protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
+        super.onInitViewAndData(rootView, savedInstanceState);
+    }
 }

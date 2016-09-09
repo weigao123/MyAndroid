@@ -115,12 +115,14 @@ public class SupportActivity extends SwipeBackActivity implements ISupport {
         return null;
     }
 
-    @Override
-    public void onBackPressed() {
+    public void procBackPressed(boolean isToBack) {
         if (getSupportFragmentManager().getBackStackEntryCount() >= 1) {
             super.onBackPressed();
         } else {
-            finish();
+            if (isToBack)
+                moveTaskToBack(false);
+            else
+                finish();
         }
     }
 }

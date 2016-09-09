@@ -40,7 +40,6 @@ public class ClearableEditText extends EditText implements OnTouchListener, Text
     }
 
 	private void init() {
-		setBackgroundResource(0);
 		ClearableEditText.this.setOnTouchListener(this);
 		ClearableEditText.this.addTextChangedListener(this);
 		deleteImage.setBounds(0, 0, (int)getTextSize(), (int)getTextSize());

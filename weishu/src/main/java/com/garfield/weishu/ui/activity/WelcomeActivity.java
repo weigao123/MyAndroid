@@ -26,7 +26,7 @@ public class WelcomeActivity extends AppBaseActivity {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (canAutoLogin()) {
+                if (false) {
                     MainActivity.start(WelcomeActivity.this);
                 } else {
                     startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));

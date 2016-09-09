@@ -36,7 +36,7 @@ public class LoginActivity extends AppBaseActivity {
     }
 
     @Override
-    protected int getToolbarTitle() {
+    protected int onGetToolbarTitleResource() {
         return R.string.please_login;
     }
 

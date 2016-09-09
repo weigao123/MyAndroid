@@ -13,4 +13,12 @@
 
     <string name="logining">登录中\u2026</string>
 
+    <string name="new_friend">新的朋友</string>
+    <string name="advanced_group">高级群</string>
+    <string name="discussion_group">讨论组</string>
+    <string name="black_list">黑名单</string>
+    
+    <string name="search">搜索</string>
+    <string name="add_new_friend">添加朋友</string>
+
 </resources>

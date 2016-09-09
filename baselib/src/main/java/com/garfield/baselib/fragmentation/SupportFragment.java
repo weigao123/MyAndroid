@@ -27,12 +27,21 @@ public class SupportFragment extends SwipeBackFragment implements ISupport {
 
     private FragmentHelper mFragmentHelper;
 
+    private boolean isAnimatorEnable = true;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof SupportActivity) {
-            this.mActivity = (SupportActivity) context;
+            mFragmentAnimator = onCreateFragmentAnimator();
+            mActivity = (SupportActivity) context;
             mFragmentHelper = mActivity.getFragmentHelper();
+            if (mFragmentAnimator == null) {
+                mFragmentAnimator = mActivity.getFragmentAnimator();
+                if (mFragmentAnimator == null) {
+                    mFragmentAnimator = new DefaultNoAnimator();
+                }
+            }
         } else {
             throw new RuntimeException("Must extends SupportActivity!");
         }
@@ -41,13 +50,7 @@ public class SupportFragment extends SwipeBackFragment implements ISupport {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFragmentAnimator = onCreateFragmentAnimator();
-        if (mFragmentAnimator == null) {
-            mFragmentAnimator = mActivity.getFragmentAnimator();
-            if (mFragmentAnimator == null) {
-                mFragmentAnimator = new DefaultNoAnimator();
-            }
-        }
+
         Bundle bundle = getArguments();
         // NewsTabFragment是由adapter启动，这类较为特殊，没有bundle
         if (bundle != null) {
@@ -68,7 +71,7 @@ public class SupportFragment extends SwipeBackFragment implements ISupport {
 
     @Override
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
-        if (isFragmentPopBacking()) {
+        if (isFragmentPopBacking() || !isAnimatorEnable) {
             return AnimationUtils.loadAnimation(mActivity, R.anim.no_anim);
         }
         if (transit == FragmentTransaction.TRANSIT_FRAGMENT_OPEN) {
@@ -85,6 +88,10 @@ public class SupportFragment extends SwipeBackFragment implements ISupport {
             }
         }
         return super.onCreateAnimation(transit, enter, nextAnim);
+    }
+
+    protected void setAnimatorEnable(boolean enable) {
+        isAnimatorEnable = enable;
     }
 
     protected FragmentAnimator onCreateFragmentAnimator() {

@@ -18,7 +18,7 @@ public class FuncHolder extends AbsContactViewHolder<FuncItem> {
     @Override
     public void refresh(ContactDataAdapter adapter, int position, final FuncItem item) {
         head.setImageResource(item.getImageId());
-        name.setText(item.getName());
+        name.setText(item.getNameId());
     }
 
     @Override

@@ -1,9 +1,7 @@
 package com.garfield.weishu.ui.fragment;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 
 import com.garfield.baselib.fragmentation.SupportFragment;
@@ -35,6 +33,9 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
 
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
+        if (mToolbarControl != null) {
+            mToolbarControl.setVisibility(View.VISIBLE);
+        }
         if (savedInstanceState == null) {
             mFragments[0] = new MsgListFragment();
             mFragments[1] = new ContactListFragment();
@@ -75,6 +76,7 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
 
     @Subscribe
     public void onEvent(StartBrotherEvent event) {
+        setAnimatorEnable(event.targetFragment.getClass() == MsgFragment.class);
         startFragment(event.targetFragment);
     }
 
@@ -84,6 +86,9 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
         EventBus.getDefault().unregister(this);
     }
 
+    /**
+     *  已设置如果是根元素就不去动画
+     */
     @Override
     protected FragmentAnimator onCreateFragmentAnimator() {
         return new DefaultHorizontalAnimator();

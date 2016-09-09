@@ -3,8 +3,6 @@ package com.garfield.weishu.ui.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.garfield.baselib.fragmentation.SupportActivity;
@@ -12,7 +10,6 @@ import com.garfield.weishu.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by gaowei3 on 2016/8/25.
@@ -23,7 +20,10 @@ import butterknife.OnClick;
  */
 public class AppBaseActivity extends SupportActivity {
 
-    private Toolbar mToolbar;
+    @Nullable @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @Nullable @BindView(R.id.toolbar_control_view)
+    LinearLayout mToolbarControl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,18 +31,11 @@ public class AppBaseActivity extends SupportActivity {
         if (onGetActivityLayout() != 0) {
             setContentView(onGetActivityLayout());
             ButterKnife.bind(this);
+            if (mToolbar != null) {
+                mToolbar.setTitle(onGetToolbarTitleResource());
+                mToolbar.setTitleTextAppearance(this, R.style.toolbar_text);
+            }
             onInitViewAndData(savedInstanceState);
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // 要写在onStart里，防止还没有setContentView
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (mToolbar != null) {
-            mToolbar.setTitle(getToolbarTitle());
-            mToolbar.setTitleTextAppearance(this, R.style.toolbar_text);
         }
     }
 
@@ -54,7 +47,7 @@ public class AppBaseActivity extends SupportActivity {
 
     }
 
-    protected int getToolbarTitle() {
+    protected int onGetToolbarTitleResource() {
         return R.string.app_name;
     }
 
