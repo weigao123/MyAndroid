@@ -12,40 +12,56 @@
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
     app:layout_scrollFlags="scroll|enterAlways|snap">
 
-    <LinearLayout
-        android:id="@+id/toolbar_control_view"
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:visibility="gone">
-        <FrameLayout
-            android:id="@+id/toolbar_search"
-            android:layout_width="40dp"
+        android:layout_gravity="right">
+        <LinearLayout
+            android:id="@+id/toolbar_control_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:visibility="gone">
+            <FrameLayout
+                android:id="@+id/toolbar_search"
+                android:layout_width="40dp"
+                android:layout_height="@dimen/toolbar_height"
+                android:clickable="true"
+                android:background="@drawable/bg_press_primary">
+                <ImageView
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    android:layout_gravity="center"
+                    android:background="@color/pure_trans"
+                    android:src="@drawable/icon_search"/>
+            </FrameLayout>
+            <FrameLayout
+                android:id="@+id/toolbar_add"
+                android:layout_width="60dp"
+                android:layout_height="@dimen/toolbar_height"
+                android:clickable="true"
+                android:background="@drawable/bg_press_primary">
+                <ImageView
+                    android:id="@+id/toolbar_add_view"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:layout_gravity="center"
+                    android:background="@color/pure_trans"
+                    android:src="@drawable/icon_add"/>
+            </FrameLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/login_register"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/toolbar_height"
-            android:clickable="true"
-            android:background="@drawable/bg_press_primary">
-            <ImageView
-                android:layout_width="27dp"
-                android:layout_height="27dp"
-                android:layout_gravity="center"
-                android:background="@color/pure_trans"
-                android:src="@drawable/icon_search"/>
-        </FrameLayout>
-        <FrameLayout
-            android:id="@+id/toolbar_add"
-            android:layout_width="60dp"
-            android:layout_height="@dimen/toolbar_height"
-            android:clickable="true"
-            android:background="@drawable/bg_press_primary">
-            <ImageView
-                android:id="@+id/toolbar_add_view"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_gravity="center"
-                android:background="@color/pure_trans"
-                android:src="@drawable/icon_add"/>
-        </FrameLayout>
-    </LinearLayout>
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:gravity="center"
+            android:text="@string/has_no_account"
+            android:textSize="16sp"
+            android:visibility="gone"/>
+    </FrameLayout>
+
 </android.support.v7.widget.Toolbar>

@@ -32,7 +32,7 @@ public class AppBaseActivity extends SupportActivity {
             setContentView(onGetActivityLayout());
             ButterKnife.bind(this);
             if (mToolbar != null) {
-                mToolbar.setTitle(onGetToolbarTitleResource());
+                mToolbar.setTitle(R.string.app_name);
                 mToolbar.setTitleTextAppearance(this, R.style.toolbar_text);
             }
             onInitViewAndData(savedInstanceState);
@@ -45,10 +45,6 @@ public class AppBaseActivity extends SupportActivity {
 
     protected void onInitViewAndData(Bundle savedInstanceState) {
 
-    }
-
-    protected int onGetToolbarTitleResource() {
-        return R.string.app_name;
     }
 
     protected Toolbar getToolbar() {

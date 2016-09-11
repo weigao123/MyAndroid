@@ -7,14 +7,8 @@
     </style>
 
     <style name="AppTheme" parent="BaseTheme">
-    </style>
-
-    <style name="DarkTheme" parent="BaseTheme">
         <item name="android:textColor">@color/white</item>
     </style>
-
-
-
 
 
     <style name="Fullscreen" parent="AppTheme">

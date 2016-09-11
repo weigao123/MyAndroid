@@ -13,6 +13,8 @@ import com.netease.nimlib.sdk.auth.LoginInfo;
  */
 public class MyApplication extends Application {
 
+    public static final String NIM_BASE_URL = "https://api.netease.im/nimserver/user";
+
     @Override
     public void onCreate() {
         super.onCreate();

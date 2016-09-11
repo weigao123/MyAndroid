@@ -1,9 +1,13 @@
 package com.garfield.weishu.ui.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.garfield.weishu.R;
 import com.garfield.weishu.config.UserPreferences;
@@ -21,12 +25,24 @@ public class WelcomeActivity extends AppBaseActivity {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            //ViewGroup rootView = (ViewGroup) ((ViewGroup) getWindow().getDecorView()).getChildAt(0);
+            //rootView.setFitsSystemWindows(true);
+            //rootView.setClipToPadding(true);
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (false) {
+                if (canAutoLogin()) {
                     MainActivity.start(WelcomeActivity.this);
                 } else {
                     startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
@@ -35,7 +51,7 @@ public class WelcomeActivity extends AppBaseActivity {
             }
         };
         if (true) {
-            new Handler().postDelayed(runnable, 500);
+            new Handler().postDelayed(runnable, 1000);
         } else {
             runnable.run();
         }
