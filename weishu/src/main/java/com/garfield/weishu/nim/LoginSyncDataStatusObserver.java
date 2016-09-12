@@ -14,10 +14,11 @@ import java.util.List;
 
 
 /**
- * 在 Application 的 onCreate 中注册 XXXServiceObserver 来监听数据变化
- * 那么在同步过程中，APP 会收到数据更新通知，此时直接更新缓存。当同步完成时，缓存也就构建完成了。
+ * 主要用于判断是否同步完成，但实际上，这个不作为更新数据的起点
  *
- * 所以，实际上，这个不作为更新数据的起点
+ * 在 Application 的 onCreate 中注册 XXXServiceObserver 来监听数据变化
+ * 那么在同步过程中，APP 会收到数据更新通知，此时直接更新缓存。
+ * 当同步完成时，缓存也就构建完成了。
  */
 public class LoginSyncDataStatusObserver {
 
@@ -42,9 +43,10 @@ public class LoginSyncDataStatusObserver {
     }
 
     /**
-     * [开关]
      * 在App启动时向SDK注册登录后同步数据过程状态的通知
      * 调用时机：主进程Application onCreate中
+     *
+     * 其实登录后才开始同步数据
      */
     public void registerLoginSyncDataStatus(boolean register) {
         L.d(TAG, "observe login sync data completed event on Application create");
@@ -67,7 +69,7 @@ public class LoginSyncDataStatusObserver {
 
     /**
      * 监听登录后同步数据完成事件，缓存构建完成后自动取消监听
-     * 调用时机：登录成功后
+     * 调用时机：登录成功后，登录成功后mSyncStatus才开始改变
      *
      * 用于同步完成后关闭正在同步进度条
      *

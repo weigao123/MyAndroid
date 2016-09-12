@@ -59,6 +59,8 @@ public class ContactListFragment extends AppBaseFragment implements AdapterView.
         mListView.setAdapter(adapter);
         mListView.setOnItemClickListener(this);
         mListView.setOnLongClickListener(this);
+
+        registerObserver(true);
     }
 
     @Override
@@ -98,7 +100,6 @@ public class ContactListFragment extends AppBaseFragment implements AdapterView.
 
     private void registerObserver(boolean register) {
         FriendDataCache.getInstance().registerFriendDataChangedObserver(friendDataChangedObserver, register);
-        LoginSyncDataStatusObserver.getInstance().observeSyncDataCompletedEvent(loginSyncCompletedObserver);
     }
 
     FriendDataCache.FriendDataChangedObserver friendDataChangedObserver = new FriendDataCache.FriendDataChangedObserver() {
@@ -126,18 +127,6 @@ public class ContactListFragment extends AppBaseFragment implements AdapterView.
     private void reloadWhenDataChanged(List<String> accounts, String reason, boolean reload) {
         reloadWhenDataChanged(accounts, reason, reload, true);
     }
-
-    private Observer<Void> loginSyncCompletedObserver = new Observer<Void>() {
-        @Override
-        public void onEvent(Void aVoid) {
-            getHandler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    reloadWhenDataChanged(null, "onLoginSyncCompleted", false);
-                }
-            }, 50);
-        }
-    };
 
     private void reloadWhenDataChanged(List<String> accounts, String reason, boolean reload, boolean force) {
         if (accounts == null || accounts.isEmpty()) {
@@ -175,6 +164,6 @@ public class ContactListFragment extends AppBaseFragment implements AdapterView.
         L.d(sb.toString());
 
         // reload
-        reload(reload);
+        //reload(reload);
     }
 }

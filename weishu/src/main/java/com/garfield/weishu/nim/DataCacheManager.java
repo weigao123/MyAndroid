@@ -19,8 +19,6 @@ public class DataCacheManager {
      * App初始化时向SDK注册数据变更观察者
      */
     public static void observeSDKDataChanged(boolean register) {
-        LoginSyncDataStatusObserver.getInstance().registerLoginSyncDataStatus(true);  // 监听登录同步数据完成通知
-
         FriendDataCache.getInstance().registerObservers(register);
         UserInfoCache.getInstance().registerObservers(register);
         //TeamDataCache.getInstance().registerObservers(register);
@@ -28,6 +26,8 @@ public class DataCacheManager {
 
     /**
      * 本地缓存构建(异步)
+     *
+     * 登录完成就开始构建缓存，虽然可能是旧的，但是因为又注册了监听，所以可以保证是新的
      */
     public static void buildDataCacheAsync() {
         buildDataCacheAsync(null, null);

@@ -25,6 +25,7 @@ public class UserInfoCache {
     public static UserInfoCache getInstance() {
         return InstanceHolder.instance;
     }
+
     private Map<String, NimUserInfo> account2UserMap = new ConcurrentHashMap<>();
 
     private Map<String, List<RequestCallback<NimUserInfo>>> requestUserInfoMap = new ConcurrentHashMap<>(); // 重复请求处理
