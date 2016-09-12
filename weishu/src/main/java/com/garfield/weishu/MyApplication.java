@@ -4,6 +4,7 @@ import android.app.Application;
 import android.text.TextUtils;
 
 import com.garfield.weishu.config.UserPreferences;
+import com.garfield.weishu.nim.DataCacheManager;
 import com.garfield.weishu.nim.NimInit;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 
@@ -21,6 +22,7 @@ public class MyApplication extends Application {
         AppCache.setContext(this);
 
         NimInit.initSDK(this);
+        DataCacheManager.observeSDKDataChanged(true);
 
     }
 

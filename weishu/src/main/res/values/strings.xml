@@ -27,6 +27,11 @@
     <string name="please_register_password_hint">请输入密码，字母或者数字</string>
     <string name="password_format_wrong">密码必须为6~20位字母或者数字</string>
 
+    <string name="status_net_broken">当前网络不可用</string>
+    <string name="status_unlogin">未登录</string>
+    <string name="status_connecting">连接中...</string>
+    <string name="status_logining">登录中...</string>
+
     <string name="new_friend">新的朋友</string>
     <string name="advanced_group">高级群</string>
     <string name="discussion_group">讨论组</string>

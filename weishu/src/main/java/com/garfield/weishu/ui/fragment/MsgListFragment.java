@@ -1,18 +1,29 @@
 package com.garfield.weishu.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.garfield.baselib.ui.dialog.MenuDialog;
+import com.garfield.baselib.utils.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.adapter.MsgListAdapter;
 import com.garfield.weishu.adapter.OnItemClickListener;
 import com.garfield.weishu.adapter.OnItemLongClickListener;
 import com.garfield.weishu.bean.MsgListBean;
+import com.garfield.weishu.config.UserPreferences;
 import com.garfield.weishu.event.StartBrotherEvent;
+import com.garfield.weishu.nim.NimInit;
+import com.garfield.weishu.ui.activity.WelcomeActivity;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.StatusCode;
+import com.netease.nimlib.sdk.auth.AuthServiceObserver;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -30,6 +41,9 @@ public class MsgListFragment extends AppBaseFragment {
 
     @BindView(R.id.network_status_bar)
     LinearLayout mNetworkStateBar;
+
+    @BindView(R.id.status_desc_label)
+    TextView mNetworkStatus;
 
     @Override
     protected int onGetFragmentLayout() {
@@ -65,7 +79,59 @@ public class MsgListFragment extends AppBaseFragment {
                 menuDialog.show(getChildFragmentManager(), "dialoglist");
             }
         });
+        registerObservers(true);
+    }
 
+    private void registerObservers(boolean register) {
+        //NIMClient.getService(AuthServiceObserver.class).observeOtherClients(clientsObserver, register);
+        NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(userStatusObserver, register);
+    }
+
+    /**
+     * 用户状态变化
+     */
+    Observer<StatusCode> userStatusObserver = new Observer<StatusCode>() {
+        @Override
+        public void onEvent(StatusCode code) {
+            if (code.wontAutoLogin()) {
+                kickOut(code);
+            } else {
+                L.d("NET STATUS: "+code);
+                if (code == StatusCode.NET_BROKEN) {
+                    mNetworkStateBar.setVisibility(View.VISIBLE);
+                    mNetworkStatus.setText(R.string.status_net_broken);
+                } else if (code == StatusCode.UNLOGIN) {
+                    mNetworkStateBar.setVisibility(View.VISIBLE);
+                    mNetworkStatus.setText(R.string.status_unlogin);
+                } else if (code == StatusCode.CONNECTING) {
+                    mNetworkStateBar.setVisibility(View.VISIBLE);
+                    mNetworkStatus.setText(R.string.status_connecting);
+                } else if (code == StatusCode.LOGINING) {
+                    mNetworkStateBar.setVisibility(View.VISIBLE);
+                    mNetworkStatus.setText(R.string.status_logining);
+                } else {
+                    mNetworkStateBar.setVisibility(View.GONE);
+                }
+            }
+        }
+    };
+
+    private void kickOut(StatusCode code) {
+        UserPreferences.saveUserToken("");
+        if (code == StatusCode.PWD_ERROR) {
+            L.d("user password error");
+            Toast.makeText(getActivity(), R.string.login_failed, Toast.LENGTH_SHORT).show();
+        } else {
+            L.d("被踢下线");
+        }
+        onLogout();
+    }
+
+    private void onLogout() {
+        // 清理缓存&注销监听&清除状态
+        NimInit.logout();
+        startActivity(new Intent(mActivity, WelcomeActivity.class));
+        mActivity.finish();
     }
 
     private ArrayList<MsgListBean> getMsgList(int sum) {
@@ -111,4 +177,9 @@ public class MsgListFragment extends AppBaseFragment {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        registerObservers(false);
+    }
 }

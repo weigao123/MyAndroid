@@ -4,10 +4,12 @@ import android.text.TextUtils;
 
 import com.garfield.baselib.utils.L;
 import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.uinfo.UserService;
+import com.netease.nimlib.sdk.uinfo.UserServiceObserve;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
 import java.util.ArrayList;
@@ -36,6 +38,25 @@ public class UserInfoCache {
         addOrUpdateUsers(users, false);
         L.d("build NimUserInfoCache completed, users count = " + account2UserMap.size());
     }
+
+    public void clear() {
+        clearUserCache();
+    }
+
+    public void registerObservers(boolean register) {
+        NIMClient.getService(UserServiceObserve.class).observeUserInfoUpdate(userInfoUpdateObserver, register);
+    }
+
+    private Observer<List<NimUserInfo>> userInfoUpdateObserver = new Observer<List<NimUserInfo>>() {
+        @Override
+        public void onEvent(List<NimUserInfo> users) {
+            if (users == null || users.isEmpty()) {
+                return;
+            }
+
+            addOrUpdateUsers(users, true);
+        }
+    };
 
     private void addOrUpdateUsers(final List<NimUserInfo> users, boolean notify) {
         if (users == null || users.isEmpty()) {
@@ -125,6 +146,10 @@ public class UserInfoCache {
         }
 
         return accounts;
+    }
+
+    private void clearUserCache() {
+        account2UserMap.clear();
     }
 
     static class InstanceHolder {

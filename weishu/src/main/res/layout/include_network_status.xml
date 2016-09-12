@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/status_desc_label"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:background="@color/network_state_bg"
         android:gravity="center"

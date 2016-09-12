@@ -2,6 +2,7 @@ package com.garfield.weishu.ui.fragment;
 
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -33,6 +34,7 @@ public class AppBaseFragment extends SupportFragment {
 
     private PopupWindow mPopupWindow;
     private Unbinder mUnbinder;
+    private static final Handler handler = new Handler();
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -119,5 +121,9 @@ public class AppBaseFragment extends SupportFragment {
         if (mUnbinder != null) {
             mUnbinder.unbind();
         }
+    }
+
+    protected final Handler getHandler() {
+        return handler;
     }
 }

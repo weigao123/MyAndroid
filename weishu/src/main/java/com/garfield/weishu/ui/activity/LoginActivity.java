@@ -12,6 +12,7 @@ import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.baselib.ui.widget.ClearableEditText;
 import com.garfield.weishu.R;
 import com.garfield.weishu.config.UserPreferences;
+import com.garfield.weishu.nim.DataCacheManager;
 import com.garfield.weishu.nim.NimInit;
 import com.netease.nimlib.sdk.AbortableFuture;
 import com.netease.nimlib.sdk.auth.LoginInfo;
@@ -98,6 +99,7 @@ public class LoginActivity extends AppBaseActivity {
                     finish();
                 }
                 onRequestDone();
+                DataCacheManager.buildDataCacheAsync();
             }
         });
     }

@@ -205,7 +205,9 @@ public class NimInit {
     }
 
 
-
+    public static void logout() {
+        AppCache.clear();
+    }
 
 
 
