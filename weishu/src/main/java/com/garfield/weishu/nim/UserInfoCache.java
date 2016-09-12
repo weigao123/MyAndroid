@@ -2,6 +2,7 @@ package com.garfield.weishu.nim;
 
 import android.text.TextUtils;
 
+import com.garfield.baselib.utils.L;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
@@ -17,14 +18,49 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by gaowei3 on 2016/9/9.
  */
-public class UserInfoUtils {
+public class UserInfoCache {
 
-    private static Map<String, List<RequestCallback<NimUserInfo>>> requestUserInfoMap = new ConcurrentHashMap<>(); // 重复请求处理
+    public static UserInfoCache getInstance() {
+        return InstanceHolder.instance;
+    }
+    private Map<String, NimUserInfo> account2UserMap = new ConcurrentHashMap<>();
+
+    private Map<String, List<RequestCallback<NimUserInfo>>> requestUserInfoMap = new ConcurrentHashMap<>(); // 重复请求处理
+
+    /**
+     * 构建缓存与清理
+     */
+    public void buildCache() {
+        //从本地数据库获取
+        List<NimUserInfo> users = NIMClient.getService(UserService.class).getAllUserInfo();
+        addOrUpdateUsers(users, false);
+        L.d("build NimUserInfoCache completed, users count = " + account2UserMap.size());
+    }
+
+    private void addOrUpdateUsers(final List<NimUserInfo> users, boolean notify) {
+        if (users == null || users.isEmpty()) {
+            return;
+        }
+
+        // update cache
+        for (NimUserInfo u : users) {
+            account2UserMap.put(u.getAccount(), u);
+        }
+
+        // log
+        List<String> accounts = getAccounts(users);
+
+        // 通知变更
+        if (notify && accounts != null && !accounts.isEmpty()) {
+            //NimUIKit.notifyUserInfoChanged(accounts); // 通知到UI组件
+        }
+    }
+
 
     /**
      * 从云信服务器获取用户信息（重复请求处理）[异步]
      */
-    public static void getUserInfoFromRemote(final String account, final RequestCallback<NimUserInfo> callback) {
+    public void getUserInfoFromRemote(final String account, final RequestCallback<NimUserInfo> callback) {
         if (TextUtils.isEmpty(account)) {
             return;
         }
@@ -76,5 +112,22 @@ public class UserInfoUtils {
                 requestUserInfoMap.remove(account);
             }
         });
+    }
+
+    private List<String> getAccounts(List<NimUserInfo> users) {
+        if (users == null || users.isEmpty()) {
+            return null;
+        }
+
+        List<String> accounts = new ArrayList<>(users.size());
+        for (NimUserInfo user : users) {
+            accounts.add(user.getAccount());
+        }
+
+        return accounts;
+    }
+
+    static class InstanceHolder {
+        final static UserInfoCache instance = new UserInfoCache();
     }
 }

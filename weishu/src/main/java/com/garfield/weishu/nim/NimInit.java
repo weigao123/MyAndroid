@@ -118,7 +118,7 @@ public class NimInit {
         String account = UserPreferences.getUserAccount();
         String token = UserPreferences.getUserToken();
         if (!TextUtils.isEmpty(account) && !TextUtils.isEmpty(token)) {
-            AppCache.setAccount(account.toLowerCase());
+            AppCache.setAccount(account);
             return new LoginInfo(account, token);
         } else {
             return null;

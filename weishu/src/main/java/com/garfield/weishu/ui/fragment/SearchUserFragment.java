@@ -6,9 +6,7 @@ import android.widget.TextView;
 
 import com.garfield.baselib.ui.widget.ClearableEditText;
 import com.garfield.weishu.R;
-import com.garfield.weishu.nim.UserInfoUtils;
 import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.uinfo.UserService;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
@@ -53,37 +51,8 @@ public class SearchUserFragment extends AppBaseFragment {
         List<NimUserInfo> users = NIMClient.getService(UserService.class).getAllUserInfo();
 
 
-//        ContactHttpClient.getInstance().register("gwball3", "jfm", "111111", new ContactHttpClient.ContactHttpCallback<Void>() {
-//            @Override
-//            public void onSuccess(Void aVoid) {
-//                Toast.makeText(mActivity, "成功", Toast.LENGTH_SHORT).show();
-//
-//            }
-//
-//            @Override
-//            public void onFailed(int code, String errorMsg) {
-//                Toast.makeText(mActivity, "失败:"+code, Toast.LENGTH_SHORT).show();
-//
-//            }
-//        });
 
 
-        UserInfoUtils.getUserInfoFromRemote(mClearableEditText.getText().toString().toLowerCase(), new RequestCallback<NimUserInfo>() {
-            @Override
-            public void onSuccess(NimUserInfo nimUserInfo) {
-                mSearchResult.setText(nimUserInfo.getAccount());
-            }
-
-            @Override
-            public void onFailed(int i) {
-
-            }
-
-            @Override
-            public void onException(Throwable throwable) {
-
-            }
-        });
     }
 
 

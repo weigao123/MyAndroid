@@ -11,7 +11,8 @@ public class UserPreferences {
     private static final String KEY_USER_TOKEN = "token";
 
     public static void saveUserAccount(String account) {
-        saveString(KEY_USER_ACCOUNT, account);
+        AppCache.setAccount(account.toLowerCase());
+        saveString(KEY_USER_ACCOUNT, account.toLowerCase());
     }
 
     public static String getUserAccount() {
