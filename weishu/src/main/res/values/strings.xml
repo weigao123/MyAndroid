@@ -27,7 +27,7 @@
     <string name="please_register_password_hint">请输入密码，字母或者数字</string>
     <string name="password_format_wrong">密码必须为6~20位字母或者数字</string>
 
-    <string name="status_net_broken">当前网络不可用</string>
+    <string name="status_network_is_not_available">当前网络不可用</string>
     <string name="status_unlogin">未登录</string>
     <string name="status_connecting">连接中...</string>
     <string name="status_logining">登录中...</string>
@@ -37,9 +37,17 @@
     <string name="discussion_group">讨论组</string>
     <string name="black_list">黑名单</string>
     <string name="add_friend">加为好友</string>
-    <string name="send_message">发送消息</string>
+    <string name="add_friend_request">添加好友请求发送成功</string>
+    <string name="add_friend_success">添加好友成功</string>
+    <string name="can_not_add_self">不能加自己为好友</string>
+    <string name="remove_friend">删除好友</string>
+    <string name="remove_friend_success">删除好友成功</string>
+    <string name="send_message">发消息</string>
     
     <string name="search">搜索</string>
     <string name="add_new_friend">添加朋友</string>
+    <string name="details">详细资料</string>
+
+    <string name="weishu_account">微书号：%1$s</string>
 
 </resources>

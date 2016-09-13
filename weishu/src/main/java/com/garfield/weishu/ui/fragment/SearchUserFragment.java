@@ -9,6 +9,7 @@ import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.baselib.ui.widget.ClearableEditText;
 import com.garfield.weishu.R;
 import com.garfield.weishu.event.StartBrotherEvent;
+import com.garfield.weishu.nim.MyRequestCallback;
 import com.garfield.weishu.nim.UserInfoCache;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -55,34 +56,33 @@ public class SearchUserFragment extends AppBaseFragment {
     @OnClick(R.id.fragment_search_user_search)
     void searchNewUser() {
         DialogMaker.showProgressDialog(mActivity, null, false);
-        UserInfoCache.getInstance().getUserInfoFromRemote(mClearableEditText.getText().toString().toLowerCase(), new RequestCallback<NimUserInfo>() {
-                @Override
-                public void onSuccess(NimUserInfo nimUserInfo) {
-                    DialogMaker.dismissProgressDialog();
-                    if (nimUserInfo == null) {
-                        Toast.makeText(mActivity, "该用户不存在", Toast.LENGTH_SHORT).show();
-                    } else {
-                        EventBus.getDefault().post(new StartBrotherEvent(new UserProfileFragment()));
-                    }
-                }
-
-                @Override
-                public void onFailed(int code) {
-                    DialogMaker.dismissProgressDialog();
-                    if (code == 408) {
-                        Toast.makeText(mActivity, "网络不可用", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(mActivity, "on failed:" + code, Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onException(Throwable throwable) {
-                    DialogMaker.dismissProgressDialog();
-                    Toast.makeText(mActivity, "on exception:" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+        UserInfoCache.getInstance().getUserInfo(mClearableEditText.getText().toString().toLowerCase(), new RequestCallback<NimUserInfo>() {
+            @Override
+            public void onSuccess(NimUserInfo userInfo) {
+                DialogMaker.dismissProgressDialog();
+                if (userInfo == null) {
+                    Toast.makeText(mActivity, "该用户不存在", Toast.LENGTH_SHORT).show();
+                } else {
+                    EventBus.getDefault().post(new StartBrotherEvent(UserProfileFragment.newInstance(userInfo.getAccount())));
                 }
             }
-        );
+
+            @Override
+            public void onFailed(int code) {
+                DialogMaker.dismissProgressDialog();
+                if (code == 408) {
+                    Toast.makeText(mActivity, "网络不可用", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(mActivity, "on failed:" + code, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+                DialogMaker.dismissProgressDialog();
+                Toast.makeText(mActivity, "on exception:" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 

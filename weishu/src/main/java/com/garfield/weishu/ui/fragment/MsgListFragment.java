@@ -99,7 +99,7 @@ public class MsgListFragment extends AppBaseFragment {
                 L.d("NET STATUS: "+code);
                 if (code == StatusCode.NET_BROKEN) {
                     mNetworkStateBar.setVisibility(View.VISIBLE);
-                    mNetworkStatus.setText(R.string.status_net_broken);
+                    mNetworkStatus.setText(R.string.status_network_is_not_available);
                 } else if (code == StatusCode.UNLOGIN) {
                     mNetworkStateBar.setVisibility(View.VISIBLE);
                     mNetworkStatus.setText(R.string.status_unlogin);

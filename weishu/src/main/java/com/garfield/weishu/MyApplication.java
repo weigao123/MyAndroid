@@ -7,6 +7,7 @@ import com.garfield.weishu.config.UserPreferences;
 import com.garfield.weishu.nim.DataCacheManager;
 import com.garfield.weishu.nim.LoginSyncDataStatusObserver;
 import com.garfield.weishu.nim.NimInit;
+import com.garfield.weishu.utils.SystemUtil;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 
 
@@ -23,10 +24,17 @@ public class MyApplication extends Application {
         AppCache.setContext(this);
 
         NimInit.initSDK(this);
-        LoginSyncDataStatusObserver.getInstance().registerLoginSyncDataStatus(true);  // 监听登录同步数据完成通知
-        DataCacheManager.observeSDKDataChanged(true);
+        if (inMainProcess()) {
+            LoginSyncDataStatusObserver.getInstance().registerLoginSyncDataStatus(true);  // 监听登录同步数据完成通知
+            DataCacheManager.observeSDKDataChanged(true);
 
+        }
     }
 
+    public boolean inMainProcess() {
+        String packageName = getPackageName();
+        String processName = SystemUtil.getProcessName(this);
+        return packageName.equals(processName);
+    }
 
 }
