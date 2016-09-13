@@ -1,10 +1,10 @@
 package com.garfield.weishu.contact;
 
-import com.garfield.weishu.R;
 import com.garfield.weishu.contact.item.AbsContactItem;
+import com.garfield.weishu.contact.item.ContactItem;
 import com.garfield.weishu.contact.item.FuncItem;
-import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.friend.FriendService;
+import com.garfield.weishu.nim.UserInfoCache;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +35,7 @@ public class ContactDataProvider {
             case ItemTypes.FUNC:
                 return generateFuncData();
             case ItemTypes.FRIEND:
+                return generateFriendList();
             case ItemTypes.TEAM:
             case ItemTypes.TEAMS.ADVANCED_TEAM:
             case ItemTypes.TEAMS.NORMAL_TEAM:
@@ -55,8 +56,13 @@ public class ContactDataProvider {
         return funcData;
     }
 
-    private void generateFriendList() {
-        List<String> friends = NIMClient.getService(FriendService.class).getFriendAccounts();
+    private List<AbsContactItem> generateFriendList() {
+        List<NimUserInfo> nimUsers = UserInfoCache.getInstance().getAllUsersOfMyFriend();
+        List<AbsContactItem> items = new ArrayList<>(nimUsers.size());
+        for (NimUserInfo userInfo : nimUsers) {
+            items.add(new ContactItem(userInfo.getAccount(), userInfo.getName(), ItemTypes.FRIEND));
+        }
+        return items;
     }
 
 

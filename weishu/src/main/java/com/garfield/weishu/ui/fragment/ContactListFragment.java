@@ -66,7 +66,7 @@ public class ContactListFragment extends AppBaseFragment implements AdapterView.
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        adapter.load();
+        adapter.load(false);
     }
 
 

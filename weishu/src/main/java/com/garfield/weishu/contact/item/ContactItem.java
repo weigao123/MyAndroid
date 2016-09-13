@@ -3,12 +3,14 @@ package com.garfield.weishu.contact.item;
 
 public class ContactItem extends AbsContactItem {
 
-	private int contactId;
+	private String account;
 	private String displayName;
+
+	// 不只有friend属于ContactItem
 	private final int itemType;
 
-	public ContactItem(int contactId, String displayName, int type) {
-		this.contactId = contactId;
+	public ContactItem(String account, String displayName, int type) {
+		this.account = account;
 		this.displayName = displayName;
 		this.itemType = type;
 	}
@@ -18,12 +20,12 @@ public class ContactItem extends AbsContactItem {
 		return itemType;
 	}
 
-	public int getContactId() {
-		return contactId;
+	public String getAccount() {
+		return account;
 	}
 
-	public void setContactId(int contactId) {
-		this.contactId = contactId;
+	public void setAccount(String account) {
+		this.account = account;
 	}
 
 	public String getDisplayName() {

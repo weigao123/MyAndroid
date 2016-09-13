@@ -24,8 +24,6 @@ import java.util.concurrent.CopyOnWriteArraySet;
 /**
  * 好友关系缓存
  * 注意：获取通讯录列表即是根据Friend列表帐号，去取对应的UserInfo
- * <p/>
- * Created by huangjun on 2015/9/14.
  */
 public class FriendDataCache {
 
@@ -35,6 +33,7 @@ public class FriendDataCache {
 
     // 精简好友，排除了黑名单和自己的好友
     private Set<String> simplifyFriendSet = new CopyOnWriteArraySet<>();
+
     // 全部好友
     private Map<String, Friend> allFriendMap = new ConcurrentHashMap<>();
 
@@ -62,7 +61,6 @@ public class FriendDataCache {
 
         // 确定缓存
         simplifyFriendSet.addAll(accounts);
-
     }
 
     public void clear() {

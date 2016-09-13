@@ -36,10 +36,30 @@ public class ContactDataAdapter extends BaseAdapter {
         this.viewHolderMap.put(itemDataType, viewHolder);
     }
 
-    public void load() {
+    public boolean load(boolean reload) {
+        if (!reload && !isEmpty()) {
+            return false;
+        }
         ContactTask task = new ContactTask();
         task.execute();
+        return true;
     }
+
+    private class ContactTask extends AsyncTask<Void, Void, List<AbsContactItem>> {
+        @Override
+        protected void onPreExecute() {
+
+        }
+        @Override
+        protected List<AbsContactItem> doInBackground(Void... params) {
+            return dataProvider.provide();
+        }
+        @Override
+        protected void onPostExecute(List<AbsContactItem> datas) {
+            updateData(datas);
+        }
+    }
+
     @Override
     public int getCount() {
         return datas != null ? datas.size() : 0;
@@ -108,23 +128,7 @@ public class ContactDataAdapter extends BaseAdapter {
         return viewHolderMap.size();
     }
 
-    private class ContactTask extends AsyncTask<Void, Void, List<AbsContactItem>> {
 
-        @Override
-        protected void onPreExecute() {
-
-        }
-
-        @Override
-        protected List<AbsContactItem> doInBackground(Void... params) {
-            return dataProvider.provide();
-        }
-
-        @Override
-        protected void onPostExecute(List<AbsContactItem> datas) {
-            updateData(datas);
-        }
-    }
 
     private void updateData(List<AbsContactItem> datas) {
         this.datas = datas;

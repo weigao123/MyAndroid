@@ -171,12 +171,10 @@ public class UserInfoCache {
         if (users == null || users.isEmpty()) {
             return null;
         }
-
         List<String> accounts = new ArrayList<>(users.size());
         for (NimUserInfo user : users) {
             accounts.add(user.getAccount());
         }
-
         return accounts;
     }
 

@@ -18,7 +18,8 @@ public class ContactHolder extends AbsContactViewHolder<ContactItem> {
 
     @Override
     public void refresh(ContactDataAdapter adapter, int position, final ContactItem item) {
-
+        head.setImageResource(R.drawable.default_avatar);
+        name.setText(item.getDisplayName());
     }
 
     @Override
