@@ -43,14 +43,19 @@ public class SearchUserFragment extends AppBaseFragment {
     }
 
     @Override
-    protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
-        super.onInitViewAndData(rootView, savedInstanceState);
-
+    protected int onGetToolbarTitleResource() {
+        return R.string.add_new_friend;
     }
 
     @Override
-    protected int onGetToolbarTitleResource() {
-        return R.string.add_new_friend;
+    protected boolean onEnableSwipe() {
+        return true;
+    }
+
+    @Override
+    protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
+        super.onInitViewAndData(rootView, savedInstanceState);
+
     }
 
     @OnClick(R.id.fragment_search_user_search)

@@ -63,6 +63,11 @@ public class UserProfileFragment extends AppBaseFragment {
     }
 
     @Override
+    protected boolean onEnableSwipe() {
+        return true;
+    }
+
+    @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
         mAccount = getArguments().getString(USER_ACCOUNT);

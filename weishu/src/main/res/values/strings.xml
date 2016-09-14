@@ -20,11 +20,11 @@
     <string name="has_no_account">没有账号?</string>
     <string name="please_input_account">请输入账号</string>
     <string name="please_input_password">请输入密码</string>
-    <string name="please_register_account_hint">请输入帐号，字母或者数字</string>
+    <string name="please_register_account_hint">请输入帐号，字母、数字</string>
     <string name="account_format_wrong">帐号限20位字母或者数字</string>
-    <string name="please_register_nickname_hint">请输入昵称，汉字、字母或者数字</string>
+    <string name="please_register_nickname_hint">请输入昵称，汉字、字母、数字</string>
     <string name="nickname_format_wrong">昵称限10位汉字、字母或者数字</string>
-    <string name="please_register_password_hint">请输入密码，字母或者数字</string>
+    <string name="please_register_password_hint">请输入密码，字母、数字</string>
     <string name="password_format_wrong">密码必须为6~20位字母或者数字</string>
 
     <string name="status_network_is_not_available">当前网络不可用</string>

@@ -21,18 +21,11 @@ public class MsgFragment extends AppBaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        mRootView = attachToSwipeBack(mRootView);
-        setSwipeBackEnable(true);
-        return mRootView;
+    protected boolean onEnableSwipe() {
+        return true;
     }
 
 
-    @Override
-    protected FragmentAnimator onCreateFragmentAnimator() {
-        return new DefaultHorizontalAnimator();
-    }
 
     @Override
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {

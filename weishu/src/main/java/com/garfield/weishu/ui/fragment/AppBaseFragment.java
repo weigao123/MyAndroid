@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.garfield.baselib.fragmentation.SupportFragment;
+import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
+import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.utils.SizeUtils;
 import com.garfield.weishu.R;
 
@@ -40,6 +42,10 @@ public class AppBaseFragment extends SupportFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (onGetFragmentLayout() != 0) {
             mRootView = inflater.inflate(onGetFragmentLayout(), container, false);
+            if (onEnableSwipe()) {
+                mRootView = attachToSwipeBack(mRootView);
+                setSwipeBackEnable(true);
+            }
             mUnbinder = ButterKnife.bind(this, mRootView);
             // NewsTabFragment没有toolbar
             if (mToolbar != null) {
@@ -67,6 +73,10 @@ public class AppBaseFragment extends SupportFragment {
         return 0;
     }
 
+    protected boolean onEnableSwipe() {
+        return false;
+    }
+
     private void initMenu() {
         View contentView = LayoutInflater.from(mActivity).inflate(R.layout.pop_window, null);
         mPopupWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
@@ -81,7 +91,6 @@ public class AppBaseFragment extends SupportFragment {
     protected int onGetToolbarTitleResource() {
         return R.string.app_name;
     }
-
 
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
@@ -114,6 +123,11 @@ public class AppBaseFragment extends SupportFragment {
             }
         }
     };
+
+    @Override
+    protected FragmentAnimator onCreateFragmentAnimator() {
+        return new DefaultHorizontalAnimator();
+    }
 
     @Override
     public void onDestroyView() {

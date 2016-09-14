@@ -76,7 +76,7 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
 
     @Subscribe
     public void onEvent(StartBrotherEvent event) {
-        setAnimatorEnable(event.targetFragment.getClass() == MsgFragment.class);
+        //setAnimatorEnable(event.targetFragment.getClass() == MsgFragment.class);
         startFragment(event.targetFragment);
     }
 
