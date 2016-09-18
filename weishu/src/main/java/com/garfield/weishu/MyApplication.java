@@ -27,7 +27,9 @@ public class MyApplication extends Application {
         if (inMainProcess()) {
             LoginSyncDataStatusObserver.getInstance().registerLoginSyncDataStatus(true);  // 监听登录同步数据完成通知
             DataCacheManager.observeSDKDataChanged(true);
-
+            if (!TextUtils.isEmpty(UserPreferences.getUserAccount()) && !TextUtils.isEmpty(UserPreferences.getUserToken())) {
+                DataCacheManager.buildDataCache(); // build data cache on auto login
+            }
         }
     }
 

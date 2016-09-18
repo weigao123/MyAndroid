@@ -16,8 +16,7 @@
         android:paddingLeft="20dp"
         android:paddingStart="20dp"
         android:paddingRight="20dp"
-        android:paddingEnd="20dp"
-        android:visibility="gone">
+        android:paddingEnd="20dp" >
 
         <View
             android:layout_width="match_parent"
@@ -69,8 +68,7 @@
             android:gravity="center"
             android:textSize="20sp"
             android:textColor="@color/white"
-            android:background="@drawable/bg_login_button"
-            android:clickable="true"/>
+            android:background="@drawable/bg_login_button" />
 
     </LinearLayout>
 
@@ -82,7 +80,8 @@
         android:paddingLeft="20dp"
         android:paddingStart="20dp"
         android:paddingRight="20dp"
-        android:paddingEnd="20dp">
+        android:paddingEnd="20dp"
+        android:visibility="gone">
 
         <View
             android:layout_width="match_parent"
@@ -115,7 +114,6 @@
             android:paddingRight="15dp"
             android:drawablePadding="15dp"
             android:hint="@string/please_register_nickname_hint"
-            android:inputType="textPassword"
             android:textCursorDrawable="@null"
             android:textSize="15sp"/>
         <View
@@ -149,8 +147,7 @@
             android:gravity="center"
             android:textSize="20sp"
             android:textColor="@color/white"
-            android:background="@drawable/bg_login_button"
-            android:clickable="true"/>
+            android:background="@drawable/bg_login_button" />
 
     </LinearLayout>
 </LinearLayout>

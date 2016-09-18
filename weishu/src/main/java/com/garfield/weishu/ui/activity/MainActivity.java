@@ -9,9 +9,13 @@ import android.view.WindowManager;
 import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.weishu.R;
+import com.garfield.weishu.event.StartBrotherEvent;
 import com.garfield.weishu.nim.LoginSyncDataStatusObserver;
 import com.garfield.weishu.ui.fragment.MainFragment;
 import com.netease.nimlib.sdk.Observer;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 /**
  * Created by gaowei3 on 2016/7/31.
@@ -42,6 +46,7 @@ public class MainActivity extends AppBaseActivity {
     @Override
     protected void onInitViewAndData(Bundle savedInstanceState) {
         super.onInitViewAndData(savedInstanceState);
+        EventBus.getDefault().register(this);
         // 旋转时会非空
         if (savedInstanceState == null) {
             loadRootFragment(R.id.main_activity_fragment_container, (SupportFragment) Fragment.instantiate(this, MainFragment.class.getName()));
@@ -53,6 +58,15 @@ public class MainActivity extends AppBaseActivity {
                 DialogMaker.dismissProgressDialog();
             }
         });
+        if (!syncCompleted) {
+            DialogMaker.showProgressDialog(MainActivity.this, getString(R.string.prepare_data)).setCanceledOnTouchOutside(false);
+        }
+    }
+
+    @Subscribe
+    public void onEvent(StartBrotherEvent event) {
+        //setAnimatorEnable(event.targetFragment.getClass() == MsgFragment.class);
+        startFragment(event.targetFragment);
     }
 
     @Override

@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,7 +26,7 @@ import butterknife.OnClick;
 /**
  * Created by gaowei3 on 2016/8/30.
  */
-public class LoginActivity extends AppBaseActivity {
+public class LoginActivity extends AppBaseActivity implements TextWatcher{
 
     @BindView(R.id.activity_login_layout)
     LinearLayout mLoginLayout;
@@ -45,6 +47,11 @@ public class LoginActivity extends AppBaseActivity {
     @BindView(R.id.login_register)
     TextView mLoginRegisterText;
 
+    @BindView(R.id.activity_login_login)
+    TextView mLoginBtn;
+    @BindView(R.id.activity_login_register)
+    TextView mRegisterBtn;
+
     private NimInit.CancelableRequest mCancelableRequest;
 
     @Override
@@ -55,8 +62,13 @@ public class LoginActivity extends AppBaseActivity {
     @Override
     protected void onInitViewAndData(Bundle savedInstanceState) {
         super.onInitViewAndData(savedInstanceState);
-        mLoginRegisterText.setVisibility(View.VISIBLE);
+        mLoginRegisterText.setVisibility(View.VISIBLE);   //这个按钮在toolbar里
         switchLoginAndRegister(true);
+        mLoginAccountText.addTextChangedListener(this);
+        mLoginPasswordText.addTextChangedListener(this);
+        mRegisterAccountText.addTextChangedListener(this);
+        mRegisterNickNameText.addTextChangedListener(this);
+        mRegisterPasswordText.addTextChangedListener(this);
     }
 
     private void switchLoginAndRegister(boolean isLogin) {
@@ -65,6 +77,10 @@ public class LoginActivity extends AppBaseActivity {
         mLoginRegisterText.setText(!isLogin? R.string.has_account: R.string.has_no_account);
         mLoginAccountText.setText(UserPreferences.getUserAccount());
         mRegisterAccountText.setText(UserPreferences.getUserAccount());
+        mLoginPasswordText.setText("");
+        mRegisterNickNameText.setText("");
+        mRegisterPasswordText.setText("");
+        checkBtnState();
     }
 
     @OnClick(R.id.login_register)
@@ -142,5 +158,40 @@ public class LoginActivity extends AppBaseActivity {
     private void onRequestDone() {
         mCancelableRequest = null;
         DialogMaker.dismissProgressDialog();
+    }
+
+    private void checkBtnState() {
+        if (!mLoginAccountText.getText().toString().isEmpty() &&
+                !mLoginPasswordText.getText().toString().isEmpty()) {
+            mLoginBtn.setSelected(false);
+            mLoginBtn.setClickable(true);
+        } else {
+            mLoginBtn.setSelected(true);
+            mLoginBtn.setClickable(false);
+        }
+        if (!mRegisterAccountText.getText().toString().isEmpty() &&
+                !mRegisterNickNameText.getText().toString().isEmpty() &&
+                !mRegisterPasswordText.getText().toString().isEmpty()) {
+            mRegisterBtn.setSelected(false);
+            mRegisterBtn.setClickable(true);
+        } else {
+            mRegisterBtn.setSelected(true);
+            mRegisterBtn.setClickable(false);
+        }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        checkBtnState();
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }

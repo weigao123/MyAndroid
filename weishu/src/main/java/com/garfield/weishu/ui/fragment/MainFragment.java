@@ -9,10 +9,8 @@ import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.ui.widget.BottomBar;
 import com.garfield.weishu.R;
-import com.garfield.weishu.event.StartBrotherEvent;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 /**
  * Created by gaowei3 on 2016/7/31.
@@ -38,17 +36,16 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
         }
         if (savedInstanceState == null) {
             mFragments[0] = new MsgListFragment();
-            mFragments[1] = new ContactListFragment();
+            mFragments[1] = new ContactFragment();
             mFragments[2] = new NewsListFragment();
             mFragments[3] = new SettingFragment();
             loadMultiRootFragment(R.id.main_fragment_container, 0, mFragments[0], mFragments[1], mFragments[2], mFragments[3]);
         } else {
             mFragments[0] = findFragment(MsgListFragment.class);
-            mFragments[1] = findFragment(ContactListFragment.class);
+            mFragments[1] = findFragment(ContactFragment.class);
             mFragments[2] = findFragment(NewsListFragment.class);
             mFragments[3] = findFragment(SettingFragment.class);
         }
-        EventBus.getDefault().register(this);
 
         BottomBar bottomBar = (BottomBar) rootView.findViewById(R.id.bottomBar);
         bottomBar.setColor(R.color.bottombar_item_unselect, R.color.colorPrimary)
@@ -74,12 +71,6 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
 
     }
 
-    @Subscribe
-    public void onEvent(StartBrotherEvent event) {
-        //setAnimatorEnable(event.targetFragment.getClass() == MsgFragment.class);
-        startFragment(event.targetFragment);
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -87,7 +78,7 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
     }
 
     /**
-     *  已设置如果是根元素就不去动画
+     *  如果是根元素就不去动画，在loadRootFragment时没有设置setTransition
      */
     @Override
     protected FragmentAnimator onCreateFragmentAnimator() {

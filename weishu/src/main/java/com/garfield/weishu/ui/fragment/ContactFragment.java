@@ -32,7 +32,7 @@ import butterknife.BindView;
 /**
  * Created by gaowei3 on 2016/8/1.
  */
-public class ContactListFragment extends AppBaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnLongClickListener {
+public class ContactFragment extends AppBaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnLongClickListener {
 
     @BindView(R.id.contact_list_view)
     ListView mListView;
@@ -66,7 +66,7 @@ public class ContactListFragment extends AppBaseFragment implements AdapterView.
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        adapter.load(false);
+        reload(false);
     }
 
 
@@ -96,6 +96,22 @@ public class ContactListFragment extends AppBaseFragment implements AdapterView.
     public boolean onLongClick(View v) {
         return false;
     }
+
+
+    /**
+     * 加载通讯录数据并刷新
+     *
+     * @param reload true则重新加载数据；false则判断当前数据源是否空，若空则重新加载，不空则不加载
+     */
+    private void reload(boolean reload) {
+        // 开始加载
+        if (!adapter.load(reload)) {
+            // 如果不需要加载，则直接当完成处理
+            //onReloadCompleted();
+        }
+    }
+
+
 
 
     private void registerObserver(boolean register) {
@@ -128,6 +144,7 @@ public class ContactListFragment extends AppBaseFragment implements AdapterView.
         reloadWhenDataChanged(accounts, reason, reload, true);
     }
 
+    // force是false表示非好友，不刷新，true表示刷新
     private void reloadWhenDataChanged(List<String> accounts, String reason, boolean reload, boolean force) {
         if (accounts == null || accounts.isEmpty()) {
             return;
@@ -164,6 +181,12 @@ public class ContactListFragment extends AppBaseFragment implements AdapterView.
         L.d(sb.toString());
 
         // reload
-        //reload(reload);
+        reload(reload);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        registerObserver(false);
     }
 }

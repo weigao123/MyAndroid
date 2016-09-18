@@ -36,6 +36,7 @@ public class ContactDataAdapter extends BaseAdapter {
         this.viewHolderMap.put(itemDataType, viewHolder);
     }
 
+    // 返回false表示直接返回已有数据，不需要重新加载，true表示异步加载
     public boolean load(boolean reload) {
         if (!reload && !isEmpty()) {
             return false;

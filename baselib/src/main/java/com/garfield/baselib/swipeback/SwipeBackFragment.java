@@ -59,7 +59,7 @@ public class SwipeBackFragment extends BaseFragment {
     }
 
     /**
-     * 正在pop back时，返回true，用于动画
+     * 正在pop back时，返回true，用于滑动关闭时无动画
      */
     protected boolean isFragmentPopBacking() {
         Bundle bundle = getArguments();

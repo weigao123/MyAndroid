@@ -24,7 +24,7 @@
     <string name="account_format_wrong">帐号限20位字母或者数字</string>
     <string name="please_register_nickname_hint">请输入昵称，汉字、字母、数字</string>
     <string name="nickname_format_wrong">昵称限10位汉字、字母或者数字</string>
-    <string name="please_register_password_hint">请输入密码，字母、数字</string>
+    <string name="please_register_password_hint">请输入密码，6~20位字母、数字</string>
     <string name="password_format_wrong">密码必须为6~20位字母或者数字</string>
 
     <string name="status_network_is_not_available">当前网络不可用</string>
@@ -47,6 +47,7 @@
     <string name="search">搜索</string>
     <string name="add_new_friend">添加朋友</string>
     <string name="details">详细资料</string>
+    <string name="prepare_data">正在准备数据...</string>
 
     <string name="weishu_account">微书号：%1$s</string>
 
