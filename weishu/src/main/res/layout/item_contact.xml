@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="50dp"
+    android:minHeight="52dp"
     android:paddingLeft="15dp"
     android:paddingRight="25dp"
     android:background="@drawable/bg_press_gray">

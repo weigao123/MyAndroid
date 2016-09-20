@@ -56,8 +56,6 @@ public class ContactDataAdapter extends BaseAdapter {
 
         @Override
         protected void onPreExecute() {
-
-
         }
 
         @Override

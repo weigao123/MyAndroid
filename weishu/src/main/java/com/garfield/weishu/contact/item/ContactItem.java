@@ -1,7 +1,12 @@
 package com.garfield.weishu.contact.item;
 
 
-public class ContactItem extends AbsContactItem {
+import android.text.TextUtils;
+
+import com.garfield.weishu.contact.model.ContactGroupStrategy;
+import com.garfield.weishu.contact.query.TextComparator;
+
+public class ContactItem extends AbsContactItem implements Comparable<ContactItem> {
 
 	private String account;
 	private String displayName;
@@ -20,24 +25,31 @@ public class ContactItem extends AbsContactItem {
 		return itemType;
 	}
 
-	@Override
-	public String belongsGroup() {
-		return null;
-	}
-
 	public String getAccount() {
 		return account;
-	}
-
-	public void setAccount(String account) {
-		this.account = account;
 	}
 
 	public String getDisplayName() {
 		return displayName;
 	}
 
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
+	@Override
+	public String belongsGroup() {
+		if (account == null) {
+			return ContactGroupStrategy.GROUP_NULL;
+		}
+
+		String group = TextComparator.getLeadingUp(displayName);
+		return !TextUtils.isEmpty(group) ? group : ContactGroupStrategy.GROUP_SHARP;
+	}
+
+	@Override
+	public int compareTo(ContactItem item) {
+		int compare = compareType(item);
+		if (compare != 0) {
+			return compare;
+		} else {
+			return TextComparator.compareIgnoreCase(displayName, item.getDisplayName());
+		}
 	}
 }

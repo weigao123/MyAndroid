@@ -85,8 +85,8 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher{
         mRegisterLayout.setVisibility(!isLogin? View.VISIBLE: View.GONE);
         mLoginRegisterText.setText(!isLogin? R.string.has_account: R.string.has_no_account);
         mLoginAccountText.setText(UserPreferences.getUserAccount());
-        mRegisterAccountText.setText(UserPreferences.getUserAccount());
         mLoginPasswordText.setText("");
+        mRegisterAccountText.setText("");
         mRegisterNickNameText.setText("");
         mRegisterPasswordText.setText("");
         checkBtnState();
@@ -121,10 +121,10 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher{
                 if (result == NimInit.REQUEST_SUCCESS) {
                     saveLoginInfo(account, password);
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    DataCacheManager.buildDataCacheAsync();
                     finish();
                 }
                 onRequestDone();
-                DataCacheManager.buildDataCacheAsync();
             }
         });
     }

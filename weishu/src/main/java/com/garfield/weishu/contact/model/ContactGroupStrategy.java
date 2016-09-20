@@ -37,7 +37,7 @@ public class ContactGroupStrategy implements Comparator<String> {
     }
 
     /**
-     * 特殊分组，id是除26个字母以外的分组名"#", "@", "?"
+     * 特殊分组，id是除26个字母以外的分组名"@", "?"
      */
     protected final void add(String id, int order, String name) {
         groups.put(id, new Group(order, name));
@@ -47,16 +47,13 @@ public class ContactGroupStrategy implements Comparator<String> {
      * 字母分组，order是字母A的起始位置
      */
     protected final int addABC(int order) {
-        String id = ContactGroupStrategy.GROUP_SHARP;
-
-        add(id, order++, id);
-
+        String id;
         for (char i = 0; i < 26; i++) {
             id = Character.toString((char) ('A' + i));
-
             add(id, order++, id);
         }
-
+        id = ContactGroupStrategy.GROUP_SHARP;
+        add(id, order++, id);
         return order;
     }
 

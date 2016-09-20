@@ -4,6 +4,7 @@ import android.app.Application;
 import android.text.TextUtils;
 
 import com.garfield.weishu.config.UserPreferences;
+import com.garfield.weishu.contact.query.PinYin;
 import com.garfield.weishu.nim.DataCacheManager;
 import com.garfield.weishu.nim.LoginSyncDataStatusObserver;
 import com.garfield.weishu.nim.NimInit;
@@ -25,6 +26,9 @@ public class MyApplication extends Application {
 
         NimInit.initSDK(this);
         if (inMainProcess()) {
+            PinYin.init(this);
+            PinYin.validate();
+
             LoginSyncDataStatusObserver.getInstance().registerLoginSyncDataStatus(true);  // 监听登录同步数据完成通知
             DataCacheManager.observeSDKDataChanged(true);
             if (!TextUtils.isEmpty(UserPreferences.getUserAccount()) && !TextUtils.isEmpty(UserPreferences.getUserToken())) {

@@ -22,7 +22,7 @@ import org.greenrobot.eventbus.Subscribe;
  */
 public class MainActivity extends AppBaseActivity {
 
-    public static final boolean isBackPressedToBack = true;
+    public static final boolean isBackPressedToBack = false;
 
     public static void start(Context context) {
         start(context, null);

@@ -1,7 +1,6 @@
 package com.garfield.weishu.ui.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -21,8 +20,6 @@ import com.garfield.weishu.contact.viewholder.FuncHolder;
 import com.garfield.weishu.contact.viewholder.LabelHolder;
 import com.garfield.weishu.event.StartBrotherEvent;
 import com.garfield.weishu.nim.FriendDataCache;
-import com.garfield.weishu.nim.LoginSyncDataStatusObserver;
-import com.netease.nimlib.sdk.Observer;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -46,7 +43,7 @@ public class ContactFragment extends AppBaseFragment implements AdapterView.OnIt
 
     @Override
     protected int onGetFragmentLayout() {
-        return R.layout.fragment_contact_list;
+        return R.layout.fragment_contact;
     }
 
     private static final class ContactsGroupStrategy extends ContactGroupStrategy {
@@ -91,12 +88,9 @@ public class ContactFragment extends AppBaseFragment implements AdapterView.OnIt
                     EventBus.getDefault().post(new StartBrotherEvent(new SearchUserFragment()));
                     break;
             }
-            return;
         }
-
         if (type == ItemTypes.FRIEND && item instanceof ContactItem) {
-
-            return;
+            EventBus.getDefault().post(new StartBrotherEvent(UserProfileFragment.newInstance(((ContactItem) item).getAccount())));
         }
     }
 
