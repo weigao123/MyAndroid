@@ -55,4 +55,9 @@ public class FuncItem extends AbsContactItem {
 		return ItemTypes.FUNC;
 	}
 
+    @Override
+    public String belongsGroup() {
+        return null;
+    }
+
 }

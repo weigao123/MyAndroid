@@ -7,9 +7,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.garfield.weishu.contact.item.AbsContactItem;
+import com.garfield.weishu.contact.model.AbsContactDataList;
+import com.garfield.weishu.contact.model.ContactDataList;
+import com.garfield.weishu.contact.model.ContactGroupStrategy;
 import com.garfield.weishu.contact.viewholder.AbsContactViewHolder;
-import com.garfield.weishu.contact.viewholder.ContactHolder;
-import com.garfield.weishu.contact.viewholder.LabelHolder;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,20 +21,24 @@ import java.util.Map;
  */
 public class ContactDataAdapter extends BaseAdapter {
 
-    private final Map<Integer, Class<? extends AbsContactViewHolder<? extends AbsContactItem>>> viewHolderMap;
-    private final ContactDataProvider dataProvider;
-    private List<AbsContactItem> datas;
-    private final Context context;
+    private final Map<Integer, Class<? extends AbsContactViewHolder<? extends AbsContactItem>>> mViewHolderMap;
 
-    public ContactDataAdapter(Context context, ContactDataProvider dataProvider) {
-        this.context = context;
-        this.dataProvider = dataProvider;
-        this.viewHolderMap = new HashMap<>(6);
+    private ContactGroupStrategy mGroupStrategy;
+    private final ContactDataProvider mDataProvider;
+    private AbsContactDataList mDatas;
+
+    private final Context mContext;
+
+    public ContactDataAdapter(Context context, ContactGroupStrategy groupStrategy, ContactDataProvider dataProvider) {
+        this.mContext = context;
+        this.mGroupStrategy = groupStrategy;
+        this.mDataProvider = dataProvider;
+        this.mViewHolderMap = new HashMap<>(6);
 
     }
 
     public void addViewHolder(int itemDataType, Class<? extends AbsContactViewHolder<? extends AbsContactItem>> viewHolder) {
-        this.viewHolderMap.put(itemDataType, viewHolder);
+        this.mViewHolderMap.put(itemDataType, viewHolder);
     }
 
     // 返回false表示直接返回已有数据，不需要重新加载，true表示异步加载
@@ -46,29 +51,39 @@ public class ContactDataAdapter extends BaseAdapter {
         return true;
     }
 
-    private class ContactTask extends AsyncTask<Void, Void, List<AbsContactItem>> {
+    private class ContactTask extends AsyncTask<Void, Void, AbsContactDataList> {
+        private ContactDataList mContactDataList = new ContactDataList(mGroupStrategy);
+
         @Override
         protected void onPreExecute() {
 
+
         }
+
         @Override
-        protected List<AbsContactItem> doInBackground(Void... params) {
-            return dataProvider.provide();
+        protected AbsContactDataList doInBackground(Void... params) {
+            List<AbsContactItem> items = mDataProvider.provide();
+            for (AbsContactItem item : items) {
+                mContactDataList.add(item);
+            }
+            mContactDataList.build();
+            return mContactDataList;
         }
+
         @Override
-        protected void onPostExecute(List<AbsContactItem> datas) {
+        protected void onPostExecute(AbsContactDataList datas) {
             updateData(datas);
         }
     }
 
     @Override
     public int getCount() {
-        return datas != null ? datas.size() : 0;
+        return mDatas != null ? mDatas.getCount() : 0;
     }
 
     @Override
     public Object getItem(int position) {
-        return datas != null ? datas.get(position) : null;
+        return mDatas != null ? mDatas.getItem(position) : null;
     }
 
     @Override
@@ -85,9 +100,9 @@ public class ContactDataAdapter extends BaseAdapter {
         AbsContactViewHolder<AbsContactItem> holder = null;
         try {
             if (convertView == null || (holder = (AbsContactViewHolder<AbsContactItem>) convertView.getTag()) == null) {
-                holder = (AbsContactViewHolder<AbsContactItem>) viewHolderMap.get(item.getItemType()).newInstance();
+                holder = (AbsContactViewHolder<AbsContactItem>) mViewHolderMap.get(item.getItemType()).newInstance();
                 if (holder != null) {
-                    holder.createView(context);
+                    holder.createView(mContext);
                 }
             }
         } catch (Exception e) {
@@ -113,7 +128,7 @@ public class ContactDataAdapter extends BaseAdapter {
         }
         AbsContactItem item = (AbsContactItem) obj;
         int type = item.getItemType();
-        Integer[] types = viewHolderMap.keySet().toArray(new Integer[viewHolderMap.size()]);
+        Integer[] types = mViewHolderMap.keySet().toArray(new Integer[mViewHolderMap.size()]);
 
         for (int i = 0; i < types.length; i++) {
             int itemType = types[i];
@@ -126,13 +141,13 @@ public class ContactDataAdapter extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return viewHolderMap.size();
+        return mViewHolderMap.size();
     }
 
 
 
-    private void updateData(List<AbsContactItem> datas) {
-        this.datas = datas;
+    private void updateData(AbsContactDataList datas) {
+        this.mDatas = datas;
         notifyDataSetChanged();
     }
 

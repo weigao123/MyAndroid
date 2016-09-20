@@ -11,5 +11,17 @@ public abstract class AbsContactItem {
      */
     public abstract int getItemType();
 
+    /**
+     * 所属的分组
+     */
+    public abstract String belongsGroup();
+
+    protected final int compareType(AbsContactItem item) {
+        return compareType(getItemType(), item.getItemType());
+    }
+
+    public static int compareType(int lhs, int rhs) {
+        return lhs - rhs;
+    }
 
 }

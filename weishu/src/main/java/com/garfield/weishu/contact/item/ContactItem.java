@@ -20,6 +20,11 @@ public class ContactItem extends AbsContactItem {
 		return itemType;
 	}
 
+	@Override
+	public String belongsGroup() {
+		return null;
+	}
+
 	public String getAccount() {
 		return account;
 	}

@@ -14,6 +14,11 @@ public class LabelItem extends AbsContactItem {
         return ItemTypes.LABEL;
     }
 
+    @Override
+    public String belongsGroup() {
+        return null;
+    }
+
     public final String getText() {
         return text;
     }

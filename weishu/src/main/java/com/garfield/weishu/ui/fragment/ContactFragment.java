@@ -15,6 +15,7 @@ import com.garfield.weishu.contact.ItemTypes;
 import com.garfield.weishu.contact.item.AbsContactItem;
 import com.garfield.weishu.contact.item.ContactItem;
 import com.garfield.weishu.contact.item.FuncItem;
+import com.garfield.weishu.contact.model.ContactGroupStrategy;
 import com.garfield.weishu.contact.viewholder.ContactHolder;
 import com.garfield.weishu.contact.viewholder.FuncHolder;
 import com.garfield.weishu.contact.viewholder.LabelHolder;
@@ -48,11 +49,18 @@ public class ContactFragment extends AppBaseFragment implements AdapterView.OnIt
         return R.layout.fragment_contact_list;
     }
 
+    private static final class ContactsGroupStrategy extends ContactGroupStrategy {
+        public ContactsGroupStrategy() {
+            add(ContactGroupStrategy.GROUP_NULL, -1, "");
+            addABC(0);
+        }
+    }
+
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         ContactDataProvider dataProvider = new ContactDataProvider(ItemTypes.FUNC, ItemTypes.FRIEND);
 
-        adapter = new ContactDataAdapter(mActivity, dataProvider);
+        adapter = new ContactDataAdapter(mActivity, new ContactsGroupStrategy(), dataProvider);
         adapter.addViewHolder(ItemTypes.LABEL, LabelHolder.class);
         adapter.addViewHolder(ItemTypes.FUNC, FuncHolder.class);
         adapter.addViewHolder(ItemTypes.FRIEND, ContactHolder.class);
