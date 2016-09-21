@@ -27,15 +27,11 @@ import java.util.concurrent.CopyOnWriteArraySet;
  */
 public class FriendDataCache {
 
-    public static FriendDataCache getInstance() {
-        return InstanceHolder.instance;
-    }
-
-    // 精简好友，排除了黑名单和自己的好友
-    private Set<String> simplifyFriendSet = new CopyOnWriteArraySet<>();
-
-    // 全部好友
+    // 全部好友，包括黑名单和自己
     private Map<String, Friend> allFriendMap = new ConcurrentHashMap<>();
+
+    // 精简好友，排除了黑名单和自己
+    private Set<String> simplifyFriendSet = new CopyOnWriteArraySet<>();
 
     private List<FriendDataChangedObserver> friendObservers = new ArrayList<>();
 
@@ -45,29 +41,20 @@ public class FriendDataCache {
         for (Friend f : friends) {
             allFriendMap.put(f.getAccount(), f);
         }
-
         // 获取我所有好友的帐号
         List<String> accounts = NIMClient.getService(FriendService.class).getFriendAccounts();
         if (accounts == null || accounts.isEmpty()) {
             return;
         }
-
         // 排除黑名单
         List<String> blacks = NIMClient.getService(FriendService.class).getBlackList();
         accounts.removeAll(blacks);
-
         // 排除掉自己
         accounts.remove(AppCache.getAccount());
-
-        // 确定缓存
         simplifyFriendSet.addAll(accounts);
     }
 
     public void clear() {
-        clearFriendCache();
-    }
-
-    private void clearFriendCache() {
         simplifyFriendSet.clear();
         allFriendMap.clear();
     }
@@ -98,15 +85,16 @@ public class FriendDataCache {
     }
 
     /**
-     * 缓存，监听SDK变化
+     * 缓存层，监听SDK层变化
      */
-    public void registerObservers(boolean register) {
+    public void registerSDKObservers(boolean register) {
+        // 主动添加好友成功、被添加为好友、主动删除好友成功、被对方解好友关系、好友关系更新、登录同步好友关系数据时
         NIMClient.getService(FriendServiceObserve.class).observeFriendChangedNotify(friendChangedNotifyObserver, register);
         NIMClient.getService(FriendServiceObserve.class).observeBlackListChangedNotify(blackListChangedNotifyObserver, register);
     }
 
     /**
-     * APP，监听缓存变化
+     * APP层，监听缓存层变化
      */
     public void registerFriendDataChangedObserver(FriendDataChangedObserver o, boolean register) {
         if (o == null) {
@@ -222,8 +210,11 @@ public class FriendDataCache {
     /**
      * ************************************ 单例 **********************************************
      */
+    public static FriendDataCache getInstance() {
+        return InstanceHolder.instance;
+    }
 
-    static class InstanceHolder {
+    private static class InstanceHolder {
         final static FriendDataCache instance = new FriendDataCache();
     }
 }

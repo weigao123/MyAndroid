@@ -10,6 +10,7 @@ import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.config.UserPreferences;
 import com.garfield.weishu.event.StartBrotherEvent;
+import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.garfield.weishu.ui.activity.WelcomeActivity;
 import com.netease.nimlib.sdk.NIMClient;
@@ -52,11 +53,9 @@ public class SettingFragment extends AppBaseFragment {
 
     @OnClick(R.id.fragment_setting_logout)
     void logout() {
+        // 只有手动退出时调用
         NIMClient.getService(AuthService.class).logout();
-        UserPreferences.saveUserToken("");
-        startActivity(new Intent(mActivity, WelcomeActivity.class));
-        mActivity.finish();
-        //mActivity.overridePendingTransition(0, 0);
+        RegisterAndLogin.logout(mActivity);
     }
 
     @OnClick(R.id.fragment_setting_user_info)

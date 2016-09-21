@@ -18,10 +18,10 @@ public class DataCacheManager {
     /**
      * App初始化时向SDK注册数据变更观察者
      */
-    public static void observeSDKDataChanged(boolean register) {
-        FriendDataCache.getInstance().registerObservers(register);
-        UserInfoCache.getInstance().registerObservers(register);
-        //TeamDataCache.getInstance().registerObservers(register);
+    public static void observeSDKDataChanged() {
+        FriendDataCache.getInstance().registerSDKObservers(true);
+        UserInfoCache.getInstance().registerSDKObservers(true);
+        //TeamDataCache.getInstance().registerSDKObservers(true);
     }
 
     /**
@@ -60,15 +60,12 @@ public class DataCacheManager {
      * 本地缓存构建（同步）
      */
     public static void buildDataCache() {
-        // clear
         clearDataCache();
 
-        // build user/friend/team data cache
         FriendDataCache.getInstance().buildCache();
         UserInfoCache.getInstance().buildCache();
         //TeamDataCache.getInstance().buildCache();
 
-        // build self avatar cache
         List<String> accounts = new ArrayList<>(1);
         accounts.add(AppCache.getAccount());
         //NimUIKit.getImageLoaderKit().buildAvatarCache(accounts);
@@ -78,12 +75,10 @@ public class DataCacheManager {
      * 清空缓存（同步）
      */
     public static void clearDataCache() {
-        // clear user/friend/team data cache
         FriendDataCache.getInstance().clear();
         UserInfoCache.getInstance().clear();
         //TeamDataCache.getInstance().clear();
 
-        // clear avatar cache
         //NimUIKit.getImageLoaderKit().clear();
     }
 

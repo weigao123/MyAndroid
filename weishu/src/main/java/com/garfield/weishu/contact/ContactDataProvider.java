@@ -57,7 +57,7 @@ public class ContactDataProvider {
     }
 
     private List<AbsContactItem> generateFriendList() {
-        List<NimUserInfo> nimUsers = UserInfoCache.getInstance().getAllUsersOfMyFriend();
+        List<NimUserInfo> nimUsers = UserInfoCache.getInstance().getUserInfoOfAllMyFriend();
         List<AbsContactItem> items = new ArrayList<>(nimUsers.size());
         for (NimUserInfo userInfo : nimUsers) {
             items.add(new ContactItem(userInfo.getAccount(), userInfo.getName(), ItemTypes.FRIEND));

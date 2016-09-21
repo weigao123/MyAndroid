@@ -1,15 +1,21 @@
 package com.garfield.weishu.nim;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
+import com.garfield.baselib.base.BaseActivity;
 import com.garfield.baselib.utils.L;
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
+import com.garfield.weishu.config.UserPreferences;
 import com.garfield.weishu.http.volley.BaseRequest;
 import com.garfield.weishu.http.volley.RegisterRequest;
 import com.garfield.weishu.http.volley.VolleyHelper;
+import com.garfield.weishu.nim.cache.DataCacheManager;
+import com.garfield.weishu.nim.cache.LoginSyncData;
+import com.garfield.weishu.ui.activity.WelcomeActivity;
 import com.netease.nimlib.sdk.AbortableFuture;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -117,8 +123,14 @@ public class RegisterAndLogin {
     }
 
 
-    public static void logout() {
+    public static void logout(BaseActivity context) {
+        UserPreferences.saveUserToken("");
         AppCache.clear();
+        DataCacheManager.clearDataCache();
+        LoginSyncData.getInstance().reset();
+        context.startActivity(new Intent(context, WelcomeActivity.class));
+        context.finish();
+        context.overridePendingTransition(0, 0);
     }
 
 

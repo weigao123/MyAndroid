@@ -20,6 +20,7 @@ import com.garfield.weishu.contact.viewholder.FuncHolder;
 import com.garfield.weishu.contact.viewholder.LabelHolder;
 import com.garfield.weishu.event.StartBrotherEvent;
 import com.garfield.weishu.nim.cache.FriendDataCache;
+import com.garfield.weishu.nim.cache.UserInfoCache;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -113,47 +114,48 @@ public class ContactFragment extends AppBaseFragment implements AdapterView.OnIt
         }
     }
 
-
-
-
     private void registerObserver(boolean register) {
+        UserInfoCache.getInstance().registerUserInfoChangedObserver(userInfoChangedObserver, register);
         FriendDataCache.getInstance().registerFriendDataChangedObserver(friendDataChangedObserver, register);
     }
+
+    UserInfoCache.UserInfoChangedObserver userInfoChangedObserver = new UserInfoCache.UserInfoChangedObserver() {
+        @Override
+        public void onUserInfoChanged(List<String> accounts) {
+            reloadWhenDataChanged(accounts, "onUserInfoChanged", true, false);
+        }
+    };
 
     FriendDataCache.FriendDataChangedObserver friendDataChangedObserver = new FriendDataCache.FriendDataChangedObserver() {
         @Override
         public void onAddedOrUpdatedFriends(List<String> accounts) {
-            reloadWhenDataChanged(accounts, "onAddedOrUpdatedFriends", true);
+            reloadWhenDataChanged(accounts, "onAddedOrUpdatedFriends", true, true);
         }
 
         @Override
         public void onDeletedFriends(List<String> accounts) {
-            reloadWhenDataChanged(accounts, "onDeletedFriends", true);
+            reloadWhenDataChanged(accounts, "onDeletedFriends", true, true);
         }
 
         @Override
         public void onAddUserToBlackList(List<String> accounts) {
-            reloadWhenDataChanged(accounts, "onAddUserToBlackList", true);
+            reloadWhenDataChanged(accounts, "onAddUserToBlackList", true, true);
         }
 
         @Override
         public void onRemoveUserFromBlackList(List<String> accounts) {
-            reloadWhenDataChanged(accounts, "onRemoveUserFromBlackList", true);
+            reloadWhenDataChanged(accounts, "onRemoveUserFromBlackList", true, true);
         }
     };
 
-    private void reloadWhenDataChanged(List<String> accounts, String reason, boolean reload) {
-        reloadWhenDataChanged(accounts, reason, reload, true);
-    }
-
-    // force是false表示非好友，不刷新，true表示刷新
-    private void reloadWhenDataChanged(List<String> accounts, String reason, boolean reload, boolean force) {
+    // isNoFriendRefresh是false表示非好友，不刷新，true表示刷新
+    private void reloadWhenDataChanged(List<String> accounts, String reason, boolean reload, boolean isNotFriendRefresh) {
         if (accounts == null || accounts.isEmpty()) {
             return;
         }
 
         boolean needReload = false;
-        if(!force) {
+        if(!isNotFriendRefresh) {
             // 非force：与通讯录无关的（非好友）变更通知，去掉
             for (String account : accounts) {
                 if (FriendDataCache.getInstance().isMyFriend(account)) {

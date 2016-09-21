@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import com.garfield.weishu.config.UserPreferences;
 import com.garfield.weishu.contact.query.PinYin;
 import com.garfield.weishu.nim.cache.DataCacheManager;
-import com.garfield.weishu.nim.cache.LoginSyncDataStatusObserver;
+import com.garfield.weishu.nim.cache.LoginSyncData;
 import com.garfield.weishu.nim.InitSDK;
 import com.garfield.baselib.utils.SystemUtil;
 
@@ -29,8 +29,11 @@ public class MyApplication extends Application {
             PinYin.init(this);
             PinYin.validate();
 
-            LoginSyncDataStatusObserver.getInstance().registerLoginSyncDataStatus(true);  // 监听登录同步数据完成通知
-            DataCacheManager.observeSDKDataChanged(true);
+            // 监听SDK数据同步是否完成，同步时应该在主页显示进度条
+            LoginSyncData.getInstance().registerSDKLoginSyncData();
+            // 同步时，SDK的数据更新到缓存
+            DataCacheManager.observeSDKDataChanged();
+            // 获取SDK数据到缓存
             if (!TextUtils.isEmpty(UserPreferences.getUserAccount()) && !TextUtils.isEmpty(UserPreferences.getUserToken())) {
                 DataCacheManager.buildDataCache();
             }

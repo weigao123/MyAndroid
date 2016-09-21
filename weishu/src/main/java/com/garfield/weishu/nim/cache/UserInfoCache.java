@@ -24,12 +24,10 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class UserInfoCache {
 
-    public static UserInfoCache getInstance() {
-        return InstanceHolder.instance;
-    }
-
-    // 所有用户资料
+    // 所有用户资料，只要fetch过就会有
     private Map<String, NimUserInfo> mUserMap = new ConcurrentHashMap<>();
+
+    private List<UserInfoChangedObserver> userInfoObservers = new ArrayList<>();
 
     // 多处同时获取时，都要有返回
     private Map<String, List<RequestCallback<NimUserInfo>>> mFetchUserInfoMap = new ConcurrentHashMap<>(); // 重复请求处理
@@ -40,15 +38,17 @@ public class UserInfoCache {
     public void buildCache() {
         //从本地数据库获取
         List<NimUserInfo> users = NIMClient.getService(UserService.class).getAllUserInfo();
-        addOrUpdateUsers(users, false);
+        for (NimUserInfo u : users) {
+            mUserMap.put(u.getAccount(), u);
+        }
         L.d("build NimUserInfoCache completed, users count = " + mUserMap.size());
     }
 
     public void clear() {
-        clearUserCache();
+        mUserMap.clear();
     }
 
-    public void registerObservers(boolean register) {
+    public void registerSDKObservers(boolean register) {
         NIMClient.getService(UserServiceObserve.class).observeUserInfoUpdate(userInfoUpdateObserver, register);
     }
 
@@ -58,30 +58,46 @@ public class UserInfoCache {
             if (users == null || users.isEmpty()) {
                 return;
             }
-
-            addOrUpdateUsers(users, true);
+            for (NimUserInfo u : users) {
+                mUserMap.put(u.getAccount(), u);
+            }
+            // 通知变更
+            List<String> accounts = getAccounts(users);
+            if (accounts != null && !accounts.isEmpty()) {
+                for (UserInfoChangedObserver o : userInfoObservers) {
+                    o.onUserInfoChanged(accounts);
+                }
+            }
         }
     };
 
-    private void addOrUpdateUsers(final List<NimUserInfo> users, boolean notify) {
+    private List<String> getAccounts(List<NimUserInfo> users) {
         if (users == null || users.isEmpty()) {
+            return null;
+        }
+        List<String> accounts = new ArrayList<>(users.size());
+        for (NimUserInfo user : users) {
+            accounts.add(user.getAccount());
+        }
+        return accounts;
+    }
+
+    public void registerUserInfoChangedObserver(UserInfoChangedObserver o, boolean register) {
+        if (o == null) {
             return;
         }
-
-        // update cache
-        for (NimUserInfo u : users) {
-            mUserMap.put(u.getAccount(), u);
-        }
-
-        // log
-        List<String> accounts = getAccounts(users);
-
-        // 通知变更
-        if (notify && accounts != null && !accounts.isEmpty()) {
-            //NimUIKit.notifyUserInfoChanged(accounts); // 通知到UI组件
+        if (register) {
+            if (!userInfoObservers.contains(o)) {
+                userInfoObservers.add(o);
+            }
+        } else {
+            userInfoObservers.remove(o);
         }
     }
 
+    public interface UserInfoChangedObserver {
+        void onUserInfoChanged(List<String> accounts);
+    }
 
     /**
      * 从云信服务器获取用户信息（重复请求处理）[异步]
@@ -166,19 +182,7 @@ public class UserInfoCache {
         });
     }
 
-
-    private List<String> getAccounts(List<NimUserInfo> users) {
-        if (users == null || users.isEmpty()) {
-            return null;
-        }
-        List<String> accounts = new ArrayList<>(users.size());
-        for (NimUserInfo user : users) {
-            accounts.add(user.getAccount());
-        }
-        return accounts;
-    }
-
-    public List<NimUserInfo> getAllUsersOfMyFriend() {
+    public List<NimUserInfo> getUserInfoOfAllMyFriend() {
         List<String> accounts = FriendDataCache.getInstance().getMyFriendAccounts();
         List<NimUserInfo> users = new ArrayList<>();
         for (String account : accounts) {
@@ -264,11 +268,11 @@ public class UserInfoCache {
         return getUserDisplayName(account);
     }
 
-    private void clearUserCache() {
-        mUserMap.clear();
+    public static UserInfoCache getInstance() {
+        return InstanceHolder.instance;
     }
 
-    static class InstanceHolder {
+    private static class InstanceHolder {
         final static UserInfoCache instance = new UserInfoCache();
     }
 }

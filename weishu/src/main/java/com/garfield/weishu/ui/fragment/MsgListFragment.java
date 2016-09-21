@@ -97,7 +97,6 @@ public class MsgListFragment extends AppBaseFragment {
             if (code.wontAutoLogin()) {
                 kickOut(code);
             } else {
-                L.d("NET STATUS: "+code);
                 if (code == StatusCode.NET_BROKEN) {
                     mNetworkStateBar.setVisibility(View.VISIBLE);
                     mNetworkStatus.setText(R.string.status_network_is_not_available);
@@ -118,21 +117,12 @@ public class MsgListFragment extends AppBaseFragment {
     };
 
     private void kickOut(StatusCode code) {
-        UserPreferences.saveUserToken("");
         if (code == StatusCode.PWD_ERROR) {
-            L.d("user password error");
-            Toast.makeText(getActivity(), R.string.login_failed, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.login_account_or_password_wrong, Toast.LENGTH_SHORT).show();
         } else {
-            L.d("被踢下线");
+            Toast.makeText(getActivity(), R.string.kicked_out, Toast.LENGTH_SHORT).show();
         }
-        onLogout();
-    }
-
-    private void onLogout() {
-        // 清理缓存&注销监听&清除状态
-        RegisterAndLogin.logout();
-        startActivity(new Intent(mActivity, WelcomeActivity.class));
-        mActivity.finish();
+        RegisterAndLogin.logout(mActivity);
     }
 
     private ArrayList<MsgListBean> getMsgList(int sum) {

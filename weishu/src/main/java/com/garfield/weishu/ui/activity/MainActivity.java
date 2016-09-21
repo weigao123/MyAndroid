@@ -9,7 +9,7 @@ import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.weishu.R;
 import com.garfield.weishu.event.StartBrotherEvent;
-import com.garfield.weishu.nim.cache.LoginSyncDataStatusObserver;
+import com.garfield.weishu.nim.cache.LoginSyncData;
 import com.garfield.weishu.ui.fragment.MainFragment;
 import com.netease.nimlib.sdk.Observer;
 
@@ -49,16 +49,16 @@ public class MainActivity extends AppBaseActivity {
         // 旋转时会非空
         if (savedInstanceState == null) {
             loadRootFragment(R.id.main_activity_fragment_container, (SupportFragment) Fragment.instantiate(this, MainFragment.class.getName()));
-        }
-        // 等待同步数据完成
-        boolean syncCompleted = LoginSyncDataStatusObserver.getInstance().observeSyncDataCompletedEvent(new Observer<Void>() {
-            @Override
-            public void onEvent(Void v) {
-                DialogMaker.dismissProgressDialog();
+            // 等待同步数据完成
+            boolean syncCompleted = LoginSyncData.getInstance().observeSyncDataCompletedEvent(new Observer<Void>() {
+                @Override
+                public void onEvent(Void v) {
+                    DialogMaker.dismissProgressDialog();
+                }
+            });
+            if (!syncCompleted) {
+                DialogMaker.showProgressDialog(MainActivity.this, getString(R.string.prepare_data)).setCanceledOnTouchOutside(false);
             }
-        });
-        if (!syncCompleted) {
-            DialogMaker.showProgressDialog(MainActivity.this, getString(R.string.prepare_data)).setCanceledOnTouchOutside(false);
         }
     }
 
@@ -71,5 +71,11 @@ public class MainActivity extends AppBaseActivity {
     @Override
     public void onBackPressed() {
         procBackPressed(isBackPressedToBack);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
