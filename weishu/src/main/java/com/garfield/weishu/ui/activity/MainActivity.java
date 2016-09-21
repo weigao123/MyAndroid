@@ -4,13 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.WindowManager;
 
 import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.weishu.R;
 import com.garfield.weishu.event.StartBrotherEvent;
-import com.garfield.weishu.nim.LoginSyncDataStatusObserver;
+import com.garfield.weishu.nim.cache.LoginSyncDataStatusObserver;
 import com.garfield.weishu.ui.fragment.MainFragment;
 import com.netease.nimlib.sdk.Observer;
 

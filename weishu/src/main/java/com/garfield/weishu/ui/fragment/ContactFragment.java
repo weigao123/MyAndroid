@@ -19,7 +19,7 @@ import com.garfield.weishu.contact.viewholder.ContactHolder;
 import com.garfield.weishu.contact.viewholder.FuncHolder;
 import com.garfield.weishu.contact.viewholder.LabelHolder;
 import com.garfield.weishu.event.StartBrotherEvent;
-import com.garfield.weishu.nim.FriendDataCache;
+import com.garfield.weishu.nim.cache.FriendDataCache;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -90,7 +90,7 @@ public class ContactFragment extends AppBaseFragment implements AdapterView.OnIt
             }
         }
         if (type == ItemTypes.FRIEND && item instanceof ContactItem) {
-            EventBus.getDefault().post(new StartBrotherEvent(UserProfileFragment.newInstance(((ContactItem) item).getAccount())));
+            EventBus.getDefault().post(new StartBrotherEvent(FriendProfileFragment.newInstance(((ContactItem) item).getAccount())));
         }
     }
 

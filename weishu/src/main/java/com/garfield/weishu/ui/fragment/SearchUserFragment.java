@@ -9,16 +9,11 @@ import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.baselib.ui.widget.ClearableEditText;
 import com.garfield.weishu.R;
 import com.garfield.weishu.event.StartBrotherEvent;
-import com.garfield.weishu.nim.MyRequestCallback;
-import com.garfield.weishu.nim.UserInfoCache;
-import com.netease.nimlib.sdk.NIMClient;
+import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.netease.nimlib.sdk.RequestCallback;
-import com.netease.nimlib.sdk.uinfo.UserService;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -61,14 +56,14 @@ public class SearchUserFragment extends AppBaseFragment {
     @OnClick(R.id.fragment_search_user_search)
     void searchNewUser() {
         DialogMaker.showProgressDialog(mActivity, null, false);
-        UserInfoCache.getInstance().getUserInfo(mClearableEditText.getText().toString().toLowerCase(), new RequestCallback<NimUserInfo>() {
+        UserInfoCache.getInstance().getUserInfoFromRemote(mClearableEditText.getText().toString().toLowerCase(), new RequestCallback<NimUserInfo>() {
             @Override
             public void onSuccess(NimUserInfo userInfo) {
                 DialogMaker.dismissProgressDialog();
                 if (userInfo == null) {
                     Toast.makeText(mActivity, "该用户不存在", Toast.LENGTH_SHORT).show();
                 } else {
-                    EventBus.getDefault().post(new StartBrotherEvent(UserProfileFragment.newInstance(userInfo.getAccount())));
+                    EventBus.getDefault().post(new StartBrotherEvent(FriendProfileFragment.newInstance(userInfo.getAccount())));
                 }
             }
 

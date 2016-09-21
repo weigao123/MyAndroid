@@ -2,7 +2,6 @@ package com.garfield.weishu.ui.fragment;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,9 +11,8 @@ import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.baselib.utils.NetworkUtil;
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
-import com.garfield.weishu.nim.FriendDataCache;
-import com.garfield.weishu.nim.MyRequestCallback;
-import com.garfield.weishu.nim.UserInfoCache;
+import com.garfield.weishu.nim.cache.FriendDataCache;
+import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
@@ -29,37 +27,37 @@ import butterknife.OnClick;
 /**
  * Created by gwball on 2016/9/12.
  */
-public class UserProfileFragment extends AppBaseFragment {
+public class FriendProfileFragment extends AppBaseFragment {
 
     public static final String USER_ACCOUNT = "account";
     private String mAccount;
 
-    @BindView(R.id.fragment_user_profile_head)
+    @BindView(R.id.fragment_friend_profile_head)
     ImageView mHeadImage;
 
-    @BindView(R.id.fragment_user_profile_account)
+    @BindView(R.id.fragment_friend_profile_account)
     TextView mAccountText;
 
-    @BindView(R.id.fragment_user_profile_nickname)
+    @BindView(R.id.fragment_friend_profile_nickname)
     TextView mNickNameText;
 
-    @BindView(R.id.fragment_user_profile_chat)
+    @BindView(R.id.fragment_friend_profile_chat)
     TextView mChatBtn;
 
-    @BindView(R.id.fragment_user_profile_add_or_remove)
+    @BindView(R.id.fragment_friend_profile_add_or_remove)
     TextView mAddOrRemoveFriendBtn;
 
-    public static UserProfileFragment newInstance(String account) {
+    public static FriendProfileFragment newInstance(String account) {
         Bundle args = new Bundle();
         args.putString(USER_ACCOUNT, account);
-        UserProfileFragment fragment = new UserProfileFragment();
+        FriendProfileFragment fragment = new FriendProfileFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     protected int onGetFragmentLayout() {
-        return R.layout.fragment_user_profile;
+        return R.layout.fragment_friend_profile;
     }
 
     @Override
@@ -88,7 +86,7 @@ public class UserProfileFragment extends AppBaseFragment {
 
     private void updateUserInfoView(NimUserInfo userInfo) {
         mHeadImage.setImageResource(R.drawable.default_avatar);
-        mAccountText.setText(getString(R.string.weishu_account, userInfo.getAccount()));
+        mAccountText.setText(getString(R.string.weishu_account_is, userInfo.getAccount()));
         if (TextUtils.isEmpty(userInfo.getName())) {
             mNickNameText.setText("无昵称");
         } else {
@@ -97,7 +95,7 @@ public class UserProfileFragment extends AppBaseFragment {
 
     }
 
-    @OnClick(R.id.fragment_user_profile_add_or_remove)
+    @OnClick(R.id.fragment_friend_profile_add_or_remove)
     void onAddFriendBtnClick() {
         if (FriendDataCache.getInstance().isMyFriend(mAccount)) {
             doRemoveFriend();

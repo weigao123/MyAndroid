@@ -82,6 +82,8 @@ public interface ISupport {
      */
     void popFragment();
 
+    void popChildFragment();
+
     /**
      * 出栈到目标Fragment
      *

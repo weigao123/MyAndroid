@@ -5,11 +5,10 @@ import android.text.TextUtils;
 
 import com.garfield.weishu.config.UserPreferences;
 import com.garfield.weishu.contact.query.PinYin;
-import com.garfield.weishu.nim.DataCacheManager;
-import com.garfield.weishu.nim.LoginSyncDataStatusObserver;
-import com.garfield.weishu.nim.NimInit;
-import com.garfield.weishu.utils.SystemUtil;
-import com.netease.nimlib.sdk.auth.LoginInfo;
+import com.garfield.weishu.nim.cache.DataCacheManager;
+import com.garfield.weishu.nim.cache.LoginSyncDataStatusObserver;
+import com.garfield.weishu.nim.InitSDK;
+import com.garfield.baselib.utils.SystemUtil;
 
 
 /**
@@ -24,23 +23,19 @@ public class MyApplication extends Application {
         super.onCreate();
         AppCache.setContext(this);
 
-        NimInit.initSDK(this);
-        if (inMainProcess()) {
+        InitSDK.initSDK(this);
+
+        if (SystemUtil.inMainProcess(this)) {
             PinYin.init(this);
             PinYin.validate();
 
             LoginSyncDataStatusObserver.getInstance().registerLoginSyncDataStatus(true);  // 监听登录同步数据完成通知
             DataCacheManager.observeSDKDataChanged(true);
             if (!TextUtils.isEmpty(UserPreferences.getUserAccount()) && !TextUtils.isEmpty(UserPreferences.getUserToken())) {
-                DataCacheManager.buildDataCache(); // build data cache on auto login
+                DataCacheManager.buildDataCache();
             }
         }
     }
 
-    public boolean inMainProcess() {
-        String packageName = getPackageName();
-        String processName = SystemUtil.getProcessName(this);
-        return packageName.equals(processName);
-    }
 
 }

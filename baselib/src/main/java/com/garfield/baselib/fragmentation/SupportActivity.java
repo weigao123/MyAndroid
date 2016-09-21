@@ -92,6 +92,11 @@ public class SupportActivity extends SwipeBackActivity implements ISupport {
     }
 
     @Override
+    public void popChildFragment() {
+
+    }
+
+    @Override
     public void popToFragment(Class<?> fragmentClass, boolean includeSelf) {
 
     }

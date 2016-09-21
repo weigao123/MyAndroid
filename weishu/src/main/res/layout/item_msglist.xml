@@ -38,7 +38,7 @@
                 android:layout_alignParentBottom="true"
                 android:includeFontPadding="false"
                 android:textSize="14sp"
-                android:textColor="@color/black_light"
+                android:textColor="@color/black_gray"
                 android:text="test2"/>
         </RelativeLayout>
     </LinearLayout>

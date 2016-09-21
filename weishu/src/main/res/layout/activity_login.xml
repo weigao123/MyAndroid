@@ -31,7 +31,7 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:drawablePadding="15dp"
-            android:singleLine="true"
+            android:maxLines="1"
             android:hint="@string/please_input_account"
             android:textCursorDrawable="@null"
             android:textSize="15sp"/>
@@ -97,7 +97,7 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:drawablePadding="15dp"
-            android:singleLine="true"
+            android:maxLines="1"
             android:hint="@string/please_register_account_hint"
             android:textCursorDrawable="@null"
             android:textSize="15sp"/>

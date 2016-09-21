@@ -3,7 +3,7 @@ package com.garfield.weishu.contact;
 import com.garfield.weishu.contact.item.AbsContactItem;
 import com.garfield.weishu.contact.item.ContactItem;
 import com.garfield.weishu.contact.item.FuncItem;
-import com.garfield.weishu.nim.UserInfoCache;
+import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
 import java.util.ArrayList;

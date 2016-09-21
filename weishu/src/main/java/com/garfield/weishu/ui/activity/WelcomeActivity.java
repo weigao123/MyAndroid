@@ -51,7 +51,7 @@ public class WelcomeActivity extends AppBaseActivity {
             }
         };
         if (true) {
-            new Handler().postDelayed(runnable, 1000);
+            new Handler().postDelayed(runnable, 100);
         } else {
             runnable.run();
         }

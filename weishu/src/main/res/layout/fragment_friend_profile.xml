@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray1">
+    android:background="@color/gray_white">
 
     <include layout="@layout/include_toolbar" />
 
@@ -14,38 +14,38 @@
         android:layout_height="90dp"
         android:background="@color/white">
         <ImageView
-            android:id="@+id/fragment_user_profile_head"
+            android:id="@+id/fragment_friend_profile_head"
             android:layout_width="65dp"
             android:layout_height="65dp"
             android:layout_marginLeft="15dp"
             android:layout_centerVertical="true"/>
 
         <TextView
-            android:id="@+id/fragment_user_profile_nickname"
+            android:id="@+id/fragment_friend_profile_nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
-            android:layout_toRightOf="@id/fragment_user_profile_head"
-            android:layout_alignTop="@id/fragment_user_profile_head"
+            android:layout_toRightOf="@id/fragment_friend_profile_head"
+            android:layout_alignTop="@id/fragment_friend_profile_head"
             android:layout_marginLeft="20dp"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:text="test"/>
         <TextView
-            android:id="@+id/fragment_user_profile_account"
+            android:id="@+id/fragment_friend_profile_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/fragment_user_profile_head"
-            android:layout_below="@id/fragment_user_profile_nickname"
+            android:layout_toRightOf="@id/fragment_friend_profile_head"
+            android:layout_below="@id/fragment_friend_profile_nickname"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="20dp"
-            android:textColor="@color/black_light"
+            android:textColor="@color/black_gray"
             android:textSize="14sp"
             android:text="test"/>
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/fragment_user_profile_chat"
+        android:id="@+id/fragment_friend_profile_chat"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="50dp"
@@ -59,7 +59,7 @@
         android:clickable="true" />
 
     <TextView
-        android:id="@+id/fragment_user_profile_add_or_remove"
+        android:id="@+id/fragment_friend_profile_add_or_remove"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"

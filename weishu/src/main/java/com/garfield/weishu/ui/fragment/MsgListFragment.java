@@ -18,7 +18,8 @@ import com.garfield.weishu.adapter.OnItemLongClickListener;
 import com.garfield.weishu.bean.MsgListBean;
 import com.garfield.weishu.config.UserPreferences;
 import com.garfield.weishu.event.StartBrotherEvent;
-import com.garfield.weishu.nim.NimInit;
+import com.garfield.weishu.nim.InitSDK;
+import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.ui.activity.WelcomeActivity;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
@@ -90,7 +91,7 @@ public class MsgListFragment extends AppBaseFragment {
     /**
      * 用户状态变化
      */
-    Observer<StatusCode> userStatusObserver = new Observer<StatusCode>() {
+    private Observer<StatusCode> userStatusObserver = new Observer<StatusCode>() {
         @Override
         public void onEvent(StatusCode code) {
             if (code.wontAutoLogin()) {
@@ -129,7 +130,7 @@ public class MsgListFragment extends AppBaseFragment {
 
     private void onLogout() {
         // 清理缓存&注销监听&清除状态
-        NimInit.logout();
+        RegisterAndLogin.logout();
         startActivity(new Intent(mActivity, WelcomeActivity.class));
         mActivity.finish();
     }

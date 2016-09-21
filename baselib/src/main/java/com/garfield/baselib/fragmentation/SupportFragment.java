@@ -11,6 +11,7 @@ import com.garfield.baselib.fragmentation.anim.DefaultNoAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.swipeback.SwipeBackFragment;
 import com.garfield.baselib.R;
+import com.garfield.baselib.utils.InputUtils;
 
 /**
  * Created by gaowei3 on 2016/7/22.
@@ -158,7 +159,14 @@ public class SupportFragment extends SwipeBackFragment implements ISupport {
 
     @Override
     public void popFragment() {
+        InputUtils.hideInputMethod(getView());
+        mFragmentHelper.back(getFragmentManager());
+    }
 
+    @Override
+    public void popChildFragment() {
+        InputUtils.hideInputMethod(getView());
+        mFragmentHelper.back(getChildFragmentManager());
     }
 
     @Override

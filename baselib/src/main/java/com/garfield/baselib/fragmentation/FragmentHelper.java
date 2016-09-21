@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.garfield.baselib.utils.InputUtils;
+
 import java.util.List;
 
 /**
@@ -97,6 +99,11 @@ public class FragmentHelper {
         Fragment fragment;
         fragment = fragmentManager.findFragmentByTag(fragmentClass.getName());
         return (SupportFragment) fragment;
+    }
+
+    void back(FragmentManager fragmentManager) {
+        if (fragmentManager == null) return;
+        fragmentManager.popBackStack();
     }
 
 }

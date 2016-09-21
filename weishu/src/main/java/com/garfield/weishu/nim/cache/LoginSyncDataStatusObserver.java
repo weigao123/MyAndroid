@@ -1,4 +1,4 @@
-package com.garfield.weishu.nim;
+package com.garfield.weishu.nim.cache;
 
 import android.os.Handler;
 

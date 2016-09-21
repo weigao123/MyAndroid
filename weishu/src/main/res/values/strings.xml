@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">WeiShu</string>
 
+    <string name="confirm">确定</string>
+
     <string name="please_login">请登录</string>
     <string name="login">登录</string>
     <string name="logining">登录中\u2026</string>
@@ -49,6 +51,12 @@
     <string name="details">详细资料</string>
     <string name="prepare_data">正在准备数据...</string>
 
-    <string name="weishu_account">微书号：%1$s</string>
-
+    <string name="self_details">个人信息</string>
+    <string name="head_image">头像</string>
+    <string name="nickname">昵称</string>
+    <string name="weishu_account">微书号</string>
+    <string name="weishu_account_is">微书号：%1$s</string>
+    <string name="change_name">更改名字</string>
+    <string name="update_success">更新成功</string>
+    <string name="update_failed">更新失败</string>
 </resources>

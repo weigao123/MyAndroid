@@ -3,7 +3,6 @@ package com.garfield.weishu.ui.activity;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,13 +15,12 @@ import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.baselib.ui.widget.ClearableEditText;
 import com.garfield.weishu.R;
 import com.garfield.weishu.config.UserPreferences;
-import com.garfield.weishu.nim.DataCacheManager;
-import com.garfield.weishu.nim.NimInit;
+import com.garfield.weishu.nim.RegisterAndLogin;
+import com.garfield.weishu.nim.cache.DataCacheManager;
+import com.garfield.weishu.nim.InitSDK;
 import com.garfield.weishu.utils.permission.MPermission;
 import com.garfield.weishu.utils.permission.annotation.OnMPermissionDenied;
 import com.garfield.weishu.utils.permission.annotation.OnMPermissionGranted;
-import com.netease.nimlib.sdk.AbortableFuture;
-import com.netease.nimlib.sdk.auth.LoginInfo;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -59,7 +57,7 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher{
     @BindView(R.id.activity_login_register)
     TextView mRegisterBtn;
 
-    private NimInit.CancelableRequest mCancelableRequest;
+    private RegisterAndLogin.CancelableRequest mCancelableRequest;
 
     @Override
     protected int onGetActivityLayout() {
@@ -115,10 +113,10 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher{
 
         final String account = mLoginAccountText.getText().toString().toLowerCase();
         final String password = mLoginPasswordText.getText().toString().toLowerCase();
-        mCancelableRequest = NimInit.login(account, password, new NimInit.RequestResult() {
+        mCancelableRequest = RegisterAndLogin.login(account, password, new RegisterAndLogin.RequestResult() {
             @Override
             public void onResult(int result) {
-                if (result == NimInit.REQUEST_SUCCESS) {
+                if (result == RegisterAndLogin.REQUEST_SUCCESS) {
                     saveLoginInfo(account, password);
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     DataCacheManager.buildDataCacheAsync();
@@ -144,10 +142,10 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher{
         final String account = mRegisterAccountText.getText().toString().toLowerCase();
         final String nickname = mRegisterNickNameText.getText().toString().toLowerCase();
         final String password = mRegisterPasswordText.getText().toString().toLowerCase();
-        mCancelableRequest = NimInit.register(account, nickname, password, new NimInit.RequestResult() {
+        mCancelableRequest = RegisterAndLogin.register(account, nickname, password, new RegisterAndLogin.RequestResult() {
             @Override
             public void onResult(int result) {
-                if (result == NimInit.REQUEST_SUCCESS) {
+                if (result == RegisterAndLogin.REQUEST_SUCCESS) {
                     saveLoginInfo(account, null);
                     mLoginPasswordText.setText(password);
                     switchLoginAndRegister(true);
