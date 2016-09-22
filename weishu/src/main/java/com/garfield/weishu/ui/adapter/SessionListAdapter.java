@@ -1,4 +1,4 @@
-package com.garfield.weishu.adapter;
+package com.garfield.weishu.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.garfield.weishu.R;
-import com.garfield.weishu.bean.MsgListBean;
+import com.netease.nimlib.sdk.msg.model.RecentContact;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,13 +17,13 @@ import java.util.List;
 /**
  * Created by gwball on 2016/8/3.
  */
-public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MyViewHolder> {
+public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.MyViewHolder> {
     private Context mContext;
-    private List<MsgListBean> mData = new ArrayList<>();
+    private List<RecentContact> mData = new ArrayList<>();
     private OnItemClickListener mClickListener;
     private OnItemLongClickListener mLongClickListener;
 
-    public MsgListAdapter(Context context, ArrayList<MsgListBean> data) {
+    public SessionListAdapter(Context context, List<RecentContact> data) {
         mContext = context;
         mData = data;
     }
@@ -75,8 +75,8 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.mImageView.setImageResource(mData.get(position).getHeadImage());
-        holder.mNameTextView.setText(mData.get(position).getName());
+        holder.mImageView.setImageResource(R.drawable.default_avatar);
+        holder.mNameTextView.setText(mData.get(position).getFromAccount());
         holder.mContentTextView.setText(mData.get(position).getContent());
         holder.itemView.setClickable(true);
     }
@@ -86,7 +86,7 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MyViewHo
         return mData.size();
     }
 
-    public void setData(ArrayList<MsgListBean> data) {
+    public void setData(List<RecentContact> data) {
         mData = data;
     }
 

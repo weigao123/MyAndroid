@@ -1,12 +1,17 @@
 package com.garfield.weishu.ui.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.garfield.baselib.ui.widget.LetterIndexView;
 import com.garfield.baselib.utils.L;
+import com.garfield.baselib.utils.SizeUtils;
 import com.garfield.weishu.R;
 import com.garfield.weishu.contact.ContactDataAdapter;
 import com.garfield.weishu.contact.ContactDataProvider;
@@ -38,9 +43,10 @@ public class ContactFragment extends AppBaseFragment implements AdapterView.OnIt
 
     private ContactDataAdapter adapter;
 
-
     @BindView(R.id.contact_letter_index)
     LetterIndexView mLetterIndexView;
+
+    private TextView mCountView;
 
     @Override
     protected int onGetFragmentLayout() {
@@ -56,17 +62,33 @@ public class ContactFragment extends AppBaseFragment implements AdapterView.OnIt
 
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
-        ContactDataProvider dataProvider = new ContactDataProvider(ItemTypes.FUNC, ItemTypes.FRIEND);
-
-        adapter = new ContactDataAdapter(mActivity, new ContactsGroupStrategy(), dataProvider);
-        adapter.addViewHolder(ItemTypes.LABEL, LabelHolder.class);
-        adapter.addViewHolder(ItemTypes.FUNC, FuncHolder.class);
-        adapter.addViewHolder(ItemTypes.FRIEND, ContactHolder.class);
+        initAdapter();
         mListView.setAdapter(adapter);
         mListView.setOnItemClickListener(this);
         mListView.setOnLongClickListener(this);
 
+        mCountView = new TextView(mActivity);
+        mCountView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, SizeUtils.dp2px(mActivity, 50)));
+        mCountView.setBackgroundColor(getResources().getColor(R.color.gray_white));
+        mCountView.setGravity(Gravity.CENTER);
+        mCountView.setTextSize(15);
+        mCountView.setTextColor(getResources().getColor(R.color.black_gray));
+        mListView.addFooterView(mCountView);
+
         registerObserver(true);
+    }
+
+    private void initAdapter() {
+        ContactDataProvider dataProvider = new ContactDataProvider(ItemTypes.FUNC, ItemTypes.FRIEND);
+        adapter = new ContactDataAdapter(mActivity, new ContactsGroupStrategy(), dataProvider) {
+            @Override
+            protected void onPostLoad() {
+                mCountView.setText(getString(R.string.friend_count, FriendDataCache.getInstance().getAllFriendCounts()));
+            }
+        };
+        adapter.addViewHolder(ItemTypes.LABEL, LabelHolder.class);
+        adapter.addViewHolder(ItemTypes.FUNC, FuncHolder.class);
+        adapter.addViewHolder(ItemTypes.FRIEND, ContactHolder.class);
     }
 
     @Override
@@ -74,7 +96,6 @@ public class ContactFragment extends AppBaseFragment implements AdapterView.OnIt
         super.onActivityCreated(savedInstanceState);
         reload(false);
     }
-
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -99,7 +120,6 @@ public class ContactFragment extends AppBaseFragment implements AdapterView.OnIt
     public boolean onLongClick(View v) {
         return false;
     }
-
 
     /**
      * 加载通讯录数据并刷新
@@ -148,15 +168,15 @@ public class ContactFragment extends AppBaseFragment implements AdapterView.OnIt
         }
     };
 
-    // isNoFriendRefresh是false表示非好友，不刷新，true表示刷新
+    // isNoFriendRefresh是false表示非好友不刷新，true表示刷新
     private void reloadWhenDataChanged(List<String> accounts, String reason, boolean reload, boolean isNotFriendRefresh) {
+        L.d(TAG, "reload reason: "+reason);
         if (accounts == null || accounts.isEmpty()) {
             return;
         }
 
         boolean needReload = false;
         if(!isNotFriendRefresh) {
-            // 非force：与通讯录无关的（非好友）变更通知，去掉
             for (String account : accounts) {
                 if (FriendDataCache.getInstance().isMyFriend(account)) {
                     needReload = true;
@@ -168,23 +188,8 @@ public class ContactFragment extends AppBaseFragment implements AdapterView.OnIt
         }
 
         if (!needReload) {
-            L.d("no need to reload contact");
             return;
         }
-
-        // log
-        StringBuilder sb = new StringBuilder();
-        sb.append("ContactFragment received data changed as [" + reason + "] : ");
-        if (accounts != null && !accounts.isEmpty()) {
-            for (String account : accounts) {
-                sb.append(account);
-                sb.append(" ");
-            }
-            sb.append(", changed size=" + accounts.size());
-        }
-        L.d(sb.toString());
-
-        // reload
         reload(reload);
     }
 

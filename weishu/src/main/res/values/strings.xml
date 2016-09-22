@@ -45,6 +45,7 @@
     <string name="can_not_add_self">不能加自己为好友</string>
     <string name="remove_friend">删除好友</string>
     <string name="remove_friend_success">删除好友成功</string>
+    <string name="friend_count">%1$d位联系人</string>
     <string name="send_message">发消息</string>
     
     <string name="search">搜索</string>
@@ -60,4 +61,6 @@
     <string name="change_name">更改名字</string>
     <string name="update_success">更新成功</string>
     <string name="update_failed">更新失败</string>
+
+    <string name="no_session_record">暂无聊天记录</string>
 </resources>

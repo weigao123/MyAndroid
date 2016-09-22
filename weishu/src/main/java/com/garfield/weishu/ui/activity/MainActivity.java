@@ -9,7 +9,7 @@ import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.weishu.R;
 import com.garfield.weishu.event.StartBrotherEvent;
-import com.garfield.weishu.nim.cache.LoginSyncData;
+import com.garfield.weishu.nim.cache.LoginSyncHelper;
 import com.garfield.weishu.ui.fragment.MainFragment;
 import com.netease.nimlib.sdk.Observer;
 
@@ -50,7 +50,7 @@ public class MainActivity extends AppBaseActivity {
         if (savedInstanceState == null) {
             loadRootFragment(R.id.main_activity_fragment_container, (SupportFragment) Fragment.instantiate(this, MainFragment.class.getName()));
             // 等待同步数据完成
-            boolean syncCompleted = LoginSyncData.getInstance().observeSyncDataCompletedEvent(new Observer<Void>() {
+            boolean syncCompleted = LoginSyncHelper.getInstance().observeSyncDataCompletedEvent(new Observer<Void>() {
                 @Override
                 public void onEvent(Void v) {
                     DialogMaker.dismissProgressDialog();

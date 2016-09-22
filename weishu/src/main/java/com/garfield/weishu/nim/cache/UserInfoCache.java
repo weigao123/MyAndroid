@@ -3,7 +3,6 @@ package com.garfield.weishu.nim.cache;
 import android.text.TextUtils;
 
 import com.garfield.baselib.utils.L;
-import com.garfield.weishu.AppCache;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -24,13 +23,15 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class UserInfoCache {
 
+    public static final String TAG = UserInfoCache.class.getSimpleName();
+
     // 所有用户资料，只要fetch过就会有
     private Map<String, NimUserInfo> mUserMap = new ConcurrentHashMap<>();
 
     private List<UserInfoChangedObserver> userInfoObservers = new ArrayList<>();
 
     // 多处同时获取时，都要有返回
-    private Map<String, List<RequestCallback<NimUserInfo>>> mFetchUserInfoMap = new ConcurrentHashMap<>(); // 重复请求处理
+    private Map<String, List<RequestCallback<NimUserInfo>>> mFetchRequestMap = new ConcurrentHashMap<>(); // 重复请求处理
 
     /**
      * 构建缓存与清理
@@ -40,8 +41,8 @@ public class UserInfoCache {
         List<NimUserInfo> users = NIMClient.getService(UserService.class).getAllUserInfo();
         for (NimUserInfo u : users) {
             mUserMap.put(u.getAccount(), u);
+            L.d(TAG, "buildCache account: "+u.getAccount());
         }
-        L.d("build NimUserInfoCache completed, users count = " + mUserMap.size());
     }
 
     public void clear() {
@@ -60,9 +61,10 @@ public class UserInfoCache {
             }
             for (NimUserInfo u : users) {
                 mUserMap.put(u.getAccount(), u);
+                L.d(TAG, "userInfo update account: "+u.getAccount());
             }
             // 通知变更
-            List<String> accounts = getAccounts(users);
+            List<String> accounts = getAccountsFromUserInfo(users);
             if (accounts != null && !accounts.isEmpty()) {
                 for (UserInfoChangedObserver o : userInfoObservers) {
                     o.onUserInfoChanged(accounts);
@@ -71,7 +73,7 @@ public class UserInfoCache {
         }
     };
 
-    private List<String> getAccounts(List<NimUserInfo> users) {
+    private List<String> getAccountsFromUserInfo(List<NimUserInfo> users) {
         if (users == null || users.isEmpty()) {
             return null;
         }
@@ -82,6 +84,9 @@ public class UserInfoCache {
         return accounts;
     }
 
+    /**
+     * app层监听缓存层变化
+     */
     public void registerUserInfoChangedObserver(UserInfoChangedObserver o, boolean register) {
         if (o == null) {
             return;
@@ -100,16 +105,16 @@ public class UserInfoCache {
     }
 
     /**
-     * 从云信服务器获取用户信息（重复请求处理）[异步]
+     * 获取一个用户，从云信服务器获取用户信息（重复请求处理）[异步]
      */
     public void getUserInfoFromRemote(final String account, final RequestCallback<NimUserInfo> callback) {
         if (TextUtils.isEmpty(account)) {
             return;
         }
 
-        if (mFetchUserInfoMap.containsKey(account)) {
+        if (mFetchRequestMap.containsKey(account)) {
             if (callback != null) {
-                mFetchUserInfoMap.get(account).add(callback);
+                mFetchRequestMap.get(account).add(callback);
             }
             return; // 已经在请求中，不要重复请求
         } else {
@@ -117,7 +122,7 @@ public class UserInfoCache {
             if (callback != null) {
                 cbs.add(callback);
             }
-            mFetchUserInfoMap.put(account, cbs);
+            mFetchRequestMap.put(account, cbs);
         }
 
         List<String> accounts = new ArrayList<>(1);
@@ -133,7 +138,7 @@ public class UserInfoCache {
                 }
 
                 NimUserInfo user = null;
-                boolean hasCallback = mFetchUserInfoMap.get(account).size() > 0;
+                boolean hasCallback = mFetchRequestMap.get(account).size() > 0;
                 if (code == ResponseCode.RES_SUCCESS && users != null && !users.isEmpty()) {
                     user = users.get(0);
                     // 这里不需要更新缓存，由监听SDK用户资料变更（添加）来更新缓存
@@ -141,7 +146,7 @@ public class UserInfoCache {
 
                 // 处理回调
                 if (hasCallback) {
-                    List<RequestCallback<NimUserInfo>> cbs = mFetchUserInfoMap.get(account);
+                    List<RequestCallback<NimUserInfo>> cbs = mFetchRequestMap.get(account);
                     for (RequestCallback<NimUserInfo> cb : cbs) {
                         if (code == ResponseCode.RES_SUCCESS) {
                             cb.onSuccess(user);
@@ -151,12 +156,15 @@ public class UserInfoCache {
                     }
                 }
 
-                mFetchUserInfoMap.remove(account);
+                mFetchRequestMap.remove(account);
             }
         });
     }
 
-    public void getUserInfoFromRemote(List<String> accounts, final RequestCallback<List<NimUserInfo>> callback) {
+    /**
+     * 同时获取多个用户
+     */
+    public void getUsersInfoFromRemote(List<String> accounts, final RequestCallback<List<NimUserInfo>> callback) {
         NIMClient.getService(UserService.class).fetchUserInfo(accounts).setCallback(new RequestCallback<List<NimUserInfo>>() {
             @Override
             public void onSuccess(List<NimUserInfo> users) {
@@ -182,25 +190,28 @@ public class UserInfoCache {
         });
     }
 
+    /**
+     * 如果是好友，就默认会在UserInfo里吗？
+     */
     public List<NimUserInfo> getUserInfoOfAllMyFriend() {
-        List<String> accounts = FriendDataCache.getInstance().getMyFriendAccounts();
+        List<String> accounts = FriendDataCache.getInstance().getAllFriendAccounts();
         List<NimUserInfo> users = new ArrayList<>();
         for (String account : accounts) {
-            if (hasUser(account)) {
-                users.add(getUserInfo(account));
+            if (mUserMap.containsKey(account)) {
+                users.add(getUserInfoByAccount(account));
             }
         }
         return users;
     }
 
-    public NimUserInfo getUserInfo(String account) {
+    public NimUserInfo getUserInfoByAccount(String account) {
         if (TextUtils.isEmpty(account) || mUserMap == null) {
             return null;
         }
         return mUserMap.get(account);
     }
 
-    public void getUserInfo(String account, RequestCallback<NimUserInfo> callback) {
+    public void getUserInfoSafe(String account, RequestCallback<NimUserInfo> callback) {
         if (TextUtils.isEmpty(account)) {
             callback.onSuccess(null);
             return;
@@ -213,28 +224,20 @@ public class UserInfoCache {
         getUserInfoFromRemote(account, callback);
     }
 
-    public boolean hasUser(String account) {
-        if (TextUtils.isEmpty(account) || mUserMap == null) {
-            return false;
-        }
-        return mUserMap.containsKey(account);
-    }
-
     /**
-     * 获取用户显示名称。
      * 若设置了备注名，则显示备注名。
      * 若没有设置备注名，用户有昵称则显示昵称，用户没有昵称则显示帐号。
      */
     public String getUserDisplayName(String account) {
-        String alias = getAlias(account);
+        String alias = getUserAlias(account);
         if (!TextUtils.isEmpty(alias)) {
             return alias;
         }
-
         return getUserName(account);
     }
 
-    public String getAlias(String account) {
+    // 备注，在Friend里
+    public String getUserAlias(String account) {
         Friend friend = FriendDataCache.getInstance().getFriendByAccount(account);
         if (friend != null && !TextUtils.isEmpty(friend.getAlias())) {
             return friend.getAlias();
@@ -242,30 +245,13 @@ public class UserInfoCache {
         return null;
     }
 
-    // 获取用户原本的昵称
+    // 用户的名字，在UserInfo里
     public String getUserName(String account) {
-        NimUserInfo userInfo = getUserInfo(account);
+        NimUserInfo userInfo = getUserInfoByAccount(account);
         if (userInfo != null && !TextUtils.isEmpty(userInfo.getName())) {
             return userInfo.getName();
-        } else {
-            return account;
         }
-    }
-
-    public String getUserDisplayNameEx(String account) {
-        if (account.equals(AppCache.getAccount())) {
-            return "我";
-        }
-
-        return getUserDisplayName(account);
-    }
-
-    public String getUserDisplayNameYou(String account) {
-        if (account.equals(AppCache.getAccount())) {
-            return "你";  // 若为用户自己，显示“你”
-        }
-
-        return getUserDisplayName(account);
+        return account;
     }
 
     public static UserInfoCache getInstance() {

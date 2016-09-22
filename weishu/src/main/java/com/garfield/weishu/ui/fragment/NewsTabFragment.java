@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.garfield.weishu.R;
-import com.garfield.weishu.adapter.ContactAdapter;
+import com.garfield.weishu.ui.adapter.ContactAdapter;
 import com.garfield.weishu.bean.ContactBean;
 
 import java.util.ArrayList;

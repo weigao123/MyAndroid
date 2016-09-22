@@ -17,7 +17,6 @@ import com.garfield.weishu.R;
 import com.garfield.weishu.config.UserPreferences;
 import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.DataCacheManager;
-import com.garfield.weishu.nim.InitSDK;
 import com.garfield.weishu.utils.permission.MPermission;
 import com.garfield.weishu.utils.permission.annotation.OnMPermissionDenied;
 import com.garfield.weishu.utils.permission.annotation.OnMPermissionGranted;

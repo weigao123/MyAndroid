@@ -1,4 +1,4 @@
-package com.garfield.weishu.adapter;
+package com.garfield.weishu.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

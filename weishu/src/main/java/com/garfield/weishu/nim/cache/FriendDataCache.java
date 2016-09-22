@@ -2,6 +2,7 @@ package com.garfield.weishu.nim.cache;
 
 import android.text.TextUtils;
 
+import com.garfield.baselib.utils.L;
 import com.garfield.weishu.AppCache;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
@@ -27,6 +28,8 @@ import java.util.concurrent.CopyOnWriteArraySet;
  */
 public class FriendDataCache {
 
+    public static final String TAG = FriendDataCache.class.getSimpleName();
+
     // 全部好友，包括黑名单和自己
     private Map<String, Friend> allFriendMap = new ConcurrentHashMap<>();
 
@@ -40,6 +43,7 @@ public class FriendDataCache {
         List<Friend> friends = NIMClient.getService(FriendService.class).getFriends();
         for (Friend f : friends) {
             allFriendMap.put(f.getAccount(), f);
+            L.d(TAG, "buildCache account: "+f.getAccount());
         }
         // 获取我所有好友的帐号
         List<String> accounts = NIMClient.getService(FriendService.class).getFriendAccounts();
@@ -62,14 +66,14 @@ public class FriendDataCache {
     /**
      * ****************************** 好友查询接口 ******************************
      */
-    public List<String> getMyFriendAccounts() {
+    public List<String> getAllFriendAccounts() {
         List<String> accounts = new ArrayList<>(simplifyFriendSet.size());
         accounts.addAll(simplifyFriendSet);
 
         return accounts;
     }
 
-    public int getMyFriendCounts() {
+    public int getAllFriendCounts() {
         return simplifyFriendSet.size();
     }
 
@@ -80,6 +84,9 @@ public class FriendDataCache {
         return allFriendMap.get(account);
     }
 
+    /**
+     * 排除了黑名单和自己
+     */
     public boolean isMyFriend(String account) {
         return simplifyFriendSet.contains(account);
     }
@@ -135,6 +142,8 @@ public class FriendDataCache {
                 account = f.getAccount();
                 allFriendMap.put(account, f);
                 allFriendAccounts.add(account);
+                L.d(TAG, "friend update account: "+f.getAccount());
+
                 if (NIMClient.getService(FriendService.class).isInBlackList(account)) {
                     continue;
                 }

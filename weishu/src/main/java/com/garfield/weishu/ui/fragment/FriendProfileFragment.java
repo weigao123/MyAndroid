@@ -15,7 +15,6 @@ import com.garfield.weishu.nim.cache.FriendDataCache;
 import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
-import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.friend.FriendService;
 import com.netease.nimlib.sdk.friend.constant.VerifyType;
 import com.netease.nimlib.sdk.friend.model.AddFriendData;
@@ -70,12 +69,7 @@ public class FriendProfileFragment extends AppBaseFragment {
         super.onInitViewAndData(rootView, savedInstanceState);
         mAccount = getArguments().getString(USER_ACCOUNT);
         updateOperatorView(FriendDataCache.getInstance().isMyFriend(mAccount));
-        UserInfoCache.getInstance().getUserInfo(mAccount, new RequestCallbackWrapper<NimUserInfo>() {
-            @Override
-            public void onResult(int i, NimUserInfo userInfo, Throwable throwable) {
-                updateUserInfoView(userInfo);
-            }
-        });
+        updateUserInfoView(UserInfoCache.getInstance().getUserInfoByAccount(mAccount));
     }
 
     @Override

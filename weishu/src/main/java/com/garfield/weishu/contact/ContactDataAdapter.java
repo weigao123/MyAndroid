@@ -56,6 +56,7 @@ public class ContactDataAdapter extends BaseAdapter {
 
         @Override
         protected void onPreExecute() {
+            onPreLoad();
         }
 
         @Override
@@ -71,6 +72,7 @@ public class ContactDataAdapter extends BaseAdapter {
         @Override
         protected void onPostExecute(AbsContactDataList datas) {
             updateData(datas);
+            onPostLoad();
         }
     }
 
@@ -149,7 +151,10 @@ public class ContactDataAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-
+    protected void onPreLoad() {
+    }
+    protected void onPostLoad() {
+    }
 
 
 

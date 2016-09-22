@@ -35,13 +35,13 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
             mToolbarControl.setVisibility(View.VISIBLE);
         }
         if (savedInstanceState == null) {
-            mFragments[0] = new MsgListFragment();
+            mFragments[0] = new SessionListFragment();
             mFragments[1] = new ContactFragment();
             mFragments[2] = new NewsListFragment();
             mFragments[3] = new SettingFragment();
             loadMultiRootFragment(R.id.main_fragment_container, 0, mFragments[0], mFragments[1], mFragments[2], mFragments[3]);
         } else {
-            mFragments[0] = findFragment(MsgListFragment.class);
+            mFragments[0] = findFragment(SessionListFragment.class);
             mFragments[1] = findFragment(ContactFragment.class);
             mFragments[2] = findFragment(NewsListFragment.class);
             mFragments[3] = findFragment(SettingFragment.class);

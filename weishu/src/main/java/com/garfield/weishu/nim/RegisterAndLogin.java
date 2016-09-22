@@ -14,7 +14,7 @@ import com.garfield.weishu.http.volley.BaseRequest;
 import com.garfield.weishu.http.volley.RegisterRequest;
 import com.garfield.weishu.http.volley.VolleyHelper;
 import com.garfield.weishu.nim.cache.DataCacheManager;
-import com.garfield.weishu.nim.cache.LoginSyncData;
+import com.garfield.weishu.nim.cache.LoginSyncHelper;
 import com.garfield.weishu.ui.activity.WelcomeActivity;
 import com.netease.nimlib.sdk.AbortableFuture;
 import com.netease.nimlib.sdk.NIMClient;
@@ -127,7 +127,7 @@ public class RegisterAndLogin {
         UserPreferences.saveUserToken("");
         AppCache.clear();
         DataCacheManager.clearDataCache();
-        LoginSyncData.getInstance().reset();
+        LoginSyncHelper.getInstance().reset();
         context.startActivity(new Intent(context, WelcomeActivity.class));
         context.finish();
         context.overridePendingTransition(0, 0);
