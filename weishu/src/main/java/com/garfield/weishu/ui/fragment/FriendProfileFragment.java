@@ -23,12 +23,13 @@ import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.garfield.weishu.AppCache.USER_ACCOUNT;
+
 /**
  * Created by gwball on 2016/9/12.
  */
 public class FriendProfileFragment extends AppBaseFragment {
 
-    public static final String USER_ACCOUNT = "account";
     private String mAccount;
 
     @BindView(R.id.fragment_friend_profile_head)

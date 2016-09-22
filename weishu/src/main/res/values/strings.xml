@@ -47,7 +47,8 @@
     <string name="remove_friend_success">删除好友成功</string>
     <string name="friend_count">%1$d位联系人</string>
     <string name="send_message">发消息</string>
-    
+    <string name="send">发送</string>
+
     <string name="search">搜索</string>
     <string name="add_new_friend">添加朋友</string>
     <string name="details">详细资料</string>

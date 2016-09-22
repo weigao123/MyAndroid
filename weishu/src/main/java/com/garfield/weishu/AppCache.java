@@ -5,6 +5,7 @@ import android.content.Context;
 
 
 public class AppCache {
+    public static final String USER_ACCOUNT = "account";
 
     private static Context context;
 
