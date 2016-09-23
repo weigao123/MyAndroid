@@ -44,11 +44,6 @@ public class ChangeInfoFragment extends AppBaseFragment {
     }
 
     @Override
-    protected boolean onEnableSwipe() {
-        return true;
-    }
-
-    @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
         mToChangeText.setText(UserInfoCache.getInstance().getUserName(AppCache.getAccount()));

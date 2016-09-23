@@ -101,9 +101,9 @@ public class FragmentHelper {
         return (SupportFragment) fragment;
     }
 
-    void back(FragmentManager fragmentManager) {
+    void popBack(FragmentManager fragmentManager) {
         if (fragmentManager == null) return;
-        fragmentManager.popBackStack();
+        fragmentManager.popBackStackImmediate();
     }
 
 }

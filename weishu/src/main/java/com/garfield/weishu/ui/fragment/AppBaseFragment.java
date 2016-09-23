@@ -74,7 +74,12 @@ public class AppBaseFragment extends SupportFragment {
     }
 
     protected boolean onEnableSwipe() {
-        return false;
+        return !(this.getClass() == MainFragment.class ||
+                this.getClass() == SessionListFragment.class ||
+                this.getClass() == ContactFragment.class ||
+                //this.getClass() == NewsListFragment.class ||
+                this.getClass() == NewsTabFragment.class ||
+                this.getClass() == SettingFragment.class);
     }
 
     private void initMenu() {

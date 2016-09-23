@@ -34,7 +34,7 @@
                 android:layout_gravity="center"
                 android:text="@string/no_session_record"
                 android:textColor="@color/black_gray"
-                android:textSize="@dimen/text_size_small"
+                android:textSize="@dimen/textSmallSize"
                 android:layout_marginBottom="40dp"/>
         </LinearLayout>
     </FrameLayout>

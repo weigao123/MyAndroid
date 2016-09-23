@@ -1,6 +1,8 @@
 package com.garfield.weishu.ui.fragment;
 
+import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,6 +13,7 @@ import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.baselib.utils.NetworkUtil;
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
+import com.garfield.weishu.event.StartBrotherEvent;
 import com.garfield.weishu.nim.cache.FriendDataCache;
 import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.netease.nimlib.sdk.NIMClient;
@@ -19,6 +22,8 @@ import com.netease.nimlib.sdk.friend.FriendService;
 import com.netease.nimlib.sdk.friend.constant.VerifyType;
 import com.netease.nimlib.sdk.friend.model.AddFriendData;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -61,11 +66,6 @@ public class FriendProfileFragment extends AppBaseFragment {
     }
 
     @Override
-    protected boolean onEnableSwipe() {
-        return true;
-    }
-
-    @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
         mAccount = getArguments().getString(USER_ACCOUNT);
@@ -97,6 +97,11 @@ public class FriendProfileFragment extends AppBaseFragment {
         } else {
             doAddFriend("", true);
         }
+    }
+
+    @OnClick(R.id.fragment_friend_profile_chat)
+    void onStartChat() {
+        EventBus.getDefault().post(new StartBrotherEvent(SessionFragment.newInstance(mAccount)));
     }
 
     private void doAddFriend(String msg, boolean addDirectly) {

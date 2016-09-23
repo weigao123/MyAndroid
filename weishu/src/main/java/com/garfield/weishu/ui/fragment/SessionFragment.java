@@ -1,12 +1,22 @@
 package com.garfield.weishu.ui.fragment;
 
+import android.database.DataSetObserver;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.garfield.weishu.R;
+import com.garfield.weishu.bean.ContactBean;
+import com.garfield.weishu.ui.adapter.ContactAdapter;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -22,7 +32,10 @@ public class SessionFragment extends AppBaseFragment {
     EditText mInputText;
 
     @BindView(R.id.message_input_send)
-    Button mSendBtn;
+    TextView mSendBtn;
+
+    @BindView(R.id.fragment_session_list)
+    RecyclerView mRecyclerView;
 
     @Override
     protected int onGetFragmentLayout() {
@@ -30,14 +43,12 @@ public class SessionFragment extends AppBaseFragment {
     }
 
     @Override
-    protected boolean onEnableSwipe() {
-        return true;
-    }
-
-    @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
 
+        ContactAdapter contactAdapter = new ContactAdapter(new ArrayList<ContactBean>());
+
+        mRecyclerView.setAdapter(contactAdapter);
     }
 
     public static SessionFragment newInstance(String account) {

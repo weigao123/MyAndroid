@@ -37,11 +37,6 @@ public class SelfProfileFragment extends AppBaseFragment {
     }
 
     @Override
-    protected boolean onEnableSwipe() {
-        return true;
-    }
-
-    @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
         refreshInfo();

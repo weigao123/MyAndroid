@@ -160,13 +160,13 @@ public class SupportFragment extends SwipeBackFragment implements ISupport {
     @Override
     public void popFragment() {
         InputUtils.hideInputMethod(getView());
-        mFragmentHelper.back(getFragmentManager());
+        mFragmentHelper.popBack(getFragmentManager());
     }
 
     @Override
     public void popChildFragment() {
         InputUtils.hideInputMethod(getView());
-        mFragmentHelper.back(getChildFragmentManager());
+        mFragmentHelper.popBack(getChildFragmentManager());
     }
 
     @Override

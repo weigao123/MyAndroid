@@ -2,6 +2,6 @@
 <resources>
     <dimen name="bottom_bar_height">53dp</dimen>
 
-    <dimen name="textSmallSize">16sp</dimen>
+    <dimen name="textSmallSize">15sp</dimen>
     <dimen name="textNormalSize">20sp</dimen>
 </resources>
