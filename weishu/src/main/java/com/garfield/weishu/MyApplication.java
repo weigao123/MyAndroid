@@ -3,6 +3,7 @@ package com.garfield.weishu;
 import android.app.Application;
 import android.text.TextUtils;
 
+import com.garfield.baselib.utils.L;
 import com.garfield.weishu.config.UserPreferences;
 import com.garfield.weishu.contact.query.PinYin;
 import com.garfield.weishu.nim.cache.DataCacheManager;
@@ -21,6 +22,8 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
+
         AppCache.setContext(this);
 
         NimInit.initSDK(this);
@@ -40,5 +43,15 @@ public class MyApplication extends Application {
         }
     }
 
+    public class CrashHandler implements Thread.UncaughtExceptionHandler {
+
+        @Override
+        public void uncaughtException(Thread thread, Throwable ex) {
+
+            L.d("崩溃", thread.getName() + ex.toString());
+
+        }
+
+    }
 
 }

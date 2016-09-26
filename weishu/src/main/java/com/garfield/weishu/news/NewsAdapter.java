@@ -1,4 +1,4 @@
-package com.garfield.weishu.ui.adapter;
+package com.garfield.weishu.news;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,11 +16,11 @@ import java.util.List;
 /**
  * Created by gwball on 2016/8/3.
  */
-public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     List<ContactBean> mData;
 
-    public ContactAdapter(ArrayList<ContactBean> data) {
+    public NewsAdapter(ArrayList<ContactBean> data) {
         mData = data;
     }
 

@@ -1,25 +1,17 @@
 package com.garfield.weishu.ui.fragment;
 
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.garfield.weishu.R;
 import com.garfield.weishu.bean.ContactBean;
-import com.garfield.weishu.ui.adapter.ContactAdapter;
+import com.garfield.weishu.session.InputPanel;
+import com.garfield.weishu.news.NewsAdapter;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 import static com.garfield.weishu.AppCache.USER_ACCOUNT;
 
@@ -28,14 +20,13 @@ import static com.garfield.weishu.AppCache.USER_ACCOUNT;
  */
 public class SessionFragment extends AppBaseFragment {
 
-    @BindView(R.id.message_input_text)
-    EditText mInputText;
 
-    @BindView(R.id.message_input_send)
-    TextView mSendBtn;
 
     @BindView(R.id.fragment_session_list)
     RecyclerView mRecyclerView;
+
+    private String mAccount;
+    private InputPanel mInputPanel;
 
     @Override
     protected int onGetFragmentLayout() {
@@ -45,10 +36,13 @@ public class SessionFragment extends AppBaseFragment {
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
+        mAccount = getArguments().getString(USER_ACCOUNT);
 
-        ContactAdapter contactAdapter = new ContactAdapter(new ArrayList<ContactBean>());
+        NewsAdapter contactAdapter = new NewsAdapter(new ArrayList<ContactBean>());
 
         mRecyclerView.setAdapter(contactAdapter);
+
+        mInputPanel = new InputPanel(rootView, mAccount);
     }
 
     public static SessionFragment newInstance(String account) {
@@ -59,8 +53,5 @@ public class SessionFragment extends AppBaseFragment {
         return fragment;
     }
 
-    @OnClick(R.id.message_input_send)
-    void sendMessage() {
 
-    }
 }

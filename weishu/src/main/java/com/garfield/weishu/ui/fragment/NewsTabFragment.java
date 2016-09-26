@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.garfield.weishu.R;
-import com.garfield.weishu.ui.adapter.ContactAdapter;
+import com.garfield.weishu.news.NewsAdapter;
 import com.garfield.weishu.bean.ContactBean;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class NewsTabFragment extends AppBaseFragment {
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         mRecyclerView = (RecyclerView) rootView;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mRecyclerView.getContext()));
-        mRecyclerView.setAdapter(new ContactAdapter(getContactList(30)));
+        mRecyclerView.setAdapter(new NewsAdapter(getContactList(30)));
     }
 
     private ArrayList<ContactBean> getContactList(int sum) {

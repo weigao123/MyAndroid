@@ -1,4 +1,4 @@
-package com.garfield.weishu.ui.adapter;
+package com.garfield.weishu.base.adapter;
 
 import android.view.View;
 

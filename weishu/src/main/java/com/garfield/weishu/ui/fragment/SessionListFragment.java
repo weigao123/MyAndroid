@@ -10,10 +10,9 @@ import android.widget.Toast;
 
 import com.garfield.baselib.ui.dialog.MenuDialog;
 import com.garfield.weishu.R;
-import com.garfield.weishu.ui.adapter.SessionListAdapter;
-import com.garfield.weishu.ui.adapter.OnItemClickListener;
-import com.garfield.weishu.ui.adapter.OnItemLongClickListener;
-import com.garfield.weishu.bean.MsgListBean;
+import com.garfield.weishu.session.SessionListAdapter;
+import com.garfield.weishu.base.adapter.OnItemClickListener;
+import com.garfield.weishu.base.adapter.OnItemLongClickListener;
 import com.garfield.weishu.event.StartBrotherEvent;
 import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.FriendDataCache;
@@ -72,8 +71,8 @@ public class SessionListFragment extends AppBaseFragment {
         becyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(int position, View view) {
-                EventBus.getDefault().post(new StartBrotherEvent(new SessionFragment()));
+            public void onItemClick(int position, View view, Object object) {
+                EventBus.getDefault().post(new StartBrotherEvent(SessionFragment.newInstance((String)object)));
             }
         });
         adapter.setOnLongClickListener(new OnItemLongClickListener() {
@@ -84,7 +83,6 @@ public class SessionListFragment extends AppBaseFragment {
             }
         });
         registerObservers(true);
-
         requestMessages(true);
     }
 
@@ -148,14 +146,11 @@ public class SessionListFragment extends AppBaseFragment {
                         break;
                     }
                 }
-
                 if (index >= 0) {
                     items.remove(index);
                 }
-
                 items.add(msg);
             }
-
             refreshMessages(true);
         }
     };

@@ -1,4 +1,4 @@
-package com.garfield.weishu.ui.adapter;
+package com.garfield.weishu.session;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.garfield.weishu.R;
+import com.garfield.weishu.base.adapter.OnItemClickListener;
+import com.garfield.weishu.base.adapter.OnItemLongClickListener;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 
 import java.util.ArrayList;
@@ -32,12 +34,14 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
         public final ImageView mImageView;
         public final TextView mNameTextView;
         public final TextView mContentTextView;
+        public String mAccount;
 
         public MyViewHolder(View view) {
             super(view);
             mImageView = (ImageView) view.findViewById(R.id.item_msglist_head);
             mNameTextView = (TextView) view.findViewById(R.id.item_msglist_name);
             mContentTextView = (TextView) view.findViewById(R.id.item_msglist_content);
+            mAccount = null;
         }
     }
 
@@ -56,7 +60,7 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
                 if (mClickListener != null) {
-                    mClickListener.onItemClick(position, v);
+                    mClickListener.onItemClick(position, v, holder.mAccount);
                 }
             }
         });
@@ -79,6 +83,7 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
         holder.mNameTextView.setText(mData.get(position).getFromAccount());
         holder.mContentTextView.setText(mData.get(position).getContent());
         holder.itemView.setClickable(true);
+        holder.mAccount = mData.get(position).getContactId();
     }
 
     @Override
