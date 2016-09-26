@@ -1,6 +1,5 @@
 package com.garfield.weishu.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,11 +7,9 @@ import android.widget.TextView;
 
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
-import com.garfield.weishu.config.UserPreferences;
-import com.garfield.weishu.event.StartBrotherEvent;
+import com.garfield.weishu.base.event.StartBrotherEvent;
 import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.UserInfoCache;
-import com.garfield.weishu.ui.activity.WelcomeActivity;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.auth.AuthService;
 

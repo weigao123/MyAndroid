@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
-import com.garfield.weishu.event.StartBrotherEvent;
+import com.garfield.weishu.base.event.StartBrotherEvent;
 import com.garfield.weishu.nim.cache.UserInfoCache;
 
 import org.greenrobot.eventbus.EventBus;

@@ -1,8 +1,6 @@
 package com.garfield.weishu.ui.fragment;
 
-import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,7 +11,7 @@ import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.baselib.utils.NetworkUtil;
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
-import com.garfield.weishu.event.StartBrotherEvent;
+import com.garfield.weishu.base.event.StartBrotherEvent;
 import com.garfield.weishu.nim.cache.FriendDataCache;
 import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.netease.nimlib.sdk.NIMClient;

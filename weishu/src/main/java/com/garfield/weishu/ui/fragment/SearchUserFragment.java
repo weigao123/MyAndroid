@@ -8,7 +8,7 @@ import android.widget.Toast;
 import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.baselib.ui.widget.ClearableEditText;
 import com.garfield.weishu.R;
-import com.garfield.weishu.event.StartBrotherEvent;
+import com.garfield.weishu.base.event.StartBrotherEvent;
 import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;

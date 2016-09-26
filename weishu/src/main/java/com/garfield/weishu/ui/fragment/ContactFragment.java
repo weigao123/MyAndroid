@@ -1,6 +1,5 @@
 package com.garfield.weishu.ui.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -23,7 +22,7 @@ import com.garfield.weishu.contact.model.ContactGroupStrategy;
 import com.garfield.weishu.contact.viewholder.ContactHolder;
 import com.garfield.weishu.contact.viewholder.FuncHolder;
 import com.garfield.weishu.contact.viewholder.LabelHolder;
-import com.garfield.weishu.event.StartBrotherEvent;
+import com.garfield.weishu.base.event.StartBrotherEvent;
 import com.garfield.weishu.nim.cache.FriendDataCache;
 import com.garfield.weishu.nim.cache.UserInfoCache;
 

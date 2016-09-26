@@ -13,7 +13,7 @@ import com.garfield.weishu.R;
 import com.garfield.weishu.session.SessionListAdapter;
 import com.garfield.weishu.base.adapter.OnItemClickListener;
 import com.garfield.weishu.base.adapter.OnItemLongClickListener;
-import com.garfield.weishu.event.StartBrotherEvent;
+import com.garfield.weishu.base.event.StartBrotherEvent;
 import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.FriendDataCache;
 import com.netease.nimlib.sdk.NIMClient;

@@ -1,4 +1,4 @@
-package com.garfield.weishu.event;
+package com.garfield.weishu.base.event;
 
 
 import com.garfield.baselib.fragmentation.SupportFragment;
