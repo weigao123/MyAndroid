@@ -12,8 +12,6 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathDashPathEffect;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
@@ -32,9 +30,10 @@ import java.text.DecimalFormat;
 /**
  * Created by gaowei3 on 2016/8/29.
  */
-public class SpeedProgressView extends View {
+public class SpeedProgressView2 extends View {
 
     public static final boolean StartTest = true;
+    private String BackgroundColor = "000000";
 
     private float MaxSpeed = 40;
     private float OverSpeed = 30;
@@ -59,9 +58,6 @@ public class SpeedProgressView extends View {
     private Paint mTrackMaskPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Path mTrackMaskPath = new Path();
 
-    private Paint mSpeedArcPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private Path mSpeedArcPath = new Path();
-
     private Paint mBottomMaskPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Rect mBottomMaskRect;
 
@@ -84,7 +80,7 @@ public class SpeedProgressView extends View {
     private Rect mHeadOutRect;
 
     private RectF mTrackArcRect;
-    private RectF mSpecialTrackArcRect;
+    private RectF mTrackMaskArcRect;
 
     private int mWidth;
     private int mHeight;   //根据角度计算的实际的高度，非控件高度
@@ -101,21 +97,25 @@ public class SpeedProgressView extends View {
     private int mGearSpeed;
 
     private Handler mHandler;
+    private Animator mAnimator;
 
-    public SpeedProgressView(Context context) {
+    public SpeedProgressView2(Context context) {
         this(context, null);
     }
 
-    public SpeedProgressView(Context context, AttributeSet attrs) {
+    public SpeedProgressView2(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public SpeedProgressView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SpeedProgressView2(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         startTest();
     }
 
     public void setSpeed(float speed) {
+        if ((mAnimator != null && mAnimator.isRunning()) || speed == mToSpeed) {
+            return;
+        }
         if (speed > MaxSpeed) {
             speed = MaxSpeed;
         }
@@ -141,23 +141,23 @@ public class SpeedProgressView extends View {
 
     private void initView() {
         if (mTrackArcRect != null) return;
-        setBackgroundColor(Color.parseColor("#1c1f26"));
+        setBackgroundColor(Color.parseColor("#" + BackgroundColor));
 
         //大圈
         RectF dottedArcRect = new RectF(DottedWidth/2, DottedWidth/2, mWidth - DottedWidth/2, mWidth - DottedWidth/2);
         mDottedArcPaint.setStyle(Paint.Style.STROKE);
         mDottedArcPaint.setStrokeWidth(DottedWidth);
         Shader dottedShader = new SweepGradient(dottedArcRect.centerX(), dottedArcRect.centerY(), new int[]{
-                Color.parseColor("#BB0c90cc"),   //BB是因为要暗一点
-                Color.parseColor("#BB0b9fc2"),
-                Color.parseColor("#BB09abba"),
-                Color.parseColor("#BB08bbb0"),
-                Color.parseColor("#BB06cea3"),
-                Color.parseColor("#BB04dd99"),
-                Color.parseColor("#BB03ea90"),
-                Color.parseColor("#BB797448"),
-                Color.parseColor("#BBea0303"),
-                Color.parseColor("#BBea0303")},
+                Color.parseColor("#0c90cc"),   //BB是因为要暗一点
+                Color.parseColor("#0b9fc2"),
+                Color.parseColor("#09abba"),
+                Color.parseColor("#08bbb0"),
+                Color.parseColor("#06cea3"),
+                Color.parseColor("#04dd99"),
+                Color.parseColor("#03ea90"),
+                Color.parseColor("#797448"),
+                Color.parseColor("#ea0303"),
+                Color.parseColor("#ea0303")},
                 new float[]{0, 30/360f, 60/360f, 90/360f, 120/360f, 150/360f, 180/360f, 210/360f, 240/360f, 1});
         Matrix matrix = new Matrix();
         matrix.setRotate(270-Angle/2, dottedArcRect.centerX(), dottedArcRect.centerY());   //把颜色起点旋转到speed起点
@@ -169,7 +169,7 @@ public class SpeedProgressView extends View {
         mDottedArcPath.reset();
         mDottedArcPath.arcTo(dottedArcRect, 270 - Angle / 2, Angle);
 
-        //轨道
+        //轨道底座
         mTrackArcRect = new RectF(TrackMargin, TrackMargin, mWidth - TrackMargin, mWidth - TrackMargin);  //正方形，要比点点靠内
         mTrackArcPaint.setStyle(Paint.Style.STROKE);
         mTrackArcPaint.setStrokeWidth(TrackWidth);
@@ -188,16 +188,15 @@ public class SpeedProgressView extends View {
         trackShader.setLocalMatrix(matrix);     //颜色旋转
         mTrackArcPaint.setShader(trackShader);
         mTrackArcPath.reset();
-        mTrackArcPath.arcTo(mTrackArcRect, 270 - Angle / 2, Angle);
+        mTrackArcPath.arcTo(mTrackArcRect, 270 - Angle / 2, Angle);   //角度铺满
 
-        //轨道遮罩
-        //如果要旋转画布，之前所有的创建都要改变基准
-        mSpecialTrackArcRect = new RectF(-mTrackArcRect.width()/2, -mTrackArcRect.height()/2,
+        //轨道灰度遮罩
+        mTrackMaskArcRect = new RectF(-mTrackArcRect.width()/2, -mTrackArcRect.height()/2,
                 mTrackArcRect.width()/2, mTrackArcRect.height()/2);  //移动画布后原点变成了中心，较为特殊，因为要被旋转
         Shader trackMaskShader = new SweepGradient(0, 0, new int[]{     //这个地方必须是0,0，因为旋转！！！
-                Color.parseColor("#BB1c1f26"),
-                Color.parseColor("#FF1c1f26"),
-                Color.parseColor("#FF1c1f26")},
+                Color.parseColor("#BB" + BackgroundColor),
+                Color.parseColor("#FF" + BackgroundColor),
+                Color.parseColor("#FF" + BackgroundColor)},
                 new float[]{0, 0.3f, 1});
         Matrix trackMaskMatrix = new Matrix();
         trackMaskMatrix.setRotate(270-Angle/2, 0, 0);   //必须是0,0
@@ -206,20 +205,13 @@ public class SpeedProgressView extends View {
         mTrackMaskPaint.setStrokeWidth(TrackWidth+5);
         mTrackMaskPaint.setShader(trackMaskShader);
         mTrackMaskPath.reset();
-        mTrackMaskPath.arcTo(mSpecialTrackArcRect, 270 - Angle / 2, Angle);
-
-        //速度
-        mSpeedArcPaint.setStyle(Paint.Style.STROKE);
-        mSpeedArcPaint.setStrokeWidth(TrackWidth);
-        mSpeedArcPaint.setShader(trackShader);
-        mSpeedArcPath.reset();
-        mSpeedArcPath.arcTo(mTrackArcRect, 270 - Angle / 2, 3);     //起始只画3度
+        mTrackMaskPath.arcTo(mTrackMaskArcRect, 270 - Angle / 2, Angle);   //角度铺满
 
         //底部遮罩
         mBottomMaskRect = new Rect(0, mWidth/2, mWidth, mHeight);
         Shader bottomMaskShader = new LinearGradient(0, mTrackArcRect.centerY(), 0, mHeight,
-                Color.parseColor("#001c1f26"),
-                Color.parseColor("#FF1c1f26"), Shader.TileMode.CLAMP);
+                Color.parseColor("#00" + BackgroundColor),
+                Color.parseColor("#FF" + BackgroundColor), Shader.TileMode.CLAMP);
         mBottomMaskPaint.setShader(bottomMaskShader);
 
         //速度头
@@ -276,25 +268,29 @@ public class SpeedProgressView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        canvas.drawPath(mDottedArcPath, mDottedArcPaint);
         canvas.drawPath(mTrackArcPath, mTrackArcPaint);
 
+        // 绘制轨道遮罩
+        // 只有旋转时，才会把渐变色的颜色起点也旋转
         canvas.save();
         canvas.translate(mTrackArcRect.centerX(), mTrackArcRect.centerY());
-        canvas.rotate(mThisAngle-(270-Angle/2));
+        canvas.rotate(mThisAngle - (270 - Angle / 2));
         canvas.drawPath(mTrackMaskPath, mTrackMaskPaint);
         canvas.restore();
 
-        canvas.drawPath(mDottedArcPath, mDottedArcPaint);
-        canvas.drawPath(mSpeedArcPath, mSpeedArcPaint);
+        // 底部遮罩
         canvas.drawRect(mBottomMaskRect, mBottomMaskPaint);
 
+        // 绘制光棒
         canvas.save();
         canvas.translate(mTrackArcRect.centerX(), mTrackArcRect.centerY());
-        canvas.rotate(mThisAngle-180);
+        canvas.rotate(mThisAngle - 180);
         canvas.drawRect(mHeadInRect, mHeadInPaint);
         mHeadOutDrawable.draw(canvas);
         canvas.restore();
 
+        // 文字
         canvas.drawText("Km/h", mTrackArcRect.centerX(), mUnitTextBaseline, mUnitTextPaint);
         canvas.drawText(mCurrentSpeed+"", mTrackArcRect.centerX(), mSpeedTextBaseline, mSpeedTextPaint);
         canvas.drawBitmap(mGearBgBitmap, null, mGearBgRect, null);
@@ -306,19 +302,18 @@ public class SpeedProgressView extends View {
     }
 
     private void animateTo() {
-        Animator animator = ObjectAnimator.ofFloat(this, "currentSpeed", mCurrentSpeed, mToSpeed);
-        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        mAnimator = ObjectAnimator.ofFloat(this, "currentSpeed", mCurrentSpeed, mToSpeed);
+        mAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
         float diffAngle = Math.abs(mToAngle - mCurrentAngle);
         int diffTime = (int)(diffAngle * AnimatorTimePerAngle);
         if (diffTime < 500) {
             diffTime = 500;
         }
-        animator.setDuration(diffTime);
-        animator.start();
+        mAnimator.setDuration(diffTime);
+        mAnimator.start();
     }
 
     private void setCurrentSpeed(float thisSpeed) {
-        mSpeedArcPath.reset();
         mTrackMaskPath.reset();
         float sweepAngle = thisSpeed / MaxSpeed * Angle;
         float overSpeedSweepAngle = OverSpeed / MaxSpeed * Angle;   //超速时的角度
@@ -330,8 +325,9 @@ public class SpeedProgressView extends View {
             mHeadInPaint = mRedPaint;
             mHeadOutDrawable = mRedHeadDrawable;
         }
-        mSpeedArcPath.arcTo(mTrackArcRect, 270 - Angle / 2, sweepAngle);
-        mTrackMaskPath.arcTo(mSpecialTrackArcRect, 270 - Angle / 2, Angle/2+270-mThisAngle);    //起点必须是这个，这才是paint的第一个点，可能是因为旋转造成的
+        // 这里只能控制绘制起点，无法控制颜色起点，
+        // 只需要在(Angle / 2 + 270) - mThisAngle这个长度有内容
+        mTrackMaskPath.arcTo(mTrackMaskArcRect, 270 - Angle / 2, (Angle / 2 + 270) - mThisAngle);    //起点必须是这个，因为要去旋转
         postInvalidate();
     }
 

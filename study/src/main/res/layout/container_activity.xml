@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:background="#1c1f26">
+    android:background="#000000">
 
-    <com.garfield.study.widget.SpeedProgressView
+    <com.garfield.study.widget.SpeedProgressView2
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_margin="20dp"/>
