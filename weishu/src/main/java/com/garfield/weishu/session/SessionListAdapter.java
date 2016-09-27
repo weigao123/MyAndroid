@@ -52,7 +52,7 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
         view.setBackgroundResource(R.drawable.bg_press_gray);
 //        TypedValue typedValue = new TypedValue();
 //        mContext.getTheme().resolveAttribute(R.attr.selectableItemBackground, typedValue, true);
-//        view.setBackgroundResource(typedValue.resourceId);
+//        mView.setBackgroundResource(typedValue.resourceId);
 
         final MyViewHolder holder = new MyViewHolder(view);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
