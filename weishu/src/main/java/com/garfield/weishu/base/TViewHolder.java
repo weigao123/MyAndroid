@@ -1,17 +1,16 @@
 package com.garfield.weishu.base;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.*;
 
 /**
  * Created by gwball on 2016/9/27.
  */
 
-public abstract class BaseHolder {
+public abstract class TViewHolder {
 
     protected View mView;
+    protected TAdapter mAdapter;
 
     public View getView(LayoutInflater inflater) {
         int resId = getResId();
@@ -20,12 +19,12 @@ public abstract class BaseHolder {
         return mView;
     }
 
-    protected void setAdapter(android.widget.BaseAdapter adapter) {
-        this.adapter = adapter;
+    protected void setAdapter(TAdapter adapter) {
+        this.mAdapter = adapter;
     }
 
     protected TAdapter getAdapter() {
-        return this.adapter;
+        return this.mAdapter;
     }
 
     protected abstract int getResId();

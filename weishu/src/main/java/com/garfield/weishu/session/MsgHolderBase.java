@@ -6,8 +6,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.BaseHolder;
+import com.garfield.weishu.base.TViewHolder;
 import com.garfield.weishu.base.HeadImageView;
+import com.garfield.weishu.utils.TimeUtil;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
@@ -15,7 +16,7 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
  * Created by gwball on 2016/9/27.
  */
 
-public class MsgHolderBase extends BaseHolder {
+public class MsgHolderBase extends TViewHolder {
     protected IMMessage mMessage;
 
     protected TextView mTimeText;
@@ -24,6 +25,8 @@ public class MsgHolderBase extends BaseHolder {
     protected ProgressBar mProgressBar;
     protected ImageView mAlert;
     protected TextView mAlreadyRead;
+
+    private MsgAdapter mMsgAdapter;
 
     @Override
     protected int getResId() {
@@ -62,15 +65,20 @@ public class MsgHolderBase extends BaseHolder {
      * 设置时间显示
      */
     private void setTimeTextView() {
-        if (getAdapter().needShowTime(message)) {
-            timeTextView.setVisibility(View.VISIBLE);
+        if (getAdapter().needShowTime(mMessage)) {
+            mTimeText.setVisibility(View.VISIBLE);
         } else {
-            timeTextView.setVisibility(View.GONE);
+            mTimeText.setVisibility(View.GONE);
             return;
         }
 
-        String text = TimeUtil.getTimeShowString(message.getTime(), false);
-        timeTextView.setText(text);
+        String text = TimeUtil.getTimeShowString(mMessage.getTime(), false);
+        mTimeText.setText(text);
+    }
+
+    @Override
+    protected MsgAdapter getAdapter() {
+        return mMsgAdapter;
     }
 
     protected boolean isReceivedMessage() {
