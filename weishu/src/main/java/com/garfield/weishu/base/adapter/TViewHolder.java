@@ -1,5 +1,6 @@
-package com.garfield.weishu.base;
+package com.garfield.weishu.base.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -12,11 +13,22 @@ public abstract class TViewHolder {
     protected View mView;
     protected TAdapter mAdapter;
 
+    protected int mPosition;
+    protected Context mContext;
+
     public View getView(LayoutInflater inflater) {
         int resId = getResId();
         mView = inflater.inflate(resId, null);
         inflate();
         return mView;
+    }
+
+    protected void setPosition(int position) {
+        this.mPosition = position;
+    }
+
+    protected void setContext(Context context) {
+        mContext = context;
     }
 
     protected void setAdapter(TAdapter adapter) {

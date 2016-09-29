@@ -1,6 +1,6 @@
 package com.garfield.weishu.session;
 
-import com.garfield.weishu.base.TAdapter;
+import com.garfield.weishu.base.adapter.TAdapter;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
 import java.util.Set;
