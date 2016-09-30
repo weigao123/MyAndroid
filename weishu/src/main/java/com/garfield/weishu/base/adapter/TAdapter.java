@@ -56,7 +56,7 @@ public class TAdapter<T> extends BaseAdapter {
     // 先根据getItemViewType方法，然后在缓存里查找，找到后给convertView
     public View getView(final int position, View convertView, ViewGroup parent, boolean needRefresh) {
         if (convertView == null) {
-            convertView = viewAtPosition(position);
+            convertView = createViewAtPosition(position);
         }
         TViewHolder holder = (TViewHolder) convertView.getTag();
         holder.setPosition(position);
@@ -75,7 +75,7 @@ public class TAdapter<T> extends BaseAdapter {
         return convertView;
     }
 
-    public View viewAtPosition(int position) {
+    public View createViewAtPosition(int position) {
         TViewHolder holder = null;
         View view = null;
         try {
@@ -91,8 +91,6 @@ public class TAdapter<T> extends BaseAdapter {
         holder.setContext(view.getContext());
         return view;
     }
-
-
 
     @Override
     public int getViewTypeCount() {

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/msg_item_text"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textColor="@color/black_gray"
+    android:textSize="16sp"
+    android:autoLink="phone|email|map|web"
+    android:gravity="center_vertical|left"
+    android:includeFontPadding="false"
+    android:lineSpacingExtra="3dip"
+    android:maxWidth="200dp">
+
+</TextView>

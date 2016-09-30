@@ -16,10 +16,13 @@ public abstract class TViewHolder {
     protected int mPosition;
     protected Context mContext;
 
+    /**
+     * 入口
+     */
     public View getView(LayoutInflater inflater) {
         int resId = getResId();
         mView = inflater.inflate(resId, null);
-        inflate();
+        inflateChildView();
         return mView;
     }
 
@@ -41,11 +44,19 @@ public abstract class TViewHolder {
 
     protected abstract int getResId();
 
-    protected abstract void inflate();
+    protected abstract void inflateChildView();
 
     protected abstract void refresh(Object item);
 
     protected <T extends View> T findView(int resId) {
         return (T) (mView.findViewById(resId));
+    }
+
+    public boolean isFirstItem() {
+        return mPosition == 0;
+    }
+
+    public boolean isLastItem() {
+        return mPosition == mAdapter.getCount() - 1;
     }
 }
