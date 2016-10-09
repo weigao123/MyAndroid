@@ -5,7 +5,8 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
-import com.netease.nim.uikit.NimUIKit;
+
+import com.garfield.weishu.AppCache;
 
 import java.lang.reflect.Field;
 
@@ -30,7 +31,7 @@ public class ScreenUtil {
 	public static int navbarheight;
 
     static {
-        init(NimUIKit.getContext());
+        init(AppCache.getContext());
     }
 	
 	public static int dip2px(float dipValue) {
@@ -65,14 +66,14 @@ public class ScreenUtil {
 
 	public static int getDisplayWidth(){
 		if(screenWidth == 0){
-			GetInfo(NimUIKit.getContext());
+			GetInfo(AppCache.getContext());
 		}
 		return screenWidth;
 	}
 
 	public static int getDisplayHeight() {
 		if(screenHeight == 0){
-			GetInfo(NimUIKit.getContext());
+			GetInfo(AppCache.getContext());
 		}
 		return screenHeight;
 	}

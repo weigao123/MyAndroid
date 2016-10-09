@@ -8,7 +8,7 @@
 
     <include layout="@layout/include_toolbar" />
 
-    <ListView
+    <com.garfield.weishu.session.listview.MessageListView
         android:id="@+id/fragment_session_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
