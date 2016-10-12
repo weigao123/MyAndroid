@@ -11,8 +11,6 @@ import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
-import com.netease.nim.uikit.common.util.log.LogUtil;
-
 public class NetworkUtil {
 
 	public static final String TAG = "NetworkUtil";
@@ -342,7 +340,6 @@ public class NetworkUtil {
 		}
 
 		String proxyHost = android.net.Proxy.getDefaultHost();
-		LogUtil.e(TAG, "proxyHost:" + proxyHost);
 		return proxyHost;
 	}
 
@@ -356,7 +353,6 @@ public class NetworkUtil {
 		}
 
 		String proxyHost = android.net.Proxy.getDefaultHost();
-		LogUtil.e(TAG, "proxyHost:" + proxyHost);
 		return proxyHost;
 	}
 

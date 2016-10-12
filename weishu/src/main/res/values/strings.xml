@@ -67,4 +67,8 @@
 
     <string name="no_session_record">暂无聊天记录</string>
     <string name="readed">已读</string>
+
+    <string name="unsupport_title">无法显示该内容</string>
+    <string name="unsupport_desc">客户端版本不支持该内容</string>
+
 </resources>

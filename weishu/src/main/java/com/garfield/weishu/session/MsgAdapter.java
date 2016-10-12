@@ -6,6 +6,7 @@ import com.garfield.weishu.base.adapter.TAdapter;
 import com.garfield.weishu.base.adapter.TAdapterDelegate;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -21,6 +22,7 @@ public class MsgAdapter extends TAdapter {
 
     public MsgAdapter(Context context, List items, TAdapterDelegate delegate) {
         super(context, items, delegate);
+        timedItems = new HashSet<>();
     }
 
     public boolean needShowTime(IMMessage message) {

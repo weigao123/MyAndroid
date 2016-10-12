@@ -4,6 +4,7 @@
     android:id="@+id/msg_item_text"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_gravity="center"
     android:textColor="@color/black_gray"
     android:textSize="16sp"
     android:autoLink="phone|email|map|web"

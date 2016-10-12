@@ -10,6 +10,7 @@ import com.garfield.weishu.base.adapter.TViewHolder;
 import com.garfield.weishu.session.listview.AutoRefreshListView;
 import com.garfield.weishu.session.listview.ListViewUtil;
 import com.garfield.weishu.session.listview.MessageListView;
+import com.garfield.weishu.session.viewholder.MsgViewHolderFactory;
 import com.garfield.weishu.utils.ScreenUtil;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -26,6 +27,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -34,7 +36,9 @@ import butterknife.ButterKnife;
 
 public class MessageListPanel implements TAdapterDelegate {
     private List<IMMessage> items;
-    private MessageListView messageListView;
+
+    @BindView(R.id.fragment_session_list)
+    MessageListView messageListView;
     private MsgAdapter adapter;
     private View rootView;
 
@@ -42,14 +46,15 @@ public class MessageListPanel implements TAdapterDelegate {
     private String account;
     private Handler uiHandler = new Handler();
 
-    public MessageListPanel(View rootView) {
+    public MessageListPanel(View rootView, String account) {
         ButterKnife.bind(this, rootView);
+        this.rootView = rootView;
+        this.account = account;
         init();
     }
 
     private void init() {
         items = new ArrayList<>();
-        messageListView = (MessageListView) rootView.findViewById(R.id.fragment_session_list);
         messageListView.setMode(AutoRefreshListView.Mode.START);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
             messageListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
@@ -84,12 +89,12 @@ public class MessageListPanel implements TAdapterDelegate {
 
     @Override
     public int getViewTypeCount() {
-        return 0;
+        return MsgViewHolderFactory.getViewTypeCount();
     }
 
     @Override
     public Class<? extends TViewHolder> getViewHolderClassAtPosition(int position) {
-        return null;
+        return MsgViewHolderFactory.getViewHolderByType(items.get(position));
     }
 
     @Override

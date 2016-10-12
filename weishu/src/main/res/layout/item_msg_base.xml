@@ -15,13 +15,16 @@
         android:paddingRight="7dip"
         android:background="@drawable/message_tip_bg"
         android:textColor="@color/white"
-        android:text="time"/>
+        android:gravity="center"
+        android:text="time"
+        android:textSize="12sp"/>
 
     <com.garfield.weishu.base.HeadImageView
         android:id="@+id/msg_item_left_head"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_below="@id/msg_item_time"
+        android:src="@drawable/default_avatar"
         android:layout_alignParentLeft="true"
         android:layout_marginRight="8dp" />
 
@@ -30,6 +33,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_below="@id/msg_item_time"
+        android:src="@drawable/default_avatar"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="8dp" />
 

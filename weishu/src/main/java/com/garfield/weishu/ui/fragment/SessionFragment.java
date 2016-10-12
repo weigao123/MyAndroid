@@ -1,6 +1,8 @@
 package com.garfield.weishu.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -9,6 +11,7 @@ import com.garfield.weishu.bean.ContactBean;
 import com.garfield.weishu.session.InputPanel;
 import com.garfield.weishu.news.NewsAdapter;
 import com.garfield.weishu.session.MessageListPanel;
+import com.garfield.weishu.session.listview.MessageListView;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
@@ -27,11 +30,6 @@ import static com.garfield.weishu.AppCache.USER_ACCOUNT;
  */
 public class SessionFragment extends AppBaseFragment {
 
-
-
-    @BindView(R.id.fragment_session_list)
-    RecyclerView mRecyclerView;
-
     private String mAccount;
     private InputPanel mInputPanel;
     protected MessageListPanel messageListPanel;
@@ -46,14 +44,15 @@ public class SessionFragment extends AppBaseFragment {
         super.onInitViewAndData(rootView, savedInstanceState);
         mAccount = getArguments().getString(USER_ACCOUNT);
 
-        NewsAdapter contactAdapter = new NewsAdapter(new ArrayList<ContactBean>());
-
-        mRecyclerView.setAdapter(contactAdapter);
-
-        messageListPanel = new MessageListPanel(rootView);
+        messageListPanel = new MessageListPanel(rootView, mAccount);
         mInputPanel = new InputPanel(rootView, mAccount);
         registerObservers(true);
 
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     public static SessionFragment newInstance(String account) {

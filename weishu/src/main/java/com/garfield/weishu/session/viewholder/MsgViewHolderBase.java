@@ -1,4 +1,4 @@
-package com.garfield.weishu.session;
+package com.garfield.weishu.session.viewholder;
 
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.adapter.TViewHolder;
 import com.garfield.weishu.base.HeadImageView;
+import com.garfield.weishu.session.MsgAdapter;
 import com.garfield.weishu.utils.TimeUtil;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
@@ -21,7 +22,7 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
  * Created by gwball on 2016/9/27.
  */
 
-public abstract class MsgHolderBase extends TViewHolder {
+public abstract class MsgViewHolderBase extends TViewHolder {
     protected IMMessage mMessage;
 
     protected TextView mTimeText;
@@ -32,8 +33,6 @@ public abstract class MsgHolderBase extends TViewHolder {
     protected ProgressBar mProgressBar;
     protected ImageView mAlert;
     protected TextView mAlreadyRead;
-
-    private MsgAdapter mMsgAdapter;
 
     /// -- 以下接口可由子类覆盖或实现
     abstract protected int getContentResId();
@@ -86,7 +85,8 @@ public abstract class MsgHolderBase extends TViewHolder {
      * 设置时间显示
      */
     private void setTimeTextView() {
-        if (getAdapter().needShowTime(mMessage)) {
+        MsgAdapter msgAdapter = getAdapter();
+        if (msgAdapter.needShowTime(mMessage)) {
             mTimeText.setVisibility(View.VISIBLE);
         } else {
             mTimeText.setVisibility(View.GONE);
@@ -143,7 +143,7 @@ public abstract class MsgHolderBase extends TViewHolder {
 
     @Override
     protected MsgAdapter getAdapter() {
-        return mMsgAdapter;
+        return (MsgAdapter) mAdapter;
     }
 
     protected boolean isReceivedMessage() {
@@ -161,6 +161,10 @@ public abstract class MsgHolderBase extends TViewHolder {
 
     protected int rightBackground() {
         return R.drawable.message_item_right_selector;
+    }
+
+    protected boolean isMiddleItem() {
+        return false;
     }
 
 }
