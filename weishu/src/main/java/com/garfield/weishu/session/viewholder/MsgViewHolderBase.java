@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.adapter.TViewHolder;
 import com.garfield.weishu.base.HeadImageView;
+import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.session.MsgAdapter;
 import com.garfield.weishu.utils.TimeUtil;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
@@ -34,7 +35,6 @@ public abstract class MsgViewHolderBase extends TViewHolder {
     protected ImageView mAlert;
     protected TextView mAlreadyRead;
 
-    /// -- 以下接口可由子类覆盖或实现
     abstract protected int getContentResId();
     abstract protected void inflateContentView();
     abstract protected void bindContentView();
@@ -68,7 +68,44 @@ public abstract class MsgViewHolderBase extends TViewHolder {
         setContent();
         setReadReceipt();
 
+        setOnClickListener();
+
         bindContentView();
+    }
+
+    // 内容区域点击事件响应处理。
+    protected void onItemClick() {
+    }
+
+    private void setOnClickListener() {
+        // 重发/重收按钮响应事件
+//        if (getAdapter().getEventListener() != null) {
+//            alertButton.setOnClickListener(new View.OnClickListener() {
+//
+//                @Override
+//                public void onClick(View v) {
+//                    getAdapter().getEventListener().onFailedBtnClick(message);
+//                }
+//            });
+//        }
+
+        mContentContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClick();
+            }
+        });
+
+        // 头像点击事件响应
+        View.OnClickListener portraitListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventDispatcher.getFragmentJumpEvent().onShowUserProfile(mMessage.getFromAccount());
+            }
+        };
+        mLeftHead.setOnClickListener(portraitListener);
+        mRightHead.setOnClickListener(portraitListener);
+
     }
 
     private void setHeadImageView() {
@@ -116,7 +153,6 @@ public abstract class MsgViewHolderBase extends TViewHolder {
     }
 
     private void setContent() {
-
         // 调整container的位置
         int index = isReceivedMessage() ? 0 : 3;
         if (mBodyContainer.getChildAt(index) != mContentContainer) {

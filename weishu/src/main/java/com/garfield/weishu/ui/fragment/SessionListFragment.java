@@ -10,10 +10,10 @@ import android.widget.Toast;
 
 import com.garfield.baselib.ui.dialog.MenuDialog;
 import com.garfield.weishu.R;
+import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.session.SessionListAdapter;
 import com.garfield.weishu.base.adapter.OnItemClickListener;
 import com.garfield.weishu.base.adapter.OnItemLongClickListener;
-import com.garfield.weishu.base.event.StartBrotherEvent;
 import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.FriendDataCache;
 import com.netease.nimlib.sdk.NIMClient;
@@ -25,8 +25,6 @@ import com.netease.nimlib.sdk.auth.AuthServiceObserver;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +70,7 @@ public class SessionListFragment extends AppBaseFragment {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position, View view, Object object) {
-                EventBus.getDefault().post(new StartBrotherEvent(SessionFragment.newInstance((String)object)));
+                EventDispatcher.getFragmentJumpEvent().onShowSession((String)object);
             }
         });
         adapter.setOnLongClickListener(new OnItemLongClickListener() {

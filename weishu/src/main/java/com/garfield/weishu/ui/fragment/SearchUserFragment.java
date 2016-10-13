@@ -8,12 +8,10 @@ import android.widget.Toast;
 import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.baselib.ui.widget.ClearableEditText;
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.event.StartBrotherEvent;
+import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
-
-import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -58,7 +56,7 @@ public class SearchUserFragment extends AppBaseFragment {
                 if (userInfo == null) {
                     Toast.makeText(mActivity, "该用户不存在", Toast.LENGTH_SHORT).show();
                 } else {
-                    EventBus.getDefault().post(new StartBrotherEvent(FriendProfileFragment.newInstance(userInfo.getAccount())));
+                    EventDispatcher.getFragmentJumpEvent().onShowUserProfile(userInfo.getAccount());
                 }
             }
 

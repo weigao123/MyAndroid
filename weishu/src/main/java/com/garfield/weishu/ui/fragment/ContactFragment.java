@@ -12,6 +12,7 @@ import com.garfield.baselib.ui.widget.LetterIndexView;
 import com.garfield.baselib.utils.L;
 import com.garfield.baselib.utils.SizeUtils;
 import com.garfield.weishu.R;
+import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.contact.ContactDataAdapter;
 import com.garfield.weishu.contact.ContactDataProvider;
 import com.garfield.weishu.contact.ItemTypes;
@@ -22,11 +23,8 @@ import com.garfield.weishu.contact.model.ContactGroupStrategy;
 import com.garfield.weishu.contact.viewholder.ContactHolder;
 import com.garfield.weishu.contact.viewholder.FuncHolder;
 import com.garfield.weishu.contact.viewholder.LabelHolder;
-import com.garfield.weishu.base.event.StartBrotherEvent;
 import com.garfield.weishu.nim.cache.FriendDataCache;
 import com.garfield.weishu.nim.cache.UserInfoCache;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -106,12 +104,12 @@ public class ContactFragment extends AppBaseFragment implements AdapterView.OnIt
         if (type == ItemTypes.FUNC && item instanceof FuncItem) {
             switch (((FuncItem) item).getFuncType()) {
                 case FuncItem.TYPE_NEW_FRIEND:
-                    EventBus.getDefault().post(new StartBrotherEvent(new SearchUserFragment()));
+                    EventDispatcher.getFragmentJumpEvent().onShowSearchUser();
                     break;
             }
         }
         if (type == ItemTypes.FRIEND && item instanceof ContactItem) {
-            EventBus.getDefault().post(new StartBrotherEvent(FriendProfileFragment.newInstance(((ContactItem) item).getAccount())));
+            EventDispatcher.getFragmentJumpEvent().onShowUserProfile(((ContactItem) item).getAccount());
         }
     }
 

@@ -7,13 +7,11 @@ import android.widget.TextView;
 
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.event.StartBrotherEvent;
+import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.auth.AuthService;
-
-import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -57,7 +55,6 @@ public class SettingFragment extends AppBaseFragment {
 
     @OnClick(R.id.fragment_setting_user_info)
     void modifyUserInfo() {
-        EventBus.getDefault().post(new StartBrotherEvent(new SelfProfileFragment()));
-
+        EventDispatcher.getFragmentJumpEvent().onShowSelfProfile();
     }
 }

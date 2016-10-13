@@ -11,7 +11,7 @@ import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.baselib.utils.NetworkUtil;
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.event.StartBrotherEvent;
+import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.nim.cache.FriendDataCache;
 import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.netease.nimlib.sdk.NIMClient;
@@ -20,8 +20,6 @@ import com.netease.nimlib.sdk.friend.FriendService;
 import com.netease.nimlib.sdk.friend.constant.VerifyType;
 import com.netease.nimlib.sdk.friend.model.AddFriendData;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
-
-import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -99,7 +97,7 @@ public class FriendProfileFragment extends AppBaseFragment {
 
     @OnClick(R.id.fragment_friend_profile_chat)
     void onStartChat() {
-        EventBus.getDefault().post(new StartBrotherEvent(SessionFragment.newInstance(mAccount)));
+        EventDispatcher.getFragmentJumpEvent().onShowSession(mAccount);
     }
 
     private void doAddFriend(String msg, boolean addDirectly) {
