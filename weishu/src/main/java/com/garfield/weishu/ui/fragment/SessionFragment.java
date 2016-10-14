@@ -11,6 +11,7 @@ import com.garfield.weishu.bean.ContactBean;
 import com.garfield.weishu.session.InputPanel;
 import com.garfield.weishu.news.NewsAdapter;
 import com.garfield.weishu.session.MessageListPanel;
+import com.garfield.weishu.session.ModuleProxy;
 import com.garfield.weishu.session.listview.MessageListView;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
@@ -28,7 +29,7 @@ import static com.garfield.weishu.AppCache.USER_ACCOUNT;
 /**
  * Created by gaowei3 on 2016/8/4.
  */
-public class SessionFragment extends AppBaseFragment {
+public class SessionFragment extends AppBaseFragment implements ModuleProxy {
 
     private String mAccount;
     private InputPanel mInputPanel;
@@ -99,4 +100,27 @@ public class SessionFragment extends AppBaseFragment {
         //messageListPanel.onDestroy();
         registerObservers(false);
     }
+
+    @Override
+    public boolean sendMessage(IMMessage msg) {
+        return false;
+    }
+
+    @Override
+    public void onInputPanelExpand() {
+
+    }
+
+    @Override
+    public void shouldCollapseInputPanel() {
+
+    }
+
+    @Override
+    public boolean isLongClickEnabled() {
+        return false;
+    }
+
+
+
 }

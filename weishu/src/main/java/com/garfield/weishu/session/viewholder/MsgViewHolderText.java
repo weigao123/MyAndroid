@@ -29,12 +29,25 @@ public class MsgViewHolderText extends MsgViewHolderBase {
         mText.setText(getDisplayText());
     }
 
+    // 点9图右下横线决定内容区域
     private void layoutDirection() {
         if (isReceivedMessage()) {
-            //mText.setPadding(ScreenUtil.dip2px(15), ScreenUtil.dip2px(8), ScreenUtil.dip2px(10), ScreenUtil.dip2px(8));
+            mText.setBackgroundResource(R.drawable.message_item_left_selector);
+            mText.setPadding(ScreenUtil.dip2px(15), ScreenUtil.dip2px(8), ScreenUtil.dip2px(10), ScreenUtil.dip2px(8));
         } else {
-            //mText.setPadding(ScreenUtil.dip2px(10), ScreenUtil.dip2px(8), ScreenUtil.dip2px(15), ScreenUtil.dip2px(8));
+            mText.setBackgroundResource(R.drawable.message_item_right_selector);
+            mText.setPadding(ScreenUtil.dip2px(10), ScreenUtil.dip2px(8), ScreenUtil.dip2px(15), ScreenUtil.dip2px(8));
         }
+    }
+
+    @Override
+    protected int leftBackground() {
+        return 0;
+    }
+
+    @Override
+    protected int rightBackground() {
+        return 0;
     }
 
     protected String getDisplayText() {
