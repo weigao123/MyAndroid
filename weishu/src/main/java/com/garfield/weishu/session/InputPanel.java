@@ -37,6 +37,9 @@ public class InputPanel {
     @BindView(R.id.message_input_send)
     TextView mSendBtn;
 
+    @BindView(R.id.message_input_edit_line)
+    View mEditTextLine;
+
     private View mRootView;
     private String mAccount;
     private ModuleProxy mModuleProxy;
@@ -61,6 +64,9 @@ public class InputPanel {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     mModuleProxy.onInputPanelExpand();
+                    mEditTextLine.setBackgroundColor(mRootView.getContext().getResources().getColor(R.color.colorPrimaryDark));
+                } else {
+                    mEditTextLine.setBackgroundColor(mRootView.getContext().getResources().getColor(R.color.gray));
                 }
             }
         });

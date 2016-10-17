@@ -12,20 +12,26 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:src="@drawable/message_input_keyboard"
+        android:layout_gravity="bottom"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"/>
 
     <FrameLayout
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:layout_weight="1">
         <EditText
             android:id="@+id/message_input_text"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textSize="18sp"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textCursorDrawable="@null"
+            android:textSize="16sp"
+            android:maxLines="4"
             android:background="@null"/>
         <View
+            android:id="@+id/message_input_edit_line"
             android:layout_width="match_parent"
             android:layout_height="2px"
             android:layout_gravity="bottom"
@@ -35,6 +41,7 @@
     <ImageView
         android:layout_width="32dp"
         android:layout_height="32dp"
+        android:layout_gravity="bottom"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:src="@drawable/message_input_emotion"/>
@@ -43,6 +50,7 @@
         android:id="@+id/message_input_send"
         android:layout_width="50dp"
         android:layout_height="35dp"
+        android:layout_gravity="bottom"
         android:layout_marginRight="8dp"
         android:gravity="center"
         android:text="@string/send"
