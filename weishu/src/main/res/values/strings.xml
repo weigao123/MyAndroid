@@ -2,6 +2,10 @@
     <string name="app_name">WeiShu</string>
 
     <string name="confirm">确定</string>
+    <string name="agree">同意</string>
+    <string name="disagree">不同意</string>
+    <string name="title">标题</string>
+    <string name="content">内容</string>
 
     <string name="please_login">请登录</string>
     <string name="login">登录</string>

@@ -94,23 +94,9 @@ public abstract class MsgViewHolderBase extends TViewHolder {
             });
         }
 
-        mHolderBase.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                L.d("root1");
-                return false;
-            }
-        });
-        mHolderBase.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                L.d("root2");
-            }
-        });
         mContentContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                L.d("2");
                 onItemClick();
             }
         });
@@ -119,13 +105,11 @@ public abstract class MsgViewHolderBase extends TViewHolder {
         View.OnClickListener portraitListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                L.d("3");
                 EventDispatcher.getFragmentJumpEvent().onShowUserProfile(mMessage.getFromAccount());
             }
         };
         mLeftHead.setOnClickListener(portraitListener);
         mRightHead.setOnClickListener(portraitListener);
-
 
         View.OnLongClickListener longClickListener = new View.OnLongClickListener() {
             @Override
@@ -139,8 +123,6 @@ public abstract class MsgViewHolderBase extends TViewHolder {
         };
         mContentContainer.setOnLongClickListener(longClickListener);
     }
-
-
 
     private void setHeadImageView() {
         if (isReceivedMessage()) {

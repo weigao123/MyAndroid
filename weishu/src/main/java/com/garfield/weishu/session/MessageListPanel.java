@@ -3,8 +3,10 @@ package com.garfield.weishu.session;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
+import com.garfield.baselib.utils.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.adapter.TAdapterDelegate;
 import com.garfield.weishu.base.adapter.TViewHolder;
@@ -66,6 +68,13 @@ public class MessageListPanel implements TAdapterDelegate {
         adapter.setEventListener(new HolderEventListener());
         messageListView.setAdapter(adapter);
         messageListView.setOnRefreshListener(new MessageLoader(null));
+
+        messageListView.setListViewEventListener(new MessageListView.OnListViewEventListener() {
+            @Override
+            public void onListViewStartScroll() {
+                moduleProxy.shouldCollapseInputPanel();
+            }
+        });
     }
 
     public void onIncomingMessage(List<IMMessage> messages) {
@@ -318,5 +327,14 @@ public class MessageListPanel implements TAdapterDelegate {
         public void onFailedBtnClick(IMMessage resendMessage) {
 
         }
+    }
+
+    public void scrollToBottom() {
+        uiHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ListViewUtil.scrollToBottom(messageListView);
+            }
+        }, 200);
     }
 }
