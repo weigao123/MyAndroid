@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.garfield.baselib.ui.dialog.MenuDialog;
+import com.garfield.baselib.ui.dialog.EasyMenuDialog;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.session.SessionListAdapter;
@@ -76,7 +76,7 @@ public class SessionListFragment extends AppBaseFragment {
         adapter.setOnLongClickListener(new OnItemLongClickListener() {
             @Override
             public void onItemLongPressed(int position, View view) {
-                MenuDialog menuDialog = new MenuDialog();
+                EasyMenuDialog menuDialog = new EasyMenuDialog();
                 menuDialog.show(getChildFragmentManager(), "dialoglist");
             }
         });

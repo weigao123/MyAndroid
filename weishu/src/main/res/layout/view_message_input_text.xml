@@ -9,15 +9,15 @@
     android:paddingBottom="8dp" >
 
     <ImageView
-        android:layout_width="34dp"
-        android:layout_height="34dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:src="@drawable/message_input_keyboard"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"/>
 
     <FrameLayout
         android:layout_width="0dp"
-        android:layout_height="34dp"
+        android:layout_height="32dp"
         android:layout_weight="1">
         <EditText
             android:id="@+id/message_input_text"
@@ -27,22 +27,22 @@
             android:background="@null"/>
         <View
             android:layout_width="match_parent"
-            android:layout_height="1px"
+            android:layout_height="2px"
             android:layout_gravity="bottom"
             android:background="@color/gray"/>
     </FrameLayout>
 
     <ImageView
-        android:layout_width="34dp"
-        android:layout_height="34dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:src="@drawable/message_input_emotion"/>
 
     <TextView
         android:id="@+id/message_input_send"
-        android:layout_width="45dp"
-        android:layout_height="34dp"
+        android:layout_width="50dp"
+        android:layout_height="32dp"
         android:layout_marginRight="8dp"
         android:gravity="center"
         android:text="@string/send"

@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by gaowei3 on 2016/8/28.
  */
-public class MenuDialog extends DialogFragment {
+public class EasyMenuDialog extends DialogFragment {
 
     public static final int ITEM_HEIGHT = 48;
     public static final int ITEM_MARGIN = 90;
@@ -30,7 +30,7 @@ public class MenuDialog extends DialogFragment {
 
     private OnItemClickListener mItemClickListener;
 
-    public MenuDialog() {
+    public EasyMenuDialog() {
         super();
         Bundle bundle = getArguments();
         mList.add("第一条");

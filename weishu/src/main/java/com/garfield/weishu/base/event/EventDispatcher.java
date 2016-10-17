@@ -14,10 +14,10 @@ import org.greenrobot.eventbus.EventBus;
 
 public class EventDispatcher {
 
-    private static FragmentJumpEvent fragmentJumpEvent;
+    private static MyEvent.FragmentJumpEvent fragmentJumpEvent;
 
     static {
-        fragmentJumpEvent = new FragmentJumpEvent() {
+        fragmentJumpEvent = new MyEvent.FragmentJumpEvent() {
             @Override
             public void onShowUserProfile(String account) {
                 EventBus.getDefault().post(new StartBrotherEvent(FriendProfileFragment.newInstance(account)));
@@ -45,7 +45,7 @@ public class EventDispatcher {
         };
     }
 
-    public static FragmentJumpEvent getFragmentJumpEvent() {
+    public static MyEvent.FragmentJumpEvent getFragmentJumpEvent() {
         return fragmentJumpEvent;
     }
 

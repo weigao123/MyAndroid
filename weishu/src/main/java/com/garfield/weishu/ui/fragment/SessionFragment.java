@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
+import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.bean.ContactBean;
 import com.garfield.weishu.session.InputPanel;
@@ -15,6 +17,9 @@ import com.garfield.weishu.session.ModuleProxy;
 import com.garfield.weishu.session.listview.MessageListView;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.RequestCallbackWrapper;
+import com.netease.nimlib.sdk.ResponseCode;
+import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.MessageReceipt;
@@ -45,8 +50,8 @@ public class SessionFragment extends AppBaseFragment implements ModuleProxy {
         super.onInitViewAndData(rootView, savedInstanceState);
         mAccount = getArguments().getString(USER_ACCOUNT);
 
-        messageListPanel = new MessageListPanel(rootView, mAccount);
-        mInputPanel = new InputPanel(rootView, mAccount);
+        messageListPanel = new MessageListPanel(rootView, mAccount, this);
+        mInputPanel = new InputPanel(rootView, mAccount, this);
         registerObservers(true);
 
     }
@@ -103,7 +108,18 @@ public class SessionFragment extends AppBaseFragment implements ModuleProxy {
 
     @Override
     public boolean sendMessage(IMMessage msg) {
-        return false;
+        NIMClient.getService(MsgService.class).sendMessage(msg, false).setCallback(new RequestCallbackWrapper<Void>() {
+            @Override
+            public void onResult(int i, Void aVoid, Throwable throwable) {
+                if (i == ResponseCode.RES_SUCCESS) {
+                    Toast.makeText(AppCache.getContext(), R.string.send_success, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(AppCache.getContext(), R.string.send_fail, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        messageListPanel.onMessageSend(msg);
+        return true;
     }
 
     @Override

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!-- 高度实际并不是match_parent -->
-<RelativeLayout
+<com.garfield.weishu.session.viewholder.MyRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/msg_item_base"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="6dp">
@@ -93,4 +94,4 @@
         </LinearLayout>
     </FrameLayout>
 
-</RelativeLayout>
+</com.garfield.weishu.session.viewholder.MyRelativeLayout>

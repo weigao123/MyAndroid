@@ -2,13 +2,16 @@ package com.garfield.weishu.session.viewholder;
 
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.garfield.baselib.utils.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.adapter.TViewHolder;
 import com.garfield.weishu.base.HeadImageView;
@@ -26,6 +29,7 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 public abstract class MsgViewHolderBase extends TViewHolder {
     protected IMMessage mMessage;
 
+    protected MyRelativeLayout mHolderBase;
     protected TextView mTimeText;
     private HeadImageView mLeftHead;
     private HeadImageView mRightHead;
@@ -46,6 +50,7 @@ public abstract class MsgViewHolderBase extends TViewHolder {
 
     @Override
     protected void inflateChildView() {
+        mHolderBase = findView(R.id.msg_item_base);
         mTimeText = findView(R.id.msg_item_time);
         mLeftHead = findView(R.id.msg_item_left_head);
         mRightHead = findView(R.id.msg_item_right_head);
@@ -79,19 +84,33 @@ public abstract class MsgViewHolderBase extends TViewHolder {
 
     private void setOnClickListener() {
         // 重发/重收按钮响应事件
-//        if (getAdapter().getEventListener() != null) {
-//            alertButton.setOnClickListener(new View.OnClickListener() {
-//
-//                @Override
-//                public void onClick(View v) {
-//                    getAdapter().getEventListener().onFailedBtnClick(message);
-//                }
-//            });
-//        }
+        if (getAdapter().getEventListener() != null) {
+            mAlert.setOnClickListener(new View.OnClickListener() {
 
+                @Override
+                public void onClick(View v) {
+                    getAdapter().getEventListener().onFailedBtnClick(mMessage);
+                }
+            });
+        }
+
+        mHolderBase.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                L.d("root1");
+                return false;
+            }
+        });
+        mHolderBase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                L.d("root2");
+            }
+        });
         mContentContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                L.d("2");
                 onItemClick();
             }
         });
@@ -100,13 +119,28 @@ public abstract class MsgViewHolderBase extends TViewHolder {
         View.OnClickListener portraitListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                L.d("3");
                 EventDispatcher.getFragmentJumpEvent().onShowUserProfile(mMessage.getFromAccount());
             }
         };
         mLeftHead.setOnClickListener(portraitListener);
         mRightHead.setOnClickListener(portraitListener);
 
+
+        View.OnLongClickListener longClickListener = new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (getAdapter().getEventListener() != null) {
+                    getAdapter().getEventListener().onViewHolderLongClick(mMessage);
+                    return true;
+                }
+                return false;
+            }
+        };
+        mContentContainer.setOnLongClickListener(longClickListener);
     }
+
+
 
     private void setHeadImageView() {
         if (isReceivedMessage()) {

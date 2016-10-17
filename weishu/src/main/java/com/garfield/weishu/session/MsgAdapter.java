@@ -1,6 +1,7 @@
 package com.garfield.weishu.session;
 
 import android.content.Context;
+import android.view.View;
 
 import com.garfield.weishu.base.adapter.TAdapter;
 import com.garfield.weishu.base.adapter.TAdapterDelegate;
@@ -19,6 +20,7 @@ public class MsgAdapter extends TAdapter {
     private String messageId;
     private Set<String> timedItems; // 需要显示消息时间的消息ID
     private IMMessage lastShowTimeItem; // 用于消息时间显示,判断和上条消息间的时间间隔
+    private ViewHolderEventListener eventListener;
 
     public MsgAdapter(Context context, List items, TAdapterDelegate delegate) {
         super(context, items, delegate);
@@ -36,5 +38,21 @@ public class MsgAdapter extends TAdapter {
 
     public String getUuid() {
         return messageId;
+    }
+
+    public void setEventListener(ViewHolderEventListener eventListener) {
+        this.eventListener = eventListener;
+    }
+
+    public ViewHolderEventListener getEventListener() {
+        return eventListener;
+    }
+
+    /**
+     * 这两个属于所有ViewHolder公用的方法，拿出来写在Adapter里
+     */
+    public interface ViewHolderEventListener {
+        boolean onViewHolderLongClick(IMMessage item);
+        void onFailedBtnClick(IMMessage resendMessage);
     }
 }

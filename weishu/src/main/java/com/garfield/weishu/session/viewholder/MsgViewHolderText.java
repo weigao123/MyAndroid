@@ -1,5 +1,6 @@
 package com.garfield.weishu.session.viewholder;
 
+import android.graphics.Color;
 import android.widget.TextView;
 
 import com.garfield.weishu.R;
@@ -26,6 +27,7 @@ public class MsgViewHolderText extends MsgViewHolderBase {
     @Override
     protected void bindContentView() {
         layoutDirection();
+        mText.setTextColor(isReceivedMessage() ? Color.BLACK : Color.WHITE);
         mText.setText(getDisplayText());
     }
 

@@ -2,6 +2,7 @@ package com.garfield.weishu.session;
 
 import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 
 import com.garfield.weishu.R;
@@ -41,15 +42,17 @@ public class MessageListPanel implements TAdapterDelegate {
     MessageListView messageListView;
     private MsgAdapter adapter;
     private View rootView;
+    private ModuleProxy moduleProxy;
 
     private SessionTypeEnum sessionType = SessionTypeEnum.P2P;
     private String account;
     private Handler uiHandler = new Handler();
 
-    public MessageListPanel(View rootView, String account) {
+    public MessageListPanel(View rootView, String account, ModuleProxy moduleProxy) {
         ButterKnife.bind(this, rootView);
         this.rootView = rootView;
         this.account = account;
+        this.moduleProxy = moduleProxy;
         init();
     }
 
@@ -60,6 +63,7 @@ public class MessageListPanel implements TAdapterDelegate {
             messageListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         }
         adapter = new MsgAdapter(rootView.getContext(), items, this);
+        adapter.setEventListener(new HolderEventListener());
         messageListView.setAdapter(adapter);
         messageListView.setOnRefreshListener(new MessageLoader(null));
     }
@@ -240,7 +244,8 @@ public class MessageListPanel implements TAdapterDelegate {
             //adapter.updateShowTimeItem(items, true, firstLoad);
             //updateReceipt(items); // 更新已读回执标签
 
-            refreshMessageList();
+            // 必须先notify，才能使listView.getCount同步
+            adapter.notifyDataSetChanged();
             messageListView.onRefreshComplete(count, LOAD_MESSAGE_COUNT, true);
 
             firstLoad = false;
@@ -283,11 +288,35 @@ public class MessageListPanel implements TAdapterDelegate {
 
     // 刷新消息列表
     public void refreshMessageList() {
-        rootView.post(new Runnable() {
+        Log.d("gaowei", ""+Thread.currentThread().getName());
+        uiHandler.post(new Runnable() {
             @Override
             public void run() {
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    public void onMessageSend(IMMessage message) {
+        items.add(message);
+        List<IMMessage> addedListItems = new ArrayList<>(1);
+        addedListItems.add(message);
+        //adapter.updateShowTimeItem(addedListItems, false, true);
+
+        adapter.notifyDataSetChanged();
+        ListViewUtil.scrollToBottom(messageListView);
+    }
+
+    private class HolderEventListener implements MsgAdapter.ViewHolderEventListener {
+
+        @Override
+        public boolean onViewHolderLongClick(IMMessage item) {
+            return false;
+        }
+
+        @Override
+        public void onFailedBtnClick(IMMessage resendMessage) {
+
+        }
     }
 }

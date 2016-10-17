@@ -35,10 +35,12 @@ public class InputPanel {
 
     private View mRootView;
     private String mAccount;
+    private ModuleProxy mModuleProxy;
 
-    public InputPanel(View rootView, String account) {
+    public InputPanel(View rootView, String account, ModuleProxy moduleProxy) {
         mRootView = rootView;
         mAccount = account;
+        mModuleProxy = moduleProxy;
         ButterKnife.bind(this, rootView);
     }
 
@@ -49,16 +51,7 @@ public class InputPanel {
             return;
         }
         IMMessage textMessage = MessageBuilder.createTextMessage(mAccount, SessionTypeEnum.P2P, text);
-        NIMClient.getService(MsgService.class).sendMessage(textMessage, false).setCallback(new RequestCallbackWrapper<Void>() {
-            @Override
-            public void onResult(int i, Void aVoid, Throwable throwable) {
-                if (i == ResponseCode.RES_SUCCESS) {
-                    Toast.makeText(AppCache.getContext(), R.string.send_success, Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(AppCache.getContext(), R.string.send_fail, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
         mInputText.setText("");
+        mModuleProxy.sendMessage(textMessage);
     }
 }
