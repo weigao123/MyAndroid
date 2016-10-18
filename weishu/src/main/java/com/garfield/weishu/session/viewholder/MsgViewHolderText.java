@@ -35,10 +35,10 @@ public class MsgViewHolderText extends MsgViewHolderBase {
     private void layoutDirection() {
         if (isReceivedMessage()) {
             mText.setBackgroundResource(R.drawable.message_item_bg_left_selector);
-            mText.setPadding(ScreenUtil.dip2px(15), ScreenUtil.dip2px(8), ScreenUtil.dip2px(10), ScreenUtil.dip2px(8));
+            mText.setPadding(ScreenUtil.dip2px(8), ScreenUtil.dip2px(8), ScreenUtil.dip2px(8), ScreenUtil.dip2px(8));
         } else {
             mText.setBackgroundResource(R.drawable.message_item_bg_right_selector);
-            mText.setPadding(ScreenUtil.dip2px(10), ScreenUtil.dip2px(8), ScreenUtil.dip2px(15), ScreenUtil.dip2px(8));
+            mText.setPadding(ScreenUtil.dip2px(8), ScreenUtil.dip2px(8), ScreenUtil.dip2px(8), ScreenUtil.dip2px(8));
         }
     }
 

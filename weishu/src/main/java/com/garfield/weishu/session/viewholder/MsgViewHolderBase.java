@@ -7,6 +7,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.garfield.weishu.R;
@@ -26,7 +27,7 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 public abstract class MsgViewHolderBase extends TViewHolder {
     protected IMMessage mMessage;
 
-    protected MyRelativeLayout mHolderBase;
+    protected RelativeLayout mHolderBase;
     protected TextView mTimeText;
     private HeadImageView mLeftHead;
     private HeadImageView mRightHead;

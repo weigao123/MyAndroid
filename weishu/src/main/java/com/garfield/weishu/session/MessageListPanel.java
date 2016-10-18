@@ -84,8 +84,9 @@ public class MessageListPanel implements TAdapterDelegate {
     }
 
     public void onIncomingMessage(List<IMMessage> messages) {
-        List<IMMessage> addedListItems = new ArrayList<>(messages.size());
+        boolean needScrollToBottom = ListViewUtil.isLastMessageVisible(messageListView);
         boolean needRefresh = false;
+        List<IMMessage> addedListItems = new ArrayList<>(messages.size());
         for (IMMessage message : messages) {
             if (isMyMessage(message)) {
                 items.add(message);
@@ -97,7 +98,12 @@ public class MessageListPanel implements TAdapterDelegate {
             sortMessages(items);
             adapter.notifyDataSetChanged();
         }
-
+        IMMessage lastMsg = messages.get(messages.size() - 1);
+        if (isMyMessage(lastMsg)) {
+            if (needScrollToBottom) {
+                ListViewUtil.scrollToBottom(messageListView);
+            }
+        }
     }
 
     public boolean isMyMessage(IMMessage message) {

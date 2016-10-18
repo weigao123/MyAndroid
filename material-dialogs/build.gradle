@@ -14,7 +14,7 @@ android {
     buildToolsVersion BUILD_TOOLS
 
     defaultConfig {
-        minSdkVersion 9
+        minSdkVersion 15
         targetSdkVersion TARGET_SDK
         versionCode 1
         versionName PUBLISH_VERSION
@@ -34,4 +34,4 @@ dependencies {
     compile "me.zhanghai.android.materialprogressbar:library:1.1.7"
 }
 
-apply from: 'https://raw.githubusercontent.com/afollestad/aidanfollestad.com/master/android-lib-release.gradle'
+//apply from: 'https://raw.githubusercontent.com/afollestad/aidanfollestad.com/master/android-lib-release.gradle'

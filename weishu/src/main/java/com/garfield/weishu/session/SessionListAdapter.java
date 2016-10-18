@@ -12,6 +12,7 @@ import com.garfield.weishu.R;
 import com.garfield.weishu.base.adapter.OnItemClickListener;
 import com.garfield.weishu.base.adapter.OnItemLongClickListener;
 import com.garfield.weishu.nim.cache.UserInfoCache;
+import com.garfield.weishu.utils.TimeUtil;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 
@@ -36,6 +37,7 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
         public final ImageView mImageView;
         public final TextView mNameTextView;
         public final TextView mContentTextView;
+        public final TextView mTime;
         public String mAccount;
 
         public MyViewHolder(View view) {
@@ -43,6 +45,7 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
             mImageView = (ImageView) view.findViewById(R.id.item_msglist_head);
             mNameTextView = (TextView) view.findViewById(R.id.item_msglist_name);
             mContentTextView = (TextView) view.findViewById(R.id.item_msglist_content);
+            mTime = (TextView) view.findViewById(R.id.item_msglist_time);
             mAccount = null;
         }
     }
@@ -86,6 +89,7 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
         holder.mContentTextView.setText(mData.get(position).getContent());
         holder.itemView.setClickable(true);
         holder.mAccount = mData.get(position).getContactId();
+        holder.mTime.setText(TimeUtil.getTimeShowString(mData.get(position).getTime(), true));
     }
 
     @Override

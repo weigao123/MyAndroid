@@ -27,6 +27,8 @@ import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,6 +37,7 @@ import butterknife.BindView;
  * Created by gaowei3 on 2016/8/1.
  */
 public class SessionListFragment extends AppBaseFragment {
+    public static final long RECENT_TAG_STICKY = 1; // 联系人置顶tag
 
     @BindView(R.id.network_status_bar)
     LinearLayout mNetworkStateBar;
@@ -177,6 +180,7 @@ public class SessionListFragment extends AppBaseFragment {
     };
 
     private void refreshMessages(boolean unreadChanged) {
+        sortRecentContacts(items);
         notifyDataSetChanged();
     }
 
@@ -187,7 +191,30 @@ public class SessionListFragment extends AppBaseFragment {
     }
 
 
+    /**
+     * **************************** 排序 ***********************************
+     */
+    private void sortRecentContacts(List<RecentContact> list) {
+        if (list.size() == 0) {
+            return;
+        }
+        Collections.sort(list, comp);
+    }
 
+    private static Comparator<RecentContact> comp = new Comparator<RecentContact>() {
+
+        @Override
+        public int compare(RecentContact o1, RecentContact o2) {
+            // 先比较置顶tag
+            long sticky = (o1.getTag() & RECENT_TAG_STICKY) - (o2.getTag() & RECENT_TAG_STICKY);
+            if (sticky != 0) {
+                return sticky > 0 ? -1 : 1;
+            } else {
+                long time = o1.getTime() - o2.getTime();
+                return time == 0 ? 0 : (time > 0 ? -1 : 1);
+            }
+        }
+    };
 
 
 
