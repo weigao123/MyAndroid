@@ -38,6 +38,7 @@
                 android:layout_alignParentBottom="true"
                 android:includeFontPadding="false"
                 android:textSize="14sp"
+                android:maxLines="1"
                 android:textColor="@color/black_gray"
                 android:text="test2"/>
         </RelativeLayout>

@@ -2,16 +2,13 @@ package com.garfield.weishu.session.viewholder;
 
 import android.text.TextUtils;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.garfield.baselib.utils.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.adapter.TViewHolder;
 import com.garfield.weishu.base.HeadImageView;
@@ -69,13 +66,19 @@ public abstract class MsgViewHolderBase extends TViewHolder {
         mMessage = (IMMessage) item;
         setHeadImageView();
         setTimeTextView();
-        setStatus();
+        setSentStatus();
         setContent();
         setReadReceipt();
 
         setOnClickListener();
 
         bindContentView();
+    }
+
+    public void refreshCurrentItem() {
+        if (mMessage != null) {
+            refresh(mMessage);
+        }
     }
 
     // 内容区域点击事件响应处理。
@@ -150,20 +153,20 @@ public abstract class MsgViewHolderBase extends TViewHolder {
         mTimeText.setText(text);
     }
 
-    private void setStatus() {
+    private void setSentStatus() {
         MsgStatusEnum status = mMessage.getStatus();
         switch (status) {
             case fail:
                 mProgressBar.setVisibility(View.GONE);
-                mAlreadyRead.setVisibility(View.VISIBLE);
+                mAlert.setVisibility(View.VISIBLE);
                 break;
             case sending:
                 mProgressBar.setVisibility(View.VISIBLE);
-                mAlreadyRead.setVisibility(View.GONE);
+                mAlert.setVisibility(View.GONE);
                 break;
             default:
                 mProgressBar.setVisibility(View.GONE);
-                mAlreadyRead.setVisibility(View.GONE);
+                mAlert.setVisibility(View.GONE);
                 break;
         }
     }
@@ -208,11 +211,11 @@ public abstract class MsgViewHolderBase extends TViewHolder {
     }
 
     protected int leftBackground() {
-        return R.drawable.message_item_left_selector;
+        return R.drawable.message_item_bg_left_selector;
     }
 
     protected int rightBackground() {
-        return R.drawable.message_item_right_selector;
+        return R.drawable.message_item_bg_right_selector;
     }
 
     protected boolean isMiddleItem() {

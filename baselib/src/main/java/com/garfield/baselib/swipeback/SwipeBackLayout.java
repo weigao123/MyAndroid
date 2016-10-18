@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.garfield.baselib.R;
+import com.garfield.baselib.utils.L;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -383,9 +384,9 @@ public class SwipeBackLayout extends FrameLayout {
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (!mEnable) return super.onInterceptTouchEvent(ev);
-        return mDragHelper.shouldInterceptTouchEvent(ev);
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+        if (!mEnable) return super.onInterceptTouchEvent(event);
+        return mDragHelper.shouldInterceptTouchEvent(event);
     }
 
     @Override

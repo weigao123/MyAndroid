@@ -13,6 +13,7 @@
         android:layout_height="32dp"
         android:src="@drawable/message_input_keyboard"
         android:layout_gravity="bottom"
+        android:layout_marginBottom="1.5dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"/>
 
@@ -44,6 +45,7 @@
         android:layout_gravity="bottom"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginBottom="1.5dp"
         android:src="@drawable/message_input_emotion"/>
 
     <TextView

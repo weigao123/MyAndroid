@@ -2,6 +2,7 @@ package com.garfield.weishu.session;
 
 import android.os.Build;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,14 +14,18 @@ import com.garfield.weishu.base.adapter.TViewHolder;
 import com.garfield.weishu.session.listview.AutoRefreshListView;
 import com.garfield.weishu.session.listview.ListViewUtil;
 import com.garfield.weishu.session.listview.MessageListView;
+import com.garfield.weishu.session.viewholder.MsgViewHolderBase;
 import com.garfield.weishu.session.viewholder.MsgViewHolderFactory;
 import com.garfield.weishu.utils.ScreenUtil;
 import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.MsgServiceObserve;
+import com.netease.nimlib.sdk.msg.attachment.AudioAttachment;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.QueryDirectionEnum;
@@ -75,6 +80,7 @@ public class MessageListPanel implements TAdapterDelegate {
                 moduleProxy.shouldCollapseInputPanel();
             }
         });
+        registerObservers(true);
     }
 
     public void onIncomingMessage(List<IMMessage> messages) {
@@ -113,6 +119,58 @@ public class MessageListPanel implements TAdapterDelegate {
     @Override
     public boolean enabled(int position) {
         return false;
+    }
+
+    private void registerObservers(boolean register) {
+        MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
+        service.observeMsgStatus(messageStatusObserver, register);
+    }
+
+    Observer<IMMessage> messageStatusObserver = new Observer<IMMessage>() {
+        @Override
+        public void onEvent(IMMessage message) {
+            if (isMyMessage(message)) {
+                onMessageStatusChange(message);
+            }
+        }
+    };
+
+    private void onMessageStatusChange(IMMessage message) {
+        int index = getItemIndex(message.getUuid());
+        if (index >= 0 && index < items.size()) {
+            IMMessage item = items.get(index);
+            item.setStatus(message.getStatus());
+            refreshViewHolderByIndex(index);
+        }
+    }
+
+    private int getItemIndex(String uuid) {
+        for (int i = 0; i < items.size(); i++) {
+            IMMessage message = items.get(i);
+            if (TextUtils.equals(message.getUuid(), uuid)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    private void refreshViewHolderByIndex(final int index) {
+        rootView.post(new Runnable() {
+
+            @Override
+            public void run() {
+                if (index < 0) {
+                    return;
+                }
+
+                Object tag = ListViewUtil.getViewHolderByIndex(messageListView, index);
+                if (tag instanceof MsgViewHolderBase) {
+                    MsgViewHolderBase viewHolder = (MsgViewHolderBase) tag;
+                    viewHolder.refreshCurrentItem();
+                }
+            }
+        });
     }
 
     /**

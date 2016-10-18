@@ -7,7 +7,9 @@ import android.os.Environment;
 import android.text.TextUtils;
 
 import com.garfield.weishu.AppCache;
+import com.garfield.weishu.R;
 import com.garfield.weishu.config.UserPreferences;
+import com.garfield.weishu.ui.activity.WelcomeActivity;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.StatusBarNotificationConfig;
@@ -21,7 +23,7 @@ import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 public class NimInit {
 
     public static void initSDK(Context context) {
-        NIMClient.init(context, getLoginInfo(), null);
+        NIMClient.init(context, getLoginInfo(), getOptions());
     }
 
     // 如果返回值为 null，则全部使用默认参数。
@@ -30,8 +32,8 @@ public class NimInit {
 
         // 如果将新消息通知提醒托管给 SDK 完成，需要添加以下配置。否则无需设置。
         StatusBarNotificationConfig config = new StatusBarNotificationConfig();
-        //config.notificationEntrance = WelcomeActivity.class; // 点击通知栏跳转到该Activity
-        //config.notificationSmallIconId = R.drawable.ic_stat_notify_msg;
+        config.notificationEntrance = WelcomeActivity.class; // 点击通知栏跳转到该Activity
+        config.notificationSmallIconId = R.drawable.ic_launcher;
         // 呼吸灯配置
         config.ledARGB = Color.GREEN;
         config.ledOnMs = 1000;

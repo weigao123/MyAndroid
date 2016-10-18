@@ -25,6 +25,7 @@
             android:drawablePadding="15dp"
             android:maxLines="1"
             android:hint="@string/please_input_account"
+            android:textCursorDrawable="@null"
             android:textSize="15sp"/>
 
         <TextView

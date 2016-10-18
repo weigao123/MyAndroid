@@ -10,6 +10,7 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 
 import com.garfield.baselib.utils.L;
+import com.garfield.baselib.utils.SizeUtils;
 import com.garfield.weishu.base.adapter.IViewReclaimer;
 
 
@@ -61,7 +62,18 @@ public class MessageListView extends AutoRefreshListView {
 			isScroll = false;
 		}
 
-		return super.onTouchEvent(event);
+        boolean isConsumed = super.onTouchEvent(event);
+        // 目的是兼容SwipeBackLayout，边缘触摸不要消耗事件
+        if (event.getAction() == MotionEvent.ACTION_DOWN && event.getX() < SizeUtils.dp2px(getContext(), 15)) {
+            postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    isScroll = false;
+                }
+            }, 500);
+            return false;
+        }
+		return isConsumed;
 	}
 
 	public void setListViewEventListener(OnListViewEventListener listener) {
