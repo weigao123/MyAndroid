@@ -25,9 +25,11 @@
             android:textSize="15sp"/>
 
         <ImageView
+            android:id="@+id/fragment_self_head_img"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center_vertical|end"
+            android:scaleType="centerCrop"
             android:src="@drawable/default_avatar"/>
         <View
             android:layout_width="match_parent"

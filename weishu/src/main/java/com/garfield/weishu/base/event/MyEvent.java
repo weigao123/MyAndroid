@@ -13,6 +13,8 @@ public class MyEvent {
         void onShowSelfProfile();
         void onShowSearchUser();
         void onShowChangeInfo();
+        void onShowTakePhoto();
+        void onShowCropPhoto(String photoPath);
     }
 
 

@@ -21,6 +21,9 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.garfield.weishu.ui.fragment.SelfProfileFragment.INFO_HEAD;
+import static com.garfield.weishu.ui.fragment.SelfProfileFragment.INFO_NAME;
+
 /**
  * Created by gaowei3 on 2016/9/21.
  */
@@ -53,18 +56,9 @@ public class ChangeInfoFragment extends AppBaseFragment {
     @OnClick(R.id.confirm)
     void changeBtn() {
         String name = mToChangeText.getText().toString();
-        Map<UserInfoFieldEnum, Object> fields = new HashMap<>(1);
-        fields.put(UserInfoFieldEnum.Name, name);
-        NIMClient.getService(UserService.class).updateUserInfo(fields).setCallback(new RequestCallbackWrapper<Void>() {
-            @Override
-            public void onResult(int code, Void result, Throwable exception) {
-                if (code == ResponseCode.RES_SUCCESS) {
-                    Toast.makeText(AppCache.getContext(), R.string.update_success, Toast.LENGTH_SHORT).show();
-                    popFragment();
-                } else {
-                    Toast.makeText(AppCache.getContext(), R.string.update_failed, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        Bundle bundle = new Bundle();
+        bundle.putString(INFO_NAME, name);
+        setFragmentResult(bundle);
+        popToFragment(SelfProfileFragment.class, false);
     }
 }

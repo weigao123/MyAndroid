@@ -8,7 +8,7 @@ import android.view.View;
  * Created by gwball on 2016/9/27.
  */
 
-public abstract class TViewHolder {
+public abstract class TViewHolder<T> {
 
     protected View mView;
     protected TAdapter mAdapter;
@@ -46,10 +46,10 @@ public abstract class TViewHolder {
 
     protected abstract void inflateChildView();
 
-    protected abstract void refresh(Object item);
+    protected abstract void refresh(T item);
 
-    protected <T extends View> T findView(int resId) {
-        return (T) (mView.findViewById(resId));
+    protected <M extends View> M findView(int resId) {
+        return (M) (mView.findViewById(resId));
     }
 
     public boolean isFirstItem() {

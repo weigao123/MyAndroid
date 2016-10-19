@@ -12,6 +12,10 @@ import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.auth.AuthService;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -38,13 +42,16 @@ public class SettingFragment extends AppBaseFragment {
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
-        mHeadImage.setImageResource(R.drawable.default_avatar);
-        mAccountText.setText(getString(R.string.weishu_account_is, AppCache.getAccount()));
-
-        mNickNameText.setText(UserInfoCache.getInstance().getUserName(AppCache.getAccount()));
-
+        registerObservers(true);
+        refreshInfo();
     }
 
+    private void refreshInfo() {
+        NimUserInfo userInfo = UserInfoCache.getInstance().getUserInfoByAccount(AppCache.getAccount());
+        ImageLoader.getInstance().displayImage(userInfo.getAvatar(), mHeadImage);
+        mAccountText.setText(getString(R.string.weishu_account_is, AppCache.getAccount()));
+        mNickNameText.setText(userInfo.getName());
+    }
 
     @OnClick(R.id.fragment_setting_logout)
     void logout() {
@@ -57,4 +64,22 @@ public class SettingFragment extends AppBaseFragment {
     void modifyUserInfo() {
         EventDispatcher.getFragmentJumpEvent().onShowSelfProfile();
     }
+
+    private void registerObservers(boolean register) {
+        UserInfoCache.getInstance().registerUserInfoChangedObserver(new UserInfoCache.UserInfoChangedObserver() {
+            @Override
+            public void onUserInfoChanged(List<String> accounts) {
+                if (accounts.contains(AppCache.getAccount())) {
+                    refreshInfo();
+                }
+            }
+        }, register);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        registerObservers(false);
+    }
+
 }

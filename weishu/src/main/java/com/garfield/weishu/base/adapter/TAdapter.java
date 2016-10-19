@@ -30,6 +30,10 @@ public class TAdapter<T> extends BaseAdapter {
         mViewTypes = new HashMap<Class<?>, Integer>(getViewTypeCount());
     }
 
+    public List<T> getItems() {
+        return mItems;
+    }
+
     @Override
     public int getCount() {
         return mItems == null ? 0 : mItems.size();
@@ -45,9 +49,6 @@ public class TAdapter<T> extends BaseAdapter {
         return position;
     }
 
-    public List<T> getItems() {
-        return mItems;
-    }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         return getView(position, convertView, parent, true);
@@ -61,11 +62,8 @@ public class TAdapter<T> extends BaseAdapter {
         TViewHolder holder = (TViewHolder) convertView.getTag();
         holder.setPosition(position);
         if (needRefresh) {
-            try {
-                // 对该TAG里取出的holder进行刷新，就是直接对这个View刷新了
-                holder.refresh(getItem(position));
-            } catch (RuntimeException e) {
-            }
+            // 对该TAG里取出的holder进行刷新，就是直接对这个View刷新了
+            holder.refresh(getItem(position));
         }
 
 //        if (holder instanceof IScrollStateListener) {

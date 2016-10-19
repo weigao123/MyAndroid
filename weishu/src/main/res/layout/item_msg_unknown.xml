@@ -15,7 +15,7 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
-        android:src="@drawable/unsupport_mime_type"/>
+        android:src="@drawable/unsupport_type"/>
 
     <LinearLayout
         android:layout_width="wrap_content"

@@ -16,6 +16,9 @@ public class DialogMaker {
 		return showProgressDialog(context, message, cancelable, null);
 	}
 
+	/**
+	 * 必须是Activity的Context，不能是Application
+     */
 	public static EasyProgressDialog showProgressDialog(Context context, String message, boolean canCancelable, OnCancelListener listener) {
 
 		if (progressDialog == null) {

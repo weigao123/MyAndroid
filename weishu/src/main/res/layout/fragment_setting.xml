@@ -16,6 +16,7 @@
             android:id="@+id/fragment_setting_head"
             android:layout_width="65dp"
             android:layout_height="65dp"
+            android:scaleType="centerCrop"
             android:layout_marginLeft="15dp"
             android:layout_centerVertical="true"/>
 

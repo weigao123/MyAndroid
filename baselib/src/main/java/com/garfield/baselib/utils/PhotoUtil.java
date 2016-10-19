@@ -1,11 +1,4 @@
-package com.garfield.study.viewdraghelper.util;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
+package com.garfield.baselib.utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,11 +11,11 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.garfield.baselib.utils.L;
-import com.garfield.study.R;
+import com.garfield.baselib.R;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -30,13 +23,20 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
-public class Util {
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class PhotoUtil {
 
     public static void initImageLoader(Context context) {
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.default_face)
-                .showImageForEmptyUri(R.drawable.default_face)
-                .showImageOnFail(R.drawable.default_face).cacheInMemory(true)
+                .showImageOnLoading(R.drawable.question_mark)
+                .showImageForEmptyUri(R.drawable.question_mark)
+                .showImageOnFail(R.drawable.question_mark).cacheInMemory(true)
                 .considerExifParams(true)
                 .displayer(new FadeInBitmapDisplayer(300, true, true, true))
                 .imageScaleType(ImageScaleType.EXACTLY_STRETCHED)
@@ -46,6 +46,35 @@ public class Util {
                 .memoryCache(new WeakMemoryCache());
         ImageLoaderConfiguration config = builder.build();
         ImageLoader.getInstance().init(config);
+    }
+
+    public static ArrayList<String> getGalleryPhotos(Context context) {
+        ArrayList<String> galleryList = new ArrayList<>();
+        final Uri images = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        Cursor cursor = null;
+        try {
+            cursor = context.getContentResolver().query(images, null, null, null, MediaStore.Images.Media.DATE_MODIFIED + " DESC");
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    int _id = cursor.getInt(cursor.getColumnIndex(MediaStore.Images.Media._ID));
+                    String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+                    String album = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME));
+                    long size = cursor.getLong(cursor.getColumnIndex(MediaStore.Images.Media.SIZE));
+                    galleryList.add(path);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return galleryList;
     }
 
     @SuppressWarnings("deprecation")
@@ -64,7 +93,6 @@ public class Util {
                     int dataColumnIndex = imagecursor
                             .getColumnIndex(MediaStore.Images.Media.DATA);
                     item = imagecursor.getString(dataColumnIndex);
-                    L.d("imagePath: "+item);
                     galleryList.add(item);
                 }
             }
@@ -142,10 +170,6 @@ public class Util {
         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
                 Uri.fromFile(appDir)));
         return true;
-    }
-
-    public static void t(Context context, String text) {
-        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
 
 }

@@ -24,7 +24,7 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
  * Created by gwball on 2016/9/27.
  */
 
-public abstract class MsgViewHolderBase extends TViewHolder {
+public abstract class MsgViewHolderBase extends TViewHolder<IMMessage> {
     protected IMMessage mMessage;
 
     protected RelativeLayout mHolderBase;
@@ -63,8 +63,8 @@ public abstract class MsgViewHolderBase extends TViewHolder {
     }
 
     @Override
-    protected void refresh(Object item) {
-        mMessage = (IMMessage) item;
+    protected void refresh(IMMessage item) {
+        mMessage = item;
         setHeadImageView();
         setTimeTextView();
         setSentStatus();

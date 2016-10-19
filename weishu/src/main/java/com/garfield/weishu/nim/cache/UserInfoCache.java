@@ -49,11 +49,11 @@ public class UserInfoCache {
         mUserMap.clear();
     }
 
-    public void registerSDKObservers(boolean register) {
-        NIMClient.getService(UserServiceObserve.class).observeUserInfoUpdate(userInfoUpdateObserver, register);
+    void registerSDKObservers(boolean register) {
+        NIMClient.getService(UserServiceObserve.class).observeUserInfoUpdate(userInfoSDKUpdateObserver, register);
     }
 
-    private Observer<List<NimUserInfo>> userInfoUpdateObserver = new Observer<List<NimUserInfo>>() {
+    private Observer<List<NimUserInfo>> userInfoSDKUpdateObserver = new Observer<List<NimUserInfo>>() {
         @Override
         public void onEvent(List<NimUserInfo> users) {
             if (users == null || users.isEmpty()) {

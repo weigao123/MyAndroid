@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <include layout="@layout/include_toolbar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+        <GridView
+            android:id="@+id/fragment_take_photo_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="#00000000"
+            android:numColumns="4">
+        </GridView>
+
+        <TextView
+            android:id="@+id/fragment_take_photo_no_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/no_photo"
+            android:textSize="16sp"
+            android:textColor="@color/black_gray"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

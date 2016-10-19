@@ -1,6 +1,7 @@
 package com.garfield.weishu.ui.fragment;
 
 import android.content.Context;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.MessageReceipt;
 
@@ -98,14 +100,6 @@ public class SessionFragment extends AppBaseFragment implements ModuleProxy {
         }
     };
 
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //messageListPanel.onDestroy();
-        registerObservers(false);
-    }
-
     @Override
     public boolean sendMessage(IMMessage msg) {
         NIMClient.getService(MsgService.class).sendMessage(msg, false).setCallback(new RequestCallbackWrapper<Void>() {
@@ -137,6 +131,22 @@ public class SessionFragment extends AppBaseFragment implements ModuleProxy {
         return false;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        NIMClient.getService(MsgService.class).setChattingAccount(mAccount, SessionTypeEnum.P2P);
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        NIMClient.getService(MsgService.class).setChattingAccount(MsgService.MSG_CHATTING_ACCOUNT_NONE, SessionTypeEnum.None);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        registerObservers(false);
+    }
 
 }

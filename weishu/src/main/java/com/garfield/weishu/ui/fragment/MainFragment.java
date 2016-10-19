@@ -71,12 +71,6 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
 
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
-
     /**
      *  如果是根元素就不去动画，在loadRootFragment时没有设置setTransition
      */
@@ -89,5 +83,11 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
         //L.d("MainFragment  transit: "+transit+"  enter:"+enter+"   nextAnim:"+nextAnim);
         return super.onCreateAnimation(transit, enter, nextAnim);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

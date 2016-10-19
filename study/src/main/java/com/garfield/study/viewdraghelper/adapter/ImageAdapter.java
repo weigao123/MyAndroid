@@ -52,7 +52,7 @@ public class ImageAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        ImageLoader.getInstance().displayImage("file://" + paths.get(position), holder.iv_item);
+        ImageLoader.getInstance().displayImage(paths.get(position), holder.iv_item);
         return convertView;
     }
 

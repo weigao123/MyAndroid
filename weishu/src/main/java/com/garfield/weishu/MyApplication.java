@@ -4,6 +4,7 @@ import android.app.Application;
 import android.text.TextUtils;
 
 import com.garfield.baselib.utils.L;
+import com.garfield.baselib.utils.PhotoUtil;
 import com.garfield.weishu.config.UserPreferences;
 import com.garfield.weishu.contact.query.PinYin;
 import com.garfield.weishu.nim.cache.DataCacheManager;
@@ -22,10 +23,11 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
-
         AppCache.setContext(this);
 
+        Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
+
+        PhotoUtil.initImageLoader(this);
         NimInit.initSDK(this);
 
         if (SystemUtil.inMainProcess(this)) {

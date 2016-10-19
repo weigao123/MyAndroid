@@ -24,6 +24,7 @@ import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.auth.AuthServiceObserver;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 
 import java.util.ArrayList;
@@ -216,23 +217,6 @@ public class SessionListFragment extends AppBaseFragment {
         }
     };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * 用户状态变化
      */
@@ -268,6 +252,32 @@ public class SessionListFragment extends AppBaseFragment {
             Toast.makeText(getActivity(), R.string.kicked_out, Toast.LENGTH_SHORT).show();
         }
         RegisterAndLogin.logout(mActivity);
+    }
+
+    private void enableMsgNotification(boolean enable) {
+        if (enable) {
+            // {MSG_CHATTING_ACCOUNT_NONE} 目前没有与任何人对话，需要状态栏消息通知
+            NIMClient.getService(MsgService.class).setChattingAccount(MsgService.MSG_CHATTING_ACCOUNT_NONE, SessionTypeEnum.None);
+        } else {
+            // {MSG_CHATTING_ACCOUNT_ALL} 目前没有与任何人对话，但能看到消息提醒（比如在消息列表界面），不需要在状态栏做消息通知
+            NIMClient.getService(MsgService.class).setChattingAccount(MsgService.MSG_CHATTING_ACCOUNT_ALL, SessionTypeEnum.None);
+        }
+    }
+
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
     @Override

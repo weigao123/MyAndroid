@@ -1,10 +1,12 @@
 package com.garfield.weishu.base.event;
 
 import com.garfield.weishu.ui.fragment.ChangeInfoFragment;
+import com.garfield.weishu.ui.fragment.CropPhotoFragment;
 import com.garfield.weishu.ui.fragment.FriendProfileFragment;
 import com.garfield.weishu.ui.fragment.SearchUserFragment;
 import com.garfield.weishu.ui.fragment.SelfProfileFragment;
 import com.garfield.weishu.ui.fragment.SessionFragment;
+import com.garfield.weishu.ui.fragment.TakePhotoFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -41,6 +43,16 @@ public class EventDispatcher {
             @Override
             public void onShowChangeInfo() {
                 EventBus.getDefault().post(new StartBrotherEvent(new ChangeInfoFragment()));
+            }
+
+            @Override
+            public void onShowTakePhoto() {
+                EventBus.getDefault().post(new StartBrotherEvent(new TakePhotoFragment()));
+            }
+
+            @Override
+            public void onShowCropPhoto(String photoPath) {
+                EventBus.getDefault().post(new StartBrotherEvent(CropPhotoFragment.newInstance(photoPath)));
             }
         };
     }

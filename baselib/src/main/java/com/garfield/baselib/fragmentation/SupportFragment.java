@@ -30,6 +30,8 @@ public class SupportFragment extends SwipeBackFragment implements ISupport {
 
     private boolean isAnimatorEnable = true;
 
+    private Bundle mResultBundle;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -171,7 +173,7 @@ public class SupportFragment extends SwipeBackFragment implements ISupport {
 
     @Override
     public void popToFragment(Class<?> fragmentClass, boolean includeSelf) {
-
+        mFragmentHelper.popToFragment(getFragmentManager(), fragmentClass, includeSelf);
     }
 
     @Override
@@ -183,5 +185,14 @@ public class SupportFragment extends SwipeBackFragment implements ISupport {
         return mFragmentHelper.findStackFragment(getChildFragmentManager(), fragmentClass);
     }
 
+    protected void setFragmentResult(Bundle bundle) {
+        mResultBundle = bundle;
+    }
 
+    Bundle getFragmentResult() {
+        return mResultBundle;
+    }
+
+    protected void onFragmentResult(Bundle data) {
+    }
 }
