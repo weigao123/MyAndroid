@@ -16,4 +16,6 @@
     <dimen name="item_padding_right">16dp</dimen>
     <dimen name="item_head_margin_right">16dp</dimen>
 
+    <dimen name="avatar_notification_size">48dip</dimen>
+    <dimen name="avatar_max_size">60dip</dimen>
 </resources>

@@ -12,9 +12,9 @@ import android.widget.TextView;
 
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.adapter.TViewHolder;
-import com.garfield.weishu.base.HeadImageView;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.session.MsgAdapter;
+import com.garfield.weishu.ui.view.HeadImageView;
 import com.garfield.weishu.utils.TimeUtil;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
@@ -132,9 +132,11 @@ public abstract class MsgViewHolderBase extends TViewHolder<IMMessage> {
         if (isReceivedMessage()) {
             mLeftHead.setVisibility(View.VISIBLE);
             mRightHead.setVisibility(View.GONE);
+            mLeftHead.loadBuddyAvatar(mMessage.getFromAccount());
         } else {
             mLeftHead.setVisibility(View.GONE);
             mRightHead.setVisibility(View.VISIBLE);
+            mRightHead.loadBuddyAvatar(mMessage.getFromAccount());
         }
     }
 

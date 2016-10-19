@@ -12,11 +12,10 @@
         android:paddingRight="@dimen/item_padding_right"
         android:minHeight="@dimen/item_height"
         android:gravity="center_vertical" >
-        <ImageView
+        <com.garfield.weishu.ui.view.HeadImageView
             android:id="@+id/item_msglist_head"
             android:layout_width="@dimen/contact_image_size"
             android:layout_height="@dimen/contact_image_size"
-            android:scaleType="centerInside"
             android:layout_marginRight="@dimen/item_head_margin_right" />
 
         <RelativeLayout

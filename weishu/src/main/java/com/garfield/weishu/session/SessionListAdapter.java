@@ -5,16 +5,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.adapter.OnItemClickListener;
 import com.garfield.weishu.base.adapter.OnItemLongClickListener;
 import com.garfield.weishu.nim.cache.UserInfoCache;
+import com.garfield.weishu.ui.view.HeadImageView;
 import com.garfield.weishu.utils.TimeUtil;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
-import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,7 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        public final ImageView mImageView;
+        public final HeadImageView mHeadImageView;
         public final TextView mNameTextView;
         public final TextView mContentTextView;
         public final TextView mTime;
@@ -42,7 +41,7 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
 
         public MyViewHolder(View view) {
             super(view);
-            mImageView = (ImageView) view.findViewById(R.id.item_msglist_head);
+            mHeadImageView = (HeadImageView) view.findViewById(R.id.item_msglist_head);
             mNameTextView = (TextView) view.findViewById(R.id.item_msglist_name);
             mContentTextView = (TextView) view.findViewById(R.id.item_msglist_content);
             mTime = (TextView) view.findViewById(R.id.item_msglist_time);
@@ -84,7 +83,7 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.mImageView.setImageResource(R.drawable.default_avatar);
+        holder.mHeadImageView.loadBuddyAvatar(mData.get(position).getContactId());
         holder.mNameTextView.setText(UserInfoCache.getInstance().getUserDisplayName(mData.get(position).getContactId()));
         holder.mContentTextView.setText(mData.get(position).getContent());
         holder.itemView.setClickable(true);

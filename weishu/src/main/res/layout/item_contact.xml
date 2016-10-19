@@ -15,7 +15,7 @@
         android:layout_weight="1"
         android:orientation="horizontal"
         android:gravity="center_vertical">
-        <ImageView
+        <com.garfield.weishu.ui.view.HeadImageView
             android:id="@+id/item_contact_image"
             android:layout_width="35dp"
             android:layout_height="35dp" />

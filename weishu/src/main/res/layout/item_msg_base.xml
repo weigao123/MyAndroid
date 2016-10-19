@@ -22,21 +22,19 @@
         android:text="time"
         android:textSize="12sp"/>
 
-    <com.garfield.weishu.base.HeadImageView
+    <com.garfield.weishu.ui.view.HeadImageView
         android:id="@+id/msg_item_left_head"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_below="@id/msg_item_time"
-        android:src="@drawable/default_avatar"
         android:layout_alignParentLeft="true"
         android:layout_marginRight="8dp" />
 
-    <com.garfield.weishu.base.HeadImageView
+    <com.garfield.weishu.ui.view.HeadImageView
         android:id="@+id/msg_item_right_head"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_below="@id/msg_item_time"
-        android:src="@drawable/default_avatar"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="8dp" />
 

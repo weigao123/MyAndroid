@@ -9,8 +9,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.garfield.baselib.ui.dialog.EasyMenuDialog;
+import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
+import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.garfield.weishu.session.SessionListAdapter;
 import com.garfield.weishu.base.adapter.OnItemClickListener;
 import com.garfield.weishu.base.adapter.OnItemLongClickListener;
@@ -130,12 +132,17 @@ public class SessionListFragment extends AppBaseFragment {
         NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(userStatusObserver, register);
 
         MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
-        service.observeRecentContact(messageObserver, register);
+        service.observeRecentContact(sessionObserver, register);
         FriendDataCache.getInstance().registerFriendDataChangedObserver(friendDataChangedObserver, register);
-
+        UserInfoCache.getInstance().registerUserInfoChangedObserver(new UserInfoCache.UserInfoChangedObserver() {
+            @Override
+            public void onUserInfoChanged(List<String> accounts) {
+                refreshMessages(false);
+            }
+        }, register);
     }
 
-    private Observer<List<RecentContact>> messageObserver = new Observer<List<RecentContact>>() {
+    private Observer<List<RecentContact>> sessionObserver = new Observer<List<RecentContact>>() {
         @Override
         public void onEvent(List<RecentContact> messages) {
             int index;
