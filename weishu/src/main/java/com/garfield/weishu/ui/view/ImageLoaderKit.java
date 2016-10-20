@@ -23,85 +23,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.garfield.baselib.utils.ImageLoaderUtils.isImageUriValid;
+
 /**
  * 图片加载、缓存、管理组件
  */
 public class ImageLoaderKit {
 
-    private static final String TAG = ImageLoaderKit.class.getSimpleName();
 
-    private static final int M = 1024 * 1024;
-
-    private Context context;
-
-    private static List<String> uriSchemes;
-
-    public ImageLoaderKit(Context context, ImageLoaderConfiguration config) {
-        this.context = context;
-        init(config);
-    }
-
-    private void init(ImageLoaderConfiguration config) {
-        try {
-            ImageLoader.getInstance().init(config == null ? getDefaultConfig() : config);
-        } catch (IOException e) {
-        }
-
-    }
-
-    public void clear() {
-        ImageLoader.getInstance().clearMemoryCache();
-    }
-
-    private ImageLoaderConfiguration getDefaultConfig() throws IOException {
-        int MAX_CACHE_MEMORY_SIZE = (int) (Runtime.getRuntime().maxMemory() / 8);
-        File cacheDir = StorageUtils.getOwnCacheDirectory(context, context.getPackageName() + "/cache/image/");
-
-
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration
-                .Builder(context)
-                .threadPoolSize(3) // 线程池内加载的数量
-                .threadPriority(Thread.NORM_PRIORITY - 2) // 降低线程的优先级，减小对UI主线程的影响
-                .denyCacheImageMultipleSizesInMemory()
-                .memoryCache(new LruMemoryCache(MAX_CACHE_MEMORY_SIZE))
-                .discCache(new LruDiskCache(cacheDir, new Md5FileNameGenerator(), 0))
-                .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
-                .imageDownloader(new BaseImageDownloader(context, 5 * 1000, 30 * 1000)) // connectTimeout (5 s), readTimeout (30 s)超时时间
-                .writeDebugLogs()
-                .build();
-
-        return config;
-    }
-
-
-    /**
-     * 判断图片地址是否合法，合法地址如下：
-     * String uri = "http://site.com/image.png"; // from Web
-     * String uri = "file:///mnt/sdcard/image.png"; // from SD card
-     * String uri = "content://media/external/audio/albumart/13"; // from content provider
-     * String uri = "assets://image.png"; // from assets
-     * String uri = "drawable://" + R.drawable.image; // from drawables (only images, non-9patch)
-     */
-    public static boolean isImageUriValid(String uri) {
-        if (TextUtils.isEmpty(uri)) {
-            return false;
-        }
-
-        if (uriSchemes == null) {
-            uriSchemes = new ArrayList<>();
-            for (ImageDownloader.Scheme scheme : ImageDownloader.Scheme.values()) {
-                uriSchemes.add(scheme.name().toLowerCase());
-            }
-        }
-
-        for (String scheme : uriSchemes) {
-            if (uri.toLowerCase().startsWith(scheme)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
     /**
      * 从ImageLoader内存缓存中取出头像位图

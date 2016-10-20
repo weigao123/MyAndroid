@@ -3,10 +3,13 @@ package com.garfield.weishu.setting;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
+import com.garfield.baselib.utils.ImageLoaderUtils;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.adapter.TViewHolder;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 
 /**
@@ -17,6 +20,7 @@ public class PhotoViewHolder extends TViewHolder<String> {
 
     private String mItem;
     private ImageView mImageView;
+    private static DisplayImageOptions displayImageOptions = getDisplayImageOptions();
 
     @Override
     protected int getResId() {
@@ -31,8 +35,18 @@ public class PhotoViewHolder extends TViewHolder<String> {
     @Override
     protected void refresh(String item) {
         mItem = item;
-        ImageLoader.getInstance().displayImage("file://" + item, mImageView);
+        ImageLoader.getInstance().displayImage("file://" + item, mImageView, displayImageOptions);
     }
 
+    private static DisplayImageOptions getDisplayImageOptions() {
+        return new DisplayImageOptions.Builder()
+                .showImageOnLoading(com.garfield.baselib.R.drawable.image_default)
+                .showImageForEmptyUri(com.garfield.baselib.R.drawable.image_default)
+                .showImageOnFail(com.garfield.baselib.R.drawable.image_default)
+                .cacheInMemory(true)
+                .cacheOnDisk(false)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
+    }
 
 }

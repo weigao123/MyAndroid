@@ -2,8 +2,6 @@ package com.garfield.weishu;
 
 import android.content.Context;
 
-import com.garfield.weishu.ui.view.ImageLoaderKit;
-
 
 public class AppCache {
     public static final String USER_ACCOUNT = "account";

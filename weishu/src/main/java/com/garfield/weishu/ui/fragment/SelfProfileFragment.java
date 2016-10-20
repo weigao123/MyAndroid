@@ -5,27 +5,24 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.garfield.baselib.ui.dialog.DialogMaker;
-import com.garfield.baselib.utils.InvokerUtils;
 import com.garfield.baselib.utils.L;
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.garfield.weishu.nim.cache.UserUpdateHelper;
+import com.garfield.weishu.ui.view.HeadImageView;
 import com.netease.nimlib.sdk.AbortableFuture;
 import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.nos.NosService;
 import com.netease.nimlib.sdk.uinfo.constant.UserInfoFieldEnum;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.File;
 import java.net.FileNameMap;
@@ -46,7 +43,7 @@ public class SelfProfileFragment extends AppBaseFragment {
     public static final String INFO_NAME = "info_name";
 
     @BindView(R.id.fragment_self_head_img)
-    ImageView mHeadImageView;
+    HeadImageView mHeadImageView;
 
     @BindView(R.id.fragment_self_nickname)
     TextView mNickNameText;
@@ -86,9 +83,9 @@ public class SelfProfileFragment extends AppBaseFragment {
 
     private void refreshInfo() {
         NimUserInfo userInfo = UserInfoCache.getInstance().getUserInfoByAccount(AppCache.getAccount());
-        ImageLoader.getInstance().displayImage(userInfo.getAvatar(), mHeadImageView);
+        mHeadImageView.loadBuddyAvatar(userInfo.getAccount());
         mNickNameText.setText(userInfo.getName());
-        mWeishuAccount.setText(AppCache.getAccount());
+        mWeishuAccount.setText(userInfo.getAccount());
     }
 
     private void registerObservers(boolean register) {

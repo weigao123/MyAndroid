@@ -24,13 +24,12 @@
             android:textColor="@color/black"
             android:textSize="15sp"/>
 
-        <ImageView
+        <com.garfield.weishu.ui.view.HeadImageView
             android:id="@+id/fragment_self_head_img"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center_vertical|end"
-            android:scaleType="centerCrop"
-            android:src="@drawable/default_avatar"/>
+            android:scaleType="centerCrop" />
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"

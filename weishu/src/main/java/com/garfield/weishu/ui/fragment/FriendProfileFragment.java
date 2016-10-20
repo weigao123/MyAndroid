@@ -14,6 +14,7 @@ import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.nim.cache.FriendDataCache;
 import com.garfield.weishu.nim.cache.UserInfoCache;
+import com.garfield.weishu.ui.view.HeadImageView;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.friend.FriendService;
@@ -34,7 +35,7 @@ public class FriendProfileFragment extends AppBaseFragment {
     private String mAccount;
 
     @BindView(R.id.fragment_friend_profile_head)
-    ImageView mHeadImage;
+    HeadImageView mHeadImage;
 
     @BindView(R.id.fragment_friend_profile_account)
     TextView mAccountText;
@@ -76,7 +77,7 @@ public class FriendProfileFragment extends AppBaseFragment {
 
 
     private void updateUserInfoView(NimUserInfo userInfo) {
-        mHeadImage.setImageResource(R.drawable.default_avatar);
+        mHeadImage.loadBuddyAvatar(userInfo.getAccount());
         mAccountText.setText(getString(R.string.weishu_account_is, userInfo.getAccount()));
         if (TextUtils.isEmpty(userInfo.getName())) {
             mNickNameText.setText("无昵称");

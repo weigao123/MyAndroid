@@ -10,6 +10,7 @@ import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.UserInfoCache;
+import com.garfield.weishu.ui.view.HeadImageView;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
@@ -26,7 +27,7 @@ import butterknife.OnClick;
 public class SettingFragment extends AppBaseFragment {
 
     @BindView(R.id.fragment_setting_head)
-    ImageView mHeadImage;
+    HeadImageView mHeadImage;
 
     @BindView(R.id.fragment_setting_nickname)
     TextView mNickNameText;
@@ -48,8 +49,8 @@ public class SettingFragment extends AppBaseFragment {
 
     private void refreshInfo() {
         NimUserInfo userInfo = UserInfoCache.getInstance().getUserInfoByAccount(AppCache.getAccount());
-        ImageLoader.getInstance().displayImage(userInfo.getAvatar(), mHeadImage);
-        mAccountText.setText(getString(R.string.weishu_account_is, AppCache.getAccount()));
+        mHeadImage.loadBuddyAvatar(userInfo.getAccount());
+        mAccountText.setText(getString(R.string.weishu_account_is, userInfo.getAccount()));
         mNickNameText.setText(userInfo.getName());
     }
 

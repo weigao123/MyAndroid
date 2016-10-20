@@ -68,7 +68,7 @@ public class DataCacheManager {
 
         List<String> accounts = new ArrayList<>(1);
         accounts.add(AppCache.getAccount());
-        MyApplication.imageLoaderKit.buildAvatarCache(accounts);
+        //MyApplication.imageLoaderKit.buildAvatarCache(accounts);
     }
 
     /**
@@ -78,7 +78,7 @@ public class DataCacheManager {
         FriendDataCache.getInstance().clear();
         UserInfoCache.getInstance().clear();
         //TeamDataCache.getInstance().clear();
-        MyApplication.imageLoaderKit.clear();
+        //MyApplication.imageLoaderKit.clear();
     }
 
     /**

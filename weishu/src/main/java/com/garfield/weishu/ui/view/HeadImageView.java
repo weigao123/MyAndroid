@@ -4,16 +4,14 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ImageView;
 
-import com.garfield.baselib.ui.widget.CircleImageView;
-import com.garfield.baselib.utils.L;
+import com.garfield.baselib.utils.ImageLoaderUtils;
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.nim.cache.UserInfoCache;
-import com.garfield.weishu.utils.TimeUtil;
 import com.netease.nimlib.sdk.nos.model.NosThumbParam;
 import com.netease.nimlib.sdk.nos.util.NosThumbImageUtil;
-import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -25,7 +23,7 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 /**
  * Created by huangjun on 2015/11/13.
  */
-public class HeadImageView extends CircleImageView {
+public class HeadImageView extends ImageView {
 
     public static final int DEFAULT_AVATAR_THUMB_SIZE = (int) AppCache.getContext().getResources().getDimension(R.dimen.avatar_max_size);
     public static final int DEFAULT_AVATAR_NOTIFICATION_ICON_SIZE = (int) AppCache.getContext().getResources().getDimension(R.dimen.avatar_notification_size);
@@ -33,10 +31,11 @@ public class HeadImageView extends CircleImageView {
     private DisplayImageOptions options = createImageOptions();
     private static int defaultIcon = R.drawable.avatar_def;
 
-    private static final DisplayImageOptions createImageOptions() {
+    private static DisplayImageOptions createImageOptions() {
         return new DisplayImageOptions.Builder()
                 .showImageOnLoading(defaultIcon)
                 .showImageOnFail(defaultIcon)
+                .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
@@ -86,7 +85,7 @@ public class HeadImageView extends CircleImageView {
 
         // 判断是否需要ImageLoader加载
         final UserInfoProvider.UserInfo userInfo = UserInfoCache.getInstance().getUserInfoByAccount(account);
-        boolean needLoad = userInfo != null && ImageLoaderKit.isImageUriValid(userInfo.getAvatar());
+        boolean needLoad = userInfo != null && ImageLoaderUtils.isImageUriValid(userInfo.getAvatar());
 
         doLoadImage(needLoad, account, userInfo != null ? userInfo.getAvatar() : null, thumbSize);
     }
@@ -104,16 +103,17 @@ public class HeadImageView extends CircleImageView {
              * 如果图片来源是非网易云信云存储，请不要使用NosThumbImageUtil
              */
             final String thumbUrl = makeAvatarThumbNosUrl(url, thumbSize);
-
-            final long time = System.currentTimeMillis();
             // 异步从cache or NOS加载图片
             ImageLoader.getInstance().displayImage(thumbUrl, new NonViewAware(new ImageSize(thumbSize, thumbSize),
                     ViewScaleType.CROP), options, new SimpleImageLoadingListener() {
                 @Override
                 public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    /**
+                     * 滑动后，getTag()得到的值已变化多次，当前是最新的要被显示的值
+                     * 但是后台会有多个不同的tag获取到图片，但是只有新的tag才应该被显示
+                     */
                     if (getTag() != null && getTag().equals(tag)) {
                         setImageBitmap(loadedImage);
-                        L.d("time: "+(System.currentTimeMillis() - time));
                     }
                 }
             });

@@ -2,6 +2,7 @@ package com.garfield.baselib.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 
 import com.garfield.baselib.R;
 import com.nostra13.universalimageloader.cache.disc.impl.ext.LruDiskCache;
@@ -15,10 +16,13 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
+import com.nostra13.universalimageloader.core.download.ImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by gaowei3 on 2016/10/20.
@@ -29,66 +33,88 @@ public class ImageLoaderUtils {
     private static DisplayImageOptions mDefaultDisplayImageOptions;
 
     public static void initImageLoader(Context context) {
-//        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
-//                .defaultDisplayImageOptions(getDisplayImageOptions())
-//                .memoryCache(new LruMemoryCache(2 * 1024 * 1024))
-//                .memoryCacheSize(2 * 1024 * 1024)
-//                .diskCacheSize(30 * 1024 * 1024)
-//                .diskCacheFileCount(100)
-//                .build();
-//        ImageLoader.getInstance().init(config);
-
-//        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
-////					.threadPoolSize(3)
-//                .memoryCacheExtraOptions(280, 280)
-////					.discCacheExtraOptions(280, 280, CompressFormat.JPEG, 75, null)
-//                .threadPriority(Thread.NORM_PRIORITY)
-//                .denyCacheImageMultipleSizesInMemory()
-////					.discCacheFileNameGenerator(new Md5FileNameGenerator())
-////					.discCache(new LimitedAgeDiscCache(StorageUtils.getCacheDirectory(context),new Md5FileNameGenerator(), discCacheLimitTime))
-//                .tasksProcessingOrder(QueueProcessingType.LIFO)
-//                .build();
-//        ImageLoader.getInstance().init(config);
-
-
         int MAX_CACHE_MEMORY_SIZE = (int) (Runtime.getRuntime().maxMemory() / 8);
         File cacheDir = StorageUtils.getOwnCacheDirectory(context, context.getPackageName() + "/cache/image/");
 
-
         ImageLoaderConfiguration config = null;
         try {
-            config = new ImageLoaderConfiguration
-                    .Builder(context)
+            config = new ImageLoaderConfiguration.Builder(context)
                     .threadPoolSize(3) // 线程池内加载的数量
                     .threadPriority(Thread.NORM_PRIORITY - 2) // 降低线程的优先级，减小对UI主线程的影响
                     .denyCacheImageMultipleSizesInMemory()
                     .memoryCache(new LruMemoryCache(MAX_CACHE_MEMORY_SIZE))
-                    .discCache(new LruDiskCache(cacheDir, new Md5FileNameGenerator(), 0))
+                    .diskCache(new LruDiskCache(cacheDir, new Md5FileNameGenerator(), 0))
                     .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
                     .imageDownloader(new BaseImageDownloader(context, 5 * 1000, 30 * 1000)) // connectTimeout (5 s), readTimeout (30 s)超时时间
-                    .writeDebugLogs()
                     .build();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        L.d((config == null) + "");
-        ImageLoader.getInstance().init(config);
 
+        ImageLoader.getInstance().init(config);
+    }
+
+    public static void clear() {
+        ImageLoader.getInstance().clearMemoryCache();
+    }
+
+    public static DisplayImageOptions getDisplayImageOptions(int image) {
+        return new DisplayImageOptions.Builder()
+                .showImageOnLoading(image)
+                .showImageForEmptyUri(image)
+                .showImageOnFail(image)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .displayer(new FadeInBitmapDisplayer(300))
+                .build();
     }
 
     public static DisplayImageOptions getDisplayImageOptions() {
         if (mDefaultDisplayImageOptions == null) {
             mDefaultDisplayImageOptions = new DisplayImageOptions.Builder()
-                    .showImageOnLoading(R.drawable.unsupport_type)
-                    .showImageForEmptyUri(R.drawable.unsupport_type)
-                    .showImageOnFail(R.drawable.unsupport_type)
+                    .showImageOnLoading(R.drawable.image_default)
+                    .showImageForEmptyUri(R.drawable.image_default)
+                    .showImageOnFail(R.drawable.image_default)
                     .cacheInMemory(true)
                     .cacheOnDisk(true)
-                    .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2) // default
-                    .bitmapConfig(Bitmap.Config.RGB_565) // default
+                    .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
+                    .bitmapConfig(Bitmap.Config.RGB_565)
                     .displayer(new FadeInBitmapDisplayer(300))
                     .build();
         }
         return mDefaultDisplayImageOptions;
     }
+
+    /**
+     * 判断图片地址是否合法，合法地址如下：
+     * String uri = "http://site.com/image.png"; // from Web
+     * String uri = "file:///mnt/sdcard/image.png"; // from SD card
+     * String uri = "content://media/external/audio/albumart/13"; // from content provider
+     * String uri = "assets://image.png"; // from assets
+     * String uri = "drawable://" + R.drawable.image; // from drawables (only images, non-9patch)
+     */
+    private static List<String> uriSchemes;
+    public static boolean isImageUriValid(String uri) {
+        if (TextUtils.isEmpty(uri)) {
+            return false;
+        }
+
+        if (uriSchemes == null) {
+            uriSchemes = new ArrayList<>();
+            for (ImageDownloader.Scheme scheme : ImageDownloader.Scheme.values()) {
+                uriSchemes.add(scheme.name().toLowerCase());
+            }
+        }
+
+        for (String scheme : uriSchemes) {
+            if (uri.toLowerCase().startsWith(scheme)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }
