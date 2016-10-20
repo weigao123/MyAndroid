@@ -6,9 +6,11 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.garfield.baselib.ui.widget.CircleImageView;
+import com.garfield.baselib.utils.L;
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.nim.cache.UserInfoCache;
+import com.garfield.weishu.utils.TimeUtil;
 import com.netease.nimlib.sdk.nos.model.NosThumbParam;
 import com.netease.nimlib.sdk.nos.util.NosThumbImageUtil;
 import com.netease.nimlib.sdk.team.model.Team;
@@ -29,10 +31,9 @@ public class HeadImageView extends CircleImageView {
     public static final int DEFAULT_AVATAR_NOTIFICATION_ICON_SIZE = (int) AppCache.getContext().getResources().getDimension(R.dimen.avatar_notification_size);
 
     private DisplayImageOptions options = createImageOptions();
-    private static int defaultIcon = R.drawable.unsupport_type;
+    private static int defaultIcon = R.drawable.avatar_def;
 
     private static final DisplayImageOptions createImageOptions() {
-
         return new DisplayImageOptions.Builder()
                 .showImageOnLoading(defaultIcon)
                 .showImageOnFail(defaultIcon)
@@ -79,7 +80,9 @@ public class HeadImageView extends CircleImageView {
      */
     private void loadBuddyAvatar(final String account, final int thumbSize) {
         // 先显示默认头像
+
         setImageResource(defaultIcon);
+
 
         // 判断是否需要ImageLoader加载
         final UserInfoProvider.UserInfo userInfo = UserInfoCache.getInstance().getUserInfoByAccount(account);
@@ -102,6 +105,7 @@ public class HeadImageView extends CircleImageView {
              */
             final String thumbUrl = makeAvatarThumbNosUrl(url, thumbSize);
 
+            final long time = System.currentTimeMillis();
             // 异步从cache or NOS加载图片
             ImageLoader.getInstance().displayImage(thumbUrl, new NonViewAware(new ImageSize(thumbSize, thumbSize),
                     ViewScaleType.CROP), options, new SimpleImageLoadingListener() {
@@ -109,6 +113,7 @@ public class HeadImageView extends CircleImageView {
                 public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                     if (getTag() != null && getTag().equals(tag)) {
                         setImageBitmap(loadedImage);
+                        L.d("time: "+(System.currentTimeMillis() - time));
                     }
                 }
             });

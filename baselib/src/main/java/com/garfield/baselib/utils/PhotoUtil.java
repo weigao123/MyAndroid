@@ -11,9 +11,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.garfield.baselib.R;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -31,22 +29,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class PhotoUtil {
-
-    public static void initImageLoader(Context context) {
-        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.question_mark)
-                .showImageForEmptyUri(R.drawable.question_mark)
-                .showImageOnFail(R.drawable.question_mark).cacheInMemory(true)
-                .considerExifParams(true)
-                .displayer(new FadeInBitmapDisplayer(300, true, true, true))
-                .imageScaleType(ImageScaleType.EXACTLY_STRETCHED)
-                .bitmapConfig(Bitmap.Config.RGB_565).build();
-        ImageLoaderConfiguration.Builder builder = new ImageLoaderConfiguration.Builder(
-                context).defaultDisplayImageOptions(defaultOptions)
-                .memoryCache(new WeakMemoryCache());
-        ImageLoaderConfiguration config = builder.build();
-        ImageLoader.getInstance().init(config);
-    }
 
     public static ArrayList<String> getGalleryPhotos(Context context) {
         ArrayList<String> galleryList = new ArrayList<>();

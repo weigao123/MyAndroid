@@ -4,11 +4,14 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.garfield.weishu.AppCache;
+import com.garfield.weishu.MyApplication;
 import com.garfield.weishu.nim.framework.SingleThreadExecutor;
 import com.netease.nimlib.sdk.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.garfield.weishu.MyApplication.imageLoaderKit;
 
 
 public class DataCacheManager {
@@ -65,7 +68,7 @@ public class DataCacheManager {
 
         List<String> accounts = new ArrayList<>(1);
         accounts.add(AppCache.getAccount());
-        //NimUIKit.getImageLoaderKit().buildAvatarCache(accounts);
+        MyApplication.imageLoaderKit.buildAvatarCache(accounts);
     }
 
     /**
@@ -75,7 +78,7 @@ public class DataCacheManager {
         FriendDataCache.getInstance().clear();
         UserInfoCache.getInstance().clear();
         //TeamDataCache.getInstance().clear();
-        //NimUIKit.getImageLoaderKit().clear();
+        MyApplication.imageLoaderKit.clear();
     }
 
     /**

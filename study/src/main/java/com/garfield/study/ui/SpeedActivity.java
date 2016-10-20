@@ -9,11 +9,11 @@ import com.garfield.study.R;
 /**
  * Created by gaowei3 on 2016/8/29.
  */
-public class ContainerActivity extends AppCompatActivity {
+public class SpeedActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.container_activity);
+        setContentView(R.layout.activity_speed);
     }
 }

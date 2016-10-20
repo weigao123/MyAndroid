@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.garfield.baselib.swipeback.SwipeBackActivity;
+import com.garfield.study.ui.SocketActivity;
+import com.garfield.study.ui.SpeedActivity;
 
 /**
  * Created by gaowei3 on 2016/8/10.
@@ -27,9 +29,11 @@ public class LauncherActivity extends SwipeBackActivity {
                 startActivity(new Intent(this, com.garfield.study.touch.MainActivity.class));
                 break;
             case R.id.main_speed_progress:
-                startActivity(new Intent(this, com.garfield.study.ui.ContainerActivity.class));
+                startActivity(new Intent(this, SpeedActivity.class));
                 break;
-
+            case R.id.main_socket:
+                startActivity(new Intent(this, SocketActivity.class));
+                break;
         }
     }
 }

@@ -2,6 +2,7 @@ package com.garfield.weishu;
 
 import android.content.Context;
 
+import com.garfield.weishu.ui.view.ImageLoaderKit;
 
 
 public class AppCache {
@@ -31,4 +32,6 @@ public class AppCache {
     public static void setContext(Context context) {
         AppCache.context = context.getApplicationContext();
     }
+
+
 }

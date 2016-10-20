@@ -3,6 +3,7 @@ package com.garfield.weishu;
 import android.app.Application;
 import android.text.TextUtils;
 
+import com.garfield.baselib.utils.ImageLoaderUtils;
 import com.garfield.baselib.utils.L;
 import com.garfield.baselib.utils.PhotoUtil;
 import com.garfield.weishu.config.UserPreferences;
@@ -11,6 +12,7 @@ import com.garfield.weishu.nim.cache.DataCacheManager;
 import com.garfield.weishu.nim.cache.LoginSyncHelper;
 import com.garfield.weishu.nim.NimInit;
 import com.garfield.baselib.utils.SystemUtil;
+import com.garfield.weishu.ui.view.ImageLoaderKit;
 
 
 /**
@@ -19,6 +21,7 @@ import com.garfield.baselib.utils.SystemUtil;
 public class MyApplication extends Application {
 
     public static final String NIM_BASE_URL = "https://api.netease.im/nimserver/user";
+    public static ImageLoaderKit imageLoaderKit;
 
     @Override
     public void onCreate() {
@@ -27,7 +30,9 @@ public class MyApplication extends Application {
 
         Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
 
-        PhotoUtil.initImageLoader(this);
+        //ImageLoaderUtils.initImageLoader(this);
+        imageLoaderKit = new ImageLoaderKit(AppCache.getContext(), null);
+
         NimInit.initSDK(this);
 
         if (SystemUtil.inMainProcess(this)) {
