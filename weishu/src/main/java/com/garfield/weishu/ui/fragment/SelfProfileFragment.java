@@ -89,15 +89,21 @@ public class SelfProfileFragment extends AppBaseFragment {
     }
 
     private void registerObservers(boolean register) {
-        UserInfoCache.getInstance().registerUserInfoChangedObserver(new UserInfoCache.UserInfoChangedObserver() {
-            @Override
-            public void onUserInfoChanged(List<String> accounts) {
-                if (accounts.contains(AppCache.getAccount())) {
-                    refreshInfo();
-                }
-            }
-        }, register);
+        UserInfoCache.getInstance().registerUserInfoChangedObserver(mUserInfoChangedObserver, register);
     }
+
+    /**
+     * 必须要设置成全局变量，如果在registerObservers里新建，会导致新new一个observer，之前的无法被remove
+     * 而之前的Fragment已经被销毁，一旦回调，就空指针
+     */
+    private UserInfoCache.UserInfoChangedObserver mUserInfoChangedObserver = new UserInfoCache.UserInfoChangedObserver() {
+        @Override
+        public void onUserInfoChanged(List<String> accounts) {
+            if (accounts.contains(AppCache.getAccount())) {
+                refreshInfo();
+            }
+        }
+    };
 
     @Override
     protected void onFragmentResult(Bundle data) {
@@ -113,6 +119,9 @@ public class SelfProfileFragment extends AppBaseFragment {
         if (photoPath != null) {
             FileNameMap fileNameMap = URLConnection.getFileNameMap();
             String type = fileNameMap.getContentTypeFor(photoPath);
+            /**
+             * 要求这里的file没有前缀file://,直接是/storage/...即可
+             */
             File file = new File(photoPath);
             mHandler.postDelayed(outimeTask, AVATAR_TIME_OUT);
             uploadAvatarFuture = NIMClient.getService(NosService.class).upload(file, type);

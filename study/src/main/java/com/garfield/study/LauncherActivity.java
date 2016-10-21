@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.garfield.baselib.swipeback.SwipeBackActivity;
-import com.garfield.study.ui.SocketActivity;
+import com.garfield.study.socket.SocketActivity;
 import com.garfield.study.ui.SpeedActivity;
 
 /**

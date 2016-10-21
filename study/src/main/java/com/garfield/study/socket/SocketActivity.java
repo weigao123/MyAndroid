@@ -1,4 +1,4 @@
-package com.garfield.study.ui;
+package com.garfield.study.socket;
 
 import android.os.Bundle;
 import android.os.Looper;
@@ -21,12 +21,15 @@ public class SocketActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_socket);
 
-        new Thread(new Runnable() {
+        new Runnable() {
             @Override
             public void run() {
+                while (true) {
 
+                    L.d("run: "+Thread.currentThread().getName());
+                }
             }
-        }).start();
+        }.run();
     }
 
     public void onClick(View view) {

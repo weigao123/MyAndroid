@@ -78,4 +78,8 @@ public class MainActivity extends AppBaseActivity {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
+
+
+
 }

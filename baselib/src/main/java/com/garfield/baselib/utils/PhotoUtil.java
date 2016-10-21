@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.garfield.baselib.R;
@@ -152,6 +153,31 @@ public class PhotoUtil {
         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
                 Uri.fromFile(appDir)));
         return true;
+    }
+
+
+    /**
+     * 如果是本地文件，前缀不要带file
+     */
+    public static Uri pathToUri(String path) {
+        File file = new File(path);
+        return Uri.fromFile(file);
+    }
+
+    public static void cropImage(Fragment context, Uri uri, Uri outUri, int outputX, int outputY, int requestCode) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", outputX);
+        intent.putExtra("outputY", outputY);
+        intent.putExtra("scale", true);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, outUri);
+        intent.putExtra("return-data", false);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("noFaceDetection", true); // no face detection
+        context.startActivityForResult(intent, requestCode);
     }
 
 }

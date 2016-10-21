@@ -1,11 +1,14 @@
 <resources>
-    <string name="app_name">微书</string>
+    <string name="app_name">WeiShu</string>
 
     <string name="confirm">确定</string>
     <string name="agree">同意</string>
     <string name="disagree">不同意</string>
     <string name="title">标题</string>
     <string name="content">内容</string>
+
+    <string name="success">成功</string>
+    <string name="fail">失败</string>
 
     <string name="please_login">请登录</string>
     <string name="login">登录</string>
@@ -74,5 +77,17 @@
 
     <string name="unsupport_title">无法显示该内容</string>
     <string name="unsupport_desc">客户端版本不支持该内容</string>
+
+    <string name="photo_album">相册</string>
+    <string name="no_photo">您的相册没有照片</string>
+    <string name="crop_photo">裁剪</string>
+
+    <string name="user_info_update_success">用户信息更新成功</string>
+    <string name="user_info_update_failed">用户信息更新失败</string>
+    <string name="user_info_update_cancel">取消用户信息更新</string>
+    <string name="head_upload_success">头像上传成功</string>
+    <string name="head_upload_failed">头像上传失败</string>
+    <string name="head_update_success">头像更新成功</string>
+    <string name="head_update_failed">头像更新失败</string>
 
 </resources>

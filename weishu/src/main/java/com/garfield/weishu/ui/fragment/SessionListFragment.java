@@ -134,12 +134,7 @@ public class SessionListFragment extends AppBaseFragment {
         MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
         service.observeRecentContact(sessionObserver, register);
         FriendDataCache.getInstance().registerFriendDataChangedObserver(friendDataChangedObserver, register);
-        UserInfoCache.getInstance().registerUserInfoChangedObserver(new UserInfoCache.UserInfoChangedObserver() {
-            @Override
-            public void onUserInfoChanged(List<String> accounts) {
-                refreshMessages(false);
-            }
-        }, register);
+        UserInfoCache.getInstance().registerUserInfoChangedObserver(userInfoChangedObserver, register);
     }
 
     private Observer<List<RecentContact>> sessionObserver = new Observer<List<RecentContact>>() {
@@ -183,6 +178,13 @@ public class SessionListFragment extends AppBaseFragment {
 
         @Override
         public void onRemoveUserFromBlackList(List<String> account) {
+            refreshMessages(false);
+        }
+    };
+
+    private UserInfoCache.UserInfoChangedObserver userInfoChangedObserver = new UserInfoCache.UserInfoChangedObserver() {
+        @Override
+        public void onUserInfoChanged(List<String> accounts) {
             refreshMessages(false);
         }
     };

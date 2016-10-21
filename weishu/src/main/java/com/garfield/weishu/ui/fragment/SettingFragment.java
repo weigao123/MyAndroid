@@ -67,15 +67,17 @@ public class SettingFragment extends AppBaseFragment {
     }
 
     private void registerObservers(boolean register) {
-        UserInfoCache.getInstance().registerUserInfoChangedObserver(new UserInfoCache.UserInfoChangedObserver() {
-            @Override
-            public void onUserInfoChanged(List<String> accounts) {
-                if (accounts.contains(AppCache.getAccount())) {
-                    refreshInfo();
-                }
-            }
-        }, register);
+        UserInfoCache.getInstance().registerUserInfoChangedObserver(mUserInfoChangedObserver, register);
     }
+
+    private UserInfoCache.UserInfoChangedObserver mUserInfoChangedObserver = new UserInfoCache.UserInfoChangedObserver() {
+        @Override
+        public void onUserInfoChanged(List<String> accounts) {
+            if (accounts.contains(AppCache.getAccount())) {
+                refreshInfo();
+            }
+        }
+    };
 
     @Override
     public void onDestroyView() {

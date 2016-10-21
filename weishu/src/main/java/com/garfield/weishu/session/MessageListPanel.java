@@ -6,6 +6,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
 
 import com.garfield.baselib.utils.L;
 import com.garfield.weishu.R;
@@ -73,13 +75,18 @@ public class MessageListPanel implements TAdapterDelegate {
         adapter.setEventListener(new HolderEventListener());
         messageListView.setAdapter(adapter);
         messageListView.setOnRefreshListener(new MessageLoader(null));
-
         messageListView.setListViewEventListener(new MessageListView.OnListViewEventListener() {
             @Override
             public void onListViewStartScroll() {
                 moduleProxy.shouldCollapseInputPanel();
             }
         });
+        messageListView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                  ListViewUtil.scrollToBottom(messageListView);
+              }
+          });
         registerObservers(true);
     }
 
@@ -132,7 +139,7 @@ public class MessageListPanel implements TAdapterDelegate {
         service.observeMsgStatus(messageStatusObserver, register);
     }
 
-    Observer<IMMessage> messageStatusObserver = new Observer<IMMessage>() {
+    private Observer<IMMessage> messageStatusObserver = new Observer<IMMessage>() {
         @Override
         public void onEvent(IMMessage message) {
             if (isMyMessage(message)) {
@@ -361,7 +368,6 @@ public class MessageListPanel implements TAdapterDelegate {
 
     // 刷新消息列表
     public void refreshMessageList() {
-        Log.d("gaowei", ""+Thread.currentThread().getName());
         uiHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -393,12 +399,7 @@ public class MessageListPanel implements TAdapterDelegate {
         }
     }
 
-    public void scrollToBottom() {
-        uiHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ListViewUtil.scrollToBottom(messageListView);
-            }
-        }, 200);
+    public void onDestoryView() {
+        registerObservers(false);
     }
 }

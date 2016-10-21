@@ -32,14 +32,6 @@ public class UserUpdateHelper {
         NIMClient.getService(UserService.class).updateUserInfo(fields).setCallback(new RequestCallbackWrapper<Void>() {
             @Override
             public void onResult(int code, Void result, Throwable exception) {
-
-                if (code == ResponseCode.RES_SUCCESS) {
-                    Toast.makeText(AppCache.getContext(), R.string.user_info_update_success, Toast.LENGTH_SHORT).show();
-                } else {
-                    if (exception != null) {
-                        Toast.makeText(AppCache.getContext(), R.string.user_info_update_failed, Toast.LENGTH_SHORT).show();
-                    }
-                }
                 if (callback != null) {
                     callback.onResult(code, result, exception);
                 }

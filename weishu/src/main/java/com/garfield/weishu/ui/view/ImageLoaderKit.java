@@ -1,26 +1,14 @@
 package com.garfield.weishu.ui.view;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.text.TextUtils;
 
 import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
-import com.nostra13.universalimageloader.cache.disc.impl.ext.LruDiskCache;
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
-import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
-import com.nostra13.universalimageloader.core.download.ImageDownloader;
 import com.nostra13.universalimageloader.utils.MemoryCacheUtils;
-import com.nostra13.universalimageloader.utils.StorageUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.garfield.baselib.utils.ImageLoaderUtils.isImageUriValid;

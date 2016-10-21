@@ -63,7 +63,6 @@ public class InputPanel {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    mModuleProxy.onInputPanelExpand();
                     mEditTextLine.setBackgroundColor(mRootView.getContext().getResources().getColor(R.color.colorPrimaryDark));
                 } else {
                     mEditTextLine.setBackgroundColor(mRootView.getContext().getResources().getColor(R.color.gray));

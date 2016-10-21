@@ -39,7 +39,8 @@ public class ListViewUtil {
 	}
 	
 	public static void scrollToBottom(ListView listView) {
-	    scrollToPosition(listView, listView.getAdapter().getCount() - 1, 0);
+        listView.setSelection(listView.getBottom());
+	    //scrollToPosition(listView, listView.getAdapter().getCount() - 1, 0);
 	}
 	
 	public static void scrollToBottom(ListView listView, ScrollToPositionListener listener) {
@@ -54,11 +55,9 @@ public class ListViewUtil {
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private static void scrollToPosition(final ListView messageListView, final int position, final int y, final ScrollToPositionListener listener) {
 		messageListView.post(new Runnable() {
-			
 			@Override
 			public void run() {				
 				messageListView.setSelectionFromTop(position, y);
-				
 				if (listener != null) {
 					listener.onScrollEnd();
 				}
