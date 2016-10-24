@@ -42,8 +42,9 @@
         android:id="@+id/item_album_choose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_friend"
+        android:src="@drawable/ic_item_choose"
         android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
         android:layout_centerVertical="true"
         android:visibility="gone"/>
 

@@ -14,17 +14,17 @@ import java.util.List;
 
 public class AlbumAdapter extends TAdapter<PhotoUtil.AlbumInfo> {
 
-    private int choosePosition;
+    private int albumSelect;
 
     public AlbumAdapter(Context context, List<PhotoUtil.AlbumInfo> items, TAdapterDelegate delegate) {
         super(context, items, delegate);
     }
 
-    public int getChoosePosition() {
-        return choosePosition;
+    public int getAlbumSelect() {
+        return albumSelect;
     }
 
-    public void setChoosePosition(int choosePosition) {
-        this.choosePosition = choosePosition;
+    public void setAlbumSelect(int albumSelect) {
+        this.albumSelect = albumSelect;
     }
 }

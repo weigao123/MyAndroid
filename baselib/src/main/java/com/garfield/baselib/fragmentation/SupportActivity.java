@@ -18,6 +18,8 @@ public class SupportActivity extends SwipeBackActivity implements ISupport {
     private FragmentAnimator mFragmentAnimator;
     private FragmentHelper mFragmentHelper;
 
+    private boolean mIsToBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,11 +122,18 @@ public class SupportActivity extends SwipeBackActivity implements ISupport {
         return null;
     }
 
-    public void procBackPressed(boolean isToBack) {
+    public void setIsToBack(boolean isToBack) {
+        mIsToBack = mIsToBack;
+    }
+    @Override
+    public void onBackPressed() {
+        if (getTopFragment().onBackPressed()) {
+            return;
+        }
         if (getSupportFragmentManager().getBackStackEntryCount() >= 1) {
             super.onBackPressed();
         } else {
-            if (isToBack)
+            if (mIsToBack)
                 moveTaskToBack(false);
             else
                 finish();

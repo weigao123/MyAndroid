@@ -195,4 +195,8 @@ public class SupportFragment extends SwipeBackFragment implements ISupport {
 
     protected void onFragmentResult(Bundle data) {
     }
+
+    protected boolean onBackPressed() {
+        return false;
+    }
 }

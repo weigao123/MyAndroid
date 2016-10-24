@@ -38,7 +38,7 @@ public class AlbumViewHolder extends TViewHolder<PhotoUtil.AlbumInfo> {
     protected void refresh(PhotoUtil.AlbumInfo item) {
         mAlbumName.setText(item.albumName);
         mImageCount.setText(getAdapter().getContext().getString(R.string.photo_count, item.photoPaths.size()+""));
-        if (mPosition == ((AlbumAdapter)getAdapter()).getChoosePosition()) {
+        if (mPosition == ((AlbumAdapter)getAdapter()).getAlbumSelect()) {
             mChoose.setVisibility(View.VISIBLE);
         } else {
             mChoose.setVisibility(View.GONE);

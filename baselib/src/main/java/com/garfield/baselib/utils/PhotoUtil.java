@@ -183,7 +183,9 @@ public class PhotoUtil {
         return Uri.fromFile(file);
     }
 
-    public static void cropImage(Fragment context, Uri uri, Uri outUri, int outputX, int outputY, int requestCode) {
+    public static final int PHOTO_TAKE = 1;
+    public static final int PHOTO_CROP = 2;
+    public static void cropImage(Fragment context, Uri uri, Uri outUri, int outputX, int outputY) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");
@@ -195,8 +197,14 @@ public class PhotoUtil {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, outUri);
         intent.putExtra("return-data", false);
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        intent.putExtra("noFaceDetection", true); // no face detection
-        context.startActivityForResult(intent, requestCode);
+        intent.putExtra("noFaceDetection", true);
+        context.startActivityForResult(intent, PHOTO_CROP);
+    }
+
+    public static void takePhoto(Fragment context, Uri outUri) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, outUri);
+        context.startActivityForResult(intent, PHOTO_TAKE);
     }
 
 }

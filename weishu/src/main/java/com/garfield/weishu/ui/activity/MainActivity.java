@@ -60,17 +60,13 @@ public class MainActivity extends AppBaseActivity {
                 DialogMaker.showProgressDialog(MainActivity.this, getString(R.string.prepare_data)).setCanceledOnTouchOutside(false);
             }
         }
+        setIsToBack(true);
     }
 
     @Subscribe
     public void onEvent(StartBrotherEvent event) {
         //setAnimatorEnable(event.targetFragment.getClass() == MsgFragment.class);
         startFragment(event.targetFragment);
-    }
-
-    @Override
-    public void onBackPressed() {
-        procBackPressed(isBackPressedToBack);
     }
 
     @Override

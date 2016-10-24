@@ -29,8 +29,11 @@ import com.garfield.weishu.setting.PhotoAdapter;
 import com.garfield.weishu.setting.PhotoViewHolder;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -46,16 +49,16 @@ import static com.garfield.weishu.ui.fragment.SelfProfileFragment.INFO_HEAD;
 
 public class TakePhotoFragment extends AppBaseFragment implements TAdapterDelegate {
 
-    private static final boolean isUseOwnCrop = true;
-
-    @BindView(R.id.fragment_take_photo_gridview)
-    GridView mGridView;
+    private static final boolean isUseNativeCropFunction = true;
 
     @BindView(R.id.fragment_take_photo_no_photo)
     TextView mNoPhoto;
 
     @BindView(R.id.fragment_take_photo_album)
     TextView mAlbumButton;
+
+    @BindView(R.id.fragment_take_photo_gridview)
+    GridView mGridView;
 
     @BindView(R.id.fragment_take_photo_album_list)
     ListView mAlbumListView;
@@ -76,6 +79,8 @@ public class TakePhotoFragment extends AppBaseFragment implements TAdapterDelega
 
     private boolean isAnimatorRunning;
     private int mAlbumPosition;
+    // 不带file://
+    private File mPhotoOutputPath = new File(DirectoryUtils.getOwnImageCacheDirectory(AppCache.getContext()), "take_photo.jpg");
 
     protected int onGetToolbarTitleResource() {
         return R.string.photo_album;
@@ -94,26 +99,19 @@ public class TakePhotoFragment extends AppBaseFragment implements TAdapterDelega
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (isAnimatorRunning) return;
+                if (position == 0) {
+                    takePhoto();
+                    return;
+                }
                 String photoPath = mPhotoAdapter.getItem(position);
-                if (isUseOwnCrop) {
-                    /**
-                     * File不会增加前缀，Uri会增加file前缀
-                     */
-                    Uri sourceUri = PhotoUtil.pathToUri(photoPath);
-                    File sourceFile = new File(photoPath);
-                    String a = sourceFile.getName();    //文件名加后缀
-                    String b = sourceFile.getAbsolutePath();
-                    String c = sourceFile.getPath();
-                    String name = FileUtils.removeFileSuffix(a);
-                    File targetFile = new File(DirectoryUtils.getOwnImageCacheDirectory(AppCache.getContext()), "crop_"+name+".jpg");
-                    Uri targetUri = Uri.fromFile(targetFile);
-                    PhotoUtil.cropImage(TakePhotoFragment.this, sourceUri, targetUri, 500, 500, 1);
+                if (isUseNativeCropFunction) {
+                    cropPhoto(photoPath);
                 } else {
                     EventDispatcher.getFragmentJumpEvent().onShowCropPhoto(photoPath);
                 }
             }
         });
-        mGridView.setFastScrollEnabled(true);
 
         mAlbumAdapter = new AlbumAdapter(AppCache.getContext(), mAlbumItems, new TAdapterDelegate() {
             @Override
@@ -135,6 +133,7 @@ public class TakePhotoFragment extends AppBaseFragment implements TAdapterDelega
         mAlbumListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (isAnimatorRunning) return;
                 mAlbumPosition = position;
                 switchPhotoList(mAlbumItems.get(position));
             }
@@ -184,13 +183,60 @@ public class TakePhotoFragment extends AppBaseFragment implements TAdapterDelega
             }
         });
 
+        mMask.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (isAlbumListShow()) {
+                        showHideAlbumList();
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
         loadImage();
+    }
+
+    private void takePhoto() {
+        if (mPhotoOutputPath.exists()) {
+            mPhotoOutputPath.delete();
+        }
+        try {
+            mPhotoOutputPath.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Uri imageUri = Uri.fromFile(mPhotoOutputPath);
+        PhotoUtil.takePhoto(TakePhotoFragment.this, imageUri);
+    }
+
+    private void cropPhoto(String photoPath) {
+        /**
+         * File不会增加前缀，Uri会增加file前缀
+         */
+        Uri sourceUri = PhotoUtil.pathToUri(photoPath);
+        File sourceFile = new File(photoPath);
+        String a = sourceFile.getName();    //文件名加后缀
+        String b = sourceFile.getAbsolutePath();
+        String c = sourceFile.getPath();
+        String name = FileUtils.removeFileSuffix(a);
+        File targetFile = new File(DirectoryUtils.getOwnImageCacheDirectory(AppCache.getContext()), "crop_"+name+".jpg");
+        Uri targetUri = Uri.fromFile(targetFile);
+        PhotoUtil.cropImage(TakePhotoFragment.this, sourceUri, targetUri, 500, 500);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK) {
+        if (requestCode == PhotoUtil.PHOTO_TAKE && resultCode == RESULT_OK) {
+            if (data == null) {
+                if (mPhotoOutputPath.exists()) {
+                    cropPhoto(mPhotoOutputPath.getPath());
+                }
+            }
+        }
+        if (requestCode == PhotoUtil.PHOTO_CROP && resultCode == RESULT_OK) {
             Uri uri = data.getData();     //有file前缀，需要把前缀去掉
             Bundle bundle = new Bundle();
             String a = uri.getScheme();   //前缀
@@ -228,14 +274,17 @@ public class TakePhotoFragment extends AppBaseFragment implements TAdapterDelega
                 mPhotoItems.clear();
                 mAlbumItems.clear();
                 mAlbumHashMap = PhotoUtil.getGalleryPhotos(AppCache.getContext());
+
                 List<String> allPhotoPaths = getPhotoPathsOfAlbum(null);
+                mPhotoItems.add("Camera");
                 mPhotoItems.addAll(allPhotoPaths);
-                PhotoUtil.AlbumInfo allAlbum = new PhotoUtil.AlbumInfo();
-                allAlbum.albumName = getResources().getString(R.string.all_albums);
-                allAlbum.photoPaths.addAll(allPhotoPaths);
-                allAlbum.albumImage = allPhotoPaths.get(0);
-                mAlbumItems.add(allAlbum);
+                PhotoUtil.AlbumInfo wholeAlbum = new PhotoUtil.AlbumInfo();
+                wholeAlbum.albumName = getResources().getString(R.string.all_albums);
+                wholeAlbum.photoPaths.addAll(allPhotoPaths);
+                wholeAlbum.albumImage = allPhotoPaths.get(0);
+                mAlbumItems.add(wholeAlbum);
                 mAlbumItems.addAll(mAlbumHashMap.values());
+                sortAlbum(mAlbumItems);
                 return mAlbumHashMap.isEmpty();
             }
 
@@ -246,6 +295,21 @@ public class TakePhotoFragment extends AppBaseFragment implements TAdapterDelega
                 mAlbumAdapter.notifyDataSetChanged();
             }
         }).start();
+    }
+
+    private void sortAlbum(List<PhotoUtil.AlbumInfo> albumInfos) {
+        Collections.sort(albumInfos, new Comparator<PhotoUtil.AlbumInfo>() {
+            @Override
+            public int compare(final PhotoUtil.AlbumInfo con1, final PhotoUtil.AlbumInfo con2) {
+                if (con1.photoPaths.size() == con2.photoPaths.size()) {
+                    return 0;
+                } else if (con2.photoPaths.size() > con1.photoPaths.size()) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+        });
     }
 
     private List<String> getPhotoPathsOfAlbum(String albumName) {
@@ -270,7 +334,7 @@ public class TakePhotoFragment extends AppBaseFragment implements TAdapterDelega
         if (isAnimatorRunning) return;
         int containerHeight = mAlbumContainer.getMeasuredHeight();
         int originDiff = SizeUtils.dp2px(getContext(), 80);
-        if (Math.abs(mAlbumListView.getY() - originDiff) < 10) {
+        if (isAlbumListShow()) {
             mAlbumListView.animate().y(containerHeight);
             mMask.setBackgroundColor(getResources().getColor(R.color.pure_trans));
         } else {
@@ -279,13 +343,34 @@ public class TakePhotoFragment extends AppBaseFragment implements TAdapterDelega
         }
     }
 
+    private boolean isAlbumListShow() {
+        int originDiff = SizeUtils.dp2px(getContext(), 80);
+        return Math.abs(mAlbumListView.getY() - originDiff) < 10 || isAnimatorRunning;
+    }
+
     private void switchPhotoList(PhotoUtil.AlbumInfo info) {
         if (isAnimatorRunning) return;
         mPhotoItems.clear();
+        mPhotoItems.add("Camera");
         mPhotoItems.addAll(info.photoPaths);
         mPhotoAdapter.notifyDataSetChanged();
-        mAlbumAdapter.setChoosePosition(mAlbumPosition);
+        mAlbumAdapter.setAlbumSelect(mAlbumPosition);
         mAlbumAdapter.notifyDataSetChanged();
+        getHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                mGridView.setSelection(0);
+            }
+        });
         showHideAlbumList();
+    }
+
+    @Override
+    protected boolean onBackPressed() {
+        if (isAlbumListShow()) {
+            showHideAlbumList();
+            return true;
+        }
+        return super.onBackPressed();
     }
 }
