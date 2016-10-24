@@ -14,7 +14,6 @@ public abstract class TViewHolder<T> {
     protected TAdapter mAdapter;
 
     protected int mPosition;
-    protected Context mContext;
 
     /**
      * 入口
@@ -28,10 +27,6 @@ public abstract class TViewHolder<T> {
 
     protected void setPosition(int position) {
         this.mPosition = position;
-    }
-
-    protected void setContext(Context context) {
-        mContext = context;
     }
 
     protected void setAdapter(TAdapter adapter) {

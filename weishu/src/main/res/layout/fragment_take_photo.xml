@@ -30,6 +30,46 @@
             android:textColor="@color/black_gray"
             android:visibility="gone"/>
 
+        <FrameLayout
+            android:id="@+id/fragment_take_photo_mask"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/fragment_take_photo_bar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimaryTrans"
+            android:gravity="center_vertical">
+            <TextView
+                android:id="@+id/fragment_take_photo_album"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:text="@string/all_albums"/>
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/fragment_take_photo_album_list_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/fragment_take_photo_bar">
+            <ListView
+                android:id="@+id/fragment_take_photo_album_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                android:background="@color/white"
+                android:divider="@null">
+            </ListView>
+        </FrameLayout>
+
     </RelativeLayout>
 
 </LinearLayout>

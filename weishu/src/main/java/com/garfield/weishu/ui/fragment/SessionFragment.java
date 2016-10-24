@@ -120,10 +120,6 @@ public class SessionFragment extends AppBaseFragment implements ModuleProxy {
     }
 
     @Override
-    public void onInputPanelExpand() {
-    }
-
-    @Override
     public void shouldCollapseInputPanel() {
         mInputPanel.collapse(false);
     }

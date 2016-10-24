@@ -1,35 +1,41 @@
 package com.garfield.weishu.ui.fragment;
 
+import android.animation.Animator;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.garfield.baselib.utils.DirectoryUtils;
 import com.garfield.baselib.utils.FileUtils;
 import com.garfield.baselib.utils.InvokerUtils;
 import com.garfield.baselib.utils.PhotoUtil;
+import com.garfield.baselib.utils.SizeUtils;
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.adapter.TAdapterDelegate;
 import com.garfield.weishu.base.adapter.TViewHolder;
 import com.garfield.weishu.base.event.EventDispatcher;
-import com.garfield.weishu.session.MsgAdapter;
+import com.garfield.weishu.setting.AlbumAdapter;
+import com.garfield.weishu.setting.AlbumViewHolder;
 import com.garfield.weishu.setting.PhotoAdapter;
 import com.garfield.weishu.setting.PhotoViewHolder;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 import static android.app.Activity.RESULT_OK;
 import static com.garfield.weishu.ui.fragment.SelfProfileFragment.INFO_HEAD;
@@ -48,8 +54,28 @@ public class TakePhotoFragment extends AppBaseFragment implements TAdapterDelega
     @BindView(R.id.fragment_take_photo_no_photo)
     TextView mNoPhoto;
 
-    private PhotoAdapter adapter;
-    private List<String> items = new ArrayList<>();
+    @BindView(R.id.fragment_take_photo_album)
+    TextView mAlbumButton;
+
+    @BindView(R.id.fragment_take_photo_album_list)
+    ListView mAlbumListView;
+
+    @BindView(R.id.fragment_take_photo_album_list_container)
+    FrameLayout mAlbumContainer;
+
+    @BindView(R.id.fragment_take_photo_mask)
+    FrameLayout mMask;
+
+    private PhotoAdapter mPhotoAdapter;
+    private List<String> mPhotoItems = new ArrayList<>();
+
+    private AlbumAdapter mAlbumAdapter;
+    private List<PhotoUtil.AlbumInfo> mAlbumItems = new ArrayList<>();
+
+    private HashMap<String, PhotoUtil.AlbumInfo> mAlbumHashMap = new HashMap<>();
+
+    private boolean isAnimatorRunning;
+    private int mAlbumPosition;
 
     protected int onGetToolbarTitleResource() {
         return R.string.photo_album;
@@ -63,12 +89,12 @@ public class TakePhotoFragment extends AppBaseFragment implements TAdapterDelega
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
-        adapter = new PhotoAdapter(AppCache.getContext(), items, this);
-        mGridView.setAdapter(adapter);
+        mPhotoAdapter = new PhotoAdapter(AppCache.getContext(), mPhotoItems, this);
+        mGridView.setAdapter(mPhotoAdapter);
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String photoPath = adapter.getItem(position);
+                String photoPath = mPhotoAdapter.getItem(position);
                 if (isUseOwnCrop) {
                     /**
                      * File不会增加前缀，Uri会增加file前缀
@@ -87,6 +113,77 @@ public class TakePhotoFragment extends AppBaseFragment implements TAdapterDelega
                 }
             }
         });
+        mGridView.setFastScrollEnabled(true);
+
+        mAlbumAdapter = new AlbumAdapter(AppCache.getContext(), mAlbumItems, new TAdapterDelegate() {
+            @Override
+            public int getViewTypeCount() {
+                return 1;
+            }
+
+            @Override
+            public Class<? extends TViewHolder> getViewHolderClassAtPosition(int position) {
+                return AlbumViewHolder.class;
+            }
+
+            @Override
+            public boolean enabled(int position) {
+                return false;
+            }
+        });
+        mAlbumListView.setAdapter(mAlbumAdapter);
+        mAlbumListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mAlbumPosition = position;
+                switchPhotoList(mAlbumItems.get(position));
+            }
+        });
+
+        mAlbumContainer.post(new Runnable() {
+            public void run() {
+                int containerHeight = mAlbumContainer.getMeasuredHeight();
+                ViewGroup.LayoutParams params = mAlbumListView.getLayoutParams();
+                params.height = containerHeight - SizeUtils.dp2px(getContext(), 80);
+                mAlbumListView.setLayoutParams(params);   //设置高度
+                mAlbumListView.setY(containerHeight);   //下移
+            }
+        });
+
+        mAlbumListView.animate().setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                isAnimatorRunning = true;
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                isAnimatorRunning = false;
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+        mAlbumButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    mAlbumButton.setTextColor(getResources().getColor(R.color.blue1));
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    mAlbumButton.setTextColor(getResources().getColor(R.color.white));
+                }
+                return false;
+            }
+        });
+
         loadImage();
     }
 
@@ -128,19 +225,67 @@ public class TakePhotoFragment extends AppBaseFragment implements TAdapterDelega
 
             @Override
             public boolean onRun() {
-                items.clear();
-                List<String> result = PhotoUtil.getGalleryPhotos(AppCache.getContext());
-                items.addAll(result);
-                return result.isEmpty();
+                mPhotoItems.clear();
+                mAlbumItems.clear();
+                mAlbumHashMap = PhotoUtil.getGalleryPhotos(AppCache.getContext());
+                List<String> allPhotoPaths = getPhotoPathsOfAlbum(null);
+                mPhotoItems.addAll(allPhotoPaths);
+                PhotoUtil.AlbumInfo allAlbum = new PhotoUtil.AlbumInfo();
+                allAlbum.albumName = getResources().getString(R.string.all_albums);
+                allAlbum.photoPaths.addAll(allPhotoPaths);
+                allAlbum.albumImage = allPhotoPaths.get(0);
+                mAlbumItems.add(allAlbum);
+                mAlbumItems.addAll(mAlbumHashMap.values());
+                return mAlbumHashMap.isEmpty();
             }
 
             @Override
             public void onAfter(boolean b) {
                 mNoPhoto.setVisibility(b ? View.VISIBLE : View.GONE);
-                adapter.notifyDataSetChanged();
+                mPhotoAdapter.notifyDataSetChanged();
+                mAlbumAdapter.notifyDataSetChanged();
             }
         }).start();
     }
 
+    private List<String> getPhotoPathsOfAlbum(String albumName) {
+        List<String> itemsTmp = new ArrayList<>();
+        if (albumName == null) {
+            Collection<PhotoUtil.AlbumInfo> albumInfos = mAlbumHashMap.values();
+            for (PhotoUtil.AlbumInfo albumInfo : albumInfos) {
+                itemsTmp.addAll(albumInfo.photoPaths);
+            }
+        } else {
+            PhotoUtil.AlbumInfo albumInfo = mAlbumHashMap.get(albumName);
+            itemsTmp.addAll(albumInfo.photoPaths);
+        }
+        return itemsTmp;
+    }
 
+    @OnClick(R.id.fragment_take_photo_album)
+    void showHideAlbumList() {
+        /**
+         * 其实还是View Animation最丝滑
+         */
+        if (isAnimatorRunning) return;
+        int containerHeight = mAlbumContainer.getMeasuredHeight();
+        int originDiff = SizeUtils.dp2px(getContext(), 80);
+        if (Math.abs(mAlbumListView.getY() - originDiff) < 10) {
+            mAlbumListView.animate().y(containerHeight);
+            mMask.setBackgroundColor(getResources().getColor(R.color.pure_trans));
+        } else {
+            mAlbumListView.animate().y(originDiff);
+            mMask.setBackgroundColor(getResources().getColor(R.color.black_trans));
+        }
+    }
+
+    private void switchPhotoList(PhotoUtil.AlbumInfo info) {
+        if (isAnimatorRunning) return;
+        mPhotoItems.clear();
+        mPhotoItems.addAll(info.photoPaths);
+        mPhotoAdapter.notifyDataSetChanged();
+        mAlbumAdapter.setChoosePosition(mAlbumPosition);
+        mAlbumAdapter.notifyDataSetChanged();
+        showHideAlbumList();
+    }
 }

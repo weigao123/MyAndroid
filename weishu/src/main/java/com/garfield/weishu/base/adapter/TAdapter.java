@@ -86,7 +86,6 @@ public class TAdapter<T> extends BaseAdapter {
         view = holder.getView(mInflater);
         // Holder是已经被findView的集合，把holder放到view里，省去后面再findView
         view.setTag(holder);
-        holder.setContext(view.getContext());
         return view;
     }
 
@@ -113,6 +112,10 @@ public class TAdapter<T> extends BaseAdapter {
             }
             return 0;
         }
+    }
+
+    public Context getContext() {
+        return mContext;
     }
 
 }

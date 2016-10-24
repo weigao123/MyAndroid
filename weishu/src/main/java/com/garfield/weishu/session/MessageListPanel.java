@@ -80,13 +80,13 @@ public class MessageListPanel implements TAdapterDelegate {
             public void onListViewStartScroll() {
                 moduleProxy.shouldCollapseInputPanel();
             }
-        });
-        messageListView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
             @Override
-            public void onGlobalLayout() {
-                  ListViewUtil.scrollToBottom(messageListView);
-              }
-          });
+            public void onSizeChanged() {
+                ListViewUtil.scrollToBottom(messageListView);
+            }
+        });
+
         registerObservers(true);
     }
 

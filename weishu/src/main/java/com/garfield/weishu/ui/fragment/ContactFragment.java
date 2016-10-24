@@ -1,16 +1,13 @@
 package com.garfield.weishu.ui.fragment;
 
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.garfield.baselib.ui.widget.LetterIndexView;
 import com.garfield.baselib.utils.L;
-import com.garfield.baselib.utils.SizeUtils;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.contact.ContactDataAdapter;
@@ -25,7 +22,6 @@ import com.garfield.weishu.contact.viewholder.FuncHolder;
 import com.garfield.weishu.contact.viewholder.LabelHolder;
 import com.garfield.weishu.nim.cache.FriendDataCache;
 import com.garfield.weishu.nim.cache.UserInfoCache;
-import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
 import java.util.List;
 
@@ -61,18 +57,12 @@ public class ContactFragment extends AppBaseFragment implements AdapterView.OnIt
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         initAdapter();
+        View countLayout = View.inflate(mActivity, R.layout.item_contacts_count, null);
+        mCountView = (TextView) countLayout.findViewById(R.id.contactCountText);
+        mListView.addFooterView(countLayout);
         mListView.setAdapter(adapter);
         mListView.setOnItemClickListener(this);
         mListView.setOnLongClickListener(this);
-
-        mCountView = new TextView(mActivity);
-        mCountView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, SizeUtils.dp2px(mActivity, 50)));
-        mCountView.setBackgroundColor(getResources().getColor(R.color.gray_white));
-        mCountView.setGravity(Gravity.CENTER);
-        mCountView.setTextSize(15);
-        mCountView.setTextColor(getResources().getColor(R.color.black_gray));
-        mListView.addFooterView(mCountView);
-
         registerObserver(true);
     }
 

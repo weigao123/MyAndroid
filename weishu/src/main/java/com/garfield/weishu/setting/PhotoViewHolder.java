@@ -20,7 +20,6 @@ public class PhotoViewHolder extends TViewHolder<String> {
 
     private String mItem;
     private ImageView mImageView;
-    private static DisplayImageOptions displayImageOptions = getDisplayImageOptions();
 
     @Override
     protected int getResId() {
@@ -35,18 +34,9 @@ public class PhotoViewHolder extends TViewHolder<String> {
     @Override
     protected void refresh(String item) {
         mItem = item;
-        ImageLoader.getInstance().displayImage("file://" + item, mImageView, displayImageOptions);
+        ImageLoader.getInstance().displayImage("file://" + item, mImageView, ImageLoaderUtils.getDisplayImageNoDiskCacheOptions());
     }
 
-    private static DisplayImageOptions getDisplayImageOptions() {
-        return new DisplayImageOptions.Builder()
-                .showImageOnLoading(com.garfield.baselib.R.drawable.image_default)
-                .showImageForEmptyUri(com.garfield.baselib.R.drawable.image_default)
-                .showImageOnFail(com.garfield.baselib.R.drawable.image_default)
-                .cacheInMemory(true)
-                .cacheOnDisk(false)
-                .bitmapConfig(Bitmap.Config.RGB_565)
-                .build();
-    }
+
 
 }

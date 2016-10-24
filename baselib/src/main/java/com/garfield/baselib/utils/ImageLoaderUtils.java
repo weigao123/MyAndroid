@@ -30,7 +30,8 @@ import java.util.List;
 
 public class ImageLoaderUtils {
 
-    private static DisplayImageOptions mDefaultDisplayImageOptions;
+    private static DisplayImageOptions mDisplayImageOptions;
+    private static DisplayImageOptions mDisplayImageNoDiskCacheOptions;
 
     public static void initImageLoader(Context context) {
         int MAX_CACHE_MEMORY_SIZE = (int) (Runtime.getRuntime().maxMemory() / 8);
@@ -72,8 +73,8 @@ public class ImageLoaderUtils {
     }
 
     public static DisplayImageOptions getDisplayImageOptions() {
-        if (mDefaultDisplayImageOptions == null) {
-            mDefaultDisplayImageOptions = new DisplayImageOptions.Builder()
+        if (mDisplayImageOptions == null) {
+            mDisplayImageOptions = new DisplayImageOptions.Builder()
                     .showImageOnLoading(R.drawable.image_default)
                     .showImageForEmptyUri(R.drawable.image_default)
                     .showImageOnFail(R.drawable.image_default)
@@ -84,7 +85,23 @@ public class ImageLoaderUtils {
                     .displayer(new FadeInBitmapDisplayer(300))
                     .build();
         }
-        return mDefaultDisplayImageOptions;
+        return mDisplayImageOptions;
+    }
+
+    public static DisplayImageOptions getDisplayImageNoDiskCacheOptions() {
+        if (mDisplayImageNoDiskCacheOptions == null) {
+            mDisplayImageNoDiskCacheOptions = new DisplayImageOptions.Builder()
+                    .showImageOnLoading(R.drawable.image_default)
+                    .showImageForEmptyUri(R.drawable.image_default)
+                    .showImageOnFail(R.drawable.image_default)
+                    .cacheInMemory(true)
+                    .cacheOnDisk(false)
+                    .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
+                    .bitmapConfig(Bitmap.Config.RGB_565)
+                    .displayer(new FadeInBitmapDisplayer(300))
+                    .build();
+        }
+        return mDisplayImageNoDiskCacheOptions;
     }
 
     /**

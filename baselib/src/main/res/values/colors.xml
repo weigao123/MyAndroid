@@ -5,6 +5,8 @@
     <color name="black">#000000</color>
     <color name="black_gray">#636262</color>
 
+    <color name="black_trans">#b0282525</color>
+
     <color name="gray">#d4d4d4</color>
     <color name="gray_white">#ededed</color>
 

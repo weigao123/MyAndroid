@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WeiShu</string>
+    <string name="app_name">微书</string>
 
     <string name="confirm">确定</string>
     <string name="agree">同意</string>
@@ -90,4 +90,6 @@
     <string name="head_update_success">头像更新成功</string>
     <string name="head_update_failed">头像更新失败</string>
 
+    <string name="all_albums">所有相册</string>
+    <string name="photo_count">%1$s张</string>
 </resources>

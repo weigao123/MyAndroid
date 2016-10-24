@@ -76,7 +76,7 @@ public class MessageListView extends AutoRefreshListView {
 		return isConsumed;
 	}
 
-	public void setListViewEventListener(OnListViewEventListener listener) {
+    public void setListViewEventListener(OnListViewEventListener listener) {
 		this.listener = listener;
 	}
 
@@ -113,10 +113,12 @@ public class MessageListView extends AutoRefreshListView {
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
+        listener.onSizeChanged();
 	}
 
 	public interface OnListViewEventListener {
 		void onListViewStartScroll();
+		void onSizeChanged();
 	}
 
 

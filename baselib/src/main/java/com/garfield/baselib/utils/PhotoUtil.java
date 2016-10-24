@@ -28,11 +28,21 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 public class PhotoUtil {
 
-    public static ArrayList<String> getGalleryPhotos(Context context) {
-        ArrayList<String> galleryList = new ArrayList<>();
+    public static class AlbumInfo {
+        public String albumName;
+        public String albumImage;
+        public List<String> photoPaths;
+        public AlbumInfo() {
+            photoPaths = new ArrayList<>();
+        }
+    }
+    public static HashMap<String, AlbumInfo> getGalleryPhotos(Context context) {
+        HashMap<String, AlbumInfo> galleryList = new HashMap<>();
         final Uri images = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
         Cursor cursor = null;
         try {
@@ -41,9 +51,18 @@ public class PhotoUtil {
                 do {
                     int _id = cursor.getInt(cursor.getColumnIndex(MediaStore.Images.Media._ID));
                     String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-                    String album = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME));
+                    String albumName = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME));
                     long size = cursor.getLong(cursor.getColumnIndex(MediaStore.Images.Media.SIZE));
-                    galleryList.add(path);
+                    if (!galleryList.containsKey(albumName)) {
+                        AlbumInfo albumInfo = new AlbumInfo();
+                        albumInfo.albumName = albumName;
+                        albumInfo.albumImage = path;
+                        albumInfo.photoPaths.add(path);
+                        galleryList.put(albumName, albumInfo);
+                    } else {
+                        AlbumInfo albumInfo = galleryList.get(albumName);
+                        albumInfo.photoPaths.add(path);
+                    }
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {

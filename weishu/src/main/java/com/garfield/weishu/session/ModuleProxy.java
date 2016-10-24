@@ -8,7 +8,6 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 
 public interface ModuleProxy {
     boolean sendMessage(IMMessage msg);
-    void onInputPanelExpand();
     void shouldCollapseInputPanel();
     boolean isLongClickEnabled();
 }
