@@ -39,6 +39,6 @@ public class PhotoViewHolder extends TViewHolder<String> {
             mImageView.setImageResource(R.drawable.ic_camera_pressed);
             return;
         }
-        ImageLoader.getInstance().displayImage("file://" + item, mImageView, ImageLoaderUtils.getDisplayImageOptions());
+        ImageLoader.getInstance().displayImage("file://" + item, mImageView, ImageLoaderUtils.getDisplayImageNoDiskCacheOptions());
     }
 }

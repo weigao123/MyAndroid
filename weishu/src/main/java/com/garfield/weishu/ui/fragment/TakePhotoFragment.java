@@ -275,16 +275,22 @@ public class TakePhotoFragment extends AppBaseFragment implements TAdapterDelega
                 mAlbumItems.clear();
                 mAlbumHashMap = PhotoUtil.getGalleryPhotos(AppCache.getContext());
 
-                List<String> allPhotoPaths = getPhotoPathsOfAlbum(null);
-                mPhotoItems.add("Camera");
-                mPhotoItems.addAll(allPhotoPaths);
-                PhotoUtil.AlbumInfo wholeAlbum = new PhotoUtil.AlbumInfo();
-                wholeAlbum.albumName = getResources().getString(R.string.all_albums);
-                wholeAlbum.photoPaths.addAll(allPhotoPaths);
-                wholeAlbum.albumImage = allPhotoPaths.get(0);
-                mAlbumItems.add(wholeAlbum);
                 mAlbumItems.addAll(mAlbumHashMap.values());
                 sortAlbum(mAlbumItems);
+
+                List<String> allPath = new ArrayList<>();
+                for (PhotoUtil.AlbumInfo albumInfo : mAlbumItems) {
+                    allPath.addAll(albumInfo.photoPaths);
+                }
+
+                PhotoUtil.AlbumInfo wholeAlbum = new PhotoUtil.AlbumInfo();
+                wholeAlbum.albumName = getResources().getString(R.string.all_albums);
+                wholeAlbum.photoPaths.addAll(allPath);
+                wholeAlbum.albumImage = allPath.get(0);
+                mAlbumItems.add(0, wholeAlbum);
+
+                mPhotoItems.addAll(allPath);
+                mPhotoItems.add(0, "Camera");
                 return mAlbumHashMap.isEmpty();
             }
 
@@ -310,20 +316,6 @@ public class TakePhotoFragment extends AppBaseFragment implements TAdapterDelega
                 }
             }
         });
-    }
-
-    private List<String> getPhotoPathsOfAlbum(String albumName) {
-        List<String> itemsTmp = new ArrayList<>();
-        if (albumName == null) {
-            Collection<PhotoUtil.AlbumInfo> albumInfos = mAlbumHashMap.values();
-            for (PhotoUtil.AlbumInfo albumInfo : albumInfos) {
-                itemsTmp.addAll(albumInfo.photoPaths);
-            }
-        } else {
-            PhotoUtil.AlbumInfo albumInfo = mAlbumHashMap.get(albumName);
-            itemsTmp.addAll(albumInfo.photoPaths);
-        }
-        return itemsTmp;
     }
 
     @OnClick(R.id.fragment_take_photo_album)

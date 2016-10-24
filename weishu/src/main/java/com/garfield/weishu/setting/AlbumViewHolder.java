@@ -43,6 +43,6 @@ public class AlbumViewHolder extends TViewHolder<PhotoUtil.AlbumInfo> {
         } else {
             mChoose.setVisibility(View.GONE);
         }
-        ImageLoader.getInstance().displayImage("file://" + item.albumImage, mAlbumImage, ImageLoaderUtils.getDisplayImageOptions());
+        ImageLoader.getInstance().displayImage("file://" + item.albumImage, mAlbumImage, ImageLoaderUtils.getDisplayImageNoDiskCacheOptions());
     }
 }
