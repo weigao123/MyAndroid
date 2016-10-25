@@ -223,6 +223,9 @@ public class AutoRefreshListView extends ListView {
         }
 
         if (currentMode == Mode.FRONT) {
+            /**
+             * 保持位置
+             */
             setSelectionFromTop(count + getHeaderViewsCount(), refreshableStart ? offsetY : 0);
         }
     }
@@ -235,8 +238,11 @@ public class AutoRefreshListView extends ListView {
     private void resetRefreshView(int count, int requestCount) {
         if (currentMode == Mode.FRONT) {
             /**
-             * 如果是第1次加载，如果count<requestCount, 表示没有数据了。
-             * 如果是第2次以后的加载，为了列表稳定，只有count>0, 就保留header的高度
+             * 如果是第1次加载，如果count < requestCount就表示没有数据了，第1次加载也不需要保持位置
+             * 如果是第2次以后的加载，为了列表稳定，只要count>0, 就要保留header的高度
+             * refreshableStart
+             * 功能1：还有数据可以被加载
+             * 功能2：保持位置
              */
             if (getCount() == count + getHeaderViewsCount() + getFooterViewsCount()) {
                 refreshableStart = (count == requestCount);
@@ -250,7 +256,7 @@ public class AutoRefreshListView extends ListView {
     }
 
     /**
-     * handle over scroll when no more data
+     * 当没有数据时，做出下拉的效果
      */
     private boolean isBeingDragged = false;
     private int startY = 0;
@@ -285,7 +291,11 @@ public class AutoRefreshListView extends ListView {
         return super.onTouchEvent(event);
     }
 
+    /**
+     * 这几个方法是用来做出下拉效果的
+     */
     private void onTouchBegin(MotionEvent event) {
+        // 当最上面的是非head时，就开始使能
         int firstItemIndex = getFirstVisiblePosition();
         if (!refreshableStart && firstItemIndex <= getHeaderViewsCount() && !isBeingDragged) {
             isBeingDragged = true;
