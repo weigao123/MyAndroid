@@ -22,7 +22,7 @@ public class AutoRefreshListView extends ListView {
     }
 
     public enum Mode {
-        START,
+        FRONT,
         END,
         BOTH,
     }
@@ -36,10 +36,21 @@ public class AutoRefreshListView extends ListView {
     private OnRefreshListener refreshListener;
     private List<OnScrollListener> scrollListeners = new ArrayList<OnScrollListener>();
 
+    /**
+     * 刷新的状态 REFRESHING, RESET
+     */
     private State state = State.RESET;
-    private Mode mode = Mode.START;
-    private Mode currentMode = Mode.START;
-
+    /**
+     * 使能的模式
+     */
+    private Mode mode = Mode.FRONT;
+    /**
+     * 当前的模式
+     */
+    private Mode currentMode = Mode.FRONT;
+    /**
+     * 前边是否有可以获取的数据
+     */
     private boolean refreshableStart = true;
     private boolean refreshableEnd = true;
 
@@ -67,6 +78,9 @@ public class AutoRefreshListView extends ListView {
         this.mode = mode;
     }
 
+    /**
+     * 注册刷新的
+     */
     public void setOnRefreshListener(OnRefreshListener refreshListener) {
         this.refreshListener = refreshListener;
     }
@@ -77,6 +91,9 @@ public class AutoRefreshListView extends ListView {
         throw new UnsupportedOperationException("Use addOnScrollListener instead!");
     }
 
+    /**
+     * 正常listview滑动状态的监听
+     */
     public void addOnScrollListener(OnScrollListener l) {
         scrollListeners.add(l);
     }
@@ -119,6 +136,7 @@ public class AutoRefreshListView extends ListView {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if (scrollState == SCROLL_STATE_IDLE && state == State.RESET) {
+                    // 马上就要露出head了
                     boolean reachTop = (getFirstVisiblePosition() < getHeaderViewsCount() && getCount() > getHeaderViewsCount());
                     if (reachTop) {
                         onRefresh(true);
@@ -140,6 +158,9 @@ public class AutoRefreshListView extends ListView {
         addOnScrollListener(listener);
     }
 
+    /**
+     * 根据滑动位置自动调用，true就是到最上面了，false就是到最下面了
+     */
     private void onRefresh(boolean start) {
         if (refreshListener != null) {
             View firstVisibleChild = getChildAt(getHeaderViewsCount());
@@ -148,10 +169,10 @@ public class AutoRefreshListView extends ListView {
             }
 
             if (start && refreshableStart && mode != Mode.END) {
-                currentMode = Mode.START;
+                currentMode = Mode.FRONT;
                 state = State.REFRESHING;
                 refreshListener.onRefreshFromStart();
-            } else if (refreshableEnd && mode != Mode.START) {
+            } else if (refreshableEnd && mode != Mode.FRONT) {
                 currentMode = Mode.END;
                 state = State.REFRESHING;
                 refreshListener.onRefreshFromEnd();
@@ -166,7 +187,7 @@ public class AutoRefreshListView extends ListView {
                 getRefreshView().getChildAt(0).setVisibility(View.VISIBLE);
                 break;
             case RESET:
-                if (currentMode == Mode.START) {
+                if (currentMode == Mode.FRONT) {
                     refreshHeader.getChildAt(0).setVisibility(refreshableStart ? View.INVISIBLE : View.GONE);
                 } else {
                     refreshFooter.getChildAt(0).setVisibility(View.GONE);
@@ -179,7 +200,7 @@ public class AutoRefreshListView extends ListView {
         switch (currentMode) {
             case END:
                 return refreshFooter;
-            case START:
+            case FRONT:
             default:
                 return refreshHeader;
         }
@@ -191,7 +212,8 @@ public class AutoRefreshListView extends ListView {
     }
 
     /**
-     * 加载完成
+     * count是新加载的数量，requestCount是想要加载的数量
+     * 加载完成，并且要滚动list到之前的开头
      */
     public void onRefreshComplete(int count, int requestCount, boolean needOffset) {
         state = State.RESET;
@@ -200,7 +222,7 @@ public class AutoRefreshListView extends ListView {
             return;
         }
 
-        if (currentMode == Mode.START) {
+        if (currentMode == Mode.FRONT) {
             setSelectionFromTop(count + getHeaderViewsCount(), refreshableStart ? offsetY : 0);
         }
     }
@@ -211,9 +233,10 @@ public class AutoRefreshListView extends ListView {
     }
 
     private void resetRefreshView(int count, int requestCount) {
-        if (currentMode == Mode.START) {
-            /** 如果是第一次加载，如果count<requestCount, 表示没有数据了。
-             * 如果是后面的加载，为了列表稳定，只有count>0, 就保留header的高度
+        if (currentMode == Mode.FRONT) {
+            /**
+             * 如果是第1次加载，如果count<requestCount, 表示没有数据了。
+             * 如果是第2次以后的加载，为了列表稳定，只有count>0, 就保留header的高度
              */
             if (getCount() == count + getHeaderViewsCount() + getFooterViewsCount()) {
                 refreshableStart = (count == requestCount);

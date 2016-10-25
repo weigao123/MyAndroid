@@ -74,13 +74,6 @@ public class SessionFragment extends AppBaseFragment implements ModuleProxy {
         service.observeMessageReceipt(messageReceiptObserver, register);
     }
 
-    @Override
-    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
-        Animation animation = super.onCreateAnimation(transit, enter, nextAnim);
-        //animation.setAnimationListener(messageListPanel);
-        return animation;
-    }
-
     /**
      * 消息接收观察者
      */

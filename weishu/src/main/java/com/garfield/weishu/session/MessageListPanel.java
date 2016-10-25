@@ -3,13 +3,8 @@ package com.garfield.weishu.session;
 import android.os.Build;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.animation.Animation;
 
-import com.garfield.baselib.utils.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.adapter.TAdapterDelegate;
 import com.garfield.weishu.base.adapter.TViewHolder;
@@ -27,7 +22,6 @@ import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
-import com.netease.nimlib.sdk.msg.attachment.AudioAttachment;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.QueryDirectionEnum;
@@ -67,7 +61,7 @@ public class MessageListPanel implements TAdapterDelegate {
 
     private void init() {
         items = new ArrayList<>();
-        messageListView.setMode(AutoRefreshListView.Mode.START);
+        messageListView.setMode(AutoRefreshListView.Mode.FRONT);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
             messageListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         }
@@ -235,7 +229,7 @@ public class MessageListPanel implements TAdapterDelegate {
 
         private void loadFromLocal(QueryDirectionEnum direction) {
             this.direction = direction;
-            messageListView.onRefreshStart(direction == QueryDirectionEnum.QUERY_NEW ? AutoRefreshListView.Mode.END : AutoRefreshListView.Mode.START);
+            messageListView.onRefreshStart(direction == QueryDirectionEnum.QUERY_NEW ? AutoRefreshListView.Mode.END : AutoRefreshListView.Mode.FRONT);
             NIMClient.getService(MsgService.class).queryMessageListEx(anchor(), direction, LOAD_MESSAGE_COUNT, true)
                     .setCallback(callback);
         }
@@ -243,7 +237,7 @@ public class MessageListPanel implements TAdapterDelegate {
         private void loadAnchorContext() {
             // query old
             this.direction = QueryDirectionEnum.QUERY_OLD;
-            messageListView.onRefreshStart(AutoRefreshListView.Mode.START);
+            messageListView.onRefreshStart(AutoRefreshListView.Mode.FRONT);
             NIMClient.getService(MsgService.class).queryMessageListEx(anchor(), direction, LOAD_MESSAGE_COUNT, true)
                     .setCallback(new RequestCallbackWrapper<List<IMMessage>>() {
                         @Override
@@ -324,7 +318,7 @@ public class MessageListPanel implements TAdapterDelegate {
             //adapter.updateShowTimeItem(items, true, firstLoad);
             //updateReceipt(items); // 更新已读回执标签
 
-            // 必须先notify，才能使listView.getCount同步
+            // 必须先notify，才能使listView.getCount()同步
             adapter.notifyDataSetChanged();
             messageListView.onRefreshComplete(count, LOAD_MESSAGE_COUNT, true);
 
