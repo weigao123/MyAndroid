@@ -123,7 +123,7 @@ public class SupportActivity extends SwipeBackActivity implements ISupport {
     }
 
     public void setIsToBack(boolean isToBack) {
-        mIsToBack = mIsToBack;
+        mIsToBack = isToBack;
     }
     @Override
     public void onBackPressed() {

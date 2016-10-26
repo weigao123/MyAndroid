@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.garfield.baselib.ui.dialog.EasyMenuDialog;
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
@@ -88,8 +89,14 @@ public class SessionListFragment extends AppBaseFragment {
         adapter.setOnLongClickListener(new OnItemLongClickListener() {
             @Override
             public void onItemLongPressed(int position, View view) {
-                EasyMenuDialog menuDialog = new EasyMenuDialog();
-                menuDialog.show(getChildFragmentManager(), "dialoglist");
+                List<String> list = new ArrayList<String>();
+                list.add("aa");
+                list.add("bb");
+                MaterialDialog.Builder builder = new MaterialDialog.Builder(getContext())
+                        .items(list);
+                builder.show();
+                //EasyMenuDialog menuDialog = new EasyMenuDialog();
+                //menuDialog.show(getChildFragmentManager(), "dialoglist");
             }
         });
         registerObservers(true);
