@@ -37,7 +37,6 @@ public class AppBaseFragment extends SupportFragment {
 
     private PopupWindow mPopupWindow;
     private Unbinder mUnbinder;
-    private static final Handler handler = new Handler();
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -141,9 +140,5 @@ public class AppBaseFragment extends SupportFragment {
         if (mUnbinder != null) {
             mUnbinder.unbind();
         }
-    }
-
-    protected final Handler getHandler() {
-        return handler;
     }
 }

@@ -18,14 +18,13 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.garfield.baselib.R;
-import com.garfield.baselib.utils.L;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SwipeBackLayout extends FrameLayout {
 
-    public static final String FRAGMENT_POP_BACKING = "fragment_pop_backing";
+    public static final String FRAGMENT_SWIPE_BACKING = "fragment_swipe_backing";
 
     //可以让View进行fling快滑（惯性滑动）的速度，大于该速度就会滑动
     private static final int MIN_FLING_VELOCITY = 400; // dips per second
@@ -267,11 +266,11 @@ public class SwipeBackLayout extends FrameLayout {
         if (mFragment != null) {
             // computeScroll里的修改保证mScrollPercent>1后，就停止滑动，不再执行此方法
             if (mScrollPercent > 1) {
-                setFragmentPopBacking(true);
+                setFragmentSwipeBacking(true);
                 FragmentManager manager = mFragment.getFragmentManager();
                 // 相当于commit置反，把mFragment置remove，mPreFragment置show
                 manager.popBackStackImmediate();
-                setFragmentPopBacking(false);
+                setFragmentSwipeBacking(false);
             }
             handlePreFragment();
         }
@@ -287,14 +286,14 @@ public class SwipeBackLayout extends FrameLayout {
     /**
      * 设置是否正在pop back
      */
-    private void setFragmentPopBacking(boolean state) {
+    private void setFragmentSwipeBacking(boolean state) {
         if (mFragment != null) {
             Bundle bundle = mFragment.getArguments();
             if (bundle == null) {
                 bundle = new Bundle();
                 mFragment.setArguments(bundle);
             }
-            bundle.putBoolean(FRAGMENT_POP_BACKING, state);
+            bundle.putBoolean(FRAGMENT_SWIPE_BACKING, state);
         }
         if (mPreFragment != null) {
             Bundle bundle = mPreFragment.getArguments();
@@ -302,7 +301,7 @@ public class SwipeBackLayout extends FrameLayout {
                 bundle = new Bundle();
                 mPreFragment.setArguments(bundle);
             }
-            bundle.putBoolean(FRAGMENT_POP_BACKING, state);
+            bundle.putBoolean(FRAGMENT_SWIPE_BACKING, state);
         }
     }
 

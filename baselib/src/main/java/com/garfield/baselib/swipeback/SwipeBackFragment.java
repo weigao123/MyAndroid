@@ -61,9 +61,9 @@ public class SwipeBackFragment extends BaseFragment {
     /**
      * 正在pop back时，返回true，用于滑动关闭时无动画
      */
-    protected boolean isFragmentPopBacking() {
+    protected boolean isFragmentSwipeBacking() {
         Bundle bundle = getArguments();
-        return bundle != null && bundle.getBoolean(SwipeBackLayout.FRAGMENT_POP_BACKING);
+        return bundle != null && bundle.getBoolean(SwipeBackLayout.FRAGMENT_SWIPE_BACKING);
     }
 
     public void setSwipeBackDirection(int edgeFlags) {

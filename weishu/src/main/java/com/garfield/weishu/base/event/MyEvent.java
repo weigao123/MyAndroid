@@ -1,7 +1,5 @@
 package com.garfield.weishu.base.event;
 
-import com.netease.nimlib.sdk.msg.model.IMMessage;
-
 /**
  * Created by gaowei3 on 2016/10/13.
  */

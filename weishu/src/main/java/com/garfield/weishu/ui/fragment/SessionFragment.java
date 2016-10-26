@@ -4,15 +4,19 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.garfield.baselib.utils.L;
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
+import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.bean.ContactBean;
+import com.garfield.weishu.nim.NimUtils;
 import com.garfield.weishu.session.InputPanel;
 import com.garfield.weishu.news.NewsAdapter;
 import com.garfield.weishu.session.MessageListPanel;
@@ -20,6 +24,7 @@ import com.garfield.weishu.session.ModuleProxy;
 import com.garfield.weishu.session.listview.MessageListView;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.msg.MsgService;
@@ -57,7 +62,6 @@ public class SessionFragment extends AppBaseFragment implements ModuleProxy {
         messageListPanel = new MessageListPanel(rootView, mAccount, this);
         mInputPanel = new InputPanel(rootView, mAccount, this);
         registerObservers(true);
-
     }
 
     public static SessionFragment newInstance(String account) {
@@ -66,6 +70,15 @@ public class SessionFragment extends AppBaseFragment implements ModuleProxy {
         SessionFragment fragment = new SessionFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+        Animation animation = super.onCreateAnimation(transit, enter, nextAnim);
+        if (transit == FragmentTransaction.TRANSIT_FRAGMENT_OPEN && enter && animation.getDuration() > 100) {
+            animation.setStartOffset(200);
+        }
+        return animation;
     }
 
     private void registerObservers(boolean register) {

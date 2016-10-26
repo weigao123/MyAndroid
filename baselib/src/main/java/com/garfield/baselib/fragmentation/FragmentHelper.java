@@ -26,6 +26,7 @@ public class FragmentHelper {
     void loadRootFragment(FragmentManager fragmentManager, int containerId, SupportFragment to) {
         bindContainerId(containerId, to);
         FragmentTransaction ft = fragmentManager.beginTransaction();
+        //根Fragment不能设置动画
         //ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         String toClassName = to.getClass().getName();
         ft.add(containerId, to, toClassName);
@@ -79,8 +80,6 @@ public class FragmentHelper {
 
         ft.commit();
     }
-
-
 
     private void bindContainerId(int containerId, SupportFragment to) {
         Bundle args = to.getArguments();
@@ -151,5 +150,9 @@ public class FragmentHelper {
             }
         }
         return null;
+    }
+
+    Handler getHandler() {
+        return mHandler;
     }
 }

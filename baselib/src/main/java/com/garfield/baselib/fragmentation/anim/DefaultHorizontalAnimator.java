@@ -10,6 +10,9 @@ public class DefaultHorizontalAnimator extends FragmentAnimator implements Parce
     public DefaultHorizontalAnimator() {
         enter = R.anim.h_fragment_enter;
         exit = R.anim.h_fragment_exit;
+        /**
+         * 点击返回键，执行的动画
+         */
         popEnter = R.anim.h_fragment_pop_enter;
         popExit = R.anim.h_fragment_pop_exit;
     }

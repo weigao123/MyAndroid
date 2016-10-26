@@ -29,7 +29,6 @@ public class AutoRefreshListView extends ListView {
 
     public interface OnRefreshListener {
         public void onRefreshFromStart();
-
         public void onRefreshFromEnd();
     }
 
@@ -45,7 +44,7 @@ public class AutoRefreshListView extends ListView {
      */
     private Mode mode = Mode.FRONT;
     /**
-     * 当前的模式
+     * 当前的模式，因为有可能是Both
      */
     private Mode currentMode = Mode.FRONT;
     /**
@@ -79,7 +78,7 @@ public class AutoRefreshListView extends ListView {
     }
 
     /**
-     * 注册刷新的
+     * 注册刷新的回调
      */
     public void setOnRefreshListener(OnRefreshListener refreshListener) {
         this.refreshListener = refreshListener;
@@ -159,7 +158,7 @@ public class AutoRefreshListView extends ListView {
     }
 
     /**
-     * 根据滑动位置自动调用，true就是到最上面了，false就是到最下面了
+     * 内部调用，根据滑动位置自动调用，true就是到最上面了，false就是到最下面了
      */
     private void onRefresh(boolean start) {
         if (refreshListener != null) {
@@ -171,10 +170,12 @@ public class AutoRefreshListView extends ListView {
             if (start && refreshableStart && mode != Mode.END) {
                 currentMode = Mode.FRONT;
                 state = State.REFRESHING;
+                // 通知外部去刷新
                 refreshListener.onRefreshFromStart();
             } else if (refreshableEnd && mode != Mode.FRONT) {
                 currentMode = Mode.END;
                 state = State.REFRESHING;
+                // 通知外部去刷新
                 refreshListener.onRefreshFromEnd();
             }
             updateRefreshView();
@@ -187,6 +188,7 @@ public class AutoRefreshListView extends ListView {
                 getRefreshView().getChildAt(0).setVisibility(View.VISIBLE);
                 break;
             case RESET:
+                // 刷新结束
                 if (currentMode == Mode.FRONT) {
                     refreshHeader.getChildAt(0).setVisibility(refreshableStart ? View.INVISIBLE : View.GONE);
                 } else {
@@ -206,9 +208,12 @@ public class AutoRefreshListView extends ListView {
         }
     }
 
+    /**
+     * 外部调用，开始加载，但感觉不用调用
+     */
     public void onRefreshStart(Mode mode) {
-        state = State.REFRESHING;
-        currentMode = mode;
+        //state = State.REFRESHING;
+        //currentMode = mode;
     }
 
     /**
@@ -230,16 +235,11 @@ public class AutoRefreshListView extends ListView {
         }
     }
 
-    public void onRefreshComplete() {
-        state = State.RESET;
-        updateRefreshView();
-    }
-
     private void resetRefreshView(int count, int requestCount) {
         if (currentMode == Mode.FRONT) {
             /**
              * 如果是第1次加载，如果count < requestCount就表示没有数据了，第1次加载也不需要保持位置
-             * 如果是第2次以后的加载，为了列表稳定，只要count>0, 就要保留header的高度
+             * 如果是第2次以后的加载，为了列表稳定，只要count>0, 就要保留header的高度，所以当没有数据后，还要多加载一次得到count==0
              * refreshableStart
              * 功能1：还有数据可以被加载
              * 功能2：保持位置
@@ -256,7 +256,7 @@ public class AutoRefreshListView extends ListView {
     }
 
     /**
-     * 当没有数据时，做出下拉的效果
+     * 当没有数据可加载时，做出下拉的效果
      */
     private boolean isBeingDragged = false;
     private int startY = 0;

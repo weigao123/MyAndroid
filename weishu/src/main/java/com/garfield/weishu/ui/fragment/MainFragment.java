@@ -1,6 +1,7 @@
 package com.garfield.weishu.ui.fragment;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.animation.Animation;
 
@@ -81,8 +82,14 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
 
     @Override
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
-        //L.d("MainFragment  transit: "+transit+"  enter:"+enter+"   nextAnim:"+nextAnim);
-        return super.onCreateAnimation(transit, enter, nextAnim);
+        Animation animation = super.onCreateAnimation(transit, enter, nextAnim);
+        Class topClass = getTopFragment().getClass();
+        if (topClass == SessionFragment.class) {
+            if (transit == FragmentTransaction.TRANSIT_FRAGMENT_OPEN && !enter && animation.getDuration() > 100) {
+                animation.setStartOffset(200);
+            }
+        }
+        return animation;
     }
 
     @Override

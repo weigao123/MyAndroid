@@ -39,7 +39,7 @@ import butterknife.ButterKnife;
  */
 
 public class MessageListPanel implements TAdapterDelegate {
-    private List<IMMessage> items;
+    private List<IMMessage> items = new ArrayList<>();
 
     @BindView(R.id.fragment_session_list)
     MessageListView messageListView;
@@ -60,7 +60,6 @@ public class MessageListPanel implements TAdapterDelegate {
     }
 
     private void init() {
-        items = new ArrayList<>();
         messageListView.setMode(AutoRefreshListView.Mode.FRONT);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
             messageListView.setOverScrollMode(View.OVER_SCROLL_NEVER);

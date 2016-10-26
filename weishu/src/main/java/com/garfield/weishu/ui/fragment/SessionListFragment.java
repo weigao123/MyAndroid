@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,8 +76,13 @@ public class SessionListFragment extends AppBaseFragment {
         becyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(int position, View view, Object object) {
-                EventDispatcher.getFragmentJumpEvent().onShowSession((String)object);
+            public void onItemClick(int position, View view, final Object object) {
+                getHandler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        EventDispatcher.getFragmentJumpEvent().onShowSession((String) object);
+                    }
+                }, 50);
             }
         });
         adapter.setOnLongClickListener(new OnItemLongClickListener() {

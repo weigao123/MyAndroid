@@ -2,15 +2,16 @@ package com.garfield.baselib.fragmentation;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import com.garfield.baselib.R;
 import com.garfield.baselib.fragmentation.anim.DefaultNoAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.swipeback.SwipeBackFragment;
-import com.garfield.baselib.R;
 import com.garfield.baselib.utils.InputUtils;
 
 /**
@@ -31,6 +32,10 @@ public class SupportFragment extends SwipeBackFragment implements ISupport {
     private boolean isAnimatorEnable = true;
 
     private Bundle mResultBundle;
+
+    protected final Handler getHandler() {
+        return mFragmentHelper.getHandler();
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -74,7 +79,7 @@ public class SupportFragment extends SwipeBackFragment implements ISupport {
 
     @Override
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
-        if (isFragmentPopBacking() || !isAnimatorEnable) {
+        if (isFragmentSwipeBacking() || !isAnimatorEnable) {
             return AnimationUtils.loadAnimation(mActivity, R.anim.no_anim);
         }
         if (transit == FragmentTransaction.TRANSIT_FRAGMENT_OPEN) {

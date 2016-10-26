@@ -7,8 +7,11 @@ import com.garfield.weishu.ui.fragment.SearchUserFragment;
 import com.garfield.weishu.ui.fragment.SelfProfileFragment;
 import com.garfield.weishu.ui.fragment.SessionFragment;
 import com.garfield.weishu.ui.fragment.TakePhotoFragment;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 /**
  * Created by gaowei3 on 2016/10/13.
