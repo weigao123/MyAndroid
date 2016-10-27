@@ -59,7 +59,7 @@ public class SessionFragment extends AppBaseFragment implements ModuleProxy {
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
         Animation animation = super.onCreateAnimation(transit, enter, nextAnim);
         if (transit == FragmentTransaction.TRANSIT_FRAGMENT_OPEN && enter && animation.getDuration() > 100) {
-            animation.setStartOffset(200);
+            animation.setStartOffset(300);
         }
         return animation;
     }

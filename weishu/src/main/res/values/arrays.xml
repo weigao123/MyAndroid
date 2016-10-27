@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+
+    <string-array name="session_menu1">
+        <item>置顶聊天</item>
+        <item>删除聊天</item>
+    </string-array>
+
+    <string-array name="session_menu2">
+        <item>取消置顶</item>
+        <item>删除聊天</item>
+    </string-array>
+
+    <string-array name="message_menu">
+        <item>复制</item>
+        <item>删除</item>
+    </string-array>
+
+</resources>

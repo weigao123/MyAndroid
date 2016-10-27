@@ -1,4 +1,4 @@
-package com.garfield.weishu.base.adapter;
+package com.garfield.weishu.base.listview;
 
 import android.view.View;
 

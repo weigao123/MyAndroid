@@ -1,5 +1,6 @@
 package com.garfield.weishu.ui.fragment;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.garfield.baselib.adapter.DividerItemDecoration;
 import com.garfield.baselib.ui.dialog.EasyMenuDialog;
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
@@ -89,12 +91,20 @@ public class SessionListFragment extends AppBaseFragment {
         adapter.setOnLongClickListener(new OnItemLongClickListener() {
             @Override
             public void onItemLongPressed(int position, View view) {
-                List<String> list = new ArrayList<String>();
-                list.add("aa");
-                list.add("bb");
-                MaterialDialog.Builder builder = new MaterialDialog.Builder(getContext())
-                        .items(list);
-                builder.show();
+                MaterialDialog dialog = new MaterialDialog.Builder(getContext())
+                        .items(R.array.session_menu1)
+                        .listSelector(R.drawable.bg_press_gray)
+                        .itemsColorRes(R.color.black)
+                        .itemsCallback(new MaterialDialog.ListCallback() {
+                            @Override
+                            public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+
+                            }
+                        })
+                        .build();
+                RecyclerView recyclerView = dialog.getRecyclerView();
+                recyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL_LIST));
+                dialog.show();
                 //EasyMenuDialog menuDialog = new EasyMenuDialog();
                 //menuDialog.show(getChildFragmentManager(), "dialoglist");
             }
@@ -283,6 +293,18 @@ public class SessionListFragment extends AppBaseFragment {
         } else {
             // {MSG_CHATTING_ACCOUNT_ALL} 目前没有与任何人对话，但能看到消息提醒（比如在消息列表界面），不需要在状态栏做消息通知
             NIMClient.getService(MsgService.class).setChattingAccount(MsgService.MSG_CHATTING_ACCOUNT_ALL, SessionTypeEnum.None);
+        }
+    }
+
+    private void deleteSession(RecentContact recent) {
+        NIMClient.getService(MsgService.class).deleteRecentContact(recent);
+        NIMClient.getService(MsgService.class).clearChattingHistory(recent.getContactId(), recent.getSessionType());
+        items.remove(recent);
+
+        if (recent.getUnreadCount() > 0) {
+            refreshMessages(true);
+        } else {
+            notifyDataSetChanged();
         }
     }
 

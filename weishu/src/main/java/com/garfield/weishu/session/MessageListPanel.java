@@ -2,17 +2,23 @@ package com.garfield.weishu.session;
 
 import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.garfield.baselib.adapter.DividerItemDecoration;
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.adapter.TAdapterDelegate;
-import com.garfield.weishu.base.adapter.TViewHolder;
+import com.garfield.weishu.base.listview.TListAdapterDelegate;
+import com.garfield.weishu.base.listview.TListViewHolder;
 import com.garfield.weishu.session.listview.AutoRefreshListView;
 import com.garfield.weishu.session.listview.ListViewUtil;
 import com.garfield.weishu.session.listview.MessageListView;
-import com.garfield.weishu.session.viewholder.MsgViewHolderBase;
+import com.garfield.weishu.session.viewholder.MsgListViewHolderBase;
 import com.garfield.weishu.session.viewholder.MsgViewHolderFactory;
+import com.garfield.weishu.utils.ClipboardUtil;
 import com.garfield.weishu.utils.ScreenUtil;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
@@ -22,6 +28,8 @@ import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
+import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
+import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.QueryDirectionEnum;
@@ -38,12 +46,12 @@ import butterknife.ButterKnife;
  * Created by gaowei3 on 2016/9/26.
  */
 
-public class MessageListPanel implements TAdapterDelegate {
+public class MessageListPanel implements TListAdapterDelegate {
     private List<IMMessage> items = new ArrayList<>();
 
     @BindView(R.id.fragment_session_list)
     MessageListView messageListView;
-    private MsgAdapter adapter;
+    private MsgListAdapter adapter;
     private View rootView;
     private ModuleProxy moduleProxy;
 
@@ -64,7 +72,7 @@ public class MessageListPanel implements TAdapterDelegate {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
             messageListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         }
-        adapter = new MsgAdapter(rootView.getContext(), items, this);
+        adapter = new MsgListAdapter(rootView.getContext(), items, this);
         adapter.setEventListener(new HolderEventListener());
         messageListView.setAdapter(adapter);
         messageListView.setOnRefreshListener(new MessageLoader(null));
@@ -118,7 +126,7 @@ public class MessageListPanel implements TAdapterDelegate {
     }
 
     @Override
-    public Class<? extends TViewHolder> getViewHolderClassAtPosition(int position) {
+    public Class<? extends TListViewHolder> getViewHolderClassAtPosition(int position) {
         return MsgViewHolderFactory.getViewHolderByType(items.get(position));
     }
 
@@ -171,8 +179,8 @@ public class MessageListPanel implements TAdapterDelegate {
                 }
 
                 Object tag = ListViewUtil.getViewHolderByIndex(messageListView, index);
-                if (tag instanceof MsgViewHolderBase) {
-                    MsgViewHolderBase viewHolder = (MsgViewHolderBase) tag;
+                if (tag instanceof MsgListViewHolderBase) {
+                    MsgListViewHolderBase viewHolder = (MsgListViewHolderBase) tag;
                     viewHolder.refreshCurrentItem();
                 }
             }
@@ -379,17 +387,72 @@ public class MessageListPanel implements TAdapterDelegate {
         ListViewUtil.scrollToBottom(messageListView);
     }
 
-    private class HolderEventListener implements MsgAdapter.ViewHolderEventListener {
+    private class HolderEventListener implements MsgListAdapter.ViewHolderEventListener {
 
         @Override
-        public boolean onViewHolderLongClick(IMMessage item) {
+        public boolean onViewHolderLongClick(final IMMessage item) {
+            MaterialDialog dialog = new MaterialDialog.Builder(rootView.getContext())
+                    .items(R.array.message_menu)
+                    .listSelector(R.drawable.bg_press_gray)
+                    .itemsColorRes(R.color.black)
+                    .itemsCallback(new MaterialDialog.ListCallback() {
+                        @Override
+                        public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                            switch (position) {
+                                case 0:
+                                    ClipboardUtil.clipboardCopyText(rootView.getContext(), item.getContent());
+                                    break;
+                                case 1:
+                                    deleteItem(item);
+                                    break;
+                            }
+                        }
+                    })
+                    .build();
+            RecyclerView recyclerView = dialog.getRecyclerView();
+            recyclerView.addItemDecoration(new DividerItemDecoration(rootView.getContext(), DividerItemDecoration.VERTICAL_LIST));
+            dialog.show();
             return false;
         }
 
         @Override
-        public void onFailedBtnClick(IMMessage resendMessage) {
+        public void onFailedBtnClick(final IMMessage message) {
+            MaterialDialog dialog = new MaterialDialog.Builder(rootView.getContext())
+                    .title(R.string.is_resent)
+                    .positiveText(R.string.confirm)
+                    .positiveColorRes(R.color.colorPrimary)
+                    .negativeText(R.string.cancel)
+                    .negativeColorRes(R.color.colorPrimary)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            if (message.getDirect() == MsgDirectionEnum.Out) {
+                                if (message.getStatus() == MsgStatusEnum.fail) {
+                                    resendMessage(message);
+                                }
+                            }
+                        }
+                    })
+                    .build();
+            dialog.show();
 
         }
+    }
+
+    private void resendMessage(IMMessage message) {
+        int index = getItemIndex(message.getUuid());
+        if (index >= 0 && index < items.size()) {
+            IMMessage item = items.get(index);
+            item.setStatus(MsgStatusEnum.sending);
+            refreshViewHolderByIndex(index);
+        }
+
+        NIMClient.getService(MsgService.class).sendMessage(message, true);
+    }
+
+    private void deleteItem(IMMessage item) {
+        NIMClient.getService(MsgService.class).deleteChattingHistory(item);
+        adapter.deleteItem(item);
     }
 
     public void onDestoryView() {

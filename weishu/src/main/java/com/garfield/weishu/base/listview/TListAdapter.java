@@ -1,4 +1,4 @@
-package com.garfield.weishu.base.adapter;
+package com.garfield.weishu.base.listview;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,14 +14,14 @@ import java.util.Map;
  * Created by gaowei3 on 2016/9/28.
  */
 
-public class TAdapter<T> extends BaseAdapter {
+public class TListAdapter<T> extends BaseAdapter {
     protected final Context mContext;
     private final List<T> mItems;
     private final Map<Class<?>, Integer> mViewTypes;
     private final LayoutInflater mInflater;
-    private final TAdapterDelegate mDelegate;
+    private final TListAdapterDelegate mDelegate;
 
-    public TAdapter(Context context, List<T> items, TAdapterDelegate delegate) {
+    public TListAdapter(Context context, List<T> items, TListAdapterDelegate delegate) {
         mContext = context;
         mItems = items;
         mDelegate = delegate;
@@ -59,7 +59,7 @@ public class TAdapter<T> extends BaseAdapter {
         if (convertView == null) {
             convertView = createViewAtPosition(position);
         }
-        TViewHolder holder = (TViewHolder) convertView.getTag();
+        TListViewHolder holder = (TListViewHolder) convertView.getTag();
         holder.setPosition(position);
         if (needRefresh) {
             // 对该TAG里取出的holder进行刷新，就是直接对这个View刷新了
@@ -74,11 +74,11 @@ public class TAdapter<T> extends BaseAdapter {
     }
 
     public View createViewAtPosition(int position) {
-        TViewHolder holder = null;
+        TListViewHolder holder = null;
         View view = null;
         try {
             Class<?> viewHolder = mDelegate.getViewHolderClassAtPosition(position);
-            holder = (TViewHolder) viewHolder.newInstance();
+            holder = (TListViewHolder) viewHolder.newInstance();
             holder.setAdapter(this);
         } catch (Exception e) {
             e.printStackTrace();

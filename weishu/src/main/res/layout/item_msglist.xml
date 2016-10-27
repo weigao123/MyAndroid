@@ -12,11 +12,28 @@
         android:paddingRight="@dimen/item_padding_right"
         android:minHeight="@dimen/item_height"
         android:gravity="center_vertical" >
-        <com.garfield.weishu.ui.view.HeadImageView
-            android:id="@+id/item_msglist_head"
-            android:layout_width="@dimen/contact_image_size"
-            android:layout_height="@dimen/contact_image_size"
-            android:layout_marginRight="@dimen/item_head_margin_right" />
+        <FrameLayout
+            android:layout_width="@dimen/contact_image_contain_size"
+            android:layout_height="@dimen/contact_image_contain_size"
+            android:layout_marginRight="@dimen/item_head_margin_right" >
+            <com.garfield.weishu.ui.view.HeadImageView
+                android:id="@+id/item_msglist_head"
+                android:layout_width="@dimen/contact_image_size"
+                android:layout_height="@dimen/contact_image_size"
+                android:layout_gravity="center"/>
+            <TextView
+                android:id="@+id/item_msglist_unread_number_tip"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="top|right"
+                android:background="@drawable/ic_unread_badge"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:visibility="gone" />
+        </FrameLayout>
+
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -30,6 +47,11 @@
                 android:textSize="16sp"
                 android:textColor="@color/black"
                 android:text="test"/>
+            <ImageView
+                android:id="@+id/item_msglist_state"
+                android:layout_width="wrap_content"
+                android:layout_height="14dp"
+                android:layout_alignParentBottom="true"/>
             <TextView
                 android:id="@+id/item_msglist_content"
                 android:layout_width="wrap_content"

@@ -10,7 +10,7 @@ import com.garfield.weishu.utils.ScreenUtil;
  * Created by gaowei3 on 2016/9/30.
  */
 
-public class MsgViewHolderText extends MsgViewHolderBase {
+public class MsgListViewHolderText extends MsgListViewHolderBase {
 
     private TextView mText;
 

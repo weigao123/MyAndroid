@@ -6,6 +6,7 @@
     <string name="disagree">不同意</string>
     <string name="title">标题</string>
     <string name="content">内容</string>
+    <string name="cancel">取消</string>
 
     <string name="success">成功</string>
     <string name="fail">失败</string>
@@ -92,4 +93,9 @@
 
     <string name="all_albums">所有相册</string>
     <string name="photo_count">%1$s张</string>
+    
+    <string name="stick_top_chat">置顶聊天</string>
+    <string name="cancel_stick_top_chat">取消置顶</string>
+    <string name="delete_chat">删除聊天</string>
+    <string name="is_resent">是否重新发送</string>
 </resources>

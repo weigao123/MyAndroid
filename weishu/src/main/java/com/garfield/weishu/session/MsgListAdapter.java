@@ -1,10 +1,9 @@
 package com.garfield.weishu.session;
 
 import android.content.Context;
-import android.view.View;
 
-import com.garfield.weishu.base.adapter.TAdapter;
-import com.garfield.weishu.base.adapter.TAdapterDelegate;
+import com.garfield.weishu.base.listview.TListAdapter;
+import com.garfield.weishu.base.listview.TListAdapterDelegate;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
 import java.util.HashSet;
@@ -15,14 +14,14 @@ import java.util.Set;
  * Created by gwball on 2016/9/28.
  */
 
-public class MsgAdapter extends TAdapter {
+public class MsgListAdapter extends TListAdapter<IMMessage> {
 
     private String messageId;
     private Set<String> timedItems; // 需要显示消息时间的消息ID
     private IMMessage lastShowTimeItem; // 用于消息时间显示,判断和上条消息间的时间间隔
     private ViewHolderEventListener eventListener;
 
-    public MsgAdapter(Context context, List items, TAdapterDelegate delegate) {
+    public MsgListAdapter(Context context, List items, TListAdapterDelegate delegate) {
         super(context, items, delegate);
         timedItems = new HashSet<>();
     }
@@ -54,5 +53,23 @@ public class MsgAdapter extends TAdapter {
     public interface ViewHolderEventListener {
         boolean onViewHolderLongClick(IMMessage item);
         void onFailedBtnClick(IMMessage resendMessage);
+    }
+
+    public void deleteItem(IMMessage message) {
+        if (message == null) {
+            return;
+        }
+        int index = 0;
+        // 遍历一遍，找到对应的item
+        for (IMMessage item : getItems()) {
+            if (item.isTheSame(message)) {
+                break;
+            }
+            ++index;
+        }
+        if (index < getCount()) {
+            getItems().remove(index);
+            notifyDataSetChanged();
+        }
     }
 }

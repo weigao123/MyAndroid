@@ -1,7 +1,6 @@
 package com.garfield.weishu.session.listview;
 
 import android.content.Context;
-import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -9,9 +8,8 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 
-import com.garfield.baselib.utils.L;
 import com.garfield.baselib.utils.SizeUtils;
-import com.garfield.weishu.base.adapter.IViewReclaimer;
+import com.garfield.weishu.base.listview.IViewReclaimer;
 
 
 public class MessageListView extends AutoRefreshListView {

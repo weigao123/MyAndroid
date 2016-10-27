@@ -11,9 +11,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.adapter.TViewHolder;
+import com.garfield.weishu.base.listview.TListViewHolder;
 import com.garfield.weishu.base.event.EventDispatcher;
-import com.garfield.weishu.session.MsgAdapter;
+import com.garfield.weishu.session.MsgListAdapter;
 import com.garfield.weishu.ui.view.HeadImageView;
 import com.garfield.weishu.utils.TimeUtil;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
@@ -24,7 +24,7 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
  * Created by gwball on 2016/9/27.
  */
 
-public abstract class MsgViewHolderBase extends TViewHolder<IMMessage> {
+public abstract class MsgListViewHolderBase extends TListViewHolder<IMMessage> {
     protected IMMessage mMessage;
 
     protected RelativeLayout mHolderBase;
@@ -144,7 +144,7 @@ public abstract class MsgViewHolderBase extends TViewHolder<IMMessage> {
      * 设置时间显示
      */
     private void setTimeTextView() {
-        MsgAdapter msgAdapter = getAdapter();
+        MsgListAdapter msgAdapter = getAdapter();
         if (msgAdapter.needShowTime(mMessage)) {
             mTimeText.setVisibility(View.VISIBLE);
         } else {
@@ -200,8 +200,8 @@ public abstract class MsgViewHolderBase extends TViewHolder<IMMessage> {
     }
 
     @Override
-    protected MsgAdapter getAdapter() {
-        return (MsgAdapter) mAdapter;
+    protected MsgListAdapter getAdapter() {
+        return (MsgListAdapter) mAdapter;
     }
 
     protected boolean isReceivedMessage() {

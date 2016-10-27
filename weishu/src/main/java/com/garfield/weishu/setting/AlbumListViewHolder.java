@@ -7,14 +7,14 @@ import android.widget.TextView;
 import com.garfield.baselib.utils.ImageLoaderUtils;
 import com.garfield.baselib.utils.PhotoUtil;
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.adapter.TViewHolder;
+import com.garfield.weishu.base.listview.TListViewHolder;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
  * Created by gaowei3 on 2016/10/21.
  */
 
-public class AlbumViewHolder extends TViewHolder<PhotoUtil.AlbumInfo> {
+public class AlbumListViewHolder extends TListViewHolder<PhotoUtil.AlbumInfo> {
 
     private ImageView mAlbumImage;
     private TextView mAlbumName;
@@ -38,7 +38,7 @@ public class AlbumViewHolder extends TViewHolder<PhotoUtil.AlbumInfo> {
     protected void refresh(PhotoUtil.AlbumInfo item) {
         mAlbumName.setText(item.albumName);
         mImageCount.setText(getAdapter().getContext().getString(R.string.photo_count, item.photoPaths.size()+""));
-        if (mPosition == ((AlbumAdapter)getAdapter()).getAlbumSelect()) {
+        if (mPosition == ((AlbumListAdapter)getAdapter()).getAlbumSelect()) {
             mChoose.setVisibility(View.VISIBLE);
         } else {
             mChoose.setVisibility(View.GONE);

@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.garfield.weishu.R;
@@ -17,6 +18,9 @@ import com.netease.nimlib.sdk.msg.model.RecentContact;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
+import static android.telecom.DisconnectCause.LOCAL;
 
 /**
  * Created by gwball on 2016/8/3.
@@ -37,6 +41,8 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
         public final TextView mNameTextView;
         public final TextView mContentTextView;
         public final TextView mTime;
+        public final TextView mUnReadNum;
+        public final ImageView mMsgState;
         public String mAccount;
 
         public MyViewHolder(View view) {
@@ -45,6 +51,8 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
             mNameTextView = (TextView) view.findViewById(R.id.item_msglist_name);
             mContentTextView = (TextView) view.findViewById(R.id.item_msglist_content);
             mTime = (TextView) view.findViewById(R.id.item_msglist_time);
+            mUnReadNum = (TextView) view.findViewById(R.id.item_msglist_unread_number_tip);
+            mMsgState = (ImageView) view.findViewById(R.id.item_msglist_state);
             mAccount = null;
         }
     }
@@ -89,6 +97,13 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
         holder.itemView.setClickable(true);
         holder.mAccount = mData.get(position).getContactId();
         holder.mTime.setText(TimeUtil.getTimeShowString(mData.get(position).getTime(), true));
+        if (mData.get(position).getUnreadCount() > 0) {
+            holder.mUnReadNum.setText(String.format(Locale.getDefault(), "%d", mData.get(position).getUnreadCount()));
+            holder.mUnReadNum.setVisibility(View.VISIBLE);
+        } else {
+            holder.mUnReadNum.setVisibility(View.GONE);
+        }
+
     }
 
     @Override

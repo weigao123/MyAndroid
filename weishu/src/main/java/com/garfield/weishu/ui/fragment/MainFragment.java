@@ -86,7 +86,7 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
         Class topClass = getTopFragment().getClass();
         if (topClass == SessionFragment.class) {
             if (transit == FragmentTransaction.TRANSIT_FRAGMENT_OPEN && !enter && animation.getDuration() > 100) {
-                animation.setStartOffset(200);
+                animation.setStartOffset(300);
             }
         }
         return animation;

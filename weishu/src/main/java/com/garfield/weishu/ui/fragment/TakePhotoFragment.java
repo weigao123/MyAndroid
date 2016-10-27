@@ -20,18 +20,17 @@ import com.garfield.baselib.utils.PhotoUtil;
 import com.garfield.baselib.utils.SizeUtils;
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.adapter.TAdapterDelegate;
-import com.garfield.weishu.base.adapter.TViewHolder;
+import com.garfield.weishu.base.listview.TListAdapterDelegate;
+import com.garfield.weishu.base.listview.TListViewHolder;
 import com.garfield.weishu.base.event.EventDispatcher;
-import com.garfield.weishu.setting.AlbumAdapter;
-import com.garfield.weishu.setting.AlbumViewHolder;
-import com.garfield.weishu.setting.PhotoAdapter;
-import com.garfield.weishu.setting.PhotoViewHolder;
+import com.garfield.weishu.setting.AlbumListAdapter;
+import com.garfield.weishu.setting.AlbumListViewHolder;
+import com.garfield.weishu.setting.PhotoListAdapter;
+import com.garfield.weishu.setting.PhotoListViewHolder;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -47,7 +46,7 @@ import static com.garfield.weishu.ui.fragment.SelfProfileFragment.INFO_HEAD;
  * Created by gaowei3 on 2016/10/19.
  */
 
-public class TakePhotoFragment extends AppBaseFragment implements TAdapterDelegate {
+public class TakePhotoFragment extends AppBaseFragment implements TListAdapterDelegate {
 
     private static final boolean isUseNativeCropFunction = true;
 
@@ -69,10 +68,10 @@ public class TakePhotoFragment extends AppBaseFragment implements TAdapterDelega
     @BindView(R.id.fragment_take_photo_mask)
     FrameLayout mMask;
 
-    private PhotoAdapter mPhotoAdapter;
+    private PhotoListAdapter mPhotoAdapter;
     private List<String> mPhotoItems = new ArrayList<>();
 
-    private AlbumAdapter mAlbumAdapter;
+    private AlbumListAdapter mAlbumAdapter;
     private List<PhotoUtil.AlbumInfo> mAlbumItems = new ArrayList<>();
 
     private HashMap<String, PhotoUtil.AlbumInfo> mAlbumHashMap = new HashMap<>();
@@ -94,7 +93,7 @@ public class TakePhotoFragment extends AppBaseFragment implements TAdapterDelega
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
-        mPhotoAdapter = new PhotoAdapter(AppCache.getContext(), mPhotoItems, this);
+        mPhotoAdapter = new PhotoListAdapter(AppCache.getContext(), mPhotoItems, this);
         mGridView.setAdapter(mPhotoAdapter);
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -113,15 +112,15 @@ public class TakePhotoFragment extends AppBaseFragment implements TAdapterDelega
             }
         });
 
-        mAlbumAdapter = new AlbumAdapter(AppCache.getContext(), mAlbumItems, new TAdapterDelegate() {
+        mAlbumAdapter = new AlbumListAdapter(AppCache.getContext(), mAlbumItems, new TListAdapterDelegate() {
             @Override
             public int getViewTypeCount() {
                 return 1;
             }
 
             @Override
-            public Class<? extends TViewHolder> getViewHolderClassAtPosition(int position) {
-                return AlbumViewHolder.class;
+            public Class<? extends TListViewHolder> getViewHolderClassAtPosition(int position) {
+                return AlbumListViewHolder.class;
             }
 
             @Override
@@ -254,8 +253,8 @@ public class TakePhotoFragment extends AppBaseFragment implements TAdapterDelega
     }
 
     @Override
-    public Class<? extends TViewHolder> getViewHolderClassAtPosition(int position) {
-        return PhotoViewHolder.class;
+    public Class<? extends TListViewHolder> getViewHolderClassAtPosition(int position) {
+        return PhotoListViewHolder.class;
     }
 
     @Override

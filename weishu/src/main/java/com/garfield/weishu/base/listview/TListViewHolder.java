@@ -1,6 +1,5 @@
-package com.garfield.weishu.base.adapter;
+package com.garfield.weishu.base.listview;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -8,10 +7,10 @@ import android.view.View;
  * Created by gwball on 2016/9/27.
  */
 
-public abstract class TViewHolder<T> {
+public abstract class TListViewHolder<T> {
 
     protected View mView;
-    protected TAdapter mAdapter;
+    protected TListAdapter mAdapter;
 
     protected int mPosition;
 
@@ -29,11 +28,11 @@ public abstract class TViewHolder<T> {
         this.mPosition = position;
     }
 
-    protected void setAdapter(TAdapter adapter) {
+    protected void setAdapter(TListAdapter adapter) {
         this.mAdapter = adapter;
     }
 
-    protected TAdapter getAdapter() {
+    protected TListAdapter getAdapter() {
         return this.mAdapter;
     }
 

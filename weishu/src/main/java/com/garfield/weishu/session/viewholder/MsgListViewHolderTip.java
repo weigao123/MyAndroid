@@ -1,8 +1,6 @@
 package com.garfield.weishu.session.viewholder;
 
 import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ImageSpan;
 import android.widget.TextView;
 
 import com.garfield.weishu.R;
@@ -13,7 +11,7 @@ import java.util.Map;
  * Created by huangjun on 2015/11/25.
  * Tip类型消息ViewHolder
  */
-public class MsgViewHolderTip extends MsgViewHolderBase {
+public class MsgListViewHolderTip extends MsgListViewHolderBase {
 
     protected TextView notificationTextView;
 

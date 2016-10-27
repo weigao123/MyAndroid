@@ -1,11 +1,7 @@
 package com.garfield.weishu.session.viewholder;
 
-import com.netease.nimlib.sdk.msg.attachment.AudioAttachment;
-import com.netease.nimlib.sdk.msg.attachment.ImageAttachment;
-import com.netease.nimlib.sdk.msg.attachment.LocationAttachment;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 import com.netease.nimlib.sdk.msg.attachment.NotificationAttachment;
-import com.netease.nimlib.sdk.msg.attachment.VideoAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
@@ -16,30 +12,30 @@ import java.util.HashMap;
  */
 public class MsgViewHolderFactory {
 
-    private static HashMap<Class<? extends MsgAttachment>, Class<? extends MsgViewHolderBase>> viewHolders = new HashMap<>();
+    private static HashMap<Class<? extends MsgAttachment>, Class<? extends MsgListViewHolderBase>> viewHolders = new HashMap<>();
 
-    private static Class<? extends MsgViewHolderBase> tipMsgViewHolder;
+    private static Class<? extends MsgListViewHolderBase> tipMsgViewHolder;
 
     static {
-        register(NotificationAttachment.class, MsgViewHolderUnknown.class);
-        tipMsgViewHolder = MsgViewHolderTip.class;
+        register(NotificationAttachment.class, MsgListViewHolderUnknown.class);
+        tipMsgViewHolder = MsgListViewHolderTip.class;
     }
 
-    public static void register(Class<? extends MsgAttachment> attach, Class<? extends MsgViewHolderBase> viewHolder) {
+    public static void register(Class<? extends MsgAttachment> attach, Class<? extends MsgListViewHolderBase> viewHolder) {
         viewHolders.put(attach, viewHolder);
     }
 
-    public static void registerTipMsgViewHolder(Class<? extends MsgViewHolderBase> viewHolder) {
+    public static void registerTipMsgViewHolder(Class<? extends MsgListViewHolderBase> viewHolder) {
         tipMsgViewHolder = viewHolder;
     }
 
-    public static Class<? extends MsgViewHolderBase> getViewHolderByType(IMMessage message) {
+    public static Class<? extends MsgListViewHolderBase> getViewHolderByType(IMMessage message) {
         if (message.getMsgType() == MsgTypeEnum.text) {
-            return MsgViewHolderText.class;
+            return MsgListViewHolderText.class;
         } else if (message.getMsgType() == MsgTypeEnum.tip) {
-            return tipMsgViewHolder == null ? MsgViewHolderUnknown.class : tipMsgViewHolder;
+            return tipMsgViewHolder == null ? MsgListViewHolderUnknown.class : tipMsgViewHolder;
         } else {
-            Class<? extends MsgViewHolderBase> viewHolder = null;
+            Class<? extends MsgListViewHolderBase> viewHolder = null;
             if (message.getAttachment() != null) {
                 Class<? extends MsgAttachment> clazz = message.getAttachment().getClass();
                 while (viewHolder == null && clazz != null) {
@@ -49,7 +45,7 @@ public class MsgViewHolderFactory {
                     }
                 }
             }
-            return viewHolder == null ? MsgViewHolderUnknown.class : viewHolder;
+            return viewHolder == null ? MsgListViewHolderUnknown.class : viewHolder;
         }
     }
 
