@@ -1,4 +1,4 @@
-package com.garfield.weishu.session.listview;
+package com.garfield.weishu.base.listview;
 
 import android.annotation.TargetApi;
 import android.os.Build;

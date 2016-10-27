@@ -1,25 +1,19 @@
 package com.garfield.weishu.ui.fragment;
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.garfield.baselib.adapter.DividerItemDecoration;
-import com.garfield.baselib.ui.dialog.EasyMenuDialog;
-import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.nim.cache.UserInfoCache;
-import com.garfield.weishu.session.SessionListAdapter;
-import com.garfield.weishu.base.adapter.OnItemClickListener;
-import com.garfield.weishu.base.adapter.OnItemLongClickListener;
+import com.garfield.weishu.session.sessionlist.SessionListAdapter;
 import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.FriendDataCache;
 import com.netease.nimlib.sdk.NIMClient;
@@ -77,20 +71,19 @@ public class SessionListFragment extends AppBaseFragment {
         items = new ArrayList<>();
         adapter = new SessionListAdapter(mActivity, items);
         becyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(new OnItemClickListener() {
+        adapter.setEventListener(new SessionListAdapter.SessionListEventListener() {
             @Override
-            public void onItemClick(int position, View view, final Object object) {
+            public void onItemClick(final RecentContact recentContact) {
                 getHandler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        EventDispatcher.getFragmentJumpEvent().onShowSession((String) object);
+                        EventDispatcher.getFragmentJumpEvent().onShowSession(recentContact.getContactId());
                     }
                 }, 50);
             }
-        });
-        adapter.setOnLongClickListener(new OnItemLongClickListener() {
+
             @Override
-            public void onItemLongPressed(int position, View view) {
+            public void onItemLongPressed(RecentContact recentContact) {
                 MaterialDialog dialog = new MaterialDialog.Builder(getContext())
                         .items(R.array.session_menu1)
                         .listSelector(R.drawable.bg_press_gray)
@@ -109,6 +102,7 @@ public class SessionListFragment extends AppBaseFragment {
                 //menuDialog.show(getChildFragmentManager(), "dialoglist");
             }
         });
+
         registerObservers(true);
         requestMessages(true);
     }

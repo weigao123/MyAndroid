@@ -9,41 +9,38 @@ import android.view.View;
 
 public abstract class TListViewHolder<T> {
 
-    protected View mView;
+    protected View mRootView;
     protected TListAdapter mAdapter;
-
     protected int mPosition;
 
     /**
      * 入口
      */
-    public View getView(LayoutInflater inflater) {
-        int resId = getResId();
-        mView = inflater.inflate(resId, null);
-        inflateChildView();
-        return mView;
+    public View bindViews(LayoutInflater inflater, TListAdapter adapter) {
+        mRootView = inflater.inflate(getResId(), null);
+        mAdapter = adapter;
+        inflateView();
+        setView();
+        return mRootView;
     }
 
-    protected void setPosition(int position) {
-        this.mPosition = position;
-    }
-
-    protected void setAdapter(TListAdapter adapter) {
-        this.mAdapter = adapter;
-    }
-
-    protected TListAdapter getAdapter() {
-        return this.mAdapter;
+    public void refresh(T item, int position) {
+        mPosition = position;
+        refresh(item);
     }
 
     protected abstract int getResId();
 
-    protected abstract void inflateChildView();
+    protected abstract void inflateView();
+
+    public abstract void setView();
 
     protected abstract void refresh(T item);
 
+    protected abstract TListAdapter getAdapter();
+
     protected <M extends View> M findView(int resId) {
-        return (M) (mView.findViewById(resId));
+        return (M) (mRootView.findViewById(resId));
     }
 
     public boolean isFirstItem() {

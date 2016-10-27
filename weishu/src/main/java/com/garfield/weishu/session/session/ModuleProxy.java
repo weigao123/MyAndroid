@@ -1,4 +1,4 @@
-package com.garfield.weishu.session;
+package com.garfield.weishu.session.session;
 
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 

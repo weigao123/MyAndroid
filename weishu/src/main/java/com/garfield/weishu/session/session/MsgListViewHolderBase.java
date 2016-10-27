@@ -1,4 +1,4 @@
-package com.garfield.weishu.session.viewholder;
+package com.garfield.weishu.session.session;
 
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.listview.TListViewHolder;
 import com.garfield.weishu.base.event.EventDispatcher;
-import com.garfield.weishu.session.MsgListAdapter;
 import com.garfield.weishu.ui.view.HeadImageView;
 import com.garfield.weishu.utils.TimeUtil;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
@@ -47,7 +46,7 @@ public abstract class MsgListViewHolderBase extends TListViewHolder<IMMessage> {
     }
 
     @Override
-    protected void inflateChildView() {
+    protected void inflateView() {
         mHolderBase = findView(R.id.msg_item_base);
         mTimeText = findView(R.id.msg_item_time);
         mLeftHead = findView(R.id.msg_item_left_head);
@@ -58,35 +57,12 @@ public abstract class MsgListViewHolderBase extends TListViewHolder<IMMessage> {
         mAlreadyRead = findView(R.id.msg_item_already_read);
         mContentContainer = findView(R.id.msg_item_content);
 
-        View.inflate(mView.getContext(), getContentResId(), mContentContainer);
+        View.inflate(mRootView.getContext(), getContentResId(), mContentContainer);
         inflateContentView();
     }
 
     @Override
-    protected void refresh(IMMessage item) {
-        mMessage = item;
-        setHeadImageView();
-        setTimeTextView();
-        setSentStatus();
-        setContent();
-        setReadReceipt();
-
-        setOnClickListener();
-
-        bindContentView();
-    }
-
-    public void refreshCurrentItem() {
-        if (mMessage != null) {
-            refresh(mMessage);
-        }
-    }
-
-    // 内容区域点击事件响应处理。
-    protected void onItemClick() {
-    }
-
-    private void setOnClickListener() {
+    public void setView() {
         // 重发/重收按钮响应事件
         if (getAdapter().getEventListener() != null) {
             mAlert.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +102,28 @@ public abstract class MsgListViewHolderBase extends TListViewHolder<IMMessage> {
             }
         };
         mContentContainer.setOnLongClickListener(longClickListener);
+    }
+
+    @Override
+    protected void refresh(IMMessage item) {
+        mMessage = item;
+        setHeadImageView();
+        setTimeTextView();
+        setSentStatus();
+        setContent();
+        setReadReceipt();
+
+        bindContentView();
+    }
+
+    public void refreshCurrentItem() {
+        if (mMessage != null) {
+            refresh(mMessage);
+        }
+    }
+
+    // 内容区域点击事件响应处理。
+    protected void onItemClick() {
     }
 
     private void setHeadImageView() {

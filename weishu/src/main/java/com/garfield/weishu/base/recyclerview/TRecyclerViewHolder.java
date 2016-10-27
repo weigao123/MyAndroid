@@ -1,6 +1,5 @@
 package com.garfield.weishu.base.recyclerview;
 
-import android.support.annotation.LayoutRes;
 import android.view.View;
 
 /**
@@ -9,19 +8,30 @@ import android.view.View;
 public abstract class TRecyclerViewHolder<T> {
 
     protected View mRootView;
-    private int mPosition;
+    protected int mPosition;
+    protected TRecyclerAdapter mAdapter;
+
+    public void bindViews(View rootView, TRecyclerAdapter adapter) {
+        mRootView = rootView;
+        mAdapter = adapter;
+        inflateView();
+        setView();
+    }
+
+    public void refresh(T t, int position) {
+        mPosition = position;
+        refresh(t);
+    }
 
     public abstract int getLayoutResId();
 
+    protected abstract void inflateView();
 
-    public void bindViews(View rootView) {
-        mRootView = rootView;
-        inflateChildView();
-    }
+    public abstract void setView();
 
-    protected abstract void inflateChildView();
+    public abstract void refresh(T t);
 
-    public abstract void refresh(T t, int position);
+    protected abstract TRecyclerAdapter getAdapter();
 
     protected <M extends View> M findView(int resId) {
         return (M) (mRootView.findViewById(resId));

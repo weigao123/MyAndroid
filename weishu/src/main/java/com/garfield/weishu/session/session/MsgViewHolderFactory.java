@@ -1,4 +1,4 @@
-package com.garfield.weishu.session.viewholder;
+package com.garfield.weishu.session.session;
 
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 import com.netease.nimlib.sdk.msg.attachment.NotificationAttachment;

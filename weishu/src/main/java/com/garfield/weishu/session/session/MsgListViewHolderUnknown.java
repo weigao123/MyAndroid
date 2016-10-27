@@ -1,4 +1,4 @@
-package com.garfield.weishu.session.viewholder;
+package com.garfield.weishu.session.session;
 
 import com.garfield.weishu.R;
 

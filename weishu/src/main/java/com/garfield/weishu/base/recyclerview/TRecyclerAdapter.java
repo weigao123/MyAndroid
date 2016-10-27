@@ -19,9 +19,10 @@ public abstract class TRecyclerAdapter<T> extends RecyclerView.Adapter<TRecycler
         mContext = context;
         mItems = items;
     }
+
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new RecyclerViewHolder(mContext, parent, createItem(viewType));
+        return new RecyclerViewHolder(mContext, parent, this, createItem(viewType));
     }
 
     @Override
@@ -49,15 +50,18 @@ public abstract class TRecyclerAdapter<T> extends RecyclerView.Adapter<TRecycler
      */
     public abstract TRecyclerViewHolder createItem(int type);
 
-
+    /**
+     * position -> type -> TRecyclerViewHolder -> 根据TRecyclerViewHolder里的res创建View ->
+     * 注入到RecyclerViewHolder -> 把View绑定到TRecyclerViewHolder上
+     */
     static class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
-        protected TRecyclerViewHolder item;
+        private TRecyclerViewHolder item;
 
-        RecyclerViewHolder(Context context, ViewGroup parent, TRecyclerViewHolder item) {
+        RecyclerViewHolder(Context context, ViewGroup parent, TRecyclerAdapter adapter, TRecyclerViewHolder item) {
             super(LayoutInflater.from(context).inflate(item.getLayoutResId(), parent, false));
             this.item = item;
-            this.item.bindViews(itemView);
+            this.item.bindViews(itemView, adapter);
         }
     }
 }

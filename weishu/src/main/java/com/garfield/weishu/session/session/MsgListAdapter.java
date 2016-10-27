@@ -1,4 +1,4 @@
-package com.garfield.weishu.session;
+package com.garfield.weishu.session.session;
 
 import android.content.Context;
 
@@ -19,7 +19,7 @@ public class MsgListAdapter extends TListAdapter<IMMessage> {
     private String messageId;
     private Set<String> timedItems; // 需要显示消息时间的消息ID
     private IMMessage lastShowTimeItem; // 用于消息时间显示,判断和上条消息间的时间间隔
-    private ViewHolderEventListener eventListener;
+    private MsgListEventListener eventListener;
 
     public MsgListAdapter(Context context, List items, TListAdapterDelegate delegate) {
         super(context, items, delegate);
@@ -39,18 +39,18 @@ public class MsgListAdapter extends TListAdapter<IMMessage> {
         return messageId;
     }
 
-    public void setEventListener(ViewHolderEventListener eventListener) {
+    public void setEventListener(MsgListEventListener eventListener) {
         this.eventListener = eventListener;
     }
 
-    public ViewHolderEventListener getEventListener() {
+    public MsgListEventListener getEventListener() {
         return eventListener;
     }
 
     /**
      * 这两个属于所有ViewHolder公用的方法，拿出来写在Adapter里
      */
-    public interface ViewHolderEventListener {
+    public interface MsgListEventListener {
         boolean onViewHolderLongClick(IMMessage item);
         void onFailedBtnClick(IMMessage resendMessage);
     }

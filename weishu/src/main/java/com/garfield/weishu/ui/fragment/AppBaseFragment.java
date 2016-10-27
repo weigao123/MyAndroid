@@ -110,7 +110,7 @@ public class AppBaseFragment extends SupportFragment {
                     mPopupWindow.showAsDropDown(mToolbar, xoff, yoff);
 
 //                PopupMenu mPopupMenu = new PopupMenu(mActivity, mToolbar, Gravity.END);
-//                mPopupMenu.inflateChildView(R.menu.fragment_msg_list);
+//                mPopupMenu.inflateView(R.menu.fragment_msg_list);
 //                mPopupMenu.show();
                     break;
                 case R.id.menu_item_1:

@@ -1,4 +1,4 @@
-package com.garfield.weishu.session.viewholder;
+package com.garfield.weishu.session.session;
 
 import android.text.TextUtils;
 import android.widget.TextView;

@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.garfield.baselib.utils.ImageLoaderUtils;
 import com.garfield.baselib.utils.PhotoUtil;
 import com.garfield.weishu.R;
+import com.garfield.weishu.base.listview.TListAdapter;
 import com.garfield.weishu.base.listview.TListViewHolder;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -27,7 +28,7 @@ public class AlbumListViewHolder extends TListViewHolder<PhotoUtil.AlbumInfo> {
     }
 
     @Override
-    protected void inflateChildView() {
+    protected void inflateView() {
         mAlbumImage = findView(R.id.item_album_image);
         mAlbumName = findView(R.id.item_album_name);
         mImageCount = findView(R.id.item_album_count);
@@ -35,14 +36,26 @@ public class AlbumListViewHolder extends TListViewHolder<PhotoUtil.AlbumInfo> {
     }
 
     @Override
+    public void setView() {
+
+    }
+
+    @Override
     protected void refresh(PhotoUtil.AlbumInfo item) {
         mAlbumName.setText(item.albumName);
         mImageCount.setText(getAdapter().getContext().getString(R.string.photo_count, item.photoPaths.size()+""));
-        if (mPosition == ((AlbumListAdapter)getAdapter()).getAlbumSelect()) {
+        if (mPosition == getAdapter().getAlbumSelect()) {
             mChoose.setVisibility(View.VISIBLE);
         } else {
             mChoose.setVisibility(View.GONE);
         }
         ImageLoader.getInstance().displayImage("file://" + item.albumImage, mAlbumImage, ImageLoaderUtils.getDisplayImageNoDiskCacheOptions());
     }
+
+    @Override
+    protected AlbumListAdapter getAdapter() {
+        return (AlbumListAdapter)mAdapter;
+    }
+
+
 }

@@ -1,4 +1,4 @@
-package com.garfield.weishu.session;
+package com.garfield.weishu.session.session;
 
 import android.os.Build;
 import android.os.Handler;
@@ -13,11 +13,8 @@ import com.garfield.baselib.adapter.DividerItemDecoration;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.listview.TListAdapterDelegate;
 import com.garfield.weishu.base.listview.TListViewHolder;
-import com.garfield.weishu.session.listview.AutoRefreshListView;
-import com.garfield.weishu.session.listview.ListViewUtil;
-import com.garfield.weishu.session.listview.MessageListView;
-import com.garfield.weishu.session.viewholder.MsgListViewHolderBase;
-import com.garfield.weishu.session.viewholder.MsgViewHolderFactory;
+import com.garfield.weishu.base.listview.AutoRefreshListView;
+import com.garfield.weishu.base.listview.ListViewUtil;
 import com.garfield.weishu.utils.ClipboardUtil;
 import com.garfield.weishu.utils.ScreenUtil;
 import com.netease.nimlib.sdk.NIMClient;
@@ -387,7 +384,7 @@ public class MessageListPanel implements TListAdapterDelegate {
         ListViewUtil.scrollToBottom(messageListView);
     }
 
-    private class HolderEventListener implements MsgListAdapter.ViewHolderEventListener {
+    private class HolderEventListener implements MsgListAdapter.MsgListEventListener {
 
         @Override
         public boolean onViewHolderLongClick(final IMMessage item) {

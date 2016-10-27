@@ -4,6 +4,7 @@ import android.widget.ImageView;
 
 import com.garfield.baselib.utils.ImageLoaderUtils;
 import com.garfield.weishu.R;
+import com.garfield.weishu.base.listview.TListAdapter;
 import com.garfield.weishu.base.listview.TListViewHolder;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -21,8 +22,13 @@ public class PhotoListViewHolder extends TListViewHolder<String> {
     }
 
     @Override
-    protected void inflateChildView() {
+    protected void inflateView() {
         mImageView = findView(R.id.item_take_photo_image);
+    }
+
+    @Override
+    public void setView() {
+
     }
 
     @Override
@@ -32,5 +38,10 @@ public class PhotoListViewHolder extends TListViewHolder<String> {
             return;
         }
         ImageLoader.getInstance().displayImage("file://" + item, mImageView, ImageLoaderUtils.getDisplayImageNoDiskCacheOptions());
+    }
+
+    @Override
+    protected PhotoListAdapter getAdapter() {
+        return (PhotoListAdapter)mAdapter;
     }
 }

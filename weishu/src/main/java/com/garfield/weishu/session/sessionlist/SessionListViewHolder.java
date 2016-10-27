@@ -1,4 +1,4 @@
-package com.garfield.weishu.session;
+package com.garfield.weishu.session.sessionlist;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.adapter.OnItemClickListener;
 import com.garfield.weishu.base.adapter.OnItemLongClickListener;
+import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
 import com.garfield.weishu.base.recyclerview.TRecyclerViewHolder;
 import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.garfield.weishu.ui.view.HeadImageView;
@@ -21,17 +22,13 @@ import java.util.Locale;
 
 public class SessionListViewHolder extends TRecyclerViewHolder<RecentContact> {
 
-    public HeadImageView mHeadImageView;
-    public TextView mNameTextView;
-    public TextView mContentTextView;
-    public TextView mTime;
-    public TextView mUnReadNum;
-    public ImageView mMsgState;
-    public String mAccount;
-
-    private OnItemClickListener mClickListener;
-    private OnItemLongClickListener mLongClickListener;
-
+    private HeadImageView mHeadImageView;
+    private TextView mNameTextView;
+    private TextView mContentTextView;
+    private TextView mTime;
+    private TextView mUnReadNum;
+    private ImageView mMsgState;
+    private RecentContact mRecentContact;
 
     @Override
     public int getLayoutResId() {
@@ -39,34 +36,7 @@ public class SessionListViewHolder extends TRecyclerViewHolder<RecentContact> {
     }
 
     @Override
-    protected void inflateChildView() {
-        mRootView.setBackgroundResource(R.drawable.bg_press_gray);
-//        TypedValue typedValue = new TypedValue();
-//        mContext.getTheme().resolveAttribute(R.attr.selectableItemBackground, typedValue, true);
-//        mView.setBackgroundResource(typedValue.resourceId);
-
-
-        mRootView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = holder.getAdapterPosition();
-                if (mClickListener != null) {
-                    mClickListener.onItemClick(position, v, holder.mAccount);
-                }
-            }
-        });
-        mRootView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                int position = holder.getAdapterPosition();
-                if (mLongClickListener != null) {
-                    mLongClickListener.onItemLongPressed(position, v);
-                }
-                return true;
-            }
-        });
-
-
+    protected void inflateView() {
         mHeadImageView = findView(R.id.item_msglist_head);
         mNameTextView = findView(R.id.item_msglist_name);
         mContentTextView = findView(R.id.item_msglist_content);
@@ -76,11 +46,37 @@ public class SessionListViewHolder extends TRecyclerViewHolder<RecentContact> {
     }
 
     @Override
-    public void refresh(RecentContact recentContact, int position) {
+    public void setView() {
+        mRootView.setBackgroundResource(R.drawable.bg_press_gray);
+//        TypedValue typedValue = new TypedValue();
+//        mContext.getTheme().resolveAttribute(R.attr.selectableItemBackground, typedValue, true);
+//        mRootView.setBackgroundResource(typedValue.resourceId);
+        mRootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getAdapter().getEventListener() != null) {
+                    getAdapter().getEventListener().onItemClick(mRecentContact);
+                }
+            }
+        });
+        mRootView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (getAdapter().getEventListener() != null) {
+                    getAdapter().getEventListener().onItemLongPressed(mRecentContact);
+                }
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public void refresh(RecentContact recentContact) {
+        mRecentContact = recentContact;
+
         mHeadImageView.loadBuddyAvatar(recentContact.getContactId());
         mNameTextView.setText(UserInfoCache.getInstance().getUserDisplayName(recentContact.getContactId()));
         mContentTextView.setText(recentContact.getContent());
-        mAccount = recentContact.getContactId();
         mTime.setText(TimeUtil.getTimeShowString(recentContact.getTime(), true));
         if (recentContact.getUnreadCount() > 0) {
             mUnReadNum.setText(String.format(Locale.getDefault(), "%d", recentContact.getUnreadCount()));
@@ -90,11 +86,8 @@ public class SessionListViewHolder extends TRecyclerViewHolder<RecentContact> {
         }
     }
 
-
-    public void setOnItemClickListener(OnItemClickListener itemClickListener) {
-        this.mClickListener = itemClickListener;
-    }
-    public void setOnLongClickListener(OnItemLongClickListener itemLongClickListener) {
-        this.mLongClickListener = itemLongClickListener;
+    @Override
+    protected SessionListAdapter getAdapter() {
+        return (SessionListAdapter) mAdapter;
     }
 }

@@ -60,10 +60,9 @@ public class TListAdapter<T> extends BaseAdapter {
             convertView = createViewAtPosition(position);
         }
         TListViewHolder holder = (TListViewHolder) convertView.getTag();
-        holder.setPosition(position);
         if (needRefresh) {
             // 对该TAG里取出的holder进行刷新，就是直接对这个View刷新了
-            holder.refresh(getItem(position));
+            holder.refresh(getItem(position), position);
         }
 
 //        if (holder instanceof IScrollStateListener) {
@@ -79,11 +78,10 @@ public class TListAdapter<T> extends BaseAdapter {
         try {
             Class<?> viewHolder = mDelegate.getViewHolderClassAtPosition(position);
             holder = (TListViewHolder) viewHolder.newInstance();
-            holder.setAdapter(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        view = holder.getView(mInflater);
+        view = holder.bindViews(mInflater, this);
         // Holder是已经被findView的集合，把holder放到view里，省去后面再findView
         view.setTag(holder);
         return view;

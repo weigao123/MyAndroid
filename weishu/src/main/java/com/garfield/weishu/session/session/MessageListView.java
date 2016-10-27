@@ -1,4 +1,4 @@
-package com.garfield.weishu.session.listview;
+package com.garfield.weishu.session.session;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -9,6 +9,7 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 
 import com.garfield.baselib.utils.SizeUtils;
+import com.garfield.weishu.base.listview.AutoRefreshListView;
 import com.garfield.weishu.base.listview.IViewReclaimer;
 
 

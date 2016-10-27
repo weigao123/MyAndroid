@@ -6,9 +6,9 @@ import android.view.View;
 import android.view.animation.Animation;
 
 import com.garfield.weishu.R;
-import com.garfield.weishu.session.InputPanel;
-import com.garfield.weishu.session.MessageListPanel;
-import com.garfield.weishu.session.ModuleProxy;
+import com.garfield.weishu.session.session.InputPanel;
+import com.garfield.weishu.session.session.MessageListPanel;
+import com.garfield.weishu.session.session.ModuleProxy;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
