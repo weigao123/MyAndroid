@@ -1,16 +1,17 @@
-package com.garfield.weishu.ui.fragment;
+package com.garfield.weishu.setting;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.garfield.weishu.R;
+import com.garfield.weishu.ui.fragment.AppBaseFragment;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import butterknife.BindView;
 import uk.co.senab.photoview.PhotoView;
 
-import static com.garfield.weishu.ui.fragment.SelfProfileFragment.INFO_HEAD;
+import static com.garfield.weishu.setting.SelfProfileFragment.INFO_HEAD;
 
 
 /**

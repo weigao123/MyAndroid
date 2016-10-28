@@ -1,17 +1,14 @@
 package com.garfield.weishu.base.event;
 
-import com.garfield.weishu.ui.fragment.ChangeInfoFragment;
-import com.garfield.weishu.ui.fragment.CropPhotoFragment;
+import com.garfield.weishu.setting.ChangeInfoFragment;
+import com.garfield.weishu.setting.CropPhotoFragment;
 import com.garfield.weishu.ui.fragment.FriendProfileFragment;
 import com.garfield.weishu.ui.fragment.SearchUserFragment;
-import com.garfield.weishu.ui.fragment.SelfProfileFragment;
-import com.garfield.weishu.ui.fragment.SessionFragment;
-import com.garfield.weishu.ui.fragment.TakePhotoFragment;
-import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.garfield.weishu.setting.SelfProfileFragment;
+import com.garfield.weishu.session.session.SessionFragment;
+import com.garfield.weishu.setting.TakePhotoFragment;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.List;
 
 /**
  * Created by gaowei3 on 2016/10/13.

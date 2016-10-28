@@ -14,17 +14,15 @@ import java.util.Map;
  * Created by gaowei3 on 2016/9/28.
  */
 
-public class TListAdapter<T> extends BaseAdapter {
-    protected final Context mContext;
+public abstract class TListAdapter<T> extends BaseAdapter {
+    private final Context mContext;
     private final List<T> mItems;
     private final Map<Class<?>, Integer> mViewTypes;
     private final LayoutInflater mInflater;
-    private final TListAdapterDelegate mDelegate;
 
-    public TListAdapter(Context context, List<T> items, TListAdapterDelegate delegate) {
+    public TListAdapter(Context context, List<T> items) {
         mContext = context;
         mItems = items;
-        mDelegate = delegate;
         mInflater = LayoutInflater.from(context);
         // 就算有参数，size()时也只是返回使用的数量
         mViewTypes = new HashMap<Class<?>, Integer>(getViewTypeCount());
@@ -32,6 +30,10 @@ public class TListAdapter<T> extends BaseAdapter {
 
     public List<T> getItems() {
         return mItems;
+    }
+
+    public Context getContext() {
+        return mContext;
     }
 
     @Override
@@ -76,7 +78,7 @@ public class TListAdapter<T> extends BaseAdapter {
         TListViewHolder holder = null;
         View view = null;
         try {
-            Class<?> viewHolder = mDelegate.getViewHolderClassAtPosition(position);
+            Class<?> viewHolder = getViewHolderClassAtPosition(position);
             holder = (TListViewHolder) viewHolder.newInstance();
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,7 +91,7 @@ public class TListAdapter<T> extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return mDelegate.getViewTypeCount();
+        return getViewHolderCount();
     }
 
     @Override
@@ -99,7 +101,7 @@ public class TListAdapter<T> extends BaseAdapter {
             return 0;
         }
 
-        Class<?> clazz = mDelegate.getViewHolderClassAtPosition(position);
+        Class<?> clazz = getViewHolderClassAtPosition(position);
         if (mViewTypes.containsKey(clazz)) {
             return mViewTypes.get(clazz);
         } else {
@@ -112,8 +114,8 @@ public class TListAdapter<T> extends BaseAdapter {
         }
     }
 
-    public Context getContext() {
-        return mContext;
-    }
+    public abstract Class getViewHolderClassAtPosition(int position);
+
+    public abstract int getViewHolderCount();
 
 }

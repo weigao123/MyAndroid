@@ -1,4 +1,4 @@
-package com.garfield.weishu.ui.fragment;
+package com.garfield.weishu.news;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +8,7 @@ import android.view.View;
 import com.garfield.weishu.R;
 import com.garfield.weishu.news.NewsAdapter;
 import com.garfield.weishu.bean.ContactBean;
+import com.garfield.weishu.ui.fragment.AppBaseFragment;
 
 import java.util.ArrayList;
 import java.util.Random;

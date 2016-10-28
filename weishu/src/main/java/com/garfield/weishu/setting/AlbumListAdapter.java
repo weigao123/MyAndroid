@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.garfield.baselib.utils.PhotoUtil;
 import com.garfield.weishu.base.listview.TListAdapter;
-import com.garfield.weishu.base.listview.TListAdapterDelegate;
 
 import java.util.List;
 
@@ -16,8 +15,18 @@ public class AlbumListAdapter extends TListAdapter<PhotoUtil.AlbumInfo> {
 
     private int albumSelect;
 
-    public AlbumListAdapter(Context context, List<PhotoUtil.AlbumInfo> items, TListAdapterDelegate delegate) {
-        super(context, items, delegate);
+    public AlbumListAdapter(Context context, List<PhotoUtil.AlbumInfo> items) {
+        super(context, items);
+    }
+
+    @Override
+    public Class getViewHolderClassAtPosition(int position) {
+        return AlbumListViewHolder.class;
+    }
+
+    @Override
+    public int getViewHolderCount() {
+        return 1;
     }
 
     public int getAlbumSelect() {

@@ -3,7 +3,6 @@ package com.garfield.weishu.session.session;
 import android.content.Context;
 
 import com.garfield.weishu.base.listview.TListAdapter;
-import com.garfield.weishu.base.listview.TListAdapterDelegate;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
 import java.util.HashSet;
@@ -21,8 +20,8 @@ public class MsgListAdapter extends TListAdapter<IMMessage> {
     private IMMessage lastShowTimeItem; // 用于消息时间显示,判断和上条消息间的时间间隔
     private MsgListEventListener eventListener;
 
-    public MsgListAdapter(Context context, List items, TListAdapterDelegate delegate) {
-        super(context, items, delegate);
+    public MsgListAdapter(Context context, List items) {
+        super(context, items);
         timedItems = new HashSet<>();
     }
 
@@ -45,6 +44,16 @@ public class MsgListAdapter extends TListAdapter<IMMessage> {
 
     public MsgListEventListener getEventListener() {
         return eventListener;
+    }
+
+    @Override
+    public Class getViewHolderClassAtPosition(int position) {
+        return MsgViewHolderFactory.getViewHolderByType(getItems().get(position));
+    }
+
+    @Override
+    public int getViewHolderCount() {
+        return MsgViewHolderFactory.getViewTypeCount();
     }
 
     /**

@@ -10,6 +10,11 @@ import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.ui.widget.BottomBar;
 import com.garfield.weishu.R;
+import com.garfield.weishu.contact.ContactFragment;
+import com.garfield.weishu.news.NewsListFragment;
+import com.garfield.weishu.session.session.SessionFragment;
+import com.garfield.weishu.session.sessionlist.SessionListFragment;
+import com.garfield.weishu.setting.SettingFragment;
 
 import org.greenrobot.eventbus.EventBus;
 

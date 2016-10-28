@@ -3,7 +3,6 @@ package com.garfield.weishu.setting;
 import android.content.Context;
 
 import com.garfield.weishu.base.listview.TListAdapter;
-import com.garfield.weishu.base.listview.TListAdapterDelegate;
 
 import java.util.List;
 
@@ -14,11 +13,19 @@ import java.util.List;
 public class PhotoListAdapter extends TListAdapter<String> {
 
 
-    public PhotoListAdapter(Context context, List<String> items, TListAdapterDelegate delegate) {
-        super(context, items, delegate);
+    public PhotoListAdapter(Context context, List<String> items) {
+        super(context, items);
     }
 
+    @Override
+    public Class getViewHolderClassAtPosition(int position) {
+        return PhotoListViewHolder.class;
+    }
 
+    @Override
+    public int getViewHolderCount() {
+        return 1;
+    }
 
 
 }

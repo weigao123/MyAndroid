@@ -1,4 +1,4 @@
-package com.garfield.weishu.ui.fragment;
+package com.garfield.weishu.contact;
 
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +22,7 @@ import com.garfield.weishu.contact.viewholder.FuncHolder;
 import com.garfield.weishu.contact.viewholder.LabelHolder;
 import com.garfield.weishu.nim.cache.FriendDataCache;
 import com.garfield.weishu.nim.cache.UserInfoCache;
+import com.garfield.weishu.ui.fragment.AppBaseFragment;
 
 import java.util.List;
 

@@ -5,9 +5,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.adapter.OnItemClickListener;
-import com.garfield.weishu.base.adapter.OnItemLongClickListener;
-import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
 import com.garfield.weishu.base.recyclerview.TRecyclerViewHolder;
 import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.garfield.weishu.ui.view.HeadImageView;

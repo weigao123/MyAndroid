@@ -1,4 +1,4 @@
-package com.garfield.weishu.ui.fragment;
+package com.garfield.weishu.setting;
 
 import android.animation.Animator;
 import android.content.Intent;
@@ -20,13 +20,8 @@ import com.garfield.baselib.utils.PhotoUtil;
 import com.garfield.baselib.utils.SizeUtils;
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.listview.TListAdapterDelegate;
-import com.garfield.weishu.base.listview.TListViewHolder;
 import com.garfield.weishu.base.event.EventDispatcher;
-import com.garfield.weishu.setting.AlbumListAdapter;
-import com.garfield.weishu.setting.AlbumListViewHolder;
-import com.garfield.weishu.setting.PhotoListAdapter;
-import com.garfield.weishu.setting.PhotoListViewHolder;
+import com.garfield.weishu.ui.fragment.AppBaseFragment;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,13 +35,13 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import static android.app.Activity.RESULT_OK;
-import static com.garfield.weishu.ui.fragment.SelfProfileFragment.INFO_HEAD;
+import static com.garfield.weishu.setting.SelfProfileFragment.INFO_HEAD;
 
 /**
  * Created by gaowei3 on 2016/10/19.
  */
 
-public class TakePhotoFragment extends AppBaseFragment implements TListAdapterDelegate {
+public class TakePhotoFragment extends AppBaseFragment {
 
     private static final boolean isUseNativeCropFunction = true;
 
@@ -93,7 +88,7 @@ public class TakePhotoFragment extends AppBaseFragment implements TListAdapterDe
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
-        mPhotoAdapter = new PhotoListAdapter(AppCache.getContext(), mPhotoItems, this);
+        mPhotoAdapter = new PhotoListAdapter(AppCache.getContext(), mPhotoItems);
         mGridView.setAdapter(mPhotoAdapter);
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -112,22 +107,7 @@ public class TakePhotoFragment extends AppBaseFragment implements TListAdapterDe
             }
         });
 
-        mAlbumAdapter = new AlbumListAdapter(AppCache.getContext(), mAlbumItems, new TListAdapterDelegate() {
-            @Override
-            public int getViewTypeCount() {
-                return 1;
-            }
-
-            @Override
-            public Class<? extends TListViewHolder> getViewHolderClassAtPosition(int position) {
-                return AlbumListViewHolder.class;
-            }
-
-            @Override
-            public boolean enabled(int position) {
-                return false;
-            }
-        });
+        mAlbumAdapter = new AlbumListAdapter(AppCache.getContext(), mAlbumItems);
         mAlbumListView.setAdapter(mAlbumAdapter);
         mAlbumListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -245,21 +225,6 @@ public class TakePhotoFragment extends AppBaseFragment implements TListAdapterDe
             setFragmentResult(bundle);
             popToFragment(SelfProfileFragment.class, false);
         }
-    }
-
-    @Override
-    public int getViewTypeCount() {
-        return 1;
-    }
-
-    @Override
-    public Class<? extends TListViewHolder> getViewHolderClassAtPosition(int position) {
-        return PhotoListViewHolder.class;
-    }
-
-    @Override
-    public boolean enabled(int position) {
-        return false;
     }
 
     private void loadImage() {

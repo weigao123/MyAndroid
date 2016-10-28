@@ -1,4 +1,4 @@
-package com.garfield.weishu.ui.fragment;
+package com.garfield.weishu.session.sessionlist;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +16,7 @@ import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.garfield.weishu.session.sessionlist.SessionListAdapter;
 import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.FriendDataCache;
+import com.garfield.weishu.ui.fragment.AppBaseFragment;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;

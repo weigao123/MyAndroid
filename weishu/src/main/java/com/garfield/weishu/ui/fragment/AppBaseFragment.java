@@ -2,13 +2,11 @@ package com.garfield.weishu.ui.fragment;
 
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -18,10 +16,13 @@ import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.utils.SizeUtils;
 import com.garfield.weishu.R;
+import com.garfield.weishu.contact.ContactFragment;
+import com.garfield.weishu.news.NewsTabFragment;
+import com.garfield.weishu.session.sessionlist.SessionListFragment;
+import com.garfield.weishu.setting.SettingFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 
 

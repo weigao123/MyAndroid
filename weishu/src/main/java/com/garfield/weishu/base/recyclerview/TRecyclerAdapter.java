@@ -5,29 +5,57 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by gaowei3 on 2016/10/27.
  */
 
 public abstract class TRecyclerAdapter<T> extends RecyclerView.Adapter<TRecyclerAdapter.RecyclerViewHolder> {
-    protected final Context mContext;
+    private final Context mContext;
     private final List<T> mItems;
+    private final Map<Class<?>, Integer> mViewTypes;
+    private final LayoutInflater mInflater;
 
     public TRecyclerAdapter(Context context, List<T> items) {
         mContext = context;
         mItems = items;
+        mViewTypes = new HashMap<>();
+        mInflater = LayoutInflater.from(context);
+    }
+
+    public Context getContext() {
+        return mContext;
     }
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new RecyclerViewHolder(mContext, parent, this, createItem(viewType));
+        TRecyclerViewHolder viewHolder = null;
+        Class viewHolderClass = getClassByType(viewType);
+        try {
+            viewHolder = (TRecyclerViewHolder) viewHolderClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new RecyclerViewHolder(mInflater, parent, this, viewHolder);
+    }
+
+    private Class getClassByType(int type) {
+        Set<Class<?>> set = mViewTypes.keySet();
+        for (Class c : set) {
+            if (mViewTypes.get(c) == type) {
+                return c;
+            }
+        }
+        return null;
     }
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-        holder.item.refresh(mItems.get(position), position);
+        holder.mTViewHolder.refresh(mItems.get(position), position);
     }
 
     @Override
@@ -37,18 +65,17 @@ public abstract class TRecyclerAdapter<T> extends RecyclerView.Adapter<TRecycler
 
     @Override
     public int getItemViewType(int position) {
-        return getItemType(mItems.get(position));
+        Class<?> clazz = getViewHolderClassAtPosition(position);
+        if (mViewTypes.containsKey(clazz)) {
+            return mViewTypes.get(clazz);
+        } else {
+            int next = mViewTypes.size();
+            mViewTypes.put(clazz, next);
+            return next;
+        }
     }
 
-    /**
-     * 根据具体位置的元素T值，来决定是什么类型
-     */
-    public abstract int getItemType(T t);
-
-    /**
-     * 根据类型创建Holder
-     */
-    public abstract TRecyclerViewHolder createItem(int type);
+    public abstract Class getViewHolderClassAtPosition(int position);
 
     /**
      * position -> type -> TRecyclerViewHolder -> 根据TRecyclerViewHolder里的res创建View ->
@@ -56,12 +83,14 @@ public abstract class TRecyclerAdapter<T> extends RecyclerView.Adapter<TRecycler
      */
     static class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
-        private TRecyclerViewHolder item;
+        private TRecyclerViewHolder mTViewHolder;
 
-        RecyclerViewHolder(Context context, ViewGroup parent, TRecyclerAdapter adapter, TRecyclerViewHolder item) {
-            super(LayoutInflater.from(context).inflate(item.getLayoutResId(), parent, false));
-            this.item = item;
-            this.item.bindViews(itemView, adapter);
+        RecyclerViewHolder(LayoutInflater inflater, ViewGroup parent, TRecyclerAdapter adapter, TRecyclerViewHolder item) {
+            super(inflater.inflate(item.getLayoutResId(), parent, false));
+            this.mTViewHolder = item;
+            this.mTViewHolder.bindViews(itemView, adapter);
         }
     }
+
+
 }

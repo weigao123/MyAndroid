@@ -1,4 +1,4 @@
-package com.garfield.weishu.ui.fragment;
+package com.garfield.weishu.news;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.garfield.weishu.R;
+import com.garfield.weishu.ui.fragment.AppBaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;

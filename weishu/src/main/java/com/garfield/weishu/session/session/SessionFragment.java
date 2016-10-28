@@ -1,4 +1,4 @@
-package com.garfield.weishu.ui.fragment;
+package com.garfield.weishu.session.session;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -6,9 +6,7 @@ import android.view.View;
 import android.view.animation.Animation;
 
 import com.garfield.weishu.R;
-import com.garfield.weishu.session.session.InputPanel;
-import com.garfield.weishu.session.session.MessageListPanel;
-import com.garfield.weishu.session.session.ModuleProxy;
+import com.garfield.weishu.ui.fragment.AppBaseFragment;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;

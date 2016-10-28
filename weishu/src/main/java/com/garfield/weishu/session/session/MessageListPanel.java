@@ -11,7 +11,6 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.garfield.baselib.adapter.DividerItemDecoration;
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.listview.TListAdapterDelegate;
 import com.garfield.weishu.base.listview.TListViewHolder;
 import com.garfield.weishu.base.listview.AutoRefreshListView;
 import com.garfield.weishu.base.listview.ListViewUtil;
@@ -43,7 +42,7 @@ import butterknife.ButterKnife;
  * Created by gaowei3 on 2016/9/26.
  */
 
-public class MessageListPanel implements TListAdapterDelegate {
+public class MessageListPanel {
     private List<IMMessage> items = new ArrayList<>();
 
     @BindView(R.id.fragment_session_list)
@@ -69,7 +68,7 @@ public class MessageListPanel implements TListAdapterDelegate {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
             messageListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         }
-        adapter = new MsgListAdapter(rootView.getContext(), items, this);
+        adapter = new MsgListAdapter(rootView.getContext(), items);
         adapter.setEventListener(new HolderEventListener());
         messageListView.setAdapter(adapter);
         messageListView.setOnRefreshListener(new MessageLoader(null));
@@ -115,21 +114,6 @@ public class MessageListPanel implements TListAdapterDelegate {
         return message.getSessionType() == sessionType
                 && message.getSessionId() != null
                 && message.getSessionId().equals(account);
-    }
-
-    @Override
-    public int getViewTypeCount() {
-        return MsgViewHolderFactory.getViewTypeCount();
-    }
-
-    @Override
-    public Class<? extends TListViewHolder> getViewHolderClassAtPosition(int position) {
-        return MsgViewHolderFactory.getViewHolderByType(items.get(position));
-    }
-
-    @Override
-    public boolean enabled(int position) {
-        return false;
     }
 
     private void registerObservers(boolean register) {

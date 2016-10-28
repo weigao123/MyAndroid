@@ -16,7 +16,7 @@ public abstract class TListViewHolder<T> {
     /**
      * 入口
      */
-    public View bindViews(LayoutInflater inflater, TListAdapter adapter) {
+    View bindViews(LayoutInflater inflater, TListAdapter adapter) {
         mRootView = inflater.inflate(getResId(), null);
         mAdapter = adapter;
         inflateView();
@@ -24,7 +24,7 @@ public abstract class TListViewHolder<T> {
         return mRootView;
     }
 
-    public void refresh(T item, int position) {
+    void refresh(T item, int position) {
         mPosition = position;
         refresh(item);
     }
@@ -33,7 +33,7 @@ public abstract class TListViewHolder<T> {
 
     protected abstract void inflateView();
 
-    public abstract void setView();
+    protected abstract void setView();
 
     protected abstract void refresh(T item);
 

@@ -11,25 +11,25 @@ public abstract class TRecyclerViewHolder<T> {
     protected int mPosition;
     protected TRecyclerAdapter mAdapter;
 
-    public void bindViews(View rootView, TRecyclerAdapter adapter) {
+    void bindViews(View rootView, TRecyclerAdapter adapter) {
         mRootView = rootView;
         mAdapter = adapter;
         inflateView();
         setView();
     }
 
-    public void refresh(T t, int position) {
+    void refresh(T t, int position) {
         mPosition = position;
         refresh(t);
     }
 
-    public abstract int getLayoutResId();
+    protected abstract int getLayoutResId();
 
     protected abstract void inflateView();
 
-    public abstract void setView();
+    protected abstract void setView();
 
-    public abstract void refresh(T t);
+    protected abstract void refresh(T t);
 
     protected abstract TRecyclerAdapter getAdapter();
 

@@ -1,4 +1,4 @@
-package com.garfield.weishu.ui.fragment;
+package com.garfield.weishu.setting;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.garfield.weishu.nim.cache.UserUpdateHelper;
+import com.garfield.weishu.ui.fragment.AppBaseFragment;
 import com.garfield.weishu.ui.view.HeadImageView;
 import com.netease.nimlib.sdk.AbortableFuture;
 import com.netease.nimlib.sdk.NIMClient;

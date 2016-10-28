@@ -20,13 +20,8 @@ public class SessionListAdapter extends TRecyclerAdapter<RecentContact> {
     }
 
     @Override
-    public int getItemType(RecentContact contact) {
-        return 0;
-    }
-
-    @Override
-    public TRecyclerViewHolder createItem(int type) {
-        return new SessionListViewHolder();
+    public Class getViewHolderClassAtPosition(int position) {
+        return SessionListViewHolder.class;
     }
 
     public void setEventListener(SessionListEventListener eventListener) {
