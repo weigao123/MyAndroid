@@ -4,20 +4,23 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.garfield.baselib.R;
+import com.garfield.baselib.base.BaseFragment;
 import com.garfield.baselib.fragmentation.anim.DefaultNoAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.swipeback.SwipeBackFragment;
+import com.garfield.baselib.swipeback.SwipeBackLayout;
 import com.garfield.baselib.utils.InputUtils;
 
 /**
  * Created by gaowei3 on 2016/7/22.
  */
-public class SupportFragment extends SwipeBackFragment implements ISupport {
+public class SupportFragment extends BaseFragment implements ISupport {
 
     private static final String STATE_SAVE_IS_HIDDEN = "STATE_SAVE_IS_HIDDEN";
 
@@ -110,6 +113,13 @@ public class SupportFragment extends SwipeBackFragment implements ISupport {
         return mContainerId;
     }
 
+    /**
+     * 正在pop back时，返回true，用于滑动关闭时无动画
+     */
+    protected boolean isFragmentSwipeBacking() {
+        return false;
+    }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -162,6 +172,11 @@ public class SupportFragment extends SwipeBackFragment implements ISupport {
     @Override
     public SupportFragment getTopFragment() {
         return mFragmentHelper.getTopFragment(getFragmentManager());
+    }
+
+    @Override
+    public SupportFragment getPreOfTopFragment() {
+        return mFragmentHelper.getPreOfTopFragment(getFragmentManager());
     }
 
     @Override

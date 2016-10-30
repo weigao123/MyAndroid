@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.garfield.baselib.R;
+import com.garfield.baselib.fragmentation.SupportFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -267,9 +268,11 @@ public class SwipeBackLayout extends FrameLayout {
             // computeScroll里的修改保证mScrollPercent>1后，就停止滑动，不再执行此方法
             if (mScrollPercent > 1) {
                 setFragmentSwipeBacking(true);
-                FragmentManager manager = mFragment.getFragmentManager();
+                //FragmentManager manager = mFragment.getFragmentManager();
                 // 相当于commit置反，把mFragment置remove，mPreFragment置show
-                manager.popBackStackImmediate();
+                //manager.popBackStackImmediate();
+
+                ((SupportFragment) mFragment).popFragment();
                 setFragmentSwipeBacking(false);
             }
             handlePreFragment();

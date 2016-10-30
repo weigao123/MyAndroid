@@ -3,6 +3,7 @@ package com.garfield.weishu.session.sessionlist;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -10,10 +11,13 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.garfield.baselib.adapter.DividerItemDecoration;
+import com.garfield.baselib.utils.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
+import com.garfield.weishu.base.recyclerview.RecyclerViewHolder;
+import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
+import com.garfield.weishu.nim.NimConfig;
 import com.garfield.weishu.nim.cache.UserInfoCache;
-import com.garfield.weishu.session.sessionlist.SessionListAdapter;
 import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.FriendDataCache;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
@@ -26,6 +30,7 @@ import com.netease.nimlib.sdk.auth.AuthServiceObserver;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 
 import java.util.ArrayList;
@@ -51,6 +56,7 @@ public class SessionListFragment extends AppBaseFragment {
     LinearLayout mNoSessionRecord;
 
     private List<RecentContact> items;
+    private RecyclerView recyclerView;
     private SessionListAdapter adapter;
     private boolean msgLoaded = false;
     private List<RecentContact> loadedRecents;
@@ -62,16 +68,16 @@ public class SessionListFragment extends AppBaseFragment {
 
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
-        RecyclerView becyclerView = (RecyclerView) rootView.findViewById(R.id.session_list_recyclerview);
-        becyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.session_list_recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         // 动画
-        // becyclerView.setItemAnimator(new DefaultItemAnimator());
+        // recyclerView.setItemAnimator(new DefaultItemAnimator());
         // 分隔线，与item分离，设置背景的时候无法把分割线包含
-        // becyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL_LIST));
+        // recyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL_LIST));
 
         items = new ArrayList<>();
         adapter = new SessionListAdapter(mActivity, items);
-        becyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
         adapter.setEventListener(new SessionListAdapter.SessionListEventListener() {
             @Override
             public void onItemClick(final RecentContact recentContact) {
@@ -84,15 +90,30 @@ public class SessionListFragment extends AppBaseFragment {
             }
 
             @Override
-            public void onItemLongPressed(RecentContact recentContact) {
+            public void onItemLongPressed(final RecentContact recent) {
                 MaterialDialog dialog = new MaterialDialog.Builder(getContext())
-                        .items(R.array.session_menu1)
+                        .items(isTagSet(recent, RECENT_TAG_STICKY)? R.array.session_menu2 : R.array.session_menu1)
                         .listSelector(R.drawable.bg_press_gray)
                         .itemsColorRes(R.color.black)
                         .itemsCallback(new MaterialDialog.ListCallback() {
                             @Override
                             public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
-
+                                if (TextUtils.equals(text, getResources().getText(R.string.stick_top_chat))) {
+                                    addTag(recent, RECENT_TAG_STICKY);
+                                    NIMClient.getService(MsgService.class).updateRecent(recent);
+                                    refreshMessages(true);
+                                }
+                                if (TextUtils.equals(text, getResources().getText(R.string.cancel_stick_top_chat))) {
+                                    removeTag(recent, RECENT_TAG_STICKY);
+                                    NIMClient.getService(MsgService.class).updateRecent(recent);
+                                    refreshMessages(true);
+                                }
+                                if (TextUtils.equals(text, getResources().getText(R.string.delete_chat))) {
+                                    NIMClient.getService(MsgService.class).deleteRecentContact(recent);
+                                    NIMClient.getService(MsgService.class).clearChattingHistory(recent.getContactId(), recent.getSessionType());
+                                    items.remove(recent);
+                                    refreshMessages(false);
+                                }
                             }
                         })
                         .build();
@@ -106,6 +127,20 @@ public class SessionListFragment extends AppBaseFragment {
 
         registerObservers(true);
         requestMessages(true);
+    }
+
+    private void addTag(RecentContact recent, long tag) {
+        tag = recent.getTag() | tag;
+        recent.setTag(tag);
+    }
+
+    private void removeTag(RecentContact recent, long tag) {
+        tag = recent.getTag() & ~tag;
+        recent.setTag(tag);
+    }
+
+    private boolean isTagSet(RecentContact recent, long tag) {
+        return (recent.getTag() & tag) == tag;
     }
 
     private void requestMessages(boolean delay) {
@@ -151,10 +186,17 @@ public class SessionListFragment extends AppBaseFragment {
 
         MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
         service.observeRecentContact(sessionObserver, register);
+        service.observeMsgStatus(statusObserver, register);
+        service.observeRecentContactDeleted(deleteObserver, register);
+        //service.observeRevokeMessage(revokeMessageObserver, register);
+
         FriendDataCache.getInstance().registerFriendDataChangedObserver(friendDataChangedObserver, register);
         UserInfoCache.getInstance().registerUserInfoChangedObserver(userInfoChangedObserver, register);
     }
 
+    /**
+     * 只要会话创建或开始发送(中)就回调，但是发送成功后并不回调
+     */
     private Observer<List<RecentContact>> sessionObserver = new Observer<List<RecentContact>>() {
         @Override
         public void onEvent(List<RecentContact> messages) {
@@ -168,6 +210,7 @@ public class SessionListFragment extends AppBaseFragment {
                         break;
                     }
                 }
+                // 旧的替换成新的
                 if (index >= 0) {
                     items.remove(index);
                 }
@@ -177,8 +220,65 @@ public class SessionListFragment extends AppBaseFragment {
         }
     };
 
+    /**
+     * 需要发送成功后主动改recent状态
+     */
+    private Observer<IMMessage> statusObserver = new Observer<IMMessage>() {
+        @Override
+        public void onEvent(IMMessage message) {
+            int index = -1;
+            for (int i = 0; i < items.size(); i++) {
+                RecentContact item = items.get(i);
+                if (TextUtils.equals(item.getRecentMessageId(), message.getUuid())) {
+                    index = i;
+                }
+            }
+            if (index >= 0 && index < items.size()) {
+                RecentContact item = items.get(index);
+                item.setMsgStatus(message.getStatus());
+                refreshViewHolderByIndex(index);
+            }
+        }
+    };
 
-    FriendDataCache.FriendDataChangedObserver friendDataChangedObserver = new FriendDataCache.FriendDataChangedObserver() {
+    private void refreshViewHolderByIndex(final int index) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                RecyclerViewHolder viewHolder = (RecyclerViewHolder) recyclerView.findViewHolderForAdapterPosition(index);
+                if (viewHolder != null) {
+                    viewHolder.refresh();
+                }
+            }
+        });
+    }
+
+    /**
+     * 删除一个会话，如果是null就是清空，在清空数据库时会回调
+     */
+    private Observer<RecentContact> deleteObserver = new Observer<RecentContact>() {
+        @Override
+        public void onEvent(RecentContact recentContact) {
+            if (recentContact != null) {
+                for (RecentContact item : items) {
+                    if (TextUtils.equals(item.getContactId(), recentContact.getContactId())
+                            && item.getSessionType() == recentContact.getSessionType()) {
+                        items.remove(item);
+                        refreshMessages(true);
+                        break;
+                    }
+                }
+            } else {
+                items.clear();
+                refreshMessages(true);
+            }
+        }
+    };
+
+    /**
+     * 不知道干啥用
+     */
+    private FriendDataCache.FriendDataChangedObserver friendDataChangedObserver = new FriendDataCache.FriendDataChangedObserver() {
         @Override
         public void onAddedOrUpdatedFriends(List<String> accounts) {
             refreshMessages(false);
@@ -207,12 +307,10 @@ public class SessionListFragment extends AppBaseFragment {
         }
     };
 
-    private void refreshMessages(boolean unreadChanged) {
-        sortRecentContacts(items);
-        notifyDataSetChanged();
-    }
-
-    private void notifyDataSetChanged() {
+    private void refreshMessages(boolean sort) {
+        if (sort) {
+            sortRecentContacts(items);
+        }
         adapter.notifyDataSetChanged();
         boolean empty = items.isEmpty() && msgLoaded;
         mNoSessionRecord.setVisibility(empty ? View.VISIBLE : View.GONE);
@@ -281,42 +379,11 @@ public class SessionListFragment extends AppBaseFragment {
         RegisterAndLogin.logout(mActivity);
     }
 
-    private void enableMsgNotification(boolean enable) {
-        if (enable) {
-            // {MSG_CHATTING_ACCOUNT_NONE} 目前没有与任何人对话，需要状态栏消息通知
-            NIMClient.getService(MsgService.class).setChattingAccount(MsgService.MSG_CHATTING_ACCOUNT_NONE, SessionTypeEnum.None);
-        } else {
-            // {MSG_CHATTING_ACCOUNT_ALL} 目前没有与任何人对话，但能看到消息提醒（比如在消息列表界面），不需要在状态栏做消息通知
-            NIMClient.getService(MsgService.class).setChattingAccount(MsgService.MSG_CHATTING_ACCOUNT_ALL, SessionTypeEnum.None);
-        }
-    }
-
-    private void deleteSession(RecentContact recent) {
-        NIMClient.getService(MsgService.class).deleteRecentContact(recent);
-        NIMClient.getService(MsgService.class).clearChattingHistory(recent.getContactId(), recent.getSessionType());
-        items.remove(recent);
-
-        if (recent.getUnreadCount() > 0) {
-            refreshMessages(true);
-        } else {
-            notifyDataSetChanged();
-        }
-    }
-
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-    }
 
     @Override
     public void onResume() {
         super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
+        NimConfig.nofityWithNoTopBar();
     }
 
     @Override

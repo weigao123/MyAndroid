@@ -20,16 +20,24 @@ public class FragmentHelper {
 
     public static final String FRAGMENT_ARG_CONTAINER = "fragment_arg_container";
     static final String ARG_RESULT_RECORD = "fragment_arg_result_record";
+    private int rootId;
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
+    private SupportActivity mActivity;
+
+    public FragmentHelper(SupportActivity activity) {
+        mActivity = activity;
+    }
 
     void loadRootFragment(FragmentManager fragmentManager, int containerId, SupportFragment to) {
+        mActivity.onSwitchToFragment(to);
         bindContainerId(containerId, to);
         FragmentTransaction ft = fragmentManager.beginTransaction();
         //根Fragment不能设置动画
         //ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         String toClassName = to.getClass().getName();
         ft.add(containerId, to, toClassName);
+        ft.addToBackStack(toClassName);
         ft.commit();
     }
 
@@ -60,6 +68,7 @@ public class FragmentHelper {
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         String toClassName = to.getClass().getName();
         bindContainerId(from.getContainerId(), to);
+        mActivity.onSwitchToFragment(to);
         ft.add(from.getContainerId(), to, toClassName);
         ft.hide(from);
         ft.addToBackStack(toClassName);
@@ -96,30 +105,36 @@ public class FragmentHelper {
         return (SupportFragment) fragment;
     }
 
+    /**
+     * 返回到上一个
+     */
     void popBack(FragmentManager fragmentManager) {
-        Fragment targetFragment = getPreFragment(getTopFragment(fragmentManager));
+        SupportFragment targetFragment = getPreOfTopFragment(fragmentManager);
+        mActivity.onSwitchToFragment(targetFragment);
         fragmentManager.popBackStackImmediate();
-        if (targetFragment != null) {
-            SupportFragment supportFragment = (SupportFragment) targetFragment;
-            supportFragment.onFragmentResult(supportFragment.getFragmentResult());
+        if (targetFragment != null && targetFragment.getFragmentResult() != null) {
+            targetFragment.onFragmentResult(targetFragment.getFragmentResult());
         }
     }
 
+    /**
+     * 返回到特定的某一个
+     */
     void popToFragment(final FragmentManager fragmentManager, Class<?> fragmentClass, boolean includeSelf) {
         int flag;
         SupportFragment thisFragment = getTopFragment(fragmentManager);
-        Fragment targetFragment = fragmentManager.findFragmentByTag(fragmentClass.getName());
-        if (includeSelf) {
+        SupportFragment targetFragment = (SupportFragment) fragmentManager.findFragmentByTag(fragmentClass.getName());
+        mActivity.onSwitchToFragment(targetFragment);
+        if (false) {
+            //暂时不用
             flag = FragmentManager.POP_BACK_STACK_INCLUSIVE;
             targetFragment = getPreFragment(targetFragment);
         } else {
             flag = 0;
         }
         fragmentManager.popBackStackImmediate(fragmentClass.getName(), flag);
-        if (targetFragment != null && targetFragment instanceof SupportFragment && thisFragment != null) {
-            if (thisFragment.getFragmentResult() != null) {
-                ((SupportFragment) targetFragment).onFragmentResult(thisFragment.getFragmentResult());
-            }
+        if (targetFragment != null && thisFragment != null && thisFragment.getFragmentResult() != null) {
+            targetFragment.onFragmentResult(thisFragment.getFragmentResult());
         }
     }
 
@@ -127,18 +142,27 @@ public class FragmentHelper {
         FragmentTransactionBugFixHack.reorderIndices(fragmentManager);
         List<Fragment> fragmentList = fragmentManager.getFragments();
         if (fragmentList == null) return null;
-
+        /**
+         * 有时候size=2，但是只有一个value，这时fragment可以为null，会跳过
+         */
         for (int i = fragmentList.size() - 1; i >= 0; i--) {
             Fragment fragment = fragmentList.get(i);
             if (fragment instanceof SupportFragment) {
+                //L.d(fragment.getClass().getSimpleName());
                 return (SupportFragment) fragment;
             }
         }
         return null;
     }
 
+    SupportFragment getPreOfTopFragment(FragmentManager fragmentManager) {
+        return getPreFragment(getTopFragment(fragmentManager));
+    }
+
     private SupportFragment getPreFragment(Fragment fragment) {
-        FragmentTransactionBugFixHack.reorderIndices(fragment.getFragmentManager());
+        if (fragment == null) return null;
+        //调用getPre时，getTop都已经执行过了
+        //FragmentTransactionBugFixHack.reorderIndices(fragment.getFragmentManager());
         List<Fragment> fragmentList = fragment.getFragmentManager().getFragments();
         if (fragmentList == null) return null;
 

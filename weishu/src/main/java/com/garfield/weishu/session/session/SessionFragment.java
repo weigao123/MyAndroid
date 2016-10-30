@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.animation.Animation;
 
 import com.garfield.weishu.R;
+import com.garfield.weishu.nim.NimConfig;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
@@ -53,14 +54,14 @@ public class SessionFragment extends AppBaseFragment implements ModuleProxy {
         return fragment;
     }
 
-    @Override
-    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
-        Animation animation = super.onCreateAnimation(transit, enter, nextAnim);
-        if (transit == FragmentTransaction.TRANSIT_FRAGMENT_OPEN && enter && animation.getDuration() > 100) {
-            animation.setStartOffset(300);
-        }
-        return animation;
-    }
+//    @Override
+//    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+//        Animation animation = super.onCreateAnimation(transit, enter, nextAnim);
+//        if (transit == FragmentTransaction.TRANSIT_FRAGMENT_OPEN && enter && animation.getDuration() > 100) {
+//            animation.setStartOffset(300);
+//        }
+//        return animation;
+//    }
 
     private void registerObservers(boolean register) {
         MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
@@ -114,18 +115,6 @@ public class SessionFragment extends AppBaseFragment implements ModuleProxy {
     @Override
     public boolean isLongClickEnabled() {
         return false;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        NIMClient.getService(MsgService.class).setChattingAccount(mAccount, SessionTypeEnum.P2P);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        NIMClient.getService(MsgService.class).setChattingAccount(MsgService.MSG_CHATTING_ACCOUNT_NONE, SessionTypeEnum.None);
     }
 
     @Override

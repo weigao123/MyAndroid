@@ -15,6 +15,9 @@ import android.widget.LinearLayout;
 
 import com.garfield.baselib.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BottomBar extends LinearLayout {
     private static final int TRANSLATE_DURATION_MILLIS = 200;
 
@@ -28,6 +31,8 @@ public class BottomBar extends LinearLayout {
     private LayoutParams mTabParams;
     private int mCurrentPosition = 0;
     private OnTabSelectedListener mListener;
+
+    private List<BottomBarTab> bottomBarTabList = new ArrayList<>();
 
     public BottomBar(Context context) {
         this(context, null);
@@ -79,6 +84,7 @@ public class BottomBar extends LinearLayout {
 
     public BottomBar addItem(int resource, String content) {
         final BottomBarTab tab = new BottomBarTab(getContext(), resource, content, mUnSelectedColor, mSelectedColor);
+        bottomBarTabList.add(tab);
         tab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,7 +112,14 @@ public class BottomBar extends LinearLayout {
         mListener = onTabSelectedListener;
     }
 
-    public void setCurrentItem(final int position) {
+    public void setTabSelected(int position) {
+        if (position == mCurrentPosition) return;
+        bottomBarTabList.get(mCurrentPosition).setSelected(false);
+        bottomBarTabList.get(position).setSelected(true);
+        mCurrentPosition = position;
+    }
+
+    public void performClickItem(final int position) {
         mTabLayout.post(new Runnable() {
             @Override
             public void run() {

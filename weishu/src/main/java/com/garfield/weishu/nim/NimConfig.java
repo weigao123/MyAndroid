@@ -14,13 +14,14 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.netease.nimlib.sdk.auth.LoginInfo;
+import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 
 /**
  * Created by gaowei3 on 2016/9/6.
  */
-public class NimInit {
+public class NimConfig {
 
     public static void initSDK(Context context) {
         NIMClient.init(context, getLoginInfo(), getOptions());
@@ -98,5 +99,19 @@ public class NimInit {
         }
     }
 
+
+    public static void nofityWithTopBar() {
+        // {MSG_CHATTING_ACCOUNT_NONE} 目前没有与任何人对话，需要状态栏消息通知
+        NIMClient.getService(MsgService.class).setChattingAccount(MsgService.MSG_CHATTING_ACCOUNT_NONE, SessionTypeEnum.None);
+    }
+
+    public static void nofityWithTopWithout(String account) {
+        NIMClient.getService(MsgService.class).setChattingAccount(account, SessionTypeEnum.P2P);
+    }
+
+    public static void nofityWithNoTopBar() {
+        // {MSG_CHATTING_ACCOUNT_ALL} 目前没有与任何人对话，但能看到消息提醒（比如在消息列表界面），不需要在状态栏做消息通知
+        NIMClient.getService(MsgService.class).setChattingAccount(MsgService.MSG_CHATTING_ACCOUNT_ALL, SessionTypeEnum.None);
+    }
 
 }

@@ -8,9 +8,10 @@ import android.support.v4.widget.ViewDragHelper;
 import android.view.ViewGroup;
 
 import com.garfield.baselib.base.BaseActivity;
+import com.garfield.baselib.fragmentation.SupportActivity;
 
 
-public class SwipeBackActivity extends BaseActivity {
+public class SwipeBackActivity extends SupportActivity {
     public static final int EDGE_LEFT = ViewDragHelper.EDGE_LEFT;
     public static final int EDGE_RIGHT = ViewDragHelper.EDGE_RIGHT;
     public static final int EDGE_ALL = EDGE_LEFT | EDGE_RIGHT;

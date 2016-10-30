@@ -9,8 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import com.garfield.baselib.utils.SysInfoUtil;
+import com.garfield.baselib.utils.SystemUtil;
+import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.config.UserPreferences;
+import com.netease.nimlib.sdk.NimIntent;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
+
+import java.util.ArrayList;
 
 /**
  * Created by gaowei3 on 2016/9/6.
@@ -34,27 +41,36 @@ public class WelcomeActivity extends AppBaseActivity {
             //rootView.setFitsSystemWindows(true);
             //rootView.setClipToPadding(true);
         }
+        if (!(firstEnter && !isNotify())) {
+            onIntent();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                if (canAutoLogin()) {
-                    MainActivity.start(WelcomeActivity.this);
-                } else {
-                    startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
+        if (firstEnter && !isNotify()) {
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    onIntent();
                 }
-                finish();
-            }
-        };
-        if (true) {
+            };
             new Handler().postDelayed(runnable, 1000);
-        } else {
-            runnable.run();
         }
+    }
+
+    private boolean isNotify() {
+        return getIntent() != null && getIntent().hasExtra(NimIntent.EXTRA_NOTIFY_CONTENT);
+    }
+
+    private void onIntent() {
+        if (!canAutoLogin()) {
+            startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
+        } else {
+            MainActivity.start(WelcomeActivity.this, getIntent());
+        }
+        finish();
     }
 
     /**

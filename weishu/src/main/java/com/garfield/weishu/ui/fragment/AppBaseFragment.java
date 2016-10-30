@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -14,6 +15,8 @@ import android.widget.PopupWindow;
 import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
+import com.garfield.baselib.swipeback.SwipeBackFragment;
+import com.garfield.baselib.utils.L;
 import com.garfield.baselib.utils.SizeUtils;
 import com.garfield.weishu.R;
 import com.garfield.weishu.contact.ContactFragment;
@@ -29,7 +32,7 @@ import butterknife.Unbinder;
 /**
  * Created by gaowei3 on 2016/8/4.
  */
-public class AppBaseFragment extends SupportFragment {
+public class AppBaseFragment extends SwipeBackFragment {
 
     @Nullable @BindView(R.id.toolbar)
     Toolbar mToolbar;

@@ -1,9 +1,7 @@
 package com.garfield.weishu.ui.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.view.animation.Animation;
 
 import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
@@ -12,7 +10,7 @@ import com.garfield.baselib.ui.widget.BottomBar;
 import com.garfield.weishu.R;
 import com.garfield.weishu.contact.ContactFragment;
 import com.garfield.weishu.news.NewsListFragment;
-import com.garfield.weishu.session.session.SessionFragment;
+import com.garfield.weishu.nim.NimConfig;
 import com.garfield.weishu.session.sessionlist.SessionListFragment;
 import com.garfield.weishu.setting.SettingFragment;
 
@@ -29,6 +27,8 @@ import org.greenrobot.eventbus.EventBus;
 public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSelectedListener {
 
     private SupportFragment[] mFragments = new SupportFragment[4];
+    private int mCurrentPosition = 0;
+    private BottomBar bottomBar;
 
     @Override
     protected int onGetFragmentLayout() {
@@ -53,7 +53,7 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
             mFragments[3] = findFragment(SettingFragment.class);
         }
 
-        BottomBar bottomBar = (BottomBar) rootView.findViewById(R.id.bottomBar);
+        bottomBar = (BottomBar) rootView.findViewById(R.id.bottomBar);
         bottomBar.setColor(R.color.bottombar_item_unselect, R.color.colorPrimary)
                 .addItem(R.drawable.ic_message_white, "消息")
                 .addItem(R.drawable.ic_contact_white, "联系人")
@@ -62,9 +62,19 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
         bottomBar.setOnTabSelectedListener(this);
     }
 
+    public void switchToFirst() {
+        if (mCurrentPosition == 0) return;
+        updateNotification(0);
+        showHideFragment(mFragments[0], mFragments[mCurrentPosition]);
+        mCurrentPosition = 0;
+        bottomBar.setTabSelected(0);
+    }
+
     @Override
     public void onTabSelected(int position, int prePosition) {
+        updateNotification(position);
         showHideFragment(mFragments[position], mFragments[prePosition]);
+        mCurrentPosition = position;
     }
 
     @Override
@@ -77,6 +87,18 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
 
     }
 
+    private void updateNotification(int position) {
+        if (position == 0) {
+            NimConfig.nofityWithNoTopBar();
+        } else {
+            NimConfig.nofityWithTopBar();
+        }
+    }
+
+    public int getTabPosition() {
+        return mCurrentPosition;
+    }
+
     /**
      *  如果是根元素就不去动画，在loadRootFragment时没有设置setTransition
      */
@@ -85,17 +107,17 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
         return new DefaultHorizontalAnimator();
     }
 
-    @Override
-    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
-        Animation animation = super.onCreateAnimation(transit, enter, nextAnim);
-        Class topClass = getTopFragment().getClass();
-        if (topClass == SessionFragment.class) {
-            if (transit == FragmentTransaction.TRANSIT_FRAGMENT_OPEN && !enter && animation.getDuration() > 100) {
-                animation.setStartOffset(300);
-            }
-        }
-        return animation;
-    }
+//    @Override
+//    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+//        Animation animation = super.onCreateAnimation(transit, enter, nextAnim);
+//        Class topClass = getTopFragment().getClass();
+//        if (topClass == SessionFragment.class) {
+//            if (transit == FragmentTransaction.TRANSIT_FRAGMENT_OPEN && !enter && animation.getDuration() > 100) {
+//                animation.setStartOffset(300);
+//            }
+//        }
+//        return animation;
+//    }
 
     @Override
     public void onDestroy() {

@@ -1,4 +1,4 @@
-package com.garfield.weishu.ui.fragment;
+package com.garfield.weishu.contact;
 
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +10,7 @@ import com.garfield.baselib.ui.widget.ClearableEditText;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.nim.cache.UserInfoCache;
+import com.garfield.weishu.ui.fragment.AppBaseFragment;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 

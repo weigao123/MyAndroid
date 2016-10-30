@@ -9,7 +9,7 @@ import com.garfield.weishu.config.UserPreferences;
 import com.garfield.weishu.contact.query.PinYin;
 import com.garfield.weishu.nim.cache.DataCacheManager;
 import com.garfield.weishu.nim.cache.LoginSyncHelper;
-import com.garfield.weishu.nim.NimInit;
+import com.garfield.weishu.nim.NimConfig;
 import com.garfield.baselib.utils.SystemUtil;
 import com.garfield.weishu.ui.view.ImageLoaderKit;
 
@@ -29,7 +29,7 @@ public class MyApplication extends Application {
 
         Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
         ImageLoaderUtils.initImageLoader(this);
-        NimInit.initSDK(this);
+        NimConfig.initSDK(this);
 
         if (SystemUtil.inMainProcess(this)) {
             PinYin.init(this);

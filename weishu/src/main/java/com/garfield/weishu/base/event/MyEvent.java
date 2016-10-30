@@ -13,6 +13,7 @@ public class MyEvent {
         void onShowChangeInfo();
         void onShowTakePhoto();
         void onShowCropPhoto(String photoPath);
+        void onShowFullscreenPhoto(String photoPath);
     }
 
 

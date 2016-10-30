@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
 
 import com.garfield.baselib.fragmentation.SupportActivity;
+import com.garfield.baselib.swipeback.SwipeBackActivity;
 import com.garfield.weishu.R;
 
 import butterknife.BindView;
@@ -18,7 +19,7 @@ import butterknife.ButterKnife;
 /**
  * 要使用ButterKnife，就要重写一些方法
  */
-public class AppBaseActivity extends SupportActivity {
+public class AppBaseActivity extends SwipeBackActivity {
 
     @Nullable @BindView(R.id.toolbar)
     Toolbar mToolbar;

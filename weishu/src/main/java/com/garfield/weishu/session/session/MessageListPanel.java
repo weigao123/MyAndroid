@@ -10,6 +10,7 @@ import android.view.View;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.garfield.baselib.adapter.DividerItemDecoration;
+import com.garfield.baselib.utils.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.listview.TListViewHolder;
 import com.garfield.weishu.base.listview.AutoRefreshListView;
@@ -121,6 +122,9 @@ public class MessageListPanel {
         service.observeMsgStatus(messageStatusObserver, register);
     }
 
+    /**
+     * 发送时不会回调，只回调RecentContact，发送后状态改变才回调
+     */
     private Observer<IMMessage> messageStatusObserver = new Observer<IMMessage>() {
         @Override
         public void onEvent(IMMessage message) {

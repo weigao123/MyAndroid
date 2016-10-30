@@ -1,5 +1,6 @@
 package com.garfield.weishu.base.recyclerview;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
@@ -18,6 +19,9 @@ public abstract class TRecyclerViewHolder<T> {
         setView();
     }
 
+    /**
+     * 内部调用
+     */
     void refresh(T t, int position) {
         mPosition = position;
         refresh(t);
@@ -30,6 +34,11 @@ public abstract class TRecyclerViewHolder<T> {
     protected abstract void setView();
 
     protected abstract void refresh(T t);
+
+    /**
+     * 外部调用，刷新当前Holder
+     */
+    protected abstract void refresh();
 
     protected abstract TRecyclerAdapter getAdapter();
 

@@ -7,13 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import com.garfield.baselib.base.BaseActivity;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.swipeback.SwipeBackActivity;
+import com.garfield.baselib.utils.L;
 
 import java.util.List;
 
 /**
  * Created by gaowei3 on 2016/7/22.
  */
-public class SupportActivity extends SwipeBackActivity implements ISupport {
+public class SupportActivity extends BaseActivity implements ISupport {
 
     private FragmentAnimator mFragmentAnimator;
     private FragmentHelper mFragmentHelper;
@@ -38,7 +39,7 @@ public class SupportActivity extends SwipeBackActivity implements ISupport {
 
     public FragmentHelper getFragmentHelper() {
         if (mFragmentHelper == null) {
-            mFragmentHelper = new FragmentHelper();
+            mFragmentHelper = new FragmentHelper(this);
         }
         return mFragmentHelper;
     }
@@ -60,6 +61,7 @@ public class SupportActivity extends SwipeBackActivity implements ISupport {
         mFragmentHelper.loadMultiRootFragment(getSupportFragmentManager(), containerId, showPosition, toFragments);
     }
 
+    @Override
     public void showHideFragment(SupportFragment showFragment, SupportFragment hideFragment) {
         mFragmentHelper.showHideFragment(getSupportFragmentManager(), showFragment, hideFragment);
     }
@@ -90,7 +92,7 @@ public class SupportActivity extends SwipeBackActivity implements ISupport {
 
     @Override
     public void popFragment() {
-
+        mFragmentHelper.popBack(getSupportFragmentManager());
     }
 
     @Override
@@ -100,7 +102,7 @@ public class SupportActivity extends SwipeBackActivity implements ISupport {
 
     @Override
     public void popToFragment(Class<?> fragmentClass, boolean includeSelf) {
-
+        mFragmentHelper.popToFragment(getSupportFragmentManager(), fragmentClass, includeSelf);
     }
 
     @Override
@@ -108,31 +110,45 @@ public class SupportActivity extends SwipeBackActivity implements ISupport {
 
     }
 
-
-
-
-
     @Override
     public SupportFragment getTopFragment() {
         return mFragmentHelper.getTopFragment(getSupportFragmentManager());
     }
 
+    public SupportFragment getPreOfTopFragment() {
+        return mFragmentHelper.getPreOfTopFragment(getSupportFragmentManager());
+    }
+
     @Override
     public <T extends SupportFragment> T findFragment(Class<T> fragmentClass) {
-        return null;
+        return (T) mFragmentHelper.findStackFragment(getSupportFragmentManager(), fragmentClass);
     }
 
     public void setIsToBack(boolean isToBack) {
         mIsToBack = isToBack;
     }
+
+    /**
+     * 只提供第一层级的fragment
+     */
+    protected void onSwitchToFragment(Fragment fragment) {
+        if (fragment != null) {
+            L.d("onSwitchFragment: "+ fragment.getClass().getSimpleName());
+        } else {
+            L.d("onSwitchFragment: null");
+        }
+    }
+
     @Override
     public void onBackPressed() {
         if (getTopFragment().onBackPressed()) {
             return;
         }
-        if (getSupportFragmentManager().getBackStackEntryCount() >= 1) {
-            super.onBackPressed();
+        if (getSupportFragmentManager().getBackStackEntryCount() >= 2) {
+            //super.onBackPressed();
+            popFragment();
         } else {
+            onSwitchToFragment(null);
             if (mIsToBack)
                 moveTaskToBack(false);
             else

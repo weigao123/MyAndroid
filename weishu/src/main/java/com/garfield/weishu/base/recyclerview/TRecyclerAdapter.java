@@ -14,7 +14,7 @@ import java.util.Set;
  * Created by gaowei3 on 2016/10/27.
  */
 
-public abstract class TRecyclerAdapter<T> extends RecyclerView.Adapter<TRecyclerAdapter.RecyclerViewHolder> {
+public abstract class TRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerViewHolder> {
     private final Context mContext;
     private final List<T> mItems;
     private final Map<Class<?>, Integer> mViewTypes;
@@ -55,12 +55,17 @@ public abstract class TRecyclerAdapter<T> extends RecyclerView.Adapter<TRecycler
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-        holder.mTViewHolder.refresh(mItems.get(position), position);
+        holder.getTViewHolder().refresh(mItems.get(position), position);
     }
 
     @Override
     public int getItemCount() {
         return mItems.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
     }
 
     @Override
@@ -76,21 +81,5 @@ public abstract class TRecyclerAdapter<T> extends RecyclerView.Adapter<TRecycler
     }
 
     public abstract Class getViewHolderClassAtPosition(int position);
-
-    /**
-     * position -> type -> TRecyclerViewHolder -> 根据TRecyclerViewHolder里的res创建View ->
-     * 注入到RecyclerViewHolder -> 把View绑定到TRecyclerViewHolder上
-     */
-    static class RecyclerViewHolder extends RecyclerView.ViewHolder {
-
-        private TRecyclerViewHolder mTViewHolder;
-
-        RecyclerViewHolder(LayoutInflater inflater, ViewGroup parent, TRecyclerAdapter adapter, TRecyclerViewHolder item) {
-            super(inflater.inflate(item.getLayoutResId(), parent, false));
-            this.mTViewHolder = item;
-            this.mTViewHolder.bindViews(itemView, adapter);
-        }
-    }
-
 
 }

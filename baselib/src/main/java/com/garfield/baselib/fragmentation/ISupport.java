@@ -71,6 +71,11 @@ public interface ISupport {
     SupportFragment getTopFragment();
 
     /**
+     * @return 栈顶第二个Fragment
+     */
+    SupportFragment getPreOfTopFragment();
+
+    /**
      * @param fragmentClass 目标Fragment的Class
      * @param <T>           继承自SupportFragment的Fragment
      * @return 目标Fragment

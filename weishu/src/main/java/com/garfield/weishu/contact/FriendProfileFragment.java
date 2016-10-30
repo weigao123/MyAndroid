@@ -1,9 +1,8 @@
-package com.garfield.weishu.ui.fragment;
+package com.garfield.weishu.contact;
 
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,12 +13,14 @@ import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.nim.cache.FriendDataCache;
 import com.garfield.weishu.nim.cache.UserInfoCache;
+import com.garfield.weishu.ui.fragment.AppBaseFragment;
 import com.garfield.weishu.ui.view.HeadImageView;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.friend.FriendService;
 import com.netease.nimlib.sdk.friend.constant.VerifyType;
 import com.netease.nimlib.sdk.friend.model.AddFriendData;
+import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
 import butterknife.BindView;
@@ -33,6 +34,7 @@ import static com.garfield.weishu.AppCache.USER_ACCOUNT;
 public class FriendProfileFragment extends AppBaseFragment {
 
     private String mAccount;
+    private NimUserInfo mUserInfo;
 
     @BindView(R.id.fragment_friend_profile_head)
     HeadImageView mHeadImage;
@@ -67,7 +69,8 @@ public class FriendProfileFragment extends AppBaseFragment {
         super.onInitViewAndData(rootView, savedInstanceState);
         mAccount = getArguments().getString(USER_ACCOUNT);
         updateOperatorView(FriendDataCache.getInstance().isMyFriend(mAccount));
-        updateUserInfoView(UserInfoCache.getInstance().getUserInfoByAccount(mAccount));
+        mUserInfo = UserInfoCache.getInstance().getUserInfoByAccount(mAccount);
+        updateUserInfoView(mUserInfo);
     }
 
     @Override
@@ -185,4 +188,23 @@ public class FriendProfileFragment extends AppBaseFragment {
             mAddOrRemoveFriendBtn.setText(R.string.add_friend);
         }
     }
+
+    @OnClick(R.id.fragment_friend_profile_head)
+    void fullscreenPhoto() {
+        EventDispatcher.getFragmentJumpEvent().onShowFullscreenPhoto(mUserInfo.getAvatar());
+    }
+
+
+
+//    @Override
+//    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+//        Animation animation = super.onCreateAnimation(transit, enter, nextAnim);
+//        Class topClass = getTopFragment().getClass();
+//        if (topClass == SessionFragment.class) {
+//            if (transit == FragmentTransaction.TRANSIT_FRAGMENT_OPEN && !enter && animation.getDuration() > 100) {
+//                animation.setStartOffset(300);
+//            }
+//        }
+//        return animation;
+//    }
 }

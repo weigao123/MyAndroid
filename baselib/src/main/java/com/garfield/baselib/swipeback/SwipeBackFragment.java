@@ -7,11 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.garfield.baselib.base.BaseFragment;
+import com.garfield.baselib.fragmentation.SupportFragment;
 
 /**
  * Created by gaowei3 on 2016/8/24.
  */
-public class SwipeBackFragment extends BaseFragment {
+public class SwipeBackFragment extends SupportFragment {
 
     public static final int EDGE_LEFT = ViewDragHelper.EDGE_LEFT;
     public static final int EDGE_RIGHT = ViewDragHelper.EDGE_RIGHT;
