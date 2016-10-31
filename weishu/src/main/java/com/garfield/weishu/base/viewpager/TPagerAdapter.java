@@ -27,6 +27,10 @@ public abstract class TPagerAdapter<T> extends PagerAdapter {
         mRecycleBin = new RecycleBin(getViewTypeCount());
     }
 
+    public Context getContext() {
+        return mContext;
+    }
+
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         int viewType = getItemViewType(position);

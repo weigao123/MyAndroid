@@ -20,7 +20,7 @@ public class SwipeBackTestActivity extends SupportActivity {
     @Override
     public void onPostCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onPostCreate(savedInstanceState, persistentState);
-        attachToSwipeBack();
-        setSwipeBackEnable(true);
+        //attachToSwipeBack();
+        //setSwipeBackEnable(true);
     }
 }

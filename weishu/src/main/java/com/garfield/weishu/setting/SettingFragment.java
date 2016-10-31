@@ -3,8 +3,10 @@ package com.garfield.weishu.setting;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.garfield.baselib.ui.widget.SwitchButton;
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
@@ -35,6 +37,18 @@ public class SettingFragment extends AppBaseFragment {
 
     @BindView(R.id.fragment_setting_account)
     TextView mAccountText;
+
+    @BindView(R.id.fragment_setting_notify_switch)
+    SwitchButton mNofitySwitch;
+
+    @BindView(R.id.fragment_setting_sound_switch)
+    SwitchButton mSoundSwitch;
+
+    @BindView(R.id.fragment_setting_vibrate_switch)
+    SwitchButton mVibrateSwitch;
+
+    @BindView(R.id.fragment_setting_animator_switch)
+    SwitchButton mAnimatorSwitch;
 
     @Override
     protected int onGetFragmentLayout() {
@@ -79,6 +93,32 @@ public class SettingFragment extends AppBaseFragment {
             }
         }
     };
+
+
+    @OnClick(R.id.fragment_setting_notify)
+    void switchNofity() {
+
+    }
+    @OnClick(R.id.fragment_setting_sound)
+    void switchSound() {
+
+    }
+    @OnClick(R.id.fragment_setting_vibrate)
+    void switchVibrate() {
+
+    }
+    @OnClick(R.id.fragment_setting_animator)
+    void switchAnimator() {
+
+    }
+    @OnClick(R.id.fragment_setting_clear_message)
+    void clearMessage() {
+
+    }
+    @OnClick(R.id.fragment_setting_about)
+    void showAbout() {
+
+    }
 
     @Override
     public void onDestroyView() {
