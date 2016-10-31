@@ -9,7 +9,7 @@ import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.ui.widget.BottomBar;
 import com.garfield.weishu.R;
 import com.garfield.weishu.contact.ContactFragment;
-import com.garfield.weishu.news.NewsListFragment;
+import com.garfield.weishu.news.NewsFragment;
 import com.garfield.weishu.nim.NimConfig;
 import com.garfield.weishu.session.sessionlist.SessionListFragment;
 import com.garfield.weishu.setting.SettingFragment;
@@ -28,7 +28,7 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
 
     private SupportFragment[] mFragments = new SupportFragment[4];
     private int mCurrentPosition = 0;
-    private BottomBar bottomBar;
+    private BottomBar mBottomBar;
 
     @Override
     protected int onGetFragmentLayout() {
@@ -43,23 +43,23 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
         if (savedInstanceState == null) {
             mFragments[0] = new SessionListFragment();
             mFragments[1] = new ContactFragment();
-            mFragments[2] = new NewsListFragment();
+            mFragments[2] = new NewsFragment();
             mFragments[3] = new SettingFragment();
             loadMultiRootFragment(R.id.main_fragment_container, 0, mFragments[0], mFragments[1], mFragments[2], mFragments[3]);
         } else {
             mFragments[0] = findFragment(SessionListFragment.class);
             mFragments[1] = findFragment(ContactFragment.class);
-            mFragments[2] = findFragment(NewsListFragment.class);
+            mFragments[2] = findFragment(NewsFragment.class);
             mFragments[3] = findFragment(SettingFragment.class);
         }
 
-        bottomBar = (BottomBar) rootView.findViewById(R.id.bottomBar);
-        bottomBar.setColor(R.color.bottombar_item_unselect, R.color.colorPrimary)
+        mBottomBar = (BottomBar) rootView.findViewById(R.id.bottomBar);
+        mBottomBar.setColor(R.color.bottombar_item_unselect, R.color.colorPrimary)
                 .addItem(R.drawable.ic_message_white, "消息")
                 .addItem(R.drawable.ic_contact_white, "联系人")
                 .addItem(R.drawable.ic_news_white, "新闻")
                 .addItem(R.drawable.ic_settings_white, "设置");
-        bottomBar.setOnTabSelectedListener(this);
+        mBottomBar.setOnTabSelectedListener(this);
     }
 
     public void switchToFirst() {
@@ -67,7 +67,7 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
         updateNotification(0);
         showHideFragment(mFragments[0], mFragments[mCurrentPosition]);
         mCurrentPosition = 0;
-        bottomBar.setTabSelected(0);
+        mBottomBar.setTabSelected(0);
     }
 
     @Override

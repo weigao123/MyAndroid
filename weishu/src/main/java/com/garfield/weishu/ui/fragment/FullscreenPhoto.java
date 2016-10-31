@@ -40,7 +40,7 @@ public class FullscreenPhoto extends AppBaseFragment {
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
-        mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         mPhotoPath = getArguments().getString(INFO_HEAD);
         ImageLoader.getInstance().displayImage(mPhotoPath, mFullscreenPhoto);
@@ -50,6 +50,6 @@ public class FullscreenPhoto extends AppBaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //mActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 }

@@ -1,4 +1,4 @@
-package com.garfield.weishu.news;
+package com.garfield.weishu.news.old;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -21,7 +21,7 @@ public class NewsListFragment extends AppBaseFragment {
 
     @Override
     protected int onGetFragmentLayout() {
-        return R.layout.fragment_news;
+        return R.layout.fragment_news_pager;
     }
 
     @Override

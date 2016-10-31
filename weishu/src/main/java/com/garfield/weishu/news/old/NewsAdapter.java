@@ -1,4 +1,4 @@
-package com.garfield.weishu.news;
+package com.garfield.weishu.news.old;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

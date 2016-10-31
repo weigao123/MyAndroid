@@ -1,4 +1,4 @@
-package com.garfield.weishu.news;
+package com.garfield.weishu.news.old;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.garfield.weishu.R;
-import com.garfield.weishu.news.NewsAdapter;
 import com.garfield.weishu.bean.ContactBean;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 

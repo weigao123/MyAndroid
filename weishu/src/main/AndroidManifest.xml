@@ -35,7 +35,7 @@
         android:theme="@style/AppTheme"
         android:icon="@drawable/ic_launcher">
         <activity
-            android:name=".ui.activity.WelcomeActivity" >
+            android:name=".ui.activity.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -43,11 +43,9 @@
         </activity>
         <activity
             android:name=".ui.activity.LoginActivity" />
-
         <activity
-            android:name=".ui.activity.MainActivity" />
-
-
+            android:name=".ui.activity.MainActivity"
+            android:launchMode="singleTask"/>
 
 
 

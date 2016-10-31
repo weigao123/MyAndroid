@@ -51,6 +51,9 @@ public abstract class TListAdapter<T> extends BaseAdapter {
         return position;
     }
 
+    /**
+     * 会自动根据position确认type，然后自动去寻找这个type的缓存View
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         return getView(position, convertView, parent, true);

@@ -47,6 +47,11 @@ public class WelcomeActivity extends AppBaseActivity {
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         if (firstEnter && !isNotify()) {

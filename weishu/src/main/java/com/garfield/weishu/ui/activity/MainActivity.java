@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import com.garfield.baselib.fragmentation.FragmentHelper;
 import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.baselib.ui.dialog.DialogMaker;
+import com.garfield.baselib.utils.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.StartBrotherEvent;
 import com.garfield.weishu.nim.NimConfig;
@@ -36,7 +37,7 @@ public class MainActivity extends AppBaseActivity {
     public static void start(Context context, Intent extras) {
         Intent intent = new Intent();
         intent.setClass(context, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_);
         if (extras != null) {
             intent.putExtras(extras);
         }
@@ -106,21 +107,22 @@ public class MainActivity extends AppBaseActivity {
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
-        MainFragment mainFragment = findFragment(MainFragment.class);
-        if (mainFragment != null) {
-            if (mCurrentFragment != null && mCurrentFragment != mainFragment) {
-                popToFragment(MainFragment.class, false);
-            }
-            mainFragment.switchToFirst();
+        Fragment topFragment = getTopFragment();
+        if (topFragment.getClass() == MainFragment.class) {
+            ((MainFragment) topFragment).switchToFirst();
         }
-        NimConfig.nofityWithNoTopBar();
+        updateNotification(topFragment);
+
+//        MainFragment mainFragment = findFragment(MainFragment.class);
+//        if (mainFragment != null) {
+//            if (mCurrentFragment != null && mCurrentFragment != mainFragment) {
+//                popToFragment(MainFragment.class, false);
+//            }
+//            mainFragment.switchToFirst();
+//        }
+//        NimConfig.nofityWithNoTopBar();
     }
 
     @Override

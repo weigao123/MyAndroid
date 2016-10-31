@@ -7,20 +7,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
-import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.swipeback.SwipeBackFragment;
-import com.garfield.baselib.utils.L;
 import com.garfield.baselib.utils.SizeUtils;
 import com.garfield.weishu.R;
 import com.garfield.weishu.contact.ContactFragment;
-import com.garfield.weishu.news.NewsTabFragment;
+import com.garfield.weishu.news.old.NewsTabFragment;
 import com.garfield.weishu.session.sessionlist.SessionListFragment;
 import com.garfield.weishu.setting.SettingFragment;
 
