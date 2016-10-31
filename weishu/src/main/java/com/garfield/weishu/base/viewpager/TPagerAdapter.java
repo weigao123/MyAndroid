@@ -24,14 +24,7 @@ public abstract class TPagerAdapter<T> extends PagerAdapter {
         mItems = items;
         mViewTypes = new HashMap<>();
         mInflater = LayoutInflater.from(context);
-        mRecycleBin = new RecycleBin();
-        mRecycleBin.setViewTypeCount(getViewTypeCount());
-    }
-
-    @Override
-    public void notifyDataSetChanged() {
-        mRecycleBin.scrapActiveViews();
-        super.notifyDataSetChanged();
+        mRecycleBin = new RecycleBin(getViewTypeCount());
     }
 
     @Override
@@ -41,7 +34,6 @@ public abstract class TPagerAdapter<T> extends PagerAdapter {
          * 这样可以获取到以前被回收的View
          */
         View convertView = mRecycleBin.getScrapView(position, viewType);
-        L.d("isViewNull:  "+ (convertView == null));
         if (convertView == null) {
             convertView = createViewAtPosition(position);
         }
