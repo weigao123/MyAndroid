@@ -11,13 +11,9 @@ import com.netease.nimlib.sdk.StatusBarNotificationConfig;
  * Created by hzxuwen on 2015/4/13.
  */
 public class SettingsPreferences {
-    private final static String KEY_DOWNTIME_TOGGLE ="down_time_toggle";
     private final static String KEY_SB_NOTIFY_TOGGLE="sb_notify_toggle";
-    private final static String KEY_TEAM_ANNOUNCE_CLOSED = "team_announce_closed";
     private final static String KEY_STATUS_BAR_NOTIFICATION_CONFIG = "KEY_STATUS_BAR_NOTIFICATION_CONFIG";
 
-    // 测试过滤通知
-    private final static String KEY_MSG_IGNORE = "KEY_MSG_IGNORE";
     // 响铃配置
     private final static String KEY_RING_TOGGLE = "KEY_RING_TOGGLE";
     // 呼吸灯配置
@@ -25,13 +21,6 @@ public class SettingsPreferences {
     // 通知栏标题配置
     private final static String KEY_NOTICE_CONTENT_TOGGLE = "KEY_NOTICE_CONTENT_TOGGLE";
 
-    public static void setMsgIgnore(boolean enable) {
-        saveBoolean(KEY_MSG_IGNORE, enable);
-    }
-
-    public static boolean getMsgIgnore() {
-        return getBoolean(KEY_MSG_IGNORE, false);
-    }
 
     public static void setNotificationToggle(boolean on) {
         saveBoolean(KEY_SB_NOTIFY_TOGGLE, on);
@@ -57,21 +46,8 @@ public class SettingsPreferences {
         return getBoolean(KEY_LED_TOGGLE, true);
     }
 
-    public static boolean getNoticeContentToggle() {
-        return getBoolean(KEY_NOTICE_CONTENT_TOGGLE, false);
-    }
 
-    public static void setNoticeContentToggle(boolean on) {
-        saveBoolean(KEY_NOTICE_CONTENT_TOGGLE, on);
-    }
 
-    public static void setDownTimeToggle(boolean on) {
-        saveBoolean(KEY_DOWNTIME_TOGGLE, on);
-    }
-
-    public static boolean getDownTimeToggle() {
-        return getBoolean(KEY_DOWNTIME_TOGGLE, false);
-    }
 
     public static void setStatusConfig(StatusBarNotificationConfig config) {
         saveStatusBarNotificationConfig(KEY_STATUS_BAR_NOTIFICATION_CONFIG, config);
@@ -81,13 +57,6 @@ public class SettingsPreferences {
         return getConfig(KEY_STATUS_BAR_NOTIFICATION_CONFIG);
     }
 
-    public static void setTeamAnnounceClosed(String teamId, boolean closed) {
-        saveBoolean(KEY_TEAM_ANNOUNCE_CLOSED + teamId, closed);
-    }
-
-    public static boolean getTeamAnnounceClosed(String teamId) {
-        return getBoolean(KEY_TEAM_ANNOUNCE_CLOSED + teamId, false);
-    }
 
     private static StatusBarNotificationConfig getConfig(String key) {
         StatusBarNotificationConfig config = new StatusBarNotificationConfig();
