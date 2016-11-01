@@ -11,23 +11,21 @@ import com.netease.nimlib.sdk.StatusBarNotificationConfig;
  * Created by hzxuwen on 2015/4/13.
  */
 public class SettingsPreferences {
-    private final static String KEY_SB_NOTIFY_TOGGLE="sb_notify_toggle";
     private final static String KEY_STATUS_BAR_NOTIFICATION_CONFIG = "KEY_STATUS_BAR_NOTIFICATION_CONFIG";
 
-    // 响铃配置
+    private final static String KEY_NOTIFY_TOGGLE ="key_notify_toggle";
     private final static String KEY_RING_TOGGLE = "KEY_RING_TOGGLE";
-    // 呼吸灯配置
-    private final static String KEY_LED_TOGGLE = "KEY_LED_TOGGLE";
-    // 通知栏标题配置
-    private final static String KEY_NOTICE_CONTENT_TOGGLE = "KEY_NOTICE_CONTENT_TOGGLE";
+    private final static String KEY_VIBRATE_TOGGLE = "KEY_VIBRATE_TOGGLE";
+    private final static String KEY_ANIMATION_TOGGLE = "key_animation_toggle";
+    private final static String KEY_CROP_TOGGLE = "key_crop_toggle";
 
 
     public static void setNotificationToggle(boolean on) {
-        saveBoolean(KEY_SB_NOTIFY_TOGGLE, on);
+        saveBoolean(KEY_NOTIFY_TOGGLE, on);
     }
 
     public static boolean getNotificationToggle() {
-        return getBoolean(KEY_SB_NOTIFY_TOGGLE, true);
+        return getBoolean(KEY_NOTIFY_TOGGLE, true);
     }
 
     public static void setRingToggle(boolean on) {
@@ -38,16 +36,29 @@ public class SettingsPreferences {
         return getBoolean(KEY_RING_TOGGLE, true);
     }
 
-    public static void setLedToggle(boolean on) {
-        saveBoolean(KEY_LED_TOGGLE, on);
+    public static void setVibrateToggle(boolean on) {
+        saveBoolean(KEY_VIBRATE_TOGGLE, on);
     }
 
-    public static boolean getLedToggle() {
-        return getBoolean(KEY_LED_TOGGLE, true);
+    public static boolean getVibrateToggle() {
+        return getBoolean(KEY_VIBRATE_TOGGLE, true);
     }
 
+    public static void setAnimation(boolean on) {
+        saveBoolean(KEY_ANIMATION_TOGGLE, on);
+    }
 
+    public static boolean getAnimation() {
+        return getBoolean(KEY_ANIMATION_TOGGLE, true);
+    }
 
+    public static void setCropTool(boolean on) {
+        saveBoolean(KEY_CROP_TOGGLE, on);
+    }
+
+    public static boolean getCropTool() {
+        return getBoolean(KEY_CROP_TOGGLE, true);
+    }
 
     public static void setStatusConfig(StatusBarNotificationConfig config) {
         saveStatusBarNotificationConfig(KEY_STATUS_BAR_NOTIFICATION_CONFIG, config);

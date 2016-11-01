@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
+import com.garfield.weishu.config.SettingsPreferences;
 import com.garfield.weishu.config.UserPreferences;
 import com.garfield.weishu.ui.activity.WelcomeActivity;
 import com.netease.nimlib.sdk.NIMClient;
@@ -40,6 +41,8 @@ public class NimConfig {
         config.ledOnMs = 1000;
         config.ledOffMs = 1500;
         // 通知铃声的uri字符串
+        config.vibrate = SettingsPreferences.getVibrateToggle();
+        config.ring = SettingsPreferences.getRingToggle();
         config.notificationSound = "android.resource://com.netease.nim.demo/raw/msg";
         options.statusBarNotificationConfig = config;
 

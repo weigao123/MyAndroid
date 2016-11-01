@@ -15,6 +15,7 @@
     <string name="login">登录</string>
     <string name="logining">登录中\u2026</string>
     <string name="logout">退出登录</string>
+    <string name="logout_confirm">确认退出登录</string>
     <string name="login_success">登录成功</string>
     <string name="login_account_or_password_wrong">账号或密码错误</string>
     <string name="login_failed">登录失败</string>
@@ -98,4 +99,13 @@
     <string name="cancel_stick_top_chat">取消置顶</string>
     <string name="delete_chat">删除聊天</string>
     <string name="is_resent">是否重新发送</string>
+    <string name="message_notify">接收新消息通知</string>
+    <string name="ring">声音</string>
+    <string name="vibrate">震动</string>
+    <string name="open_animation">打开动画</string>
+    <string name="use_native_crop">使用原生图片裁剪工具</string>
+    <string name="clear_message_record">清空聊天记录</string>
+    <string name="is_clear_message_record">是否清空所有聊天记录</string>
+    <string name="clear_message_record_done">聊天记录已清除</string>
+    <string name="about">关于</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.garfield.baselib.fragmentation;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
@@ -128,6 +129,9 @@ public class SupportActivity extends BaseActivity implements ISupport {
         mIsToBack = isToBack;
     }
 
+    protected Handler getHandler() {
+        return mFragmentHelper.getHandler();
+    }
     /**
      * 只提供第一层级的fragment
      */

@@ -21,6 +21,7 @@ import com.garfield.baselib.utils.SizeUtils;
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
+import com.garfield.weishu.config.SettingsPreferences;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 
 import java.io.File;
@@ -99,7 +100,7 @@ public class TakePhotoFragment extends AppBaseFragment {
                     return;
                 }
                 String photoPath = mPhotoAdapter.getItem(position);
-                if (isUseNativeCropFunction) {
+                if (SettingsPreferences.getCropTool()) {
                     cropPhoto(photoPath);
                 } else {
                     EventDispatcher.getFragmentJumpEvent().onShowCropPhoto(photoPath);

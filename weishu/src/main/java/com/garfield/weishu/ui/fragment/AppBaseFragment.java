@@ -7,6 +7,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -15,6 +17,7 @@ import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.swipeback.SwipeBackFragment;
 import com.garfield.baselib.utils.SizeUtils;
+import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.contact.ContactFragment;
 import com.garfield.weishu.news.old.NewsTabFragment;
@@ -133,6 +136,14 @@ public class AppBaseFragment extends SwipeBackFragment {
     @Override
     protected FragmentAnimator onCreateFragmentAnimator() {
         return new DefaultHorizontalAnimator();
+    }
+
+    @Override
+    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+        if (!AppCache.isHasAnimation()) {
+            return AnimationUtils.loadAnimation(mActivity, com.garfield.baselib.R.anim.no_anim);
+        }
+        return super.onCreateAnimation(transit, enter, nextAnim);
     }
 
     @Override

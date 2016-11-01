@@ -57,7 +57,7 @@ public class SwitchButton extends FrameLayout {
     /**
      * 开关是否为打开状态
      */
-    public boolean isSwitchOn(){
+    public boolean getSwitchStatus(){
         return mOnImage.getVisibility() == View.VISIBLE;
     }
 

@@ -10,6 +10,8 @@ public class AppCache {
 
     private static String account;
 
+    private static boolean hasAnimation;
+
     public static void clear() {
         account = null;
     }
@@ -31,5 +33,11 @@ public class AppCache {
         AppCache.context = context.getApplicationContext();
     }
 
+    public static boolean isHasAnimation() {
+        return hasAnimation;
+    }
 
+    public static void setHasAnimation(boolean hasAnimation) {
+        AppCache.hasAnimation = hasAnimation;
+    }
 }

@@ -122,7 +122,6 @@ public class MainActivity extends AppBaseActivity {
 //            }
 //            mainFragment.switchToFirst();
 //        }
-//        NimConfig.nofityWithNoTopBar();
     }
 
     @Override
