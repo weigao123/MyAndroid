@@ -39,6 +39,11 @@ public class RecycleBin {
         return null;
     }
 
+    /**
+     * 不能每一种type只保存一个Holder的原因是同一个View不能被add给不同的父View
+     * 现在是每一个位置都保存一个Holder
+     * 适合position不多的地方
+     */
     void addScrapView(View scrap, int position, int viewType) {
         scrapViews[viewType].put(position, scrap);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {

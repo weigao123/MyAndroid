@@ -22,7 +22,7 @@ import butterknife.Unbinder;
 public class NewsHeadView extends FrameLayout {
 
     @BindView(R.id.view_news_head_viewpager)
-    NewsViewPager mInfiniteViewPager;
+    NewsViewPager mNewsViewPager;
 
     @BindView(R.id.view_news_head_title)
     TextView mHeadTitle;
@@ -58,7 +58,7 @@ public class NewsHeadView extends FrameLayout {
         mItems.add("a");
         mItems.add("a");
         NewsPagerAdapter adapter = new NewsPagerAdapter(getContext(), mItems);
-        mInfiniteViewPager.setAdapter(adapter);
+        mNewsViewPager.setAdapter(adapter);
     }
 
 

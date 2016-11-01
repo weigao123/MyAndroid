@@ -43,7 +43,7 @@ public class SettingFragment extends AppBaseFragment {
     TextView mAccountText;
 
     @BindView(R.id.fragment_setting_notify_switch)
-    SwitchButton mNofitySwitch;
+    SwitchButton mNotifySwitch;
 
     @BindView(R.id.fragment_setting_ring_switch)
     SwitchButton mRingSwitch;
@@ -77,16 +77,16 @@ public class SettingFragment extends AppBaseFragment {
     }
 
     private void initConfig() {
-        mNofitySwitch.setSwitchStatus(SettingsPreferences.getNotificationToggle());
+        mNotifySwitch.setSwitchStatus(SettingsPreferences.getNotificationToggle());
         mRingSwitch.setSwitchStatus(SettingsPreferences.getRingToggle());
         mVibrateSwitch.setSwitchStatus(SettingsPreferences.getVibrateToggle());
         mAnimatorSwitch.setSwitchStatus(SettingsPreferences.getAnimation());
         mCropSwitch.setSwitchStatus(SettingsPreferences.getCropTool());
 
-        int visible = mNofitySwitch.getSwitchStatus() ? View.VISIBLE : View.GONE;
+        int visible = mNotifySwitch.getSwitchStatus() ? View.VISIBLE : View.GONE;
         mRingContainer.setVisibility(visible);
         mVibrateContainer.setVisibility(visible);
-        NIMClient.toggleNotification(mNofitySwitch.getSwitchStatus());
+        NIMClient.toggleNotification(mNotifySwitch.getSwitchStatus());
 
         AppCache.setHasAnimation(mAnimatorSwitch.getSwitchStatus());
     }
@@ -119,10 +119,10 @@ public class SettingFragment extends AppBaseFragment {
 
     @OnClick(R.id.fragment_setting_notify)
     void switchNofity() {
-        mNofitySwitch.setSwitchStatus(!mNofitySwitch.getSwitchStatus());
-        NIMClient.toggleNotification(mNofitySwitch.getSwitchStatus());
-        SettingsPreferences.setNotificationToggle(mNofitySwitch.getSwitchStatus());
-        int visible = mNofitySwitch.getSwitchStatus() ? View.VISIBLE : View.GONE;
+        mNotifySwitch.setSwitchStatus(!mNotifySwitch.getSwitchStatus());
+        NIMClient.toggleNotification(mNotifySwitch.getSwitchStatus());
+        SettingsPreferences.setNotificationToggle(mNotifySwitch.getSwitchStatus());
+        int visible = mNotifySwitch.getSwitchStatus() ? View.VISIBLE : View.GONE;
         mRingContainer.setVisibility(visible);
         mVibrateContainer.setVisibility(visible);
     }

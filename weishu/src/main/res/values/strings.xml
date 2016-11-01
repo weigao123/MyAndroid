@@ -107,5 +107,5 @@
     <string name="clear_message_record">清空聊天记录</string>
     <string name="is_clear_message_record">是否清空所有聊天记录</string>
     <string name="clear_message_record_done">聊天记录已清除</string>
-    <string name="about">关于</string>
+    <string name="about">关于微书</string>
 </resources>

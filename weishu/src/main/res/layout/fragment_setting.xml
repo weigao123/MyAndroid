@@ -131,8 +131,12 @@
             android:id="@+id/fragment_setting_animator"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginTop="15dp"
             android:background="@drawable/bg_press_white_to_gray">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_alignParentTop="true"
+                android:background="@color/gray"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -155,7 +159,8 @@
             android:id="@+id/fragment_setting_native_crop"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="@drawable/bg_press_white_to_gray">
+            android:background="@drawable/bg_press_white_to_gray"
+            android:visibility="gone">
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
@@ -181,9 +186,9 @@
 
         <RelativeLayout
             android:id="@+id/fragment_setting_clear_message"
-            android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/bg_press_white_to_gray">
             <TextView
                 android:layout_width="wrap_content"
@@ -217,10 +222,10 @@
 
         <RelativeLayout
             android:id="@+id/fragment_setting_logout"
-            android:layout_marginTop="15dp"
             android:layout_marginBottom="25dp"
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/bg_press_white_to_gray">
             <TextView
                 android:layout_width="wrap_content"
@@ -232,20 +237,5 @@
                 android:textColor="@color/black"/>
         </RelativeLayout>
 
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="25dp"
-            android:text="@string/logout"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:textColor="@color/white"
-            android:background="@drawable/bg_login_button"
-            android:clickable="true"
-            android:visibility="gone"/>
     </LinearLayout>
 </ScrollView>
