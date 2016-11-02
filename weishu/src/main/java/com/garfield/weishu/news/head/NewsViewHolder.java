@@ -36,7 +36,7 @@ public class NewsViewHolder extends TPagerViewHolder<String> {
     }
 
     @Override
-    protected NewsPagerAdapter getAdapter() {
-        return (NewsPagerAdapter) mAdapter;
+    protected NewsPagerAdapter_v1 getAdapter() {
+        return (NewsPagerAdapter_v1) mAdapter;
     }
 }

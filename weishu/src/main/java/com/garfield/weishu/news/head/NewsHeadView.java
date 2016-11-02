@@ -57,7 +57,7 @@ public class NewsHeadView extends FrameLayout {
         mItems.add("a");
         mItems.add("a");
         mItems.add("a");
-        NewsPagerAdapter adapter = new NewsPagerAdapter(getContext(), mItems);
+        NewsPagerAdapter_v1 adapter = new NewsPagerAdapter_v1(getContext(), mItems);
         mNewsViewPager.setAdapter(adapter);
     }
 

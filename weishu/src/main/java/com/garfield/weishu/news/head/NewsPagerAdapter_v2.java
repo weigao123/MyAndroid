@@ -11,9 +11,9 @@ import java.util.List;
  * Created by gaowei3 on 2016/10/31.
  */
 
-public class NewsPagerAdapter extends TPagerAdapter<String> {
+public class NewsPagerAdapter_v2 extends TPagerAdapter<String> {
 
-    public NewsPagerAdapter(Context context, List<String> items) {
+    public NewsPagerAdapter_v2(Context context, List<String> items) {
         super(context, items);
     }
 

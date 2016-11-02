@@ -26,6 +26,6 @@ public class NewsViewPager extends ViewPager {
     }
 
     private void setOffsetAmount() {
-        setCurrentItem(((NewsPagerAdapter)getAdapter()).getItems().size() * 100, false);
+        setCurrentItem(((NewsPagerAdapter_v1)getAdapter()).getItems().size() * 100, false);
     }
 }
