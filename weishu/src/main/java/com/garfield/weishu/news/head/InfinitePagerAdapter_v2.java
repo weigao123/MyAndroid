@@ -11,9 +11,9 @@ import java.util.List;
  * Created by gaowei3 on 2016/10/31.
  */
 
-public class NewsPagerAdapter_v1 extends TPagerAdapter<String> {
+public class InfinitePagerAdapter_v2 extends TPagerAdapter<String> {
 
-    public NewsPagerAdapter_v1(Context context, List<String> items) {
+    public InfinitePagerAdapter_v2(Context context, List<String> items) {
         super(context, items);
     }
 
@@ -29,7 +29,7 @@ public class NewsPagerAdapter_v1 extends TPagerAdapter<String> {
 
     @Override
     public int getCount() {
-        return Integer.MAX_VALUE;
+        return getItems().size() + 2;
     }
 
     @Override
@@ -43,4 +43,6 @@ public class NewsPagerAdapter_v1 extends TPagerAdapter<String> {
         int realPosition = position % getItems().size();
         super.destroyItem(container, realPosition, object);
     }
+
+
 }

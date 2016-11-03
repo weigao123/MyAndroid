@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.garfield.weishu.news.head.NewsViewPager
+    <com.garfield.weishu.news.head.InfiniteViewPager
         android:id="@+id/view_news_head_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.garfield.weishu.news.head.NewsViewPager>
+    </com.garfield.weishu.news.head.InfiniteViewPager>
 
 
     <LinearLayout
