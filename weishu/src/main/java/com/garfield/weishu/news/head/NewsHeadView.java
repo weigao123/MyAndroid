@@ -103,15 +103,19 @@ public class NewsHeadView extends FrameLayout {
     private void switchPoint(int position) {
         if (mPointContainer.getChildCount() == 0) return;
         for (int i = 0; i < mPointContainer.getChildCount(); i ++) {
-            mPointContainer.getChildAt(position).setEnabled(false);
+            if (i == position) {
+                mPointContainer.getChildAt(position).setSelected(true);
+                continue;
+            }
+            mPointContainer.getChildAt(i).setSelected(false);
         }
-        mPointContainer.getChildAt(position).setEnabled(true);
     }
 
     private void showPagerPoint() {
         mPointContainer = new LinearLayout(getContext());
         LinearLayout.LayoutParams pointParam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        pointParam.setMargins(5, 5, 5, 5);
+        pointParam.setMargins(8, 8, 8, 8);
+        pointParam.gravity = Gravity.CENTER_VERTICAL;
         for (int i = 0; i < mItems.size(); i ++) {
             ImageView point = new ImageView(getContext());
             point.setLayoutParams(pointParam);
