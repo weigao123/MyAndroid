@@ -2,6 +2,7 @@ package com.garfield.weishu.base.viewpager;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ public abstract class TPagerAdapter<T> extends PagerAdapter {
     private final Map<Class<?>, Integer> mViewTypes;
     private final LayoutInflater mInflater;
 
+    private ViewPager mViewPager;
+
     public TPagerAdapter(Context context, List<T> items) {
         mContext = context;
         mItems = items;
@@ -31,6 +34,21 @@ public abstract class TPagerAdapter<T> extends PagerAdapter {
         return mContext;
     }
 
+    public void setViewPager(ViewPager viewPager) {
+        mViewPager = viewPager;
+    }
+
+    public ViewPager getViewPager() {
+        return mViewPager;
+    }
+
+
+    @Override
+    public void notifyDataSetChanged() {
+        mRecycleBin.clean();
+        super.notifyDataSetChanged();
+    }
+
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         int viewType = getItemViewType(position);
@@ -39,6 +57,7 @@ public abstract class TPagerAdapter<T> extends PagerAdapter {
          */
         View convertView = mRecycleBin.getScrapView(position, viewType);
         if (convertView == null) {
+            L.d("instantiateItem position: " + position + "  null");
             convertView = createViewAtPosition(position);
         }
         TPagerViewHolder holder = (TPagerViewHolder) convertView.getTag();

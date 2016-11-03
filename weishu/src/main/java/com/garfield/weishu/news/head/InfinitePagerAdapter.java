@@ -11,10 +11,16 @@ import java.util.List;
  * Created by gaowei3 on 2016/10/31.
  */
 
-public class InfinitePagerAdapter_v1 extends TPagerAdapter<String> {
+public class InfinitePagerAdapter extends TPagerAdapter<String> {
 
-    public InfinitePagerAdapter_v1(Context context, List<String> items) {
+    public InfinitePagerAdapter(Context context, List<String> items) {
         super(context, items);
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+        getViewPager().setCurrentItem(getItems().size() * 100, false);
     }
 
     @Override
@@ -34,13 +40,18 @@ public class InfinitePagerAdapter_v1 extends TPagerAdapter<String> {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        int realPosition = position % getItems().size();
+        int realPosition = getRealPosition(position);
         return super.instantiateItem(container, realPosition);
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        int realPosition = position % getItems().size();
+        int realPosition = getRealPosition(position);
         super.destroyItem(container, realPosition, object);
     }
+
+    public int getRealPosition(int position) {
+        return position % getItems().size();
+    }
+
 }

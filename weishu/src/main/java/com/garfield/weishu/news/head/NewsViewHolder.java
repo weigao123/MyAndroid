@@ -2,10 +2,8 @@ package com.garfield.weishu.news.head;
 
 import android.widget.ImageView;
 
-import com.garfield.baselib.utils.ImageLoaderUtils;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.viewpager.TPagerViewHolder;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
  * Created by gaowei3 on 2016/10/31.
@@ -32,11 +30,12 @@ public class NewsViewHolder extends TPagerViewHolder<String> {
 
     @Override
     protected void refresh(String item) {
-        ImageLoader.getInstance().displayImage(item, mHeadImage, ImageLoaderUtils.getDisplayImageNoDiskCacheOptions());
+        mHeadImage.setImageResource(R.drawable.cheese_1);
+        //ImageLoader.getInstance().displayImage(item, mHeadImage, ImageLoaderUtils.getDisplayImageNoDiskCacheOptions());
     }
 
     @Override
-    protected InfinitePagerAdapter_v1 getAdapter() {
-        return (InfinitePagerAdapter_v1) mAdapter;
+    protected InfinitePagerAdapter getAdapter() {
+        return (InfinitePagerAdapter) mAdapter;
     }
 }

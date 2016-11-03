@@ -17,7 +17,7 @@
 
     <com.garfield.weishu.news.head.NewsHeadView
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="180dp" />
 
     <Button
         android:id="@+id/fragment_new_reload_btn"

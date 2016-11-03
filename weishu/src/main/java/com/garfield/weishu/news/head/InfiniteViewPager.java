@@ -22,14 +22,8 @@ public class InfiniteViewPager extends ViewPager {
     @Override
     public void setAdapter(PagerAdapter adapter) {
         super.setAdapter(adapter);
-        setOffsetAmount(adapter);
+        ((InfinitePagerAdapter)adapter).setViewPager(this);
+        setCurrentItem(((InfinitePagerAdapter)adapter).getItems().size() * 100, false);
     }
 
-    private void setOffsetAmount(PagerAdapter adapter) {
-        if (adapter instanceof InfinitePagerAdapter_v1) {
-            setCurrentItem(((InfinitePagerAdapter_v1)getAdapter()).getItems().size() * 100, false);
-        } else if (adapter instanceof InfinitePagerAdapter_v2) {
-            setCurrentItem(1, false);
-        }
-    }
 }

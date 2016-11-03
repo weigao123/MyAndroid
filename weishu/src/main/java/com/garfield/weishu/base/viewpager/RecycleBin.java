@@ -29,6 +29,12 @@ public class RecycleBin {
         }
     }
 
+    void clean() {
+        for (SparseArray<View> scrapView : scrapViews) {
+            scrapView.clear();
+        }
+    }
+
     /**
      * 根据type确定SparseArray<View>
      */
