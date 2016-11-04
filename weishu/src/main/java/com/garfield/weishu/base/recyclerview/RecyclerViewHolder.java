@@ -6,6 +6,7 @@ package com.garfield.weishu.base.recyclerview;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 /**
@@ -15,6 +16,10 @@ import android.view.ViewGroup;
 public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
     private TRecyclerViewHolder mTViewHolder;
+
+    RecyclerViewHolder(View view) {
+        super(view);
+    }
 
     RecyclerViewHolder(LayoutInflater inflater, ViewGroup parent, TRecyclerAdapter adapter, TRecyclerViewHolder item) {
         super(inflater.inflate(item.getLayoutResId(), parent, false));
@@ -27,7 +32,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
     }
 
     /**
-     * 加载完成之后，用于个别item刷新
+     * 加载完成之后，用于在外部调用，使个别item刷新数据
      */
     public void refresh() {
         mTViewHolder.refresh();

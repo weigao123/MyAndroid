@@ -245,7 +245,7 @@ public class SessionListFragment extends AppBaseFragment {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                RecyclerViewHolder viewHolder = (RecyclerViewHolder) recyclerView.findViewHolderForAdapterPosition(index);
+                RecyclerViewHolder viewHolder = (RecyclerViewHolder) recyclerView.findViewHolderForLayoutPosition(index);
                 if (viewHolder != null) {
                     viewHolder.refresh();
                 }

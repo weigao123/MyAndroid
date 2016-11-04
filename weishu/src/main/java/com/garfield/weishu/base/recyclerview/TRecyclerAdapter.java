@@ -3,6 +3,7 @@ package com.garfield.weishu.base.recyclerview;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.HashMap;
@@ -20,6 +21,9 @@ public abstract class TRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerV
     private final Map<Class<?>, Integer> mViewTypes;
     private final LayoutInflater mInflater;
 
+    private int HEAD_TYPE = 1000;
+    private View mHeadView;
+
     public TRecyclerAdapter(Context context, List<T> items) {
         mContext = context;
         mItems = items;
@@ -27,12 +31,26 @@ public abstract class TRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerV
         mInflater = LayoutInflater.from(context);
     }
 
+    public void setHeadView(View headView) {
+        mHeadView = headView;
+    }
+
+    public View getHeadView() {
+        return mHeadView;
+    }
+
     public Context getContext() {
         return mContext;
     }
 
+    /**
+     * 第二步，根据type，创建Holder
+     */
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == HEAD_TYPE) {
+            return new RecyclerViewHolder(mHeadView);
+        }
         TRecyclerViewHolder viewHolder = null;
         Class viewHolderClass = getClassByType(viewType);
         try {
@@ -43,33 +61,55 @@ public abstract class TRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerV
         return new RecyclerViewHolder(mInflater, parent, this, viewHolder);
     }
 
-    private Class getClassByType(int type) {
+    private Class getClassByType(int viewType) {
         Set<Class<?>> set = mViewTypes.keySet();
         for (Class c : set) {
-            if (mViewTypes.get(c) == type) {
+            if (mViewTypes.get(c) == viewType) {
                 return c;
             }
         }
         return null;
     }
 
+    /**
+     * 第三步，绑定数据
+     */
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-        holder.getTViewHolder().refresh(mItems.get(position), position);
+        if (mHeadView != null) {
+            if (position == 0) {
+                return;
+            } else {
+                position--;
+            }
+        }
+        holder.getTViewHolder().refresh(position);
     }
 
+    public List<T> getItems() {
+        return mItems;
+    }
+
+    /**
+     * 小心
+     */
     @Override
     public int getItemCount() {
-        return mItems.size();
+        return mHeadView == null ? mItems.size() : mItems.size() + 1;
     }
 
-    @Override
-    public long getItemId(int position) {
-        return super.getItemId(position);
-    }
-
+    /**
+     * 第一步，根据position确定type
+     */
     @Override
     public int getItemViewType(int position) {
+        if (mHeadView != null) {
+            if (position == 0) {
+                return HEAD_TYPE;
+            } else {
+                position--;
+            }
+        }
         Class<?> clazz = getViewHolderClassAtPosition(position);
         if (mViewTypes.containsKey(clazz)) {
             return mViewTypes.get(clazz);
@@ -81,5 +121,7 @@ public abstract class TRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerV
     }
 
     public abstract Class getViewHolderClassAtPosition(int position);
+
+
 
 }

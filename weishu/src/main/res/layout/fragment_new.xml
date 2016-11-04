@@ -12,12 +12,8 @@
             android:id="@+id/fragment_new_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone" />
+            android:visibility="visible" />
     </android.support.v4.widget.SwipeRefreshLayout>
-
-    <com.garfield.weishu.news.head.NewsHeadView
-        android:layout_width="match_parent"
-        android:layout_height="180dp" />
 
     <Button
         android:id="@+id/fragment_new_reload_btn"

@@ -22,9 +22,9 @@ public abstract class TRecyclerViewHolder<T> {
     /**
      * 内部调用
      */
-    void refresh(T t, int position) {
+    void refresh(int position) {
         mPosition = position;
-        refresh(t);
+        refresh((T)mAdapter.getItems().get(position));
     }
 
     protected abstract int getLayoutResId();

@@ -5,6 +5,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -43,14 +44,17 @@ public class NewsHeadView extends FrameLayout {
 
     public NewsHeadView(Context context) {
         super(context);
+        //init(getContext());
     }
 
     public NewsHeadView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        //init(getContext());
     }
 
     public NewsHeadView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        //init(getContext());
     }
 
     @Override
@@ -63,7 +67,6 @@ public class NewsHeadView extends FrameLayout {
         LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.view_news_head_infinite, this);
         unbinder = ButterKnife.bind(this, this);
-
         mItems.add("a");
         mItems.add("a");
         mItems.add("a");
@@ -82,7 +85,6 @@ public class NewsHeadView extends FrameLayout {
         @Override
         public void onPageSelected(int position) {
             switchPoint(mAdapter.getRealPosition(position));
-
         }
 
         @Override
@@ -97,7 +99,9 @@ public class NewsHeadView extends FrameLayout {
         if (unbinder != null) {
             unbinder.unbind();
         }
-        mInfiniteViewPager.removeOnPageChangeListener(mOnPageChangeListener);
+        if (mInfiniteViewPager != null) {
+            mInfiniteViewPager.removeOnPageChangeListener(mOnPageChangeListener);
+        }
     }
 
     private void switchPoint(int position) {
