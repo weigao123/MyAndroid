@@ -3,17 +3,15 @@ package com.garfield.weishu.news;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.garfield.baselib.utils.L;
 import com.garfield.weishu.R;
+import com.garfield.weishu.base.recyclerview.RecyclerUtil;
 
 /**
  * Created by gaowei3 on 2016/11/4.
@@ -28,7 +26,8 @@ public class PullToRefreshView_2 extends LinearLayout implements View.OnTouchLis
     private int containerOffset;
     private boolean mEnabled;
     private boolean hasMeasured;
-    private float originPosition;
+
+    private float yDown;
 
     private RecyclerView mRecyclerView;
 
@@ -54,6 +53,7 @@ public class PullToRefreshView_2 extends LinearLayout implements View.OnTouchLis
         headImage = new ImageView(getContext());
         headImage.setImageResource(R.drawable.ic_camera_gray);
         addView(headImage, 0);
+        mRecyclerView.setOnTouchListener(this);
     }
 
     @Override
@@ -65,38 +65,6 @@ public class PullToRefreshView_2 extends LinearLayout implements View.OnTouchLis
             headImage.setLayoutParams(headParams);
             hasMeasured = true;
         }
-    }
-
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (mEnabled) {
-            return true;
-        }
-        return super.onInterceptTouchEvent(ev);
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                if (mEnabled)
-                    return true;
-                break;
-            case MotionEvent.ACTION_MOVE:
-                if (mEnabled) {
-                    if (originPosition == 0) {
-                        originPosition = event.getRawY();
-                    }
-                    setPullOffset((int)(event.getRawY() - originPosition));
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-            case MotionEvent.ACTION_OUTSIDE:
-                checkTheState();
-                break;
-        }
-        return super.onTouchEvent(event);
     }
 
     public void setPullOffset(int offset) {
@@ -123,17 +91,60 @@ public class PullToRefreshView_2 extends LinearLayout implements View.OnTouchLis
         }
     }
 
+    /**
+     * 必须要找个机会拦截消息，否则滑动起来，会拉不下来，原因是两个滚动产生影响
+     * 下拉时因为margin的变动，导致手在ListView的相对getY位置变小，会被系统以为向上滚动，isAtTop会变成false，出现各种问题
+     * 屏蔽掉ListView的滚动事件：
+     * 通过返回true，ListView本身的onTouchEvent就不会调用，也就不会滑动了
+     */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        Log.d("gaowei", "event: "+event.getAction());
 
+        setIsAbleToPull(event);
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                // 不回调
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (mEnabled) {
+                    if (yDown == 0) {
+                        //yDown = event.getRawY();
+                    }
+                    setPullOffset((int)(event.getRawY() - yDown)/2);
+                    return true;
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+            case MotionEvent.ACTION_OUTSIDE:
+                checkTheState();
+                break;
+        }
 
         return false;
     }
 
+    private void setIsAbleToPull(MotionEvent event) {
+        boolean isToTop = RecyclerUtil.isAtTop(mRecyclerView);
+        L.d("isToTop: "+isToTop);
+        if (isToTop) {
+            if (!mEnabled) {
+                yDown = event.getRawY();
+            }
+            mEnabled = true;
+        } else {
+            mEnabled = false;
+        }
+
+    }
+
+
+
     public void reset() {
         mEnabled = false;
         setPullOffset(0);
-        originPosition = 0;
+        yDown = 0;
     }
 
 

@@ -63,7 +63,7 @@ public class NewsFragment extends AppBaseFragment {
         mRecyclerView.setAdapter(mNewsRecyclerAdapter);
 
         mRecyclerView.addOnScrollListener(mOnScrollListener);
-        mRecyclerView.setOnTouchListener(mPullToRefreshView);
+        //mRecyclerView.setOnTouchListener(mPullToRefreshView);
 
 
     }
@@ -81,15 +81,7 @@ public class NewsFragment extends AppBaseFragment {
 
 
 
-            boolean isToTop = RecyclerUtil.isScrollToTop(recyclerView);
 
-
-            L.d("isToTop: "+isToTop);
-            if (isToTop) {
-                mPullToRefreshView.setEnabled(true);
-            } else {
-
-            }
         }
     };
 

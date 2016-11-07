@@ -18,7 +18,7 @@ public class RecyclerUtil {
         return viewHolder;
     }
 
-    public static boolean isScrollToTop(RecyclerView recyclerView) {
+    public static boolean isAtTop(RecyclerView recyclerView) {
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         if (layoutManager instanceof LinearLayoutManager);
             //throw new Throwable("aaa");

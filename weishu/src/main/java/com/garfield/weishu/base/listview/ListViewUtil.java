@@ -7,6 +7,18 @@ import android.widget.ListView;
 
 public class ListViewUtil {
 
+	public static boolean isAtTop(ListView listView) {
+		View firstChild = listView.getChildAt(0);
+		if (firstChild == null) {
+			return true;
+		}
+		int firstVisiblePos = listView.getFirstVisiblePosition();
+		if (firstVisiblePos == 0 && firstChild.getTop() == 0) {
+			return true;
+		}
+		return false;
+	}
+
 	public static boolean isLastMessageVisible(ListView messageListView) {
 		if(messageListView == null || messageListView.getAdapter() == null) {
 			return false;
