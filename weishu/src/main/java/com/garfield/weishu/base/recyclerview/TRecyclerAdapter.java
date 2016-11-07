@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.garfield.weishu.session.sessionlist.SessionListAdapter;
+import com.netease.nimlib.sdk.msg.model.RecentContact;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +26,7 @@ public abstract class TRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerV
 
     private int HEAD_TYPE = 1000;
     private View mHeadView;
+    private ItemEventListener mItemEventListener;
 
     public TRecyclerAdapter(Context context, List<T> items) {
         mContext = context;
@@ -123,5 +127,16 @@ public abstract class TRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerV
     public abstract Class getViewHolderClassAtPosition(int position);
 
 
+    public void setItemEventListener(ItemEventListener eventListener) {
+        this.mItemEventListener = eventListener;
+    }
 
+    public ItemEventListener getItemEventListener() {
+        return mItemEventListener;
+    }
+
+    public interface ItemEventListener<T> {
+        void onItemClick(T item);
+        void onItemLongPressed(T item);
+    }
 }

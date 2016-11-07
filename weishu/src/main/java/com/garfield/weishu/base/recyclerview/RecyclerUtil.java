@@ -1,5 +1,6 @@
 package com.garfield.weishu.base.recyclerview;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ListView;
@@ -15,5 +16,19 @@ public class RecyclerUtil {
     public static Object getViewHolderByIndex(RecyclerView recyclerView, int index) {
         RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForItemId(index);
         return viewHolder;
+    }
+
+    public static boolean isScrollToTop(RecyclerView recyclerView) {
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        if (layoutManager instanceof LinearLayoutManager);
+            //throw new Throwable("aaa");
+        int position = ((LinearLayoutManager)layoutManager).findFirstVisibleItemPosition();
+        if (position == 0) {
+            int top = recyclerView.getChildAt(0).getTop();
+            if (top == 0) {
+                return true;
+            }
+        }
+        return false;
     }
 }

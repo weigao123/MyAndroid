@@ -1,6 +1,5 @@
 package com.garfield.weishu.base.recyclerview;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
@@ -17,6 +16,27 @@ public abstract class TRecyclerViewHolder<T> {
         mAdapter = adapter;
         inflateView();
         setView();
+        setEventListener();
+    }
+
+    private void setEventListener() {
+        mRootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mAdapter.getItemEventListener() != null) {
+                    mAdapter.getItemEventListener().onItemClick(mAdapter.getItems().get(mPosition));
+                }
+            }
+        });
+        mRootView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (mAdapter.getItemEventListener() != null) {
+                    mAdapter.getItemEventListener().onItemLongPressed(mAdapter.getItems().get(mPosition));
+                }
+                return false;
+            }
+        });
     }
 
     /**

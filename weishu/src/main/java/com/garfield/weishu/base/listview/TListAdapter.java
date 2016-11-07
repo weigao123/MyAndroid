@@ -19,6 +19,7 @@ public abstract class TListAdapter<T> extends BaseAdapter {
     private final List<T> mItems;
     private final Map<Class<?>, Integer> mViewTypes;
     private final LayoutInflater mInflater;
+    private ItemEventListener mItemEventListener;
 
     public TListAdapter(Context context, List<T> items) {
         mContext = context;
@@ -120,5 +121,18 @@ public abstract class TListAdapter<T> extends BaseAdapter {
     public abstract Class getViewHolderClassAtPosition(int position);
 
     public abstract int getViewHolderCount();
+
+    public void setItemEventListener(ItemEventListener eventListener) {
+        this.mItemEventListener = eventListener;
+    }
+
+    public ItemEventListener getItemEventListener() {
+        return mItemEventListener;
+    }
+
+    public interface ItemEventListener<T> {
+        void onItemClick(T item);
+        void onItemLongPressed(T item);
+    }
 
 }

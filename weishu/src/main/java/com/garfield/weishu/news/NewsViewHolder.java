@@ -27,7 +27,6 @@ public class NewsViewHolder extends TRecyclerViewHolder<String> {
 
     @Override
     protected void refresh(String s) {
-        L.d("refresh");
     }
 
 

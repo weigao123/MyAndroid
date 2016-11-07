@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class SessionListAdapter extends TRecyclerAdapter<RecentContact> {
 
-    private SessionListEventListener mEventListener;
+//    private SessionListEventListener mEventListener;
 
     public SessionListAdapter(Context context, List<RecentContact> data) {
         super(context, data);
@@ -24,16 +24,16 @@ public class SessionListAdapter extends TRecyclerAdapter<RecentContact> {
         return SessionListViewHolder.class;
     }
 
-    public void setEventListener(SessionListEventListener eventListener) {
-        this.mEventListener = eventListener;
-    }
-
-    public SessionListEventListener getEventListener() {
-        return mEventListener;
-    }
-
-    public interface SessionListEventListener {
-        void onItemClick(RecentContact account);
-        void onItemLongPressed(RecentContact contact);
-    }
+//    public void setEventListener(SessionListEventListener eventListener) {
+//        this.mEventListener = eventListener;
+//    }
+//
+//    public SessionListEventListener getItemEventListener() {
+//        return mEventListener;
+//    }
+//
+//    public interface SessionListEventListener {
+//        void onItemClick(RecentContact account);
+//        void onItemLongPressed(RecentContact contact);
+//    }
 }

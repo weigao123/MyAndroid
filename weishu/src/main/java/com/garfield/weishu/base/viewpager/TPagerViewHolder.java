@@ -20,7 +20,28 @@ public abstract class TPagerViewHolder<T> {
         mAdapter = adapter;
         inflateView();
         setView();
+        setEventListener();
         return mRootView;
+    }
+
+    private void setEventListener() {
+        mRootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mAdapter.getItemEventListener() != null) {
+                    mAdapter.getItemEventListener().onItemClick(mAdapter.getItems().get(mPosition));
+                }
+            }
+        });
+        mRootView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (mAdapter.getItemEventListener() != null) {
+                    mAdapter.getItemEventListener().onItemLongPressed(mAdapter.getItems().get(mPosition));
+                }
+                return false;
+            }
+        });
     }
 
     void refresh(T item, int position) {
@@ -41,5 +62,8 @@ public abstract class TPagerViewHolder<T> {
     protected <M extends View> M findView(int resId) {
         return (M) (mRootView.findViewById(resId));
     }
+
+
+
 
 }

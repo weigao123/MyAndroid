@@ -9,7 +9,6 @@ import com.garfield.weishu.base.recyclerview.TRecyclerViewHolder;
 import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.garfield.weishu.ui.view.HeadImageView;
 import com.garfield.weishu.utils.TimeUtil;
-import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 
 import java.util.Locale;
@@ -50,16 +49,16 @@ public class SessionListViewHolder extends TRecyclerViewHolder<RecentContact> {
         mRootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getAdapter().getEventListener() != null) {
-                    getAdapter().getEventListener().onItemClick(mRecentContact);
+                if (getAdapter().getItemEventListener() != null) {
+                    getAdapter().getItemEventListener().onItemClick(mRecentContact);
                 }
             }
         });
         mRootView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (getAdapter().getEventListener() != null) {
-                    getAdapter().getEventListener().onItemLongPressed(mRecentContact);
+                if (getAdapter().getItemEventListener() != null) {
+                    getAdapter().getItemEventListener().onItemLongPressed(mRecentContact);
                 }
                 return true;
             }

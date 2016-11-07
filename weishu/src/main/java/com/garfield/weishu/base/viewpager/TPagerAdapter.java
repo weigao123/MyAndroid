@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.garfield.baselib.utils.L;
+import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,7 @@ public abstract class TPagerAdapter<T> extends PagerAdapter {
     private final LayoutInflater mInflater;
 
     private ViewPager mViewPager;
+    private ItemEventListener mItemEventListener;
 
     public TPagerAdapter(Context context, List<T> items) {
         mContext = context;
@@ -57,7 +59,7 @@ public abstract class TPagerAdapter<T> extends PagerAdapter {
          */
         View convertView = mRecycleBin.getScrapView(position, viewType);
         if (convertView == null) {
-            L.d("instantiateItem position: " + position + "  null");
+            //L.d("instantiateItem position: " + position + "  null");
             convertView = createViewAtPosition(position);
         }
         TPagerViewHolder holder = (TPagerViewHolder) convertView.getTag();
@@ -123,4 +125,17 @@ public abstract class TPagerAdapter<T> extends PagerAdapter {
 
     public abstract Class getViewHolderClassAtPosition(int position);
 
+
+    public void setItemEventListener(ItemEventListener eventListener) {
+        this.mItemEventListener = eventListener;
+    }
+
+    public ItemEventListener getItemEventListener() {
+        return mItemEventListener;
+    }
+
+    public interface ItemEventListener<T> {
+        void onItemClick(T item);
+        void onItemLongPressed(T item);
+    }
 }

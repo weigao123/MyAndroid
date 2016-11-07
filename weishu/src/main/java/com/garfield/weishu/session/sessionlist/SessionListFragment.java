@@ -78,7 +78,7 @@ public class SessionListFragment extends AppBaseFragment {
         items = new ArrayList<>();
         adapter = new SessionListAdapter(mActivity, items);
         recyclerView.setAdapter(adapter);
-        adapter.setEventListener(new SessionListAdapter.SessionListEventListener() {
+        adapter.setItemEventListener(new TRecyclerAdapter.ItemEventListener<RecentContact>() {
             @Override
             public void onItemClick(final RecentContact recentContact) {
                 getHandler().postDelayed(new Runnable() {
