@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <com.garfield.weishu.news.PullToRefreshView_2
         android:id="@+id/fragment_new_refresh"
         android:orientation="vertical"
@@ -16,7 +15,6 @@
             android:layout_height="match_parent"
             android:visibility="visible" />
     </com.garfield.weishu.news.PullToRefreshView_2>
-
 
     <Button
         android:id="@+id/fragment_new_reload_btn"

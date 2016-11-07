@@ -21,13 +21,17 @@ import com.garfield.weishu.base.recyclerview.RecyclerUtil;
  * 不够流畅，因为onTouch调用的密度不够细
  */
 public class PullToRefreshView_2 extends LinearLayout implements View.OnTouchListener {
+    private static final int STATE_IDLE = 0;
+    private static final int STATE_PULLING = 1;
+    private static final int STATE_REFRESHING = 2;
 
-    private ImageView headImage;
+    private ImageView mHeadImage;
     private int containerOffset;
-    private boolean mEnabled;
     private boolean hasMeasured;
 
-    private float yDown;
+    private boolean mEnabled = false;
+    private int mState = STATE_IDLE;
+    private float yDown = 0;
 
     private RecyclerView mRecyclerView;
 
@@ -50,9 +54,9 @@ public class PullToRefreshView_2 extends LinearLayout implements View.OnTouchLis
         //params.gravity = Gravity.CENTER_HORIZONTAL;
 
         mRecyclerView = (RecyclerView) getChildAt(0);
-        headImage = new ImageView(getContext());
-        headImage.setImageResource(R.drawable.ic_camera_gray);
-        addView(headImage, 0);
+        mHeadImage = new ImageView(getContext());
+        mHeadImage.setImageResource(R.drawable.ic_camera_gray);
+        addView(mHeadImage, 0);
         mRecyclerView.setOnTouchListener(this);
     }
 
@@ -60,17 +64,17 @@ public class PullToRefreshView_2 extends LinearLayout implements View.OnTouchLis
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
         if (!hasMeasured) {
-            LinearLayout.LayoutParams headParams = (LinearLayout.LayoutParams) headImage.getLayoutParams();
-            headParams.topMargin = containerOffset = - headImage.getMeasuredHeight();
-            headImage.setLayoutParams(headParams);
+            LinearLayout.LayoutParams headParams = (LinearLayout.LayoutParams) mHeadImage.getLayoutParams();
+            headParams.topMargin = containerOffset = - mHeadImage.getMeasuredHeight();
+            mHeadImage.setLayoutParams(headParams);
             hasMeasured = true;
         }
     }
 
     public void setPullOffset(int offset) {
-        LinearLayout.LayoutParams headParams = (LinearLayout.LayoutParams) headImage.getLayoutParams();
+        LinearLayout.LayoutParams headParams = (LinearLayout.LayoutParams) mHeadImage.getLayoutParams();
         headParams.topMargin = containerOffset + offset;
-        headImage.setLayoutParams(headParams);
+        mHeadImage.setLayoutParams(headParams);
     }
 
     public void setEnabled(boolean enabled) {
@@ -81,14 +85,14 @@ public class PullToRefreshView_2 extends LinearLayout implements View.OnTouchLis
     }
 
     private void checkTheState() {
-        LinearLayout.LayoutParams headParams = (LinearLayout.LayoutParams) headImage.getLayoutParams();
+        LinearLayout.LayoutParams headParams = (LinearLayout.LayoutParams) mHeadImage.getLayoutParams();
         int marginNow = headParams.topMargin;
-        if (marginNow > 0) {
-
-        } else {
+//        if (marginNow > 0) {
+//
+//        } else {
             setPullOffset(0);
             reset();
-        }
+//        }
     }
 
     /**
@@ -108,11 +112,15 @@ public class PullToRefreshView_2 extends LinearLayout implements View.OnTouchLis
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (mEnabled) {
-                    if (yDown == 0) {
-                        //yDown = event.getRawY();
+                    float diff = event.getRawY() - yDown;
+                    if (diff >= 0 ) {
+                        setPullOffset((int)(event.getRawY() - yDown));
+                        return true;
+                    } else {
+                        reset();
+                        return false;
                     }
-                    setPullOffset((int)(event.getRawY() - yDown)/2);
-                    return true;
+
                 }
                 break;
             case MotionEvent.ACTION_UP:

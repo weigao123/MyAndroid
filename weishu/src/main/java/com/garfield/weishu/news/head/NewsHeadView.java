@@ -44,23 +44,17 @@ public class NewsHeadView extends FrameLayout {
 
     public NewsHeadView(Context context) {
         super(context);
-        //init(getContext());
+        init(context);
     }
 
     public NewsHeadView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        //init(getContext());
+        init(context);
     }
 
     public NewsHeadView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        //init(getContext());
-    }
-
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        init(getContext());
+        init(context);
     }
 
     private void init(Context context) {
@@ -92,17 +86,6 @@ public class NewsHeadView extends FrameLayout {
 
         }
     };
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        if (unbinder != null) {
-            unbinder.unbind();
-        }
-        if (mInfiniteViewPager != null) {
-            mInfiniteViewPager.removeOnPageChangeListener(mOnPageChangeListener);
-        }
-    }
 
     private void switchPoint(int position) {
         if (mPointContainer.getChildCount() == 0) return;
