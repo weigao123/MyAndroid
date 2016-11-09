@@ -1,0 +1,48 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pull_to_refresh_head"
+    android:layout_width="wrap_content"
+    android:layout_height="60dp"
+    android:orientation="horizontal" >
+    <RelativeLayout
+        android:layout_width="30dp"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/pull_to_refresh_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/arrow"/>
+        <ProgressBar
+            android:id="@+id/pull_to_refresh_progress_bar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+        <TextView
+            android:id="@+id/pull_to_refresh_description"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|bottom"
+            android:text="@string/pull_to_refresh"
+            android:textSize="14sp"
+            android:textColor="@color/black_gray"/>
+
+        <TextView
+            android:id="@+id/pull_to_refresh_updated_at"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|top"
+            android:textSize="14sp"
+            android:text="@string/updated_at"
+            android:textColor="@color/black_gray"/>
+    </LinearLayout>
+</LinearLayout>
