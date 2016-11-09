@@ -220,14 +220,10 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
                         doTask();
                         setPullOffset(-containerOffset);
                         updateHeaderView();
+                        isRefreshingHeadIsShowing = true;
                     } else if (currentStatus == STATUS_REFRESHING) {
-                        if (getOffset() >= -containerOffset) {
-                            isRefreshingHeadIsShowing = true;
-                            setPullOffset(-containerOffset);
-                        } else {
-                            isRefreshingHeadIsShowing = false;
-                            setPullOffset(0);
-                        }
+                        setPullOffset(0);
+                        isRefreshingHeadIsShowing = false;
                     }
                     break;
             }
@@ -239,6 +235,8 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
     private void updateHeaderView() {
         if (lastStatus != currentStatus) {
             lastStatus = currentStatus;
+            description.setTextColor(getResources().getColor(R.color.black_gray));
+            updateAt.setTextColor(getResources().getColor(R.color.black_gray));
             if (currentStatus == STATUS_PULLING_NOT_YET) {
                 description.setText(getResources().getString(R.string.pull_to_refresh));
                 arrow.setVisibility(View.VISIBLE);
@@ -254,6 +252,8 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
                 progressBar.setVisibility(View.VISIBLE);
                 arrow.clearAnimation();
                 arrow.setVisibility(View.GONE);
+                description.setTextColor(getResources().getColor(R.color.colorAccent));
+                updateAt.setTextColor(getResources().getColor(R.color.colorAccent));
             } else if (currentStatus == STATUS_REFRESH_FINISHED) {
             }
             refreshUpdatedAtValue();
