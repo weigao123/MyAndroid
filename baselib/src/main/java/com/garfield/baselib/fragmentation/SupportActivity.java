@@ -132,6 +132,7 @@ public class SupportActivity extends BaseActivity implements ISupport {
     protected Handler getHandler() {
         return mFragmentHelper.getHandler();
     }
+
     /**
      * 只提供第一层级的fragment
      */

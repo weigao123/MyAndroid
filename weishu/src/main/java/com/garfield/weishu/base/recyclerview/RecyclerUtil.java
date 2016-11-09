@@ -19,9 +19,10 @@ public class RecyclerUtil {
     }
 
     public static boolean isAtTop(RecyclerView recyclerView) {
+        if (recyclerView == null || recyclerView.getLayoutManager() == null) {
+            return false;
+        }
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-        if (layoutManager instanceof LinearLayoutManager);
-            //throw new Throwable("aaa");
         int position = ((LinearLayoutManager)layoutManager).findFirstVisibleItemPosition();
         if (position == 0) {
             int top = recyclerView.getChildAt(0).getTop();

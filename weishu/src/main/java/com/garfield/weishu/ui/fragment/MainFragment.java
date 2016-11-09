@@ -1,7 +1,12 @@
 package com.garfield.weishu.ui.fragment;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
@@ -16,6 +21,11 @@ import com.garfield.weishu.setting.SettingFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+
 /**
  * Created by gaowei3 on 2016/7/31.
  */
@@ -24,11 +34,13 @@ import org.greenrobot.eventbus.EventBus;
  * 不把BottomBar放在Activity中的原因是，要启动一个覆盖BottomBar的MsgFragment，否则无法覆盖
  * MainFragment包含1个BottomBar和3个Tab页Fragment
  */
-public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSelectedListener {
+public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSelectedListener, ViewPager.OnPageChangeListener {
 
     private SupportFragment[] mFragments = new SupportFragment[4];
-    private int mCurrentPosition = 0;
     private BottomBar mBottomBar;
+
+    @BindView(R.id.main_fragment_container)
+    ViewPager mViewPager;
 
     @Override
     protected int onGetFragmentLayout() {
@@ -40,18 +52,14 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
         if (mToolbarControl != null) {
             mToolbarControl.setVisibility(View.VISIBLE);
         }
-        if (savedInstanceState == null) {
-            mFragments[0] = new SessionListFragment();
-            mFragments[1] = new ContactFragment();
-            mFragments[2] = new NewsFragment();
-            mFragments[3] = new SettingFragment();
-            loadMultiRootFragment(R.id.main_fragment_container, 0, mFragments[0], mFragments[1], mFragments[2], mFragments[3]);
-        } else {
-            mFragments[0] = findFragment(SessionListFragment.class);
-            mFragments[1] = findFragment(ContactFragment.class);
-            mFragments[2] = findFragment(NewsFragment.class);
-            mFragments[3] = findFragment(SettingFragment.class);
-        }
+        mFragments[0] = new SessionListFragment();
+        mFragments[1] = new ContactFragment();
+        mFragments[2] = new NewsFragment();
+        mFragments[3] = new SettingFragment();
+
+        MyPagerAdapter pagerAdapter = new MyPagerAdapter(getChildFragmentManager(), mFragments);
+        mViewPager.setAdapter(pagerAdapter);
+        mViewPager.addOnPageChangeListener(this);
 
         mBottomBar = (BottomBar) rootView.findViewById(R.id.bottomBar);
         mBottomBar.setColor(R.color.bottombar_item_unselect, R.color.colorPrimary)
@@ -63,18 +71,13 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
     }
 
     public void switchToFirst() {
-        if (mCurrentPosition == 0) return;
+        mViewPager.setCurrentItem(0, false);
         updateNotification(0);
-        showHideFragment(mFragments[0], mFragments[mCurrentPosition]);
-        mCurrentPosition = 0;
-        mBottomBar.setTabSelected(0);
     }
 
     @Override
     public void onTabSelected(int position, int prePosition) {
-        updateNotification(position);
-        showHideFragment(mFragments[position], mFragments[prePosition]);
-        mCurrentPosition = position;
+        mViewPager.setCurrentItem(position, false);
     }
 
     @Override
@@ -96,7 +99,50 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
     }
 
     public int getTabPosition() {
-        return mCurrentPosition;
+        return mViewPager != null ? mViewPager.getCurrentItem() : 0;
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        updateNotification(position);
+        mBottomBar.setTabSelected(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    public static class MyPagerAdapter extends FragmentPagerAdapter {
+        private final SupportFragment[] mFragments;
+
+        MyPagerAdapter(FragmentManager fm, SupportFragment[] fragments) {
+            super(fm);
+            mFragments = fragments;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragments[position];
+        }
+
+        @Override
+        public int getCount() {
+            return mFragments.length;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            /**
+             * 防止重建fragment
+             */
+            //super.destroyItem(container, position, object);
+        }
     }
 
     /**

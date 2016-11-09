@@ -28,7 +28,6 @@ import static com.garfield.weishu.AppCache.USER_ACCOUNT;
 public class MainActivity extends AppBaseActivity {
 
     private static final boolean isToBack = true;
-    private Fragment mCurrentFragment;
 
     public static void start(Context context) {
         start(context, null);
@@ -84,7 +83,6 @@ public class MainActivity extends AppBaseActivity {
     @Override
     protected void onSwitchToFragment(Fragment fragment) {
         super.onSwitchToFragment(fragment);
-        mCurrentFragment = fragment;
         updateNotification(fragment);
     }
 
@@ -108,12 +106,12 @@ public class MainActivity extends AppBaseActivity {
 
     @Override
     protected void onResume() {
+        super.onResume();
         Fragment topFragment = getTopFragment();
         if (topFragment.getClass() == MainFragment.class) {
             ((MainFragment) topFragment).switchToFirst();
         }
         updateNotification(topFragment);
-        super.onResume();
 
 //        MainFragment mainFragment = findFragment(MainFragment.class);
 //        if (mainFragment != null) {

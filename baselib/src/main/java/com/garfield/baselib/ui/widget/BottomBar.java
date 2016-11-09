@@ -94,11 +94,11 @@ public class BottomBar extends LinearLayout {
                 if (mCurrentPosition == pos) {
                     mListener.onTabReselected(pos);
                 } else {
-                    mListener.onTabSelected(pos, mCurrentPosition);
                     tab.setSelected(true);
                     mListener.onTabUnselected(mCurrentPosition);
                     mTabLayout.getChildAt(mCurrentPosition).setSelected(false);
                     mCurrentPosition = pos;
+                    mListener.onTabSelected(pos, mCurrentPosition);
                 }
             }
         });
