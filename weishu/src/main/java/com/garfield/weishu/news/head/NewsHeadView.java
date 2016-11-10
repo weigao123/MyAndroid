@@ -86,6 +86,7 @@ public class NewsHeadView extends FrameLayout {
         @Override
         public void onPageSelected(int position) {
             switchPoint(mAdapter.getRealPosition(position));
+            mHeadTitle.setText(mItems.get(position).getTitle());
         }
 
         @Override
