@@ -108,18 +108,10 @@ public class MainActivity extends AppBaseActivity {
     protected void onResume() {
         super.onResume();
         Fragment topFragment = getTopFragment();
-        if (topFragment.getClass() == MainFragment.class) {
-            ((MainFragment) topFragment).switchToFirst();
-        }
-        updateNotification(topFragment);
-
-//        MainFragment mainFragment = findFragment(MainFragment.class);
-//        if (mainFragment != null) {
-//            if (mCurrentFragment != null && mCurrentFragment != mainFragment) {
-//                popToFragment(MainFragment.class, false);
-//            }
-//            mainFragment.switchToFirst();
+//        if (topFragment.getClass() == MainFragment.class) {
+//            ((MainFragment) topFragment).switchToFirst();
 //        }
+        updateNotification(topFragment);
     }
 
     @Override

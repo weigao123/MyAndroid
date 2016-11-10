@@ -1,4 +1,4 @@
-package com.garfield.weishu.news;
+package com.garfield.weishu.news.view;
 
 import android.content.Context;
 import android.content.SharedPreferences;

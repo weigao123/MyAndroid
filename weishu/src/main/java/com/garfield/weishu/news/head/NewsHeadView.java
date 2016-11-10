@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.garfield.weishu.R;
+import com.garfield.weishu.news.bean.NewsBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +40,7 @@ public class NewsHeadView extends FrameLayout {
     private LinearLayout mPointContainer;
     private InfinitePagerAdapter mAdapter;
 
-    private Unbinder unbinder;
-    private List<String> mItems = new ArrayList<>();
+    private List<NewsBean> mItems = new ArrayList<>();
 
     public NewsHeadView(Context context) {
         super(context);
@@ -60,15 +60,22 @@ public class NewsHeadView extends FrameLayout {
     private void init(Context context) {
         LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.view_news_head_infinite, this);
-        unbinder = ButterKnife.bind(this, this);
-        mItems.add("a");
-        mItems.add("a");
-        mItems.add("a");
-        mItems.add("a");
+        ButterKnife.bind(this, this);
+
         mAdapter = new InfinitePagerAdapter(getContext(), mItems);
         mInfiniteViewPager.setAdapter(mAdapter);
         mInfiniteViewPager.addOnPageChangeListener(mOnPageChangeListener);
         showPagerPoint();
+    }
+
+    public List<NewsBean> getItems() {
+        return mItems;
+    }
+
+    public void refreshItems(List<NewsBean> items) {
+        mItems.clear();
+        mItems.addAll(items);
+        mAdapter.notifyDataSetChanged();
     }
 
     private ViewPager.OnPageChangeListener mOnPageChangeListener = new ViewPager.OnPageChangeListener() {

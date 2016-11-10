@@ -4,20 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.garfield.weishu.news.PullToRefreshView
-        android:id="@+id/fragment_new_refresh"
+    <com.garfield.weishu.news.view.PullToRefreshView
+        android:id="@+id/fragment_news_list_refresh"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/fragment_new_recyclerView"
+            android:id="@+id/fragment_news_list_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="visible" />
-    </com.garfield.weishu.news.PullToRefreshView>
+    </com.garfield.weishu.news.view.PullToRefreshView>
 
     <Button
-        android:id="@+id/fragment_new_reload_btn"
+        android:id="@+id/fragment_news_list_reload_btn"
         style="?android:borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

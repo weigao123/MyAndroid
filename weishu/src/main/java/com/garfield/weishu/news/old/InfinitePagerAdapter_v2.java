@@ -1,13 +1,10 @@
 package com.garfield.weishu.news.old;
 
 import android.content.Context;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.ViewGroup;
 
-import com.garfield.baselib.utils.L;
 import com.garfield.weishu.base.viewpager.TPagerAdapter;
-import com.garfield.weishu.news.head.NewsViewHolder;
+import com.garfield.weishu.news.head.NewsHeadViewHolder;
 
 import java.util.List;
 
@@ -28,7 +25,7 @@ public class InfinitePagerAdapter_v2 extends TPagerAdapter<String> {
 
     @Override
     public Class getViewHolderClassAtPosition(int position) {
-        return NewsViewHolder.class;
+        return NewsHeadViewHolder.class;
     }
 
     @Override

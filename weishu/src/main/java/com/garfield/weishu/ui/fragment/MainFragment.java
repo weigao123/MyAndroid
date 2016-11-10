@@ -14,15 +14,12 @@ import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.ui.widget.BottomBar;
 import com.garfield.weishu.R;
 import com.garfield.weishu.contact.ContactFragment;
-import com.garfield.weishu.news.NewsFragment;
+import com.garfield.weishu.news.view.NewsListFragment;
 import com.garfield.weishu.nim.NimConfig;
 import com.garfield.weishu.session.sessionlist.SessionListFragment;
 import com.garfield.weishu.setting.SettingFragment;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 
@@ -54,7 +51,7 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
         }
         mFragments[0] = new SessionListFragment();
         mFragments[1] = new ContactFragment();
-        mFragments[2] = new NewsFragment();
+        mFragments[2] = new NewsListFragment();
         mFragments[3] = new SettingFragment();
 
         MyPagerAdapter pagerAdapter = new MyPagerAdapter(getChildFragmentManager(), mFragments);

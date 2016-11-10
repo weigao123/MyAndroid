@@ -2,14 +2,17 @@ package com.garfield.weishu.news.head;
 
 import android.widget.ImageView;
 
+import com.garfield.baselib.utils.ImageLoaderUtils;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.viewpager.TPagerViewHolder;
+import com.garfield.weishu.news.bean.NewsBean;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
  * Created by gaowei3 on 2016/10/31.
  */
 
-public class NewsViewHolder extends TPagerViewHolder<String> {
+public class NewsHeadViewHolder extends TPagerViewHolder<NewsBean> {
 
     private ImageView mHeadImage;
 
@@ -29,9 +32,8 @@ public class NewsViewHolder extends TPagerViewHolder<String> {
     }
 
     @Override
-    protected void refresh(String item) {
-        mHeadImage.setImageResource(R.drawable.cheese_1);
-        //ImageLoader.getInstance().displayImage(item, mHeadImage, ImageLoaderUtils.getDisplayImageNoDiskCacheOptions());
+    protected void refresh(NewsBean item) {
+        ImageLoader.getInstance().displayImage(item.getImgsrc(), mHeadImage, ImageLoaderUtils.getDisplayImageNoDiskCacheOptions());
     }
 
     @Override

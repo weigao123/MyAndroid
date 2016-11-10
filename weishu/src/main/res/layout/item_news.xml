@@ -1,62 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<!-- 会有波纹效果
+ android:foreground="?attr/selectableItemBackground"  -->
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?attr/selectableItemBackground"
-    card_view:cardCornerRadius="6dp"
-    card_view:cardElevation="2dp"
-    card_view:cardUseCompatPadding="true">
+    card_view:cardBackgroundColor="@color/white"
+    card_view:cardCornerRadius="3dp"
+    card_view:cardElevation="1dp"
+    card_view:cardUseCompatPadding="true" >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="6dp">
+        android:background="@drawable/bg_press_white_to_gray"
+        android:padding="8dp"
+        android:clickable="true">
 
         <ImageView
-            android:id="@+id/index_timeline_item_iv"
+            android:id="@+id/item_news_image"
             android:layout_width="105dp"
             android:layout_height="70dp"
             android:layout_centerVertical="true"
-            android:scaleType="centerInside"
+            android:scaleType="centerCrop"
             tools:src="@drawable/ic_launcher" />
 
         <TextView
-            android:id="@+id/index_timeline_item_title_tv"
+            android:id="@+id/item_news_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
-            android:layout_toRightOf="@id/index_timeline_item_iv"
+            android:layout_alignTop="@id/item_news_image"
+            android:layout_toRightOf="@id/item_news_image"
             android:ellipsize="end"
+            android:minLines="2"
             android:maxLines="2"
-            android:textColor="@color/gray"
-            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textSize="17sp"
             tools:text="标题" />
 
         <TextView
-            android:id="@+id/index_timeline_item_content_tv"
+            android:id="@+id/item_news_source"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/index_timeline_item_title_tv"
-            android:layout_below="@id/index_timeline_item_title_tv"
-            android:layout_marginTop="4dp"
-            android:ellipsize="end"
-            android:maxLines="5"
-            android:textColor="@android:color/darker_gray"
+            android:layout_alignLeft="@id/item_news_title"
+            android:layout_alignBottom="@id/item_news_image"
+            android:ellipsize="none"
+            android:maxLines="1"
+            android:textColor="@color/black_gray2"
             android:textSize="14sp"
             tools:text="概要" />
 
         <TextView
-            android:id="@+id/index_timeline_item_info_tv"
+            android:id="@+id/item_news_reply"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/index_timeline_item_content_tv"
-            android:layout_marginTop="4dp"
+            android:layout_alignBottom="@id/item_news_image"
             android:gravity="bottom"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="12sp"
+            android:textColor="@color/black_gray2"
+            android:textSize="14sp"
             tools:text="时间" />
 
     </RelativeLayout>

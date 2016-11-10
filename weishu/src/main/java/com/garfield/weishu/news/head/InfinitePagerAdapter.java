@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.ViewGroup;
 
 import com.garfield.weishu.base.viewpager.TPagerAdapter;
+import com.garfield.weishu.news.bean.NewsBean;
 
 import java.util.List;
 
@@ -11,9 +12,9 @@ import java.util.List;
  * Created by gaowei3 on 2016/10/31.
  */
 
-public class InfinitePagerAdapter extends TPagerAdapter<String> {
+public class InfinitePagerAdapter extends TPagerAdapter<NewsBean> {
 
-    public InfinitePagerAdapter(Context context, List<String> items) {
+    public InfinitePagerAdapter(Context context, List<NewsBean> items) {
         super(context, items);
     }
 
@@ -30,11 +31,12 @@ public class InfinitePagerAdapter extends TPagerAdapter<String> {
 
     @Override
     public Class getViewHolderClassAtPosition(int position) {
-        return NewsViewHolder.class;
+        return NewsHeadViewHolder.class;
     }
 
     @Override
     public int getCount() {
+        if (getItems().isEmpty()) return 0;
         return Integer.MAX_VALUE;
     }
 
