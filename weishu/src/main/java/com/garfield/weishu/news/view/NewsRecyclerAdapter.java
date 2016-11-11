@@ -23,4 +23,10 @@ public class NewsRecyclerAdapter extends TRecyclerAdapter<NewsBean> {
     }
 
 
+    public void refreshItems(List<NewsBean> items) {
+        getItems().clear();
+        getItems().addAll(items);
+        notifyDataSetChanged();
+    }
+
 }

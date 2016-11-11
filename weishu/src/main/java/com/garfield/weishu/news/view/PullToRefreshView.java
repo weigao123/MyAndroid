@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -69,6 +70,8 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
     TextView description;
     @BindView(R.id.pull_to_refresh_updated_at)
     TextView updateAt;
+
+    private OnPullRefreshListener mListener;
 
     public PullToRefreshView(Context context) {
         super(context);
@@ -329,6 +332,7 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
     }
 
     public void reset(boolean isFinished) {
+        if (currentStatus == STATUS_REFRESH_FINISHED) return;
         currentStatus = STATUS_REFRESH_FINISHED;
         mEnabled = false;
         yDown = 0;
@@ -341,7 +345,16 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
     }
 
     private void doTask() {
-        new RefreshingTask().execute();
+        if (mListener != null) {
+            mListener.onRefresh();
+        }
+        //new RefreshingTask().execute();
+    }
+
+    public void setRefreshing(boolean isRefreshing) {
+        if (!isRefreshing) {
+            reset(true);
+        }
     }
 
     private class RefreshingTask extends AsyncTask<Void, Integer, Void> {
@@ -361,4 +374,11 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
         }
     }
 
+    public void setOnRefreshListener(OnPullRefreshListener listener) {
+        mListener = listener;
+    }
+
+    public interface OnPullRefreshListener {
+        void onRefresh();
+    }
 }

@@ -32,4 +32,8 @@ public class RecyclerUtil {
         }
         return false;
     }
+
+    public static boolean isAtBottom(RecyclerView recyclerView) {
+
+    }
 }

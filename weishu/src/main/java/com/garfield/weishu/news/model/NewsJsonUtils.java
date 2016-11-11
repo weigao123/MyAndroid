@@ -25,8 +25,19 @@ public class NewsJsonUtils {
                 return null;
             }
             JsonArray jsonArray = jsonElement.getAsJsonArray();
-            for (int i = 1; i < jsonArray.size(); i++) {
+            for (int i = 0; i < jsonArray.size(); i++) {
                 JsonObject jo = jsonArray.get(i).getAsJsonObject();
+                if (jo.has("ads")) {
+                    JsonElement element = jo.get("ads");
+                    JsonArray array = element.getAsJsonArray();
+                    for (JsonElement headElement : array) {
+                        JsonObject headObject = headElement.getAsJsonObject();
+                        NewsBean news = JsonUtils.deserialize(headObject, NewsBean.class);
+                        news.setBeanType(NewsBean.TYPE_SLIDE_HEAD);
+                        beans.add(news);
+                    }
+                    continue;
+                }
                 if (jo.has("skipType") && "special".equals(jo.get("skipType").getAsString())) {
                     continue;
                 }
@@ -36,6 +47,7 @@ public class NewsJsonUtils {
 
                 if (!jo.has("imgextra")) {
                     NewsBean news = JsonUtils.deserialize(jo, NewsBean.class);
+                    news.setBeanType(NewsBean.TYPE_NORMAL);
                     beans.add(news);
                 }
             }

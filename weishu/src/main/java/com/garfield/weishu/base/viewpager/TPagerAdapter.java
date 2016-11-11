@@ -44,7 +44,6 @@ public abstract class TPagerAdapter<T> extends PagerAdapter {
         return mViewPager;
     }
 
-
     @Override
     public void notifyDataSetChanged() {
         mRecycleBin.clean();
@@ -124,7 +123,6 @@ public abstract class TPagerAdapter<T> extends PagerAdapter {
     public abstract int getViewTypeCount();
 
     public abstract Class getViewHolderClassAtPosition(int position);
-
 
     public void setItemEventListener(ItemEventListener eventListener) {
         this.mItemEventListener = eventListener;

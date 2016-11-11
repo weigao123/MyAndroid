@@ -21,7 +21,8 @@ public class InfinitePagerAdapter extends TPagerAdapter<NewsBean> {
     @Override
     public void notifyDataSetChanged() {
         super.notifyDataSetChanged();
-        getViewPager().setCurrentItem(getItems().size() * 100, false);
+        //会ANR
+        //getViewPager().setCurrentItem(0, false);
     }
 
     @Override
@@ -56,4 +57,8 @@ public class InfinitePagerAdapter extends TPagerAdapter<NewsBean> {
         return position % getItems().size();
     }
 
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
+    }
 }

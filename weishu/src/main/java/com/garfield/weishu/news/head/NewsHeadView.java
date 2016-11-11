@@ -1,6 +1,7 @@
 package com.garfield.weishu.news.head;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.garfield.baselib.utils.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.news.bean.NewsBean;
 
@@ -61,11 +63,7 @@ public class NewsHeadView extends FrameLayout {
         LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.view_news_head_infinite, this);
         ButterKnife.bind(this, this);
-
-        mAdapter = new InfinitePagerAdapter(getContext(), mItems);
-        mInfiniteViewPager.setAdapter(mAdapter);
-        mInfiniteViewPager.addOnPageChangeListener(mOnPageChangeListener);
-        showPagerPoint();
+        refreshItems(mItems);
     }
 
     public List<NewsBean> getItems() {
@@ -75,7 +73,11 @@ public class NewsHeadView extends FrameLayout {
     public void refreshItems(List<NewsBean> items) {
         mItems.clear();
         mItems.addAll(items);
-        mAdapter.notifyDataSetChanged();
+        mAdapter = new InfinitePagerAdapter(getContext(), mItems);
+        mInfiniteViewPager.setAdapter(mAdapter);
+        mInfiniteViewPager.clearOnPageChangeListeners();
+        mInfiniteViewPager.addOnPageChangeListener(mOnPageChangeListener);
+        showPagerPoint();
     }
 
     private ViewPager.OnPageChangeListener mOnPageChangeListener = new ViewPager.OnPageChangeListener() {
@@ -86,7 +88,7 @@ public class NewsHeadView extends FrameLayout {
         @Override
         public void onPageSelected(int position) {
             switchPoint(mAdapter.getRealPosition(position));
-            mHeadTitle.setText(mItems.get(position).getTitle());
+            mHeadTitle.setText(mItems.get(mAdapter.getRealPosition(position)).getTitle());
         }
 
         @Override
@@ -107,6 +109,7 @@ public class NewsHeadView extends FrameLayout {
     }
 
     private void showPagerPoint() {
+        mTitleContainer.removeView(mPointContainer);
         mPointContainer = new LinearLayout(getContext());
         LinearLayout.LayoutParams pointParam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         pointParam.setMargins(8, 8, 8, 8);

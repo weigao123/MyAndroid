@@ -3,7 +3,9 @@ package com.garfield.weishu.news.view;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.garfield.baselib.utils.L;
@@ -26,7 +28,7 @@ import butterknife.BindView;
  * Created by gaowei3 on 2016/10/28.
  */
 
-public class NewsListFragment extends AppBaseFragment implements NewsView<NewsBean> {
+public class NewsListFragment extends AppBaseFragment implements PullToRefreshView.OnPullRefreshListener, NewsView<NewsBean> {
 
     public static final int NEWS_TYPE_TOP = 0;
     public static final int NEWS_TYPE_NBA = 1;
@@ -43,10 +45,12 @@ public class NewsListFragment extends AppBaseFragment implements NewsView<NewsBe
     Button mReloadBtn;
 
     private NewsHeadView mNewsHeadView;
+    private View mFootView;
     private NewsRecyclerAdapter mNewsRecyclerAdapter;
     private List<NewsBean> mItems = new ArrayList<>();
 
     private NewsPresenter mNewsPresenter;
+    private int pageIndex = 0;
 
     @Override
     protected int onGetFragmentLayout() {
@@ -56,16 +60,19 @@ public class NewsListFragment extends AppBaseFragment implements NewsView<NewsBe
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
+        mPullToRefreshView.setOnRefreshListener(this);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
 
         mNewsHeadView = new NewsHeadView(getContext());
+        mFootView = LayoutInflater.from(getContext()).inflate(R.layout.view_footer, (ViewGroup) rootView, false);
         mNewsRecyclerAdapter = new NewsRecyclerAdapter(getContext(), mItems);
         mNewsRecyclerAdapter.setHeadView(mNewsHeadView);
+        mNewsRecyclerAdapter.setFootView(mFootView);
         mRecyclerView.setAdapter(mNewsRecyclerAdapter);
 
         mNewsPresenter = new NewsPresenterImpl(this);
-        mNewsPresenter.loadNews(0, Urls.PAZE_SIZE);
+        mNewsPresenter.loadNews(0, pageIndex);
     }
 
 
@@ -77,15 +84,37 @@ public class NewsListFragment extends AppBaseFragment implements NewsView<NewsBe
 
     @Override
     public void dataLoaded(List<NewsBean> data) {
-        mItems.clear();
-        mItems.addAll(data);
-        //mNewsHeadView.refreshItems(data);
-        mNewsRecyclerAdapter.notifyDataSetChanged();
+        List<NewsBean> slideItem = new ArrayList<>();
+        List<NewsBean> normalItem = new ArrayList<>();
+        for (NewsBean bean : data) {
+            switch (bean.getBeanType()) {
+                case NewsBean.TYPE_SLIDE_HEAD:
+                    slideItem.add(bean);
+                    break;
+                case NewsBean.TYPE_NORMAL:
+                    normalItem.add(bean);
+                    break;
+            }
+        }
+        if (!slideItem.isEmpty()) {
+            mNewsHeadView.refreshItems(slideItem);
+        }
+        if (!normalItem.isEmpty()) {
+            mNewsRecyclerAdapter.refreshItems(normalItem);
+        }
+        mPullToRefreshView.setRefreshing(false);
     }
 
 
     @Override
     public void loadFailed() {
 
+    }
+
+
+    @Override
+    public void onRefresh() {
+        pageIndex = 0;
+        mNewsPresenter.loadNews(0, pageIndex);
     }
 }

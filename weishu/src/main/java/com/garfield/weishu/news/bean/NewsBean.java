@@ -5,6 +5,13 @@ import java.io.Serializable;
 
 public class NewsBean implements Serializable {
 
+    public static final int TYPE_SLIDE_HEAD = 0;
+    public static final int TYPE_NORMAL = 1;
+
+    /**
+     * 类型
+     */
+    private int beanType;
     /**
      * docid
      */
@@ -45,6 +52,14 @@ public class NewsBean implements Serializable {
      * 回复数
      */
     private String replyCount;
+
+    public int getBeanType() {
+        return beanType;
+    }
+
+    public void setBeanType(int beanType) {
+        this.beanType = beanType;
+    }
 
     public String getReplyCount() {
         return replyCount;

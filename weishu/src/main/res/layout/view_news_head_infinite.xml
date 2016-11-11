@@ -30,9 +30,9 @@
             android:includeFontPadding="false"
             android:layout_weight="1"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:maxLines="1"
             android:textColor="@color/white"
-            android:textSize="14sp"/>
+            android:textSize="16sp"/>
 
     </LinearLayout>
 
