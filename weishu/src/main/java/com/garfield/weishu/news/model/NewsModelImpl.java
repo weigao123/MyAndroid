@@ -1,5 +1,6 @@
 package com.garfield.weishu.news.model;
 
+import com.garfield.baselib.utils.L;
 import com.garfield.weishu.base.OnMyRequestListener;
 import com.garfield.weishu.http.okhttp.OkHttp3Utils;
 import com.garfield.weishu.news.Urls;
@@ -7,6 +8,7 @@ import com.garfield.weishu.news.bean.NewsBean;
 import com.garfield.weishu.news.bean.NewsDetailBean;
 import com.garfield.weishu.news.view.NewsListFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,6 +20,7 @@ public class NewsModelImpl implements NewsModel {
 
     @Override
     public void loadNews(String url, final int type, final OnMyRequestListener<NewsBean> listener) {
+        L.d("loadNews url: " + url);
         OkHttp3Utils.OkHttpResultCallback<String> loadNewsCallback = new OkHttp3Utils.OkHttpResultCallback<String>() {
             @Override
             public void onSuccess(String response) {
@@ -34,8 +37,24 @@ public class NewsModelImpl implements NewsModel {
     }
 
     @Override
-    public void loadNewsDetail(String docId, OnMyRequestListener<NewsDetailBean> listener) {
+    public void loadNewsDetail(final String docid, final OnMyRequestListener<NewsDetailBean> listener) {
+        String url = getDetailUrl(docid);
+        L.d("loadNewsDetail url: " + url);
+        OkHttp3Utils.OkHttpResultCallback<String> loadNewsCallback = new OkHttp3Utils.OkHttpResultCallback<String>() {
+            @Override
+            public void onSuccess(String response) {
+                List<NewsDetailBean> newsDetailBeanList = new ArrayList<>();
+                NewsDetailBean newsDetailBean = NewsJsonUtils.readJsonNewsDetailBeans(response, docid);
+                newsDetailBeanList.add(newsDetailBean);
+                listener.onSuccess(newsDetailBeanList);
+            }
 
+            @Override
+            public void onFailure(Exception e) {
+                listener.onFailure(e);
+            }
+        };
+        OkHttp3Utils.get(url, loadNewsCallback);
     }
 
 
@@ -59,5 +78,11 @@ public class NewsModelImpl implements NewsModel {
                 break;
         }
         return id;
+    }
+
+    private String getDetailUrl(String docId) {
+        StringBuffer sb = new StringBuffer(Urls.NEW_DETAIL);
+        sb.append(docId).append(Urls.END_DETAIL_URL);
+        return sb.toString();
     }
 }

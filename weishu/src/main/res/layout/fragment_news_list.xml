@@ -8,7 +8,8 @@
         android:id="@+id/fragment_news_list_refresh"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/fragment_news_list_recyclerView"
             android:layout_width="match_parent"
@@ -22,8 +23,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/status_network_is_not_available"
-        android:textColor="@color/colorPrimary"
+        android:text="@string/click_and_refresh"
+        android:textColor="@color/colorAccent"
         android:textSize="18sp"
         android:visibility="gone" />
 </FrameLayout>

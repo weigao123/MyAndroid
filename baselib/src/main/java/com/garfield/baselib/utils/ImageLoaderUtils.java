@@ -68,7 +68,7 @@ public class ImageLoaderUtils {
                 .cacheOnDisk(true)
                 .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
                 .bitmapConfig(Bitmap.Config.RGB_565)
-                .displayer(new FadeInBitmapDisplayer(300))
+                //.displayer(new FadeInBitmapDisplayer(500))
                 .build();
     }
 
@@ -82,7 +82,7 @@ public class ImageLoaderUtils {
                     .cacheOnDisk(true)
                     .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
                     .bitmapConfig(Bitmap.Config.RGB_565)
-                    .displayer(new FadeInBitmapDisplayer(300))
+                    //.displayer(new FadeInBitmapDisplayer(500))
                     .build();
         }
         return mDisplayImageOptions;
@@ -98,7 +98,7 @@ public class ImageLoaderUtils {
                     .cacheOnDisk(false)
                     .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
                     .bitmapConfig(Bitmap.Config.RGB_565)
-                    .displayer(new FadeInBitmapDisplayer(300))
+                    //.displayer(new FadeInBitmapDisplayer(500))
                     .build();
         }
         return mDisplayImageNoDiskCacheOptions;

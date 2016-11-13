@@ -12,6 +12,6 @@ public interface NewsModel {
 
     void loadNews(String url, int type, OnMyRequestListener<NewsBean> listener);
 
-    void loadNewsDetail(String docId, OnMyRequestListener<NewsDetailBean> listener);
+    void loadNewsDetail(String docid, OnMyRequestListener<NewsDetailBean> listener);
 
 }

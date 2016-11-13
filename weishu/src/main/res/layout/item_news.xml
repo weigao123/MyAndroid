@@ -17,8 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_press_white_to_gray"
-        android:padding="8dp"
-        android:clickable="true">
+        android:padding="8dp">
 
         <ImageView
             android:id="@+id/item_news_image"

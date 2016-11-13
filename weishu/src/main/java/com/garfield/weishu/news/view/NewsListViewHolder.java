@@ -5,7 +5,6 @@ import android.widget.TextView;
 
 import com.garfield.baselib.utils.ImageLoaderUtils;
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
 import com.garfield.weishu.base.recyclerview.TRecyclerViewHolder;
 import com.garfield.weishu.news.bean.NewsBean;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -14,7 +13,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
  * Created by gaowei3 on 2016/11/4.
  */
 
-public class NewsViewHolder extends TRecyclerViewHolder<NewsBean> {
+public class NewsListViewHolder extends TRecyclerViewHolder<NewsBean> {
 
     private ImageView newsImage;
     private TextView newsTitle;
@@ -66,7 +65,7 @@ public class NewsViewHolder extends TRecyclerViewHolder<NewsBean> {
     }
 
     @Override
-    protected NewsRecyclerAdapter getAdapter() {
-        return (NewsRecyclerAdapter) mAdapter;
+    protected NewsListRecyclerAdapter getAdapter() {
+        return (NewsListRecyclerAdapter) mAdapter;
     }
 }

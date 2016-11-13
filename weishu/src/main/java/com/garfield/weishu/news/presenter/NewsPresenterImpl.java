@@ -1,5 +1,10 @@
 package com.garfield.weishu.news.presenter;
 
+import android.widget.Toast;
+
+import com.garfield.baselib.utils.NetworkUtil;
+import com.garfield.weishu.AppCache;
+import com.garfield.weishu.R;
 import com.garfield.weishu.base.OnMyRequestListener;
 import com.garfield.weishu.news.Urls;
 import com.garfield.weishu.news.bean.NewsBean;
@@ -7,6 +12,7 @@ import com.garfield.weishu.news.bean.NewsDetailBean;
 import com.garfield.weishu.news.model.NewsModel;
 import com.garfield.weishu.news.model.NewsModelImpl;
 import com.garfield.weishu.news.view.NewsListFragment;
+import com.nostra13.universalimageloader.utils.L;
 
 import java.util.List;
 
@@ -19,40 +25,54 @@ public class NewsPresenterImpl implements NewsPresenter {
     private NewsView mNewsView;
     private NewsModel mNewsModel;
 
-    public NewsPresenterImpl(NewsView newsView) {
-        mNewsView = newsView;
+    public NewsPresenterImpl(NewsView NewsView) {
+        mNewsView = NewsView;
         mNewsModel = new NewsModelImpl();
     }
 
+    /**
+     * pageIndex，是起始item的索引，不是page
+     */
     @Override
     public void loadNews(int type, int pageIndex) {
         String url = getUrl(type, pageIndex);
+        if (!NetworkUtil.isNetAvailable(AppCache.getContext())) {
+            Toast.makeText(AppCache.getContext(), R.string.status_network_is_not_available, Toast.LENGTH_SHORT).show();
+            mNewsView.onLoadFailed();
+            return;
+        }
+        mNewsView.onLoadBefore();
         mNewsModel.loadNews(url, type, new OnMyRequestListener<NewsBean>() {
-
             @Override
             public void onSuccess(List<NewsBean> data) {
-                mNewsView.dataLoaded(data);
+                mNewsView.onLoadSuccess(data);
             }
 
             @Override
             public void onFailure(Exception e) {
-
+                mNewsView.onLoadFailed();
             }
         });
     }
 
     @Override
     public void loadNewsDetail(String docId) {
+        if (!NetworkUtil.isNetAvailable(AppCache.getContext())) {
+            Toast.makeText(AppCache.getContext(), R.string.status_network_is_not_available, Toast.LENGTH_SHORT).show();
+            mNewsView.onLoadFailed();
+            return;
+        }
+        mNewsView.onLoadBefore();
         mNewsModel.loadNewsDetail(docId, new OnMyRequestListener<NewsDetailBean>() {
-
             @Override
             public void onSuccess(List<NewsDetailBean> data) {
-
+                handleString(data.get(0));
+                mNewsView.onLoadSuccess(data);
             }
 
             @Override
             public void onFailure(Exception e) {
-
+                mNewsView.onLoadFailed();
             }
         });
     }
@@ -77,7 +97,25 @@ public class NewsPresenterImpl implements NewsPresenter {
                 sb.append(Urls.TOP_URL).append(Urls.TOP_ID);
                 break;
         }
-        sb.append("/").append(pageIndex).append(Urls.END_URL);
+        sb.append("/").append(pageIndex * Urls.PAZE_SIZE).append(Urls.END_URL);
         return sb.toString();
+    }
+
+    private void handleString(NewsDetailBean bean) {
+        String body = bean.getBody();
+        int i = 0;
+        while (true) {
+            String imgTag = "<!--IMG#" + i +"-->";
+            if (body.contains(imgTag)) {
+                String imgUrl = bean.getImg().get(i).getSrc();
+                String realImgTag = "<img src=\"" + imgUrl + "\" width=\"100%\">";
+                body = body.replace(imgTag, realImgTag);
+                ++i;
+            } else {
+                break;
+            }
+        }
+        L.d("body: "+body);
+        bean.setBody(body);
     }
 }

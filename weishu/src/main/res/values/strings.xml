@@ -118,4 +118,8 @@
     <string name="time_error">时间有问题</string>
     
     <string name="num_reply">%1$s跟帖</string>
+    <string name="loading">正在加载...</string>
+    <string name="click_and_refresh">点击刷新</string>
+    <string name="refresh_failed_and_retry">加载失败,点击重试</string>
+
 </resources>

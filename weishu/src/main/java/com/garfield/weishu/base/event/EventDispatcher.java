@@ -1,5 +1,6 @@
 package com.garfield.weishu.base.event;
 
+import com.garfield.weishu.news.view.NewsDetailFragment;
 import com.garfield.weishu.setting.ChangeInfoFragment;
 import com.garfield.weishu.setting.CropPhotoFragment;
 import com.garfield.weishu.contact.FriendProfileFragment;
@@ -59,6 +60,11 @@ public class EventDispatcher {
             @Override
             public void onShowFullscreenPhoto(String photoPath) {
                 EventBus.getDefault().post(new StartBrotherEvent(FullscreenPhoto.newInstance(photoPath)));
+            }
+
+            @Override
+            public void onShowNewsDetail(String url) {
+                EventBus.getDefault().post(new StartBrotherEvent(NewsDetailFragment.newInstance(url)));
             }
         };
     }

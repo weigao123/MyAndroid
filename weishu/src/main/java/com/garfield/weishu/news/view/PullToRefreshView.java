@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -173,7 +172,7 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
                             return true;
                         } else {
                             // 关闭
-                            reset(false);
+                            refreshEnd(false);
                             return false;
                         }
                     } else {
@@ -216,7 +215,7 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
                      * 功能打开的状态下，只有 STATUS_PULLING_NOT_YET、STATUS_RELEASE_TO_REFRESH
                      */
                     if (currentStatus == STATUS_PULLING_NOT_YET) {
-                        reset(false);
+                        refreshEnd(false);
                     } else if (currentStatus == STATUS_RELEASE_TO_REFRESH) {
                         isRefreshingHeadIsShowing = true;
                         currentStatus = STATUS_REFRESHING;
@@ -331,7 +330,7 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
         }
     }
 
-    public void reset(boolean isFinished) {
+    private void refreshEnd(boolean isFinished) {
         if (currentStatus == STATUS_REFRESH_FINISHED) return;
         currentStatus = STATUS_REFRESH_FINISHED;
         mEnabled = false;
@@ -344,16 +343,26 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
         }
     }
 
+    private void refreshStart() {
+        if (currentStatus == STATUS_REFRESHING) return;
+        currentStatus = STATUS_REFRESHING;
+        setPullOffset(-containerOffset);
+        updateHeaderView();
+        isRefreshingHeadIsShowing = true;
+    }
+
     private void doTask() {
         if (mListener != null) {
-            mListener.onRefresh();
+            mListener.onPullRefresh();
         }
         //new RefreshingTask().execute();
     }
 
-    public void setRefreshing(boolean isRefreshing) {
-        if (!isRefreshing) {
-            reset(true);
+    public void setRefreshState(boolean isRefreshing) {
+        if (isRefreshing) {
+            refreshStart();
+        } else {
+            refreshEnd(false);
         }
     }
 
@@ -370,7 +379,7 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            reset(true);
+            refreshEnd(true);
         }
     }
 
@@ -379,6 +388,6 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
     }
 
     public interface OnPullRefreshListener {
-        void onRefresh();
+        void onPullRefresh();
     }
 }

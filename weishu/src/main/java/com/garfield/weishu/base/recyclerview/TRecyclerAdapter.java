@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.garfield.weishu.news.bean.NewsBean;
 import com.garfield.weishu.session.sessionlist.SessionListAdapter;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 
@@ -47,6 +48,7 @@ public abstract class TRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerV
 
     public void setFootView(View footView) {
         mFootView = footView;
+        mFootView.setVisibility(View.GONE);
     }
 
     public View getFootView() {
@@ -163,5 +165,26 @@ public abstract class TRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerV
     public interface ItemEventListener<T> {
         void onItemClick(T item);
         void onItemLongPressed(T item);
+    }
+
+    public void refreshItems(List<T> items) {
+        getItems().clear();
+        getItems().addAll(items);
+        notifyDataSetChanged();
+    }
+
+    public void addItems(List<T> items) {
+        getItems().addAll(items);
+        notifyDataSetChanged();
+    }
+
+    public void setFootVisible(boolean isShow) {
+        if (mFootView != null) {
+            mFootView.setVisibility(isShow ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    public boolean isFootVisible() {
+        return mFootView != null && mFootView.getVisibility() == View.VISIBLE;
     }
 }

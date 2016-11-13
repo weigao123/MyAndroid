@@ -8,9 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.garfield.baselib.utils.L;
 import com.garfield.weishu.R;
-import com.garfield.weishu.news.Urls;
+import com.garfield.weishu.base.event.EventDispatcher;
+import com.garfield.weishu.base.recyclerview.RecyclerUtil;
+import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
 import com.garfield.weishu.news.bean.NewsBean;
 import com.garfield.weishu.news.head.NewsHeadView;
 import com.garfield.weishu.news.presenter.NewsPresenter;
@@ -28,7 +29,9 @@ import butterknife.BindView;
  * Created by gaowei3 on 2016/10/28.
  */
 
-public class NewsListFragment extends AppBaseFragment implements PullToRefreshView.OnPullRefreshListener, NewsView<NewsBean> {
+public class NewsListFragment extends AppBaseFragment implements
+        PullToRefreshView.OnPullRefreshListener, NewsView<NewsBean>,
+        View.OnClickListener, TRecyclerAdapter.ItemEventListener<NewsBean> {
 
     public static final int NEWS_TYPE_TOP = 0;
     public static final int NEWS_TYPE_NBA = 1;
@@ -45,12 +48,18 @@ public class NewsListFragment extends AppBaseFragment implements PullToRefreshVi
     Button mReloadBtn;
 
     private NewsHeadView mNewsHeadView;
-    private View mFootView;
-    private NewsRecyclerAdapter mNewsRecyclerAdapter;
+    private View footRefreshing;
+    private View footRefreshFailed;
+    private NewsListRecyclerAdapter mNewsListRecyclerAdapter;
     private List<NewsBean> mItems = new ArrayList<>();
 
     private NewsPresenter mNewsPresenter;
+
+    /**
+     * 当前已有的页数
+     */
     private int pageIndex = 0;
+    private boolean isLoadAll;
 
     @Override
     protected int onGetFragmentLayout() {
@@ -63,27 +72,49 @@ public class NewsListFragment extends AppBaseFragment implements PullToRefreshVi
         mPullToRefreshView.setOnRefreshListener(this);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        mReloadBtn.setOnClickListener(this);
 
         mNewsHeadView = new NewsHeadView(getContext());
-        mFootView = LayoutInflater.from(getContext()).inflate(R.layout.view_footer, (ViewGroup) rootView, false);
-        mNewsRecyclerAdapter = new NewsRecyclerAdapter(getContext(), mItems);
-        mNewsRecyclerAdapter.setHeadView(mNewsHeadView);
-        mNewsRecyclerAdapter.setFootView(mFootView);
-        mRecyclerView.setAdapter(mNewsRecyclerAdapter);
+        View footView = LayoutInflater.from(getContext()).inflate(R.layout.view_footer, (ViewGroup) rootView, false);
+        footRefreshing = footView.findViewById(R.id.foot_refreshing);
+        footRefreshFailed = footView.findViewById(R.id.foot_refresh_failed);
+        footRefreshFailed.setOnClickListener(this);
+        mNewsListRecyclerAdapter = new NewsListRecyclerAdapter(getContext(), mItems);
+        mNewsListRecyclerAdapter.setHeadView(mNewsHeadView);
+        mNewsListRecyclerAdapter.setFootView(footView);
+        mNewsListRecyclerAdapter.setItemEventListener(this);
+        mRecyclerView.setAdapter(mNewsListRecyclerAdapter);
+        mRecyclerView.addOnScrollListener(mOnScrollListener);
 
         mNewsPresenter = new NewsPresenterImpl(this);
-        mNewsPresenter.loadNews(0, pageIndex);
-    }
-
-
-
-    @Override
-    public void startLoad() {
-
+        refreshAll();
     }
 
     @Override
-    public void dataLoaded(List<NewsBean> data) {
+    public void onLoadBefore() {
+        if (isLoadAll) {
+            mPullToRefreshView.setRefreshState(true);
+        }
+    }
+
+    private RecyclerView.OnScrollListener mOnScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            if (newState == RecyclerView.SCROLL_STATE_IDLE &&
+                    RecyclerUtil.isAtBottom(recyclerView) &&
+                    !mNewsListRecyclerAdapter.isFootVisible()) {
+                refreshNext();
+            }
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
+        }
+    };
+
+    @Override
+    public void onLoadSuccess(List<NewsBean> data) {
         List<NewsBean> slideItem = new ArrayList<>();
         List<NewsBean> normalItem = new ArrayList<>();
         for (NewsBean bean : data) {
@@ -96,25 +127,79 @@ public class NewsListFragment extends AppBaseFragment implements PullToRefreshVi
                     break;
             }
         }
-        if (!slideItem.isEmpty()) {
+
+        if (isLoadAll) {
             mNewsHeadView.refreshItems(slideItem);
+            mNewsListRecyclerAdapter.refreshItems(normalItem);
+            pageIndex = 1;
+        } else {
+            mNewsListRecyclerAdapter.addItems(normalItem);
+            ++pageIndex;
         }
-        if (!normalItem.isEmpty()) {
-            mNewsRecyclerAdapter.refreshItems(normalItem);
-        }
-        mPullToRefreshView.setRefreshing(false);
+        endRefresh(true);
     }
 
-
     @Override
-    public void loadFailed() {
-
+    public void onLoadFailed() {
+        endRefresh(false);
     }
 
-
     @Override
-    public void onRefresh() {
-        pageIndex = 0;
+    public void onPullRefresh() {
+        refreshAll();
+    }
+
+    private void refreshAll() {
+        isLoadAll = true;
         mNewsPresenter.loadNews(0, pageIndex);
+    }
+
+    private void refreshNext() {
+        mNewsListRecyclerAdapter.setFootVisible(true);
+        footRefreshing.setVisibility(View.VISIBLE);
+        footRefreshFailed.setVisibility(View.GONE);
+        mNewsPresenter.loadNews(0, pageIndex);
+    }
+
+    private void endRefresh(boolean isSuccess) {
+        isLoadAll = false;
+        if (pageIndex == 0) {
+            mPullToRefreshView.setVisibility(View.GONE);
+            mReloadBtn.setVisibility(View.VISIBLE);
+            mNewsListRecyclerAdapter.setFootVisible(false);
+        } else {
+            mPullToRefreshView.setVisibility(View.VISIBLE);
+            mReloadBtn.setVisibility(View.GONE);
+            if (isSuccess) {
+                mNewsListRecyclerAdapter.setFootVisible(false);
+            } else {
+                mNewsListRecyclerAdapter.setFootVisible(true);
+                footRefreshing.setVisibility(View.GONE);
+                footRefreshFailed.setVisibility(View.VISIBLE);
+            }
+        }
+        mPullToRefreshView.setRefreshState(false);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == mReloadBtn) {
+            refreshAll();
+        } else if (v == footRefreshFailed) {
+            footRefreshing.setVisibility(View.VISIBLE);
+            footRefreshFailed.setVisibility(View.GONE);
+            refreshNext();
+        }
+    }
+
+
+    @Override
+    public void onItemClick(NewsBean item) {
+        EventDispatcher.getFragmentJumpEvent().onShowNewsDetail(item.getDocid());
+    }
+
+    @Override
+    public void onItemLongPressed(NewsBean item) {
+
     }
 }
