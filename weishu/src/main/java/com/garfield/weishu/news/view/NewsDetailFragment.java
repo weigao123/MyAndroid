@@ -1,9 +1,11 @@
 package com.garfield.weishu.news.view;
 
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.garfield.weishu.R;
@@ -31,11 +33,15 @@ public class NewsDetailFragment extends AppBaseFragment implements NewsView<News
     @BindView(R.id.fragment_news_detail_source)
     TextView mSource;
 
+    @BindView(R.id.fragment_news_detail_progress)
+    ProgressBar mProgressBar;
+
     @BindView(R.id.fragment_news_detail_webview)
     WebView mWebView;
 
     private String mDocid;
     private NewsPresenter mNewsPresenter;
+
 
     @Override
     protected int onGetFragmentLayout() {
@@ -60,23 +66,38 @@ public class NewsDetailFragment extends AppBaseFragment implements NewsView<News
         WebSettings settings = mWebView.getSettings();
         settings.setSupportZoom(true);
         settings.setTextZoom(120);
+        mWebView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
     }
 
     @Override
     public void onLoadBefore() {
-
+        showProgress(true);
     }
 
     @Override
     public void onLoadSuccess(List<NewsDetailBean> data) {
         NewsDetailBean bean = data.get(0);
-        mTitle.setText(bean.getTitle());
-        mSource.setText(bean.getSource() + "  " + bean.getPtime());
-        mWebView.loadData(bean.getBody(), "text/html; charset=UTF-8", null);
+        if (bean != null) {
+            String titleString = "<font size=\"4.2\"><b>" + bean.getTitle() + "</b></font><br/>";
+            String sourceString = "<font size=\"1\" color=\"gray\"><b>" + bean.getSource() + "  " + bean.getPtime() + "</b></font><br/>";
+            mWebView.loadData(titleString + sourceString + bean.getBody(), "text/html; charset=UTF-8", null);
+        }
+        showProgress(false);
+
     }
 
     @Override
     public void onLoadFailed() {
+        showProgress(false);
+    }
 
+    private void showProgress(boolean isShow) {
+        mProgressBar.setVisibility(isShow ? View.VISIBLE : View.GONE);
+        mWebView.setVisibility(!isShow ? View.VISIBLE : View.GONE);
     }
 }

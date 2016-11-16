@@ -219,10 +219,10 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
                     } else if (currentStatus == STATUS_RELEASE_TO_REFRESH) {
                         isRefreshingHeadIsShowing = true;
                         currentStatus = STATUS_REFRESHING;
-                        doTask();
                         setPullOffset(-containerOffset);
                         updateHeaderView();
                         isRefreshingHeadIsShowing = true;
+                        doTask();
                     } else if (currentStatus == STATUS_REFRESHING) {
                         setPullOffset(0);
                         isRefreshingHeadIsShowing = false;

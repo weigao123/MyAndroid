@@ -8,7 +8,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -23,7 +22,7 @@ import com.garfield.baselib.utils.L;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SwipeBackLayout extends FrameLayout {
+public class SwipeBackLayout2 extends FrameLayout {
 
     public static final String FRAGMENT_SWIPE_BACKING = "fragment_swipe_backing";
 
@@ -72,11 +71,11 @@ public class SwipeBackLayout extends FrameLayout {
     private Drawable mShadowLeft;
     private Drawable mShadowRight;
 
-    public SwipeBackLayout(Context context) {
+    public SwipeBackLayout2(Context context) {
         this(context, null);
     }
 
-    public SwipeBackLayout(Context context, AttributeSet attrs) {
+    public SwipeBackLayout2(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
@@ -90,7 +89,6 @@ public class SwipeBackLayout extends FrameLayout {
         mPreScrollShow = (int) (PRE_SCROLL_SHOW * density);
         final float minVel = MIN_FLING_VELOCITY * density;
         mDragHelper.setMinVelocity(minVel);
-        mDragHelper.setEdgeTrackingEnabled(ViewDragHelper.EDGE_LEFT);
     }
 
     public void setEdgeOrientation(int orientation) {
@@ -310,19 +308,32 @@ public class SwipeBackLayout extends FrameLayout {
     }
 
     /**
-     * 只要边缘开始滑动，都会拦截事件，不会传到子View那里
-     * 缺点是需要把不想使能的Fragment，比如ViewPager之类的，开关关掉
+     * 当子View并不消耗事件时，事件返回到Layout，onTouchEvent执行才能起作用
+     * 这样做的好处是，防止随意拦截消息，比如ViewPager就会出问题
+     * 缺点，一旦子View消耗了事件，就无效了
      */
     private class ViewDragCallback extends ViewDragHelper.Callback {
-
         @Override
-        public int getViewHorizontalDragRange(View child) {
-            return 0;
+        public boolean tryCaptureView(View view, int pointerId) {
+            boolean isEdgeTouched = mDragHelper.isEdgeTouched(mEdgeFlag, pointerId);
+            if (isEdgeTouched) {
+                if (mDragHelper.isEdgeTouched(EDGE_LEFT, pointerId)) {
+                    mCurrentEdge = EDGE_LEFT;
+                } else if (mDragHelper.isEdgeTouched(EDGE_RIGHT, pointerId)) {
+                    mCurrentEdge = EDGE_RIGHT;
+                }
+                if (mListeners != null) {
+                    for (SwipeListener listener : mListeners) {
+                        listener.onEdgeTouch(mCurrentEdge);
+                    }
+                }
+            }
+            return isEdgeTouched;
         }
 
         @Override
-        public boolean tryCaptureView(View child, int pointerId) {
-            return false;
+        public int getViewHorizontalDragRange(View child) {
+            return mEdgeFlag & (EDGE_LEFT | EDGE_RIGHT);
         }
 
         @Override
@@ -373,23 +384,6 @@ public class SwipeBackLayout extends FrameLayout {
             if (mListeners != null) {
                 for (SwipeListener listener : mListeners) {
                     listener.onScrollStateChange(state);
-                }
-            }
-        }
-
-        /**
-         * 边缘滑动时，会调用
-         */
-        @Override
-        public void onEdgeDragStarted(int edgeFlags, int pointerId) {
-            boolean isEdgeTouched = mDragHelper.isEdgeTouched(mEdgeFlag, pointerId);
-            if (isEdgeTouched) {
-                mCurrentEdge = EDGE_LEFT;
-                mDragHelper.captureChildView(getChildAt(0), pointerId);
-                if (mListeners != null) {
-                    for (SwipeListener listener : mListeners) {
-                        listener.onEdgeTouch(mCurrentEdge);
-                    }
                 }
             }
         }

@@ -21,6 +21,7 @@ import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.contact.ContactFragment;
 import com.garfield.weishu.news.old.NewsTabFragment;
+import com.garfield.weishu.news.view.NewsListFragment;
 import com.garfield.weishu.session.sessionlist.SessionListFragment;
 import com.garfield.weishu.setting.SettingFragment;
 
@@ -81,7 +82,7 @@ public class AppBaseFragment extends SwipeBackFragment {
         return !(this.getClass() == MainFragment.class ||
                 this.getClass() == SessionListFragment.class ||
                 this.getClass() == ContactFragment.class ||
-                //this.getClass() == NewsListFragment.class ||
+                this.getClass() == NewsListFragment.class ||
                 this.getClass() == NewsTabFragment.class ||
                 this.getClass() == SettingFragment.class);
     }

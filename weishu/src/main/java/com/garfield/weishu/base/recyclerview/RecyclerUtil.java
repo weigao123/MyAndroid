@@ -53,9 +53,6 @@ public class RecyclerUtil {
             return false;
         }
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-        if (layoutManager instanceof LinearLayoutManager) {
-            return true;
-        }
-        return false;
+        return layoutManager instanceof LinearLayoutManager;
     }
 }

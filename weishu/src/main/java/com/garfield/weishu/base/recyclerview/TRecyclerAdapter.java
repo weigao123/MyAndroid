@@ -1,14 +1,11 @@
 package com.garfield.weishu.base.recyclerview;
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.garfield.weishu.news.bean.NewsBean;
-import com.garfield.weishu.session.sessionlist.SessionListAdapter;
-import com.netease.nimlib.sdk.msg.model.RecentContact;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,8 +22,8 @@ public abstract class TRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerV
     private final Map<Class<?>, Integer> mViewTypes;
     private final LayoutInflater mInflater;
 
-    private int HEAD_TYPE = 1000;
-    private int FOOT_TYPE = 1001;
+    private int TYPE_HEAD = 1000;
+    private int TYPE_FOOT = 1001;
     private View mHeadView;
     private View mFootView;
     private ItemEventListener mItemEventListener;
@@ -64,10 +61,10 @@ public abstract class TRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerV
      */
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == HEAD_TYPE) {
+        if (viewType == TYPE_HEAD) {
             return new RecyclerViewHolder(mHeadView);
         }
-        if (viewType == FOOT_TYPE) {
+        if (viewType == TYPE_FOOT) {
             return new RecyclerViewHolder(mFootView);
         }
         TRecyclerViewHolder viewHolder = null;
@@ -132,10 +129,10 @@ public abstract class TRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerV
     @Override
     public int getItemViewType(int position) {
         if (mHeadView != null && position == 0) {
-            return HEAD_TYPE;
+            return TYPE_HEAD;
         }
         if (mFootView != null && position == getItemCount() - 1) {
-            return FOOT_TYPE;
+            return TYPE_FOOT;
         }
         /**
          * 下面的position是item真实的位置
@@ -186,5 +183,23 @@ public abstract class TRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerV
 
     public boolean isFootVisible() {
         return mFootView != null && mFootView.getVisibility() == View.VISIBLE;
+    }
+
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+
+        RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
+        if(manager instanceof GridLayoutManager) {
+            final GridLayoutManager gridManager = ((GridLayoutManager) manager);
+            gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    return getItemViewType(position) == TYPE_HEAD
+                            ? gridManager.getSpanCount() : 1;
+                }
+            });
+        }
     }
 }

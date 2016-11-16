@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.garfield.baselib.utils.L;
 import com.garfield.weishu.R;
+import com.garfield.weishu.base.viewpager.TPagerAdapter;
 import com.garfield.weishu.news.bean.NewsBean;
 
 import java.util.ArrayList;
@@ -70,14 +71,26 @@ public class NewsHeadView extends FrameLayout {
         return mItems;
     }
 
+    /**
+     * 必须要重建Adapter，否则卡顿
+     */
     public void refreshItems(List<NewsBean> items) {
         mItems.clear();
         mItems.addAll(items);
+        TPagerAdapter.ItemEventListener itemEventListener = null;
+        if (mAdapter != null) {
+            itemEventListener = mAdapter.getItemEventListener();
+        }
         mAdapter = new InfinitePagerAdapter(getContext(), mItems);
+        mAdapter.setItemEventListener(itemEventListener);
         mInfiniteViewPager.setAdapter(mAdapter);
         mInfiniteViewPager.clearOnPageChangeListeners();
         mInfiniteViewPager.addOnPageChangeListener(mOnPageChangeListener);
         showPagerPoint();
+    }
+
+    public void setItemEventListener(TPagerAdapter.ItemEventListener itemEventListener) {
+        mAdapter.setItemEventListener(itemEventListener);
     }
 
     private ViewPager.OnPageChangeListener mOnPageChangeListener = new ViewPager.OnPageChangeListener() {

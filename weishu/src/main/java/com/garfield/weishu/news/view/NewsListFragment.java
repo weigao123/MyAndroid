@@ -12,12 +12,18 @@ import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.base.recyclerview.RecyclerUtil;
 import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
+import com.garfield.weishu.base.viewpager.TPagerAdapter;
 import com.garfield.weishu.news.bean.NewsBean;
 import com.garfield.weishu.news.head.NewsHeadView;
 import com.garfield.weishu.news.presenter.NewsPresenter;
 import com.garfield.weishu.news.presenter.NewsPresenterImpl;
 import com.garfield.weishu.news.presenter.NewsView;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
+import com.garfield.weishu.utils.cache.ACache;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +37,7 @@ import butterknife.BindView;
 
 public class NewsListFragment extends AppBaseFragment implements
         PullToRefreshView.OnPullRefreshListener, NewsView<NewsBean>,
-        View.OnClickListener, TRecyclerAdapter.ItemEventListener<NewsBean> {
+        View.OnClickListener, TRecyclerAdapter.ItemEventListener<NewsBean>, TPagerAdapter.ItemEventListener<NewsBean> {
 
     public static final int NEWS_TYPE_TOP = 0;
     public static final int NEWS_TYPE_NBA = 1;
@@ -59,7 +65,13 @@ public class NewsListFragment extends AppBaseFragment implements
      * 当前已有的页数
      */
     private int pageIndex = 0;
+    /**
+     * 如果是true，要把PullView显示
+     */
     private boolean isLoadAll;
+
+    private String aTag = "data_list";
+    private ACache aCache;
 
     @Override
     protected int onGetFragmentLayout() {
@@ -69,12 +81,14 @@ public class NewsListFragment extends AppBaseFragment implements
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
+        aCache = ACache.get(mActivity);
         mPullToRefreshView.setOnRefreshListener(this);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mReloadBtn.setOnClickListener(this);
 
         mNewsHeadView = new NewsHeadView(getContext());
+        mNewsHeadView.setItemEventListener(this);
         View footView = LayoutInflater.from(getContext()).inflate(R.layout.view_footer, (ViewGroup) rootView, false);
         footRefreshing = footView.findViewById(R.id.foot_refreshing);
         footRefreshFailed = footView.findViewById(R.id.foot_refresh_failed);
@@ -87,7 +101,10 @@ public class NewsListFragment extends AppBaseFragment implements
         mRecyclerView.addOnScrollListener(mOnScrollListener);
 
         mNewsPresenter = new NewsPresenterImpl(this);
-        refreshAll();
+        refreshNewsListFromACache();
+        if (pageIndex == 0) {
+            refreshAll();
+        }
     }
 
     @Override
@@ -103,7 +120,7 @@ public class NewsListFragment extends AppBaseFragment implements
             if (newState == RecyclerView.SCROLL_STATE_IDLE &&
                     RecyclerUtil.isAtBottom(recyclerView) &&
                     !mNewsListRecyclerAdapter.isFootVisible()) {
-                refreshNext();
+                refreshMore();
             }
         }
 
@@ -115,26 +132,21 @@ public class NewsListFragment extends AppBaseFragment implements
 
     @Override
     public void onLoadSuccess(List<NewsBean> data) {
+        refreshData(data);
+        putNewsListToACache();
+    }
+
+    private void refreshData(List<NewsBean> data) {
         List<NewsBean> slideItem = new ArrayList<>();
         List<NewsBean> normalItem = new ArrayList<>();
-        for (NewsBean bean : data) {
-            switch (bean.getBeanType()) {
-                case NewsBean.TYPE_SLIDE_HEAD:
-                    slideItem.add(bean);
-                    break;
-                case NewsBean.TYPE_NORMAL:
-                    normalItem.add(bean);
-                    break;
-            }
-        }
-
+        separateItems(data, slideItem, normalItem);
         if (isLoadAll) {
             mNewsHeadView.refreshItems(slideItem);
             mNewsListRecyclerAdapter.refreshItems(normalItem);
             pageIndex = 1;
         } else {
             mNewsListRecyclerAdapter.addItems(normalItem);
-            ++pageIndex;
+            ++ pageIndex;
         }
         endRefresh(true);
     }
@@ -149,12 +161,25 @@ public class NewsListFragment extends AppBaseFragment implements
         refreshAll();
     }
 
-    private void refreshAll() {
-        isLoadAll = true;
-        mNewsPresenter.loadNews(0, pageIndex);
+    private void separateItems(List<NewsBean> data, List<NewsBean> slideItem, List<NewsBean> normalItem) {
+        for (NewsBean bean : data) {
+            switch (bean.getBeanType()) {
+                case NewsBean.TYPE_SLIDE_HEAD:
+                    slideItem.add(bean);
+                    break;
+                case NewsBean.TYPE_NORMAL:
+                    normalItem.add(bean);
+                    break;
+            }
+        }
     }
 
-    private void refreshNext() {
+    private void refreshAll() {
+        isLoadAll = true;
+        mNewsPresenter.loadNews(0, 0);
+    }
+
+    private void refreshMore() {
         mNewsListRecyclerAdapter.setFootVisible(true);
         footRefreshing.setVisibility(View.VISIBLE);
         footRefreshFailed.setVisibility(View.GONE);
@@ -188,8 +213,46 @@ public class NewsListFragment extends AppBaseFragment implements
         } else if (v == footRefreshFailed) {
             footRefreshing.setVisibility(View.VISIBLE);
             footRefreshFailed.setVisibility(View.GONE);
-            refreshNext();
+            refreshMore();
         }
+    }
+
+    private void putNewsListToACache() {
+        List<NewsBean> allData = new ArrayList<>();
+        allData.addAll(mNewsHeadView.getItems());
+        allData.addAll(mNewsListRecyclerAdapter.getItems());
+        JSONArray itemJsonAr = new JSONArray();
+        for (NewsBean item : allData) {
+            JSONObject jsonObject = item.toJSONObj();
+            itemJsonAr.put(jsonObject);
+        }
+        JSONObject itemJsonObj = new JSONObject();
+        try {
+            itemJsonObj.put("news_list", itemJsonAr);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        aCache.put(aTag, itemJsonObj);
+    }
+
+    private void refreshNewsListFromACache() {
+        JSONObject jsonObject = aCache.getAsJSONObject(aTag);
+        if (jsonObject == null) {
+            return;
+        }
+        List<NewsBean> newsList = new ArrayList<>();
+        try {
+            JSONArray itemAr = jsonObject.getJSONArray("news_list");
+            for (int i = 0; i < itemAr.length(); i++) {
+                JSONObject itemObj = itemAr.getJSONObject(i);
+                NewsBean item = NewsBean.parse(itemObj);
+                newsList.add(item);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        isLoadAll = true;
+        refreshData(newsList);
     }
 
 

@@ -102,6 +102,7 @@ public class NewsPresenterImpl implements NewsPresenter {
     }
 
     private void handleString(NewsDetailBean bean) {
+        if (bean == null) return;
         String body = bean.getBody();
         int i = 0;
         while (true) {
@@ -115,7 +116,6 @@ public class NewsPresenterImpl implements NewsPresenter {
                 break;
             }
         }
-        L.d("body: "+body);
         bean.setBody(body);
     }
 }

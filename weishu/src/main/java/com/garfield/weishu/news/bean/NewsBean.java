@@ -1,5 +1,8 @@
 package com.garfield.weishu.news.bean;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 
 
@@ -139,5 +142,45 @@ public class NewsBean implements Serializable {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+
+    public JSONObject toJSONObj() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("beanType", beanType);
+            jsonObject.put("docid", docid);
+            jsonObject.put("title", title);
+            jsonObject.put("digest", digest);
+            jsonObject.put("imgsrc", imgsrc);
+            jsonObject.put("source", source);
+            jsonObject.put("ptime", ptime);
+            jsonObject.put("tag", tag);
+            jsonObject.put("url_3w", url_3w);
+            jsonObject.put("url", url);
+            jsonObject.put("replyCount", replyCount);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    public static NewsBean parse(JSONObject jsonObject) {
+        if (jsonObject == null) {
+            return null;
+        }
+        NewsBean newsItem = new NewsBean();
+        newsItem.setBeanType(jsonObject.optInt("beanType"));
+        newsItem.setDocid(jsonObject.optString("docid"));
+        newsItem.setTitle(jsonObject.optString("title"));
+        newsItem.setDigest(jsonObject.optString("digest"));
+        newsItem.setImgsrc(jsonObject.optString("imgsrc"));
+        newsItem.setSource(jsonObject.optString("source"));
+        newsItem.setPtime(jsonObject.optString("ptime"));
+        newsItem.setTag(jsonObject.optString("tag"));
+        newsItem.setUrl_3w(jsonObject.optString("url_3w"));
+        newsItem.setUrl(jsonObject.optString("url"));
+        newsItem.setReplyCount(jsonObject.optString("replyCount"));
+        return newsItem;
     }
 }
