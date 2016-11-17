@@ -257,12 +257,12 @@ public class NewsListFragment extends AppBaseFragment implements
 
 
     @Override
-    public void onItemClick(NewsBean item) {
+    public void onItemClick(NewsBean item, int position) {
         EventDispatcher.getFragmentJumpEvent().onShowNewsDetail(item.getDocid());
     }
 
     @Override
-    public void onItemLongPressed(NewsBean item) {
+    public void onItemLongPressed(NewsBean item, int position) {
 
     }
 }

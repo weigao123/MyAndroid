@@ -160,8 +160,8 @@ public abstract class TRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerV
     }
 
     public interface ItemEventListener<T> {
-        void onItemClick(T item);
-        void onItemLongPressed(T item);
+        void onItemClick(T item, int position);
+        void onItemLongPressed(T item, int position);
     }
 
     public void refreshItems(List<T> items) {

@@ -39,9 +39,6 @@ public class NewsDetailFragment extends AppBaseFragment implements NewsView<News
     @BindView(R.id.fragment_news_detail_webview)
     WebView mWebView;
 
-    private String mDocid;
-    private NewsPresenter mNewsPresenter;
-
 
     @Override
     protected int onGetFragmentLayout() {
@@ -59,10 +56,10 @@ public class NewsDetailFragment extends AppBaseFragment implements NewsView<News
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
-        mDocid = getArguments().getString(NEWS_DOC_ID);
+        String docid = getArguments().getString(NEWS_DOC_ID);
 
-        mNewsPresenter = new NewsPresenterImpl(this);
-        mNewsPresenter.loadNewsDetail(mDocid);
+        NewsPresenter newsPresenter = new NewsPresenterImpl(this);
+        newsPresenter.loadNewsDetail(docid);
         WebSettings settings = mWebView.getSettings();
         settings.setSupportZoom(true);
         settings.setTextZoom(120);
@@ -84,7 +81,7 @@ public class NewsDetailFragment extends AppBaseFragment implements NewsView<News
         NewsDetailBean bean = data.get(0);
         if (bean != null) {
             String titleString = "<font size=\"4.2\"><b>" + bean.getTitle() + "</b></font><br/>";
-            String sourceString = "<font size=\"1\" color=\"gray\"><b>" + bean.getSource() + "  " + bean.getPtime() + "</b></font><br/>";
+            String sourceString = "<font size=\"1\" color=\"gray\"><b>" + bean.getSource() + "&nbsp;&nbsp;&nbsp;&nbsp;" + bean.getPtime() + "</b></font><br/>";
             mWebView.loadData(titleString + sourceString + bean.getBody(), "text/html; charset=UTF-8", null);
         }
         showProgress(false);

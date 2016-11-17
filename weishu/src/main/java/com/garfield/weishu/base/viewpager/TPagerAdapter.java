@@ -133,7 +133,7 @@ public abstract class TPagerAdapter<T> extends PagerAdapter {
     }
 
     public interface ItemEventListener<T> {
-        void onItemClick(T item);
-        void onItemLongPressed(T item);
+        void onItemClick(T item, int position);
+        void onItemLongPressed(T item, int position);
     }
 }

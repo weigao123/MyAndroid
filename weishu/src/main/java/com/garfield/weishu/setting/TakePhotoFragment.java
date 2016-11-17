@@ -10,9 +10,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.garfield.baselib.ui.widget.SwitchButton;
 import com.garfield.baselib.utils.DirectoryUtils;
 import com.garfield.baselib.utils.FileUtils;
 import com.garfield.baselib.utils.InvokerUtils;
@@ -21,6 +23,7 @@ import com.garfield.baselib.utils.SizeUtils;
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
+import com.garfield.weishu.base.listview.TListAdapter;
 import com.garfield.weishu.config.SettingsPreferences;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 
@@ -64,6 +67,9 @@ public class TakePhotoFragment extends AppBaseFragment {
     @BindView(R.id.fragment_take_photo_mask)
     FrameLayout mMask;
 
+    @BindView(R.id.fragment_take_photo_use_native_crop_check)
+    SwitchButton mUseCropCheck;
+
     private PhotoListAdapter mPhotoAdapter;
     private List<String> mPhotoItems = new ArrayList<>();
 
@@ -89,33 +95,50 @@ public class TakePhotoFragment extends AppBaseFragment {
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
+        mUseCropCheck.setSwitchStatus(SettingsPreferences.getCropTool());
         mPhotoAdapter = new PhotoListAdapter(AppCache.getContext(), mPhotoItems);
-        mGridView.setAdapter(mPhotoAdapter);
-        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mPhotoAdapter.setItemEventListener(new TListAdapter.ItemEventListener<String>() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(String item, int position) {
                 if (isAnimatorRunning) return;
-                if (position == 0) {
+                if ("Camera".equals(item)) {
                     takePhoto();
                     return;
                 }
-                String photoPath = mPhotoAdapter.getItem(position);
                 if (SettingsPreferences.getCropTool()) {
-                    cropPhoto(photoPath);
+                    cropPhoto(item);
                 } else {
-                    EventDispatcher.getFragmentJumpEvent().onShowCropPhoto(photoPath);
+                    EventDispatcher.getFragmentJumpEvent().onShowCropPhoto(item);
                 }
             }
+
+            @Override
+            public void onItemLongPressed(String item, int position) {
+
+            }
         });
+        mGridView.setAdapter(mPhotoAdapter);
 
         mAlbumAdapter = new AlbumListAdapter(AppCache.getContext(), mAlbumItems);
+        mAlbumAdapter.setItemEventListener(new TListAdapter.ItemEventListener<PhotoUtil.AlbumInfo>() {
+
+            @Override
+            public void onItemClick(PhotoUtil.AlbumInfo item, int position) {
+                if (isAnimatorRunning) return;
+                mAlbumPosition = position;
+                switchPhotoList(item);
+            }
+
+            @Override
+            public void onItemLongPressed(PhotoUtil.AlbumInfo item, int position) {
+
+            }
+        });
         mAlbumListView.setAdapter(mAlbumAdapter);
         mAlbumListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (isAnimatorRunning) return;
-                mAlbumPosition = position;
-                switchPhotoList(mAlbumItems.get(position));
+
             }
         });
 
@@ -329,5 +352,11 @@ public class TakePhotoFragment extends AppBaseFragment {
             return true;
         }
         return super.onBackPressed();
+    }
+
+    @OnClick(R.id.fragment_take_photo_use_native_crop)
+    void switchCheckedView() {
+        mUseCropCheck.setSwitchStatus(!mUseCropCheck.getSwitchStatus());
+        SettingsPreferences.setCropTool(mUseCropCheck.getSwitchStatus());
     }
 }

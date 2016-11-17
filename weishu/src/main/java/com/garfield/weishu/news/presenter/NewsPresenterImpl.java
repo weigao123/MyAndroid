@@ -12,7 +12,6 @@ import com.garfield.weishu.news.bean.NewsDetailBean;
 import com.garfield.weishu.news.model.NewsModel;
 import com.garfield.weishu.news.model.NewsModelImpl;
 import com.garfield.weishu.news.view.NewsListFragment;
-import com.nostra13.universalimageloader.utils.L;
 
 import java.util.List;
 
@@ -97,7 +96,7 @@ public class NewsPresenterImpl implements NewsPresenter {
                 sb.append(Urls.TOP_URL).append(Urls.TOP_ID);
                 break;
         }
-        sb.append("/").append(pageIndex * Urls.PAZE_SIZE).append(Urls.END_URL);
+        sb.append("/").append(pageIndex * Urls.PAGE_SIZE).append(Urls.END_URL);
         return sb.toString();
     }
 

@@ -4,12 +4,16 @@ package com.garfield.weishu.news;
 public class Urls {
     //http://blog.csdn.net/modalyin/article/details/51509620
 
-    //http://c.m.163.com/nc/article/headline/T1348647909107/0-5.html
+    //新闻列表
+    //http://c.m.163.com/nc/article/headline/T1348647909107/0-20.html
 
-    public static final int PAZE_SIZE = 20;
+    //Head指向的网址
+    //http://c.m.163.com/photo/api/set/0001/2212951.json
+
+    public static final int PAGE_SIZE = 20;
 
     public static final String HOST = "http://c.m.163.com/";
-    public static final String END_URL = "-" + PAZE_SIZE + ".html";
+    public static final String END_URL = "-" + PAGE_SIZE + ".html";
     public static final String END_DETAIL_URL = "/full.html";
     // 头条
     public static final String TOP_URL = HOST + "nc/article/headline/";

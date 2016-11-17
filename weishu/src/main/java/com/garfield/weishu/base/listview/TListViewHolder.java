@@ -30,7 +30,7 @@ public abstract class TListViewHolder<T> {
             @Override
             public void onClick(View v) {
                 if (mAdapter.getItemEventListener() != null) {
-                    mAdapter.getItemEventListener().onItemClick(mAdapter.getItems().get(mPosition));
+                    mAdapter.getItemEventListener().onItemClick(mAdapter.getItems().get(mPosition), mPosition);
                 }
             }
         });
@@ -38,7 +38,7 @@ public abstract class TListViewHolder<T> {
             @Override
             public boolean onLongClick(View v) {
                 if (mAdapter.getItemEventListener() != null) {
-                    mAdapter.getItemEventListener().onItemLongPressed(mAdapter.getItems().get(mPosition));
+                    mAdapter.getItemEventListener().onItemLongPressed(mAdapter.getItems().get(mPosition), mPosition);
                 }
                 return false;
             }

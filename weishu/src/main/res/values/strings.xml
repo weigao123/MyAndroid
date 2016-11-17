@@ -103,7 +103,7 @@
     <string name="ring">声音</string>
     <string name="vibrate">震动</string>
     <string name="open_animation">打开动画</string>
-    <string name="use_native_crop">使用原生图片裁剪工具</string>
+    <string name="use_native_crop">裁剪工具</string>
     <string name="clear_message_record">清空聊天记录</string>
     <string name="is_clear_message_record">是否清空所有聊天记录</string>
     <string name="clear_message_record_done">聊天记录已清除</string>

@@ -46,23 +46,7 @@ public class SessionListViewHolder extends TRecyclerViewHolder<RecentContact> {
 
     @Override
     public void setView() {
-        mRootView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getAdapter().getItemEventListener() != null) {
-                    getAdapter().getItemEventListener().onItemClick(mRecentContact);
-                }
-            }
-        });
-        mRootView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (getAdapter().getItemEventListener() != null) {
-                    getAdapter().getItemEventListener().onItemLongPressed(mRecentContact);
-                }
-                return true;
-            }
-        });
+
     }
 
     @Override

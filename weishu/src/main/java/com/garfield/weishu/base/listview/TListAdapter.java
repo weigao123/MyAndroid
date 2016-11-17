@@ -122,6 +122,9 @@ public abstract class TListAdapter<T> extends BaseAdapter {
 
     public abstract int getViewHolderCount();
 
+    /**
+     * 会屏蔽ListView的OnItemClickListener
+     */
     public void setItemEventListener(ItemEventListener eventListener) {
         this.mItemEventListener = eventListener;
     }
@@ -131,8 +134,8 @@ public abstract class TListAdapter<T> extends BaseAdapter {
     }
 
     public interface ItemEventListener<T> {
-        void onItemClick(T item);
-        void onItemLongPressed(T item);
+        void onItemClick(T item, int position);
+        void onItemLongPressed(T item, int position);
     }
 
 }

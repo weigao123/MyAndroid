@@ -81,7 +81,7 @@ public class SessionListFragment extends AppBaseFragment {
         recyclerView.setAdapter(adapter);
         adapter.setItemEventListener(new TRecyclerAdapter.ItemEventListener<RecentContact>() {
             @Override
-            public void onItemClick(final RecentContact recentContact) {
+            public void onItemClick(final RecentContact recentContact, int position) {
                 getHandler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -91,7 +91,7 @@ public class SessionListFragment extends AppBaseFragment {
             }
 
             @Override
-            public void onItemLongPressed(final RecentContact recent) {
+            public void onItemLongPressed(final RecentContact recent, int position) {
                 MaterialDialog dialog = new MaterialDialog.Builder(getContext())
                         .items(isTagSet(recent, RECENT_TAG_STICKY)? R.array.session_menu2 : R.array.session_menu1)
                         .listSelector(R.drawable.bg_press_gray)
