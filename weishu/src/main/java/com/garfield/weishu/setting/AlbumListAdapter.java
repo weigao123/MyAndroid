@@ -2,7 +2,7 @@ package com.garfield.weishu.setting;
 
 import android.content.Context;
 
-import com.garfield.baselib.utils.PhotoUtil;
+import com.garfield.baselib.utils.drawable.PhotoUtil;
 import com.garfield.weishu.base.listview.TListAdapter;
 
 import java.util.List;

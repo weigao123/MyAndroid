@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -18,8 +17,8 @@ import com.garfield.baselib.ui.widget.SwitchButton;
 import com.garfield.baselib.utils.DirectoryUtils;
 import com.garfield.baselib.utils.FileUtils;
 import com.garfield.baselib.utils.InvokerUtils;
-import com.garfield.baselib.utils.PhotoUtil;
-import com.garfield.baselib.utils.SizeUtils;
+import com.garfield.baselib.utils.drawable.PhotoUtil;
+import com.garfield.baselib.utils.drawable.ScreenSizeUtils;
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
@@ -46,8 +45,6 @@ import static com.garfield.weishu.setting.SelfProfileFragment.INFO_HEAD;
  */
 
 public class TakePhotoFragment extends AppBaseFragment {
-
-    private static final boolean isUseNativeCropFunction = true;
 
     @BindView(R.id.fragment_take_photo_no_photo)
     TextView mNoPhoto;
@@ -146,7 +143,7 @@ public class TakePhotoFragment extends AppBaseFragment {
             public void run() {
                 int containerHeight = mAlbumContainer.getMeasuredHeight();
                 ViewGroup.LayoutParams params = mAlbumListView.getLayoutParams();
-                params.height = containerHeight - SizeUtils.dp2px(getContext(), 80);
+                params.height = containerHeight - ScreenSizeUtils.dp2px(getContext(), 80);
                 mAlbumListView.setLayoutParams(params);   //设置高度
                 mAlbumListView.setY(containerHeight);   //下移
             }
@@ -313,7 +310,7 @@ public class TakePhotoFragment extends AppBaseFragment {
          */
         if (isAnimatorRunning) return;
         int containerHeight = mAlbumContainer.getMeasuredHeight();
-        int originDiff = SizeUtils.dp2px(getContext(), 80);
+        int originDiff = ScreenSizeUtils.dp2px(getContext(), 80);
         if (isAlbumListShow()) {
             mAlbumListView.animate().y(containerHeight);
             mMask.setBackgroundColor(getResources().getColor(R.color.pure_trans));
@@ -324,7 +321,7 @@ public class TakePhotoFragment extends AppBaseFragment {
     }
 
     private boolean isAlbumListShow() {
-        int originDiff = SizeUtils.dp2px(getContext(), 80);
+        int originDiff = ScreenSizeUtils.dp2px(getContext(), 80);
         return Math.abs(mAlbumListView.getY() - originDiff) < 10 || isAnimatorRunning;
     }
 

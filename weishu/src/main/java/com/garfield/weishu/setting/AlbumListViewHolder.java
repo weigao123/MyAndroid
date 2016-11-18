@@ -4,10 +4,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.garfield.baselib.utils.ImageLoaderUtils;
-import com.garfield.baselib.utils.PhotoUtil;
+import com.garfield.baselib.utils.drawable.ImageLoaderUtils;
+import com.garfield.baselib.utils.drawable.PhotoUtil;
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.listview.TListAdapter;
 import com.garfield.weishu.base.listview.TListViewHolder;
 import com.nostra13.universalimageloader.core.ImageLoader;
 

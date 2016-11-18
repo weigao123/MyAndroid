@@ -333,13 +333,11 @@ public class DragLayout extends FrameLayout implements View.OnClickListener {
         getBackground().setColorFilter(evaluate(percent, Color.BLACK, Color.TRANSPARENT), Mode.SRC_OVER);
     }
 
-    private Integer evaluate(float fraction, Object startValue, Integer endValue) {
-        int startInt = (Integer) startValue;
+    private Integer evaluate(float fraction, Integer startInt, Integer endInt) {
         int startA = (startInt >> 24) & 0xff;
         int startR = (startInt >> 16) & 0xff;
         int startG = (startInt >> 8) & 0xff;
         int startB = startInt & 0xff;
-        int endInt = (Integer) endValue;
         int endA = (endInt >> 24) & 0xff;
         int endR = (endInt >> 16) & 0xff;
         int endG = (endInt >> 8) & 0xff;

@@ -16,7 +16,7 @@ import android.widget.PopupWindow;
 import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.swipeback.SwipeBackFragment;
-import com.garfield.baselib.utils.SizeUtils;
+import com.garfield.baselib.utils.drawable.ScreenSizeUtils;
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.contact.ContactFragment;
@@ -110,8 +110,8 @@ public class AppBaseFragment extends SwipeBackFragment {
                     if (mPopupWindow == null) {
                         initMenu();
                     }
-                    int xoff = SizeUtils.getScreenWidth(mActivity) - (int)getResources().getDimension(R.dimen.pop_menu_width) - SizeUtils.dp2px(mActivity, 5);
-                    int yoff = -SizeUtils.dp2px(mActivity, 5);
+                    int xoff = ScreenSizeUtils.getScreenWidth(mActivity) - (int)getResources().getDimension(R.dimen.pop_menu_width) - ScreenSizeUtils.dp2px(mActivity, 5);
+                    int yoff = -ScreenSizeUtils.dp2px(mActivity, 5);
                     mPopupWindow.showAsDropDown(mToolbar, xoff, yoff);
 
 //                PopupMenu mPopupMenu = new PopupMenu(mActivity, mToolbar, Gravity.END);

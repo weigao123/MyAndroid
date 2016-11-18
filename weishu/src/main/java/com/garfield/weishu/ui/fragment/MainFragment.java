@@ -59,7 +59,7 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
         mViewPager.addOnPageChangeListener(this);
 
         mBottomBar = (BottomBar) rootView.findViewById(R.id.bottomBar);
-        mBottomBar.setColor(R.color.bottombar_item_unselect, R.color.colorPrimary)
+        mBottomBar.setColor(R.color.bottom_bar_unselected, R.color.colorPrimary)
                 .addItem(R.drawable.ic_message_white, "消息")
                 .addItem(R.drawable.ic_contact_white, "联系人")
                 .addItem(R.drawable.ic_news_white, "新闻")

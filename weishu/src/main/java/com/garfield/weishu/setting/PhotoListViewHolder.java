@@ -2,9 +2,8 @@ package com.garfield.weishu.setting;
 
 import android.widget.ImageView;
 
-import com.garfield.baselib.utils.ImageLoaderUtils;
+import com.garfield.baselib.utils.drawable.ImageLoaderUtils;
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.listview.TListAdapter;
 import com.garfield.weishu.base.listview.TListViewHolder;
 import com.nostra13.universalimageloader.core.ImageLoader;
 

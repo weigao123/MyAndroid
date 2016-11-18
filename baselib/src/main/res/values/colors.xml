@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="bottombar_item_unselect">#a1a1a1</color>
+    <color name="bottom_bar_unselected">#a1a1a1</color>
+    <color name="bottom_bar_selected">#a1a1a1</color>
 
     <color name="black">#000000</color>
     <color name="black_gray">#636262</color>

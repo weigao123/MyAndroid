@@ -3,7 +3,7 @@ package com.garfield.weishu.news.view;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.garfield.baselib.utils.ImageLoaderUtils;
+import com.garfield.baselib.utils.drawable.ImageLoaderUtils;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.recyclerview.TRecyclerViewHolder;
 import com.garfield.weishu.news.bean.NewsBean;

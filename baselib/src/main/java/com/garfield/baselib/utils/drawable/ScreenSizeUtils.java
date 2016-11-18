@@ -1,4 +1,4 @@
-package com.garfield.baselib.utils;
+package com.garfield.baselib.utils.drawable;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,13 +12,16 @@ import android.view.WindowManager;
 /**
  * Created by gaowei3 on 2016/5/26.
  */
-public class SizeUtils {
+public class ScreenSizeUtils {
 
     public static int dp2px(Context context, float var1) {
         float var2 = context.getResources().getDisplayMetrics().density;
         return (int)(var1 * var2 + 0.5F);
 
-        //还可以用这个
+        /**
+         * 第一个参数是要转化的参数的单位dp
+         * 第二个参数是要被转换的数，以第一个参数为单位
+         */
         //TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 27, getResources().getDisplayMetrics());
     }
 

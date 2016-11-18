@@ -11,7 +11,7 @@ import com.nostra13.universalimageloader.utils.MemoryCacheUtils;
 
 import java.util.List;
 
-import static com.garfield.baselib.utils.ImageLoaderUtils.isImageUriValid;
+import static com.garfield.baselib.utils.drawable.ImageLoaderUtils.isImageUriValid;
 
 /**
  * 图片加载、缓存、管理组件

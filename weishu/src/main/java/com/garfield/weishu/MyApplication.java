@@ -3,7 +3,7 @@ package com.garfield.weishu;
 import android.app.Application;
 import android.text.TextUtils;
 
-import com.garfield.baselib.utils.ImageLoaderUtils;
+import com.garfield.baselib.utils.drawable.ImageLoaderUtils;
 import com.garfield.baselib.utils.L;
 import com.garfield.weishu.config.UserPreferences;
 import com.garfield.weishu.contact.query.PinYin;

@@ -2,7 +2,7 @@ package com.garfield.weishu.news.head;
 
 import android.widget.ImageView;
 
-import com.garfield.baselib.utils.ImageLoaderUtils;
+import com.garfield.baselib.utils.drawable.ImageLoaderUtils;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.viewpager.TPagerViewHolder;
 import com.garfield.weishu.news.bean.NewsBean;

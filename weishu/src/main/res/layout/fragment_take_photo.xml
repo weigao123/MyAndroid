@@ -83,8 +83,6 @@
                     android:text="@string/use_native_crop"
                     android:textSize="14sp"/>
             </LinearLayout>
-
-
         </FrameLayout>
 
         <FrameLayout
