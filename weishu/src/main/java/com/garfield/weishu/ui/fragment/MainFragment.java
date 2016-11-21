@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,6 +13,8 @@ import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.ui.widget.BottomBar;
+import com.garfield.baselib.ui.widget.BottomBar2;
+import com.garfield.baselib.utils.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.contact.ContactFragment;
 import com.garfield.weishu.news.view.NewsListFragment;
@@ -23,6 +26,9 @@ import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 
+import static com.garfield.baselib.ui.widget.BottomBar2.DIRECTION_LEFT;
+import static com.garfield.baselib.ui.widget.BottomBar2.DIRECTION_RIGHT;
+
 /**
  * Created by gaowei3 on 2016/7/31.
  */
@@ -31,10 +37,10 @@ import butterknife.BindView;
  * 不把BottomBar放在Activity中的原因是，要启动一个覆盖BottomBar的MsgFragment，否则无法覆盖
  * MainFragment包含1个BottomBar和3个Tab页Fragment
  */
-public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSelectedListener, ViewPager.OnPageChangeListener {
+public class MainFragment extends AppBaseFragment implements BottomBar2.OnTabSelectedListener {
 
     private SupportFragment[] mFragments = new SupportFragment[4];
-    private BottomBar mBottomBar;
+    private BottomBar2 mBottomBar;
 
     @BindView(R.id.main_fragment_container)
     ViewPager mViewPager;
@@ -56,14 +62,14 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
 
         MyPagerAdapter pagerAdapter = new MyPagerAdapter(getChildFragmentManager(), mFragments);
         mViewPager.setAdapter(pagerAdapter);
-        mViewPager.addOnPageChangeListener(this);
+        mViewPager.addOnPageChangeListener(mOnPageChangeListener);
 
-        mBottomBar = (BottomBar) rootView.findViewById(R.id.bottomBar);
+        mBottomBar = (BottomBar2) rootView.findViewById(R.id.bottomBar);
         mBottomBar.setColor(R.color.bottom_bar_unselected, R.color.colorPrimary)
-                .addItem(R.drawable.ic_message_white, "消息")
-                .addItem(R.drawable.ic_contact_white, "联系人")
-                .addItem(R.drawable.ic_news_white, "新闻")
-                .addItem(R.drawable.ic_settings_white, "设置");
+                .addItem(R.drawable.ic_bottom_message1, R.drawable.ic_bottom_message2, R.string.message)
+                .addItem(R.drawable.ic_bottom_contact1, R.drawable.ic_bottom_contact2, R.string.contact)
+                .addItem(R.drawable.ic_bottom_news1, R.drawable.ic_bottom_news2, R.string.news)
+                .addItem(R.drawable.ic_bottom_personal1, R.drawable.ic_bottom_personal2, R.string.personal);
         mBottomBar.setOnTabSelectedListener(this);
     }
 
@@ -75,11 +81,6 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
     @Override
     public void onTabSelected(int position, int prePosition) {
         mViewPager.setCurrentItem(position, false);
-    }
-
-    @Override
-    public void onTabUnselected(int position) {
-
     }
 
     @Override
@@ -99,21 +100,24 @@ public class MainFragment extends AppBaseFragment implements BottomBar.OnTabSele
         return mViewPager != null ? mViewPager.getCurrentItem() : 0;
     }
 
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    private ViewPager.OnPageChangeListener mOnPageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            //position永远是两个正在切换中的左边那个
+            mBottomBar.setTabShifting(position, positionOffset);
+        }
 
-    }
+        @Override
+        public void onPageSelected(int position) {
+            updateNotification(position);
+            mBottomBar.setTabSelected(position);
+        }
 
-    @Override
-    public void onPageSelected(int position) {
-        updateNotification(position);
-        mBottomBar.setTabSelected(position);
-    }
+        @Override
+        public void onPageScrollStateChanged(int state) {
 
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
-    }
+        }
+    };
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
         private final SupportFragment[] mFragments;
