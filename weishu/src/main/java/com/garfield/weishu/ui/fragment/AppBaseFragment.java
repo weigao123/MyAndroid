@@ -16,12 +16,14 @@ import android.widget.PopupWindow;
 import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.swipeback.SwipeBackFragment;
+import com.garfield.baselib.utils.L;
 import com.garfield.baselib.utils.drawable.ScreenSizeUtils;
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.contact.ContactFragment;
-import com.garfield.weishu.news.old.NewsTabFragment;
-import com.garfield.weishu.news.view.NewsListFragment;
+import com.garfield.weishu.discovery.DiscoveryFragment;
+import com.garfield.weishu.discovery.news.view.NewsFragment;
+import com.garfield.weishu.discovery.news.view.NewsListFragment;
 import com.garfield.weishu.session.sessionlist.SessionListFragment;
 import com.garfield.weishu.setting.SettingFragment;
 
@@ -37,11 +39,25 @@ public class AppBaseFragment extends SwipeBackFragment {
 
     @Nullable @BindView(R.id.toolbar)
     Toolbar mToolbar;
+
     @Nullable @BindView(R.id.toolbar_control_view)
     LinearLayout mToolbarControl;
 
+    @Nullable @BindView(R.id.lazyload_loading)
+    View mLoadingView;
+
+    @Nullable @BindView(R.id.lazyload_content)
+    View mContentView;
+
     private PopupWindow mPopupWindow;
     private Unbinder mUnbinder;
+
+    /**
+     * 如果直接跳到ViewPager还没被初始化的某一页，setUserVisibleHint会先于onCreate执行，造成crash
+     */
+    private boolean mIsPrepared;
+    private boolean mHasLoaded;
+    private boolean mIsVisibleToUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -67,11 +83,51 @@ public class AppBaseFragment extends SwipeBackFragment {
             }
             onInitViewAndData(mRootView, savedInstanceState);
         }
+        /**
+         * lazy load
+         */
+        mIsPrepared = true;
+        if (mContentView != null) {
+            mContentView.setAlpha(0f);
+            if (mIsVisibleToUser) {
+                lazyLoad();
+            }
+        }
+        L.d("onCreateView");
         return mRootView;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            mIsVisibleToUser = true;
+            if (mIsPrepared && !mHasLoaded) {
+                lazyLoad();
+            }
+        }
     }
 
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
 
+    }
+
+    private void lazyLoad() {
+        mHasLoaded = true;
+        showContent();
+        onLazyLoad();
+    }
+
+    protected void onLazyLoad() {
+    }
+
+    protected void showContent() {
+        if (mContentView != null) {
+            if (mLoadingView != null) {
+                mLoadingView.setVisibility(View.GONE);
+            }
+            mContentView.animate().alpha(1f).setDuration(500).start();
+        }
     }
 
     protected int onGetFragmentLayout() {
@@ -82,8 +138,9 @@ public class AppBaseFragment extends SwipeBackFragment {
         return !(this.getClass() == MainFragment.class ||
                 this.getClass() == SessionListFragment.class ||
                 this.getClass() == ContactFragment.class ||
+                this.getClass() == DiscoveryFragment.class ||
+                this.getClass() == NewsFragment.class ||
                 this.getClass() == NewsListFragment.class ||
-                this.getClass() == NewsTabFragment.class ||
                 this.getClass() == SettingFragment.class);
     }
 
@@ -153,5 +210,15 @@ public class AppBaseFragment extends SwipeBackFragment {
         if (mUnbinder != null) {
             mUnbinder.unbind();
         }
+        mIsPrepared = false;
+        mHasLoaded = false;
+        mIsVisibleToUser = false;
+        //L.d("onDestroyView");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //L.d("onDestroy");
     }
 }

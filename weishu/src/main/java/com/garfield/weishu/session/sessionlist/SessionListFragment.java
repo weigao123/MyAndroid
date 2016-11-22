@@ -59,8 +59,9 @@ public class SessionListFragment extends AppBaseFragment {
     private List<RecentContact> items;
     private RecyclerView recyclerView;
     private SessionListAdapter adapter;
-    private boolean msgLoaded = false;
     private List<RecentContact> loadedRecents;
+
+    private boolean msgLoaded = false;
 
     @Override
     protected int onGetFragmentLayout() {
@@ -69,7 +70,8 @@ public class SessionListFragment extends AppBaseFragment {
 
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.session_list_recyclerview);
+        super.onInitViewAndData(rootView, savedInstanceState);
+        recyclerView = (RecyclerView) mRootView.findViewById(R.id.session_list_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         // 动画
         // recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -385,6 +387,12 @@ public class SessionListFragment extends AppBaseFragment {
     public void onResume() {
         super.onResume();
         NimConfig.nofityWithNoTopBar();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        msgLoaded = false;
     }
 
     @Override

@@ -7,7 +7,6 @@
     <dimen name="pop_menu_item_height">50dp</dimen>
 
     <dimen name="toolbar_height">50dp</dimen>
-    <dimen name="news_tab_bar_height">40dp</dimen>
 
     <dimen name="contact_image_contain_size">60dp</dimen>
     <dimen name="contact_image_size">48dp</dimen>

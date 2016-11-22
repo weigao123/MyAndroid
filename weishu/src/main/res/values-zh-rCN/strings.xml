@@ -1,11 +1,16 @@
 <resources>
     <string name="app_name">微书</string>
+    <string name="message">消息</string>
+    <string name="contact">联系人</string>
+    <string name="news">新闻</string>
+    <string name="personal">我</string>
 
     <string name="confirm">确定</string>
     <string name="agree">同意</string>
     <string name="disagree">不同意</string>
     <string name="title">标题</string>
     <string name="content">内容</string>
+    <string name="cancel">取消</string>
 
     <string name="success">成功</string>
     <string name="fail">失败</string>
@@ -14,6 +19,7 @@
     <string name="login">登录</string>
     <string name="logining">登录中\u2026</string>
     <string name="logout">退出登录</string>
+    <string name="logout_confirm">确认退出登录</string>
     <string name="login_success">登录成功</string>
     <string name="login_account_or_password_wrong">账号或密码错误</string>
     <string name="login_failed">登录失败</string>
@@ -39,8 +45,8 @@
 
     <string name="status_network_is_not_available">当前网络不可用</string>
     <string name="status_unlogin">未登录</string>
-    <string name="status_connecting">连接中...</string>
-    <string name="status_logining">登录中...</string>
+    <string name="status_connecting">连接中…</string>
+    <string name="status_logining">登录中…</string>
 
     <string name="new_friend">新的朋友</string>
     <string name="advanced_group">高级群</string>
@@ -61,7 +67,7 @@
     <string name="search">搜索</string>
     <string name="add_new_friend">添加朋友</string>
     <string name="details">详细资料</string>
-    <string name="prepare_data">正在准备数据...</string>
+    <string name="prepare_data">正在准备数据…</string>
 
     <string name="self_details">个人信息</string>
     <string name="head_image">头像</string>
@@ -89,5 +95,38 @@
     <string name="head_upload_failed">头像上传失败</string>
     <string name="head_update_success">头像更新成功</string>
     <string name="head_update_failed">头像更新失败</string>
+
+    <string name="all_albums">所有相册</string>
+    <string name="photo_count">%1$s张</string>
+
+    <string name="stick_top_chat">置顶聊天</string>
+    <string name="cancel_stick_top_chat">取消置顶</string>
+    <string name="delete_chat">删除聊天</string>
+    <string name="is_resent">是否重新发送</string>
+    <string name="message_notify">接收新消息通知</string>
+    <string name="ring">声音</string>
+    <string name="vibrate">震动</string>
+    <string name="transfer_animation">转场动画</string>
+    <string name="use_native_crop">裁剪工具</string>
+    <string name="clear_message_record">清空聊天记录</string>
+    <string name="is_clear_message_record">是否清空所有聊天记录</string>
+    <string name="clear_message_record_done">聊天记录已清除</string>
+    <string name="developer">开发者</string>
+    <string name="about">关于微书</string>
+
+    <string name="pull_to_refresh">下拉可以刷新</string>
+    <string name="release_to_refresh">释放立即刷新</string>
+    <string name="refreshing">正在刷新…</string>
+    <string name="not_updated_yet">暂未更新过</string>
+    <string name="updated_at">上次更新于%1$s前</string>
+    <string name="updated_just_now">刚刚更新</string>
+    <string name="time_error">时间有问题</string>
+
+    <string name="num_reply">%1$s跟帖</string>
+    <string name="loading">正在加载…</string>
+    <string name="click_and_refresh">点击刷新</string>
+    <string name="refresh_failed_and_retry">加载失败,点击重试</string>
+    <string name="netease_news">网易新闻</string>
+    <string name="discovery">发现</string>
 
 </resources>

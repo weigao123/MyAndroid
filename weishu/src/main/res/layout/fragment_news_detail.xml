@@ -24,19 +24,9 @@
         android:textColor="@color/black_gray2"
         android:visibility="gone"/>
 
-    <FrameLayout
+    <WebView
+        android:id="@+id/fragment_news_detail_webview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ProgressBar
-            android:id="@+id/fragment_news_detail_progress"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
-        <WebView
-            android:id="@+id/fragment_news_detail_webview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-        </WebView>
-    </FrameLayout>
+        android:layout_height="match_parent" >
+    </WebView>
 </LinearLayout>

@@ -5,30 +5,36 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <ListView
-        android:id="@+id/contact_list_view"
+    <include layout="@layout/include_loading"/>
+
+    <FrameLayout
+        android:id="@+id/lazyload_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:cacheColorHint="@color/pure_trans"
-        android:divider="@color/pure_trans"
-        android:dividerHeight="0dp"
-        android:listSelector="@color/pure_trans"
-        android:scrollbars="none"/>
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/contact_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="@color/pure_trans"
+            android:divider="@color/pure_trans"
+            android:dividerHeight="0dp"
+            android:listSelector="@color/pure_trans"
+            android:scrollbars="none"/>
 
-    <com.garfield.baselib.ui.widget.LetterIndexView
-        android:id="@+id/contact_letter_index"
-        android:layout_width="20dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="end"/>
+        <com.garfield.baselib.ui.widget.LetterIndexView
+            android:id="@+id/contact_letter_index"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"/>
 
-    <ImageView
-        android:id="@+id/contact_hit_letter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/ic_contact_hit_letter_bg"
-        android:padding="40dip"
-        android:visibility="invisible"/>
-    
+        <ImageView
+            android:id="@+id/contact_hit_letter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_contact_hit_letter_bg"
+            android:padding="40dip"
+            android:visibility="invisible"/>
+    </FrameLayout>
 
 </FrameLayout>

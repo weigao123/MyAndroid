@@ -45,8 +45,8 @@
 
     <string name="status_network_is_not_available">当前网络不可用</string>
     <string name="status_unlogin">未登录</string>
-    <string name="status_connecting">连接中……</string>
-    <string name="status_logining">登录中……</string>
+    <string name="status_connecting">连接中…</string>
+    <string name="status_logining">登录中…</string>
 
     <string name="new_friend">新的朋友</string>
     <string name="advanced_group">高级群</string>
@@ -67,7 +67,7 @@
     <string name="search">搜索</string>
     <string name="add_new_friend">添加朋友</string>
     <string name="details">详细资料</string>
-    <string name="prepare_data">正在准备数据……</string>
+    <string name="prepare_data">正在准备数据…</string>
 
     <string name="self_details">个人信息</string>
     <string name="head_image">头像</string>
@@ -106,11 +106,12 @@
     <string name="message_notify">接收新消息通知</string>
     <string name="ring">声音</string>
     <string name="vibrate">震动</string>
-    <string name="open_animation">打开动画</string>
+    <string name="transfer_animation">转场动画</string>
     <string name="use_native_crop">裁剪工具</string>
     <string name="clear_message_record">清空聊天记录</string>
     <string name="is_clear_message_record">是否清空所有聊天记录</string>
     <string name="clear_message_record_done">聊天记录已清除</string>
+    <string name="developer">开发者</string>
     <string name="about">关于微书</string>
 
     <string name="pull_to_refresh">下拉可以刷新</string>
@@ -122,8 +123,10 @@
     <string name="time_error">时间有问题</string>
     
     <string name="num_reply">%1$s跟帖</string>
-    <string name="loading">正在加载……</string>
+    <string name="loading">正在加载…</string>
     <string name="click_and_refresh">点击刷新</string>
     <string name="refresh_failed_and_retry">加载失败,点击重试</string>
+    <string name="netease_news">网易新闻</string>
+    <string name="discovery">发现</string>
 
 </resources>

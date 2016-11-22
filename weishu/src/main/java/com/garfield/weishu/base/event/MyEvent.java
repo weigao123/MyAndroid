@@ -14,9 +14,8 @@ public class MyEvent {
         void onShowTakePhoto();
         void onShowCropPhoto(String photoPath);
         void onShowFullscreenPhoto(String photoPath);
+        void onShowNews();
         void onShowNewsDetail(String url);
     }
-
-
 }
 

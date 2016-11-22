@@ -3,6 +3,7 @@ package com.garfield.weishu.contact;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -57,6 +58,11 @@ public class ContactFragment extends AppBaseFragment implements AdapterView.OnIt
 
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
+        super.onInitViewAndData(rootView, savedInstanceState);
+    }
+
+    @Override
+    protected void onLazyLoad() {
         initAdapter();
         View countLayout = View.inflate(mActivity, R.layout.item_contacts_count, null);
         mCountView = (TextView) countLayout.findViewById(R.id.contactCountText);
@@ -65,6 +71,7 @@ public class ContactFragment extends AppBaseFragment implements AdapterView.OnIt
         mListView.setOnItemClickListener(this);
         mListView.setOnLongClickListener(this);
         registerObserver(true);
+        reload(false);
     }
 
     private void initAdapter() {
@@ -80,11 +87,7 @@ public class ContactFragment extends AppBaseFragment implements AdapterView.OnIt
         adapter.addViewHolder(ItemTypes.FRIEND, ContactHolder.class);
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        reload(false);
-    }
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

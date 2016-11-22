@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.garfield.baselib.ui.widget.SwitchButton;
+import com.garfield.baselib.utils.L;
 import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
@@ -71,9 +73,20 @@ public class SettingFragment extends AppBaseFragment {
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
+    }
+
+    @Override
+    protected void onLazyLoad() {
         registerObservers(true);
         initConfig();
         refreshInfo();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+//        L.d("isVisibleToUser: "+ isVisibleToUser);
+//        L.d("isVisible: " + isVisible());
     }
 
     private void initConfig() {

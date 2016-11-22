@@ -56,6 +56,10 @@ public class MainActivity extends AppBaseActivity {
         EventBus.getDefault().register(this);
         // 旋转时会非空
         if (savedInstanceState == null) {
+            /**
+             * 直接由FragmentManager管理的好像都可以被自动恢复
+             * ViewPager管理的就不行
+             */
             loadRootFragment(R.id.main_activity_fragment_container, (SupportFragment) Fragment.instantiate(this, MainFragment.class.getName()));
             // 等待同步数据完成
             boolean syncCompleted = LoginSyncHelper.getInstance().observeSyncDataCompletedEvent(new Observer<Void>() {

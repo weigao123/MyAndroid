@@ -27,7 +27,7 @@ public class MyApplication extends Application {
         super.onCreate();
         AppCache.setContext(this);
 
-        Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
+        //Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
         ImageLoaderUtils.initImageLoader(this);
         NimConfig.initSDK(this);
 

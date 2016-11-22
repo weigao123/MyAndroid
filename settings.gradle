@@ -1,1 +1,1 @@
-include ':app', ':baselib', ':newsreader', ':study', ':weishu', ':material-dialogs'
+include ':app', ':baselib', ':study', ':weishu', ':material-dialogs'
