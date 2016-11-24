@@ -8,7 +8,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -18,7 +17,6 @@ import android.widget.FrameLayout;
 
 import com.garfield.baselib.R;
 import com.garfield.baselib.fragmentation.SupportFragment;
-import com.garfield.baselib.utils.L;
 
 import java.util.ArrayList;
 import java.util.List;

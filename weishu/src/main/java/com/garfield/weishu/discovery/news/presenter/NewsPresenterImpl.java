@@ -2,8 +2,8 @@ package com.garfield.weishu.discovery.news.presenter;
 
 import android.widget.Toast;
 
-import com.garfield.baselib.utils.NetworkUtil;
-import com.garfield.weishu.AppCache;
+import com.garfield.baselib.utils.system.NetworkUtil;
+import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.OnMyRequestListener;
 import com.garfield.weishu.discovery.news.Urls;

@@ -1,12 +1,9 @@
 package com.garfield.weishu.session.session;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.view.animation.Animation;
 
 import com.garfield.weishu.R;
-import com.garfield.weishu.nim.NimConfig;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
@@ -14,13 +11,12 @@ import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
-import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.MessageReceipt;
 
 import java.util.List;
 
-import static com.garfield.weishu.AppCache.USER_ACCOUNT;
+import static com.garfield.weishu.app.AppCache.USER_ACCOUNT;
 
 /**
  * Created by gaowei3 on 2016/8/4.
@@ -53,15 +49,6 @@ public class SessionFragment extends AppBaseFragment implements ModuleProxy {
         fragment.setArguments(args);
         return fragment;
     }
-
-//    @Override
-//    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
-//        Animation animation = super.onCreateAnimation(transit, enter, nextAnim);
-//        if (transit == FragmentTransaction.TRANSIT_FRAGMENT_OPEN && enter && animation.getDuration() > 100) {
-//            animation.setStartOffset(300);
-//        }
-//        return animation;
-//    }
 
     private void registerObservers(boolean register) {
         MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);

@@ -4,18 +4,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.garfield.baselib.ui.widget.SwitchButton;
-import com.garfield.baselib.utils.L;
-import com.garfield.weishu.AppCache;
+import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
-import com.garfield.weishu.config.SettingsPreferences;
+import com.garfield.weishu.app.SettingsPreferences;
 import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
@@ -56,9 +54,6 @@ public class SettingFragment extends AppBaseFragment {
     @BindView(R.id.fragment_setting_animator_switch)
     SwitchButton mAnimatorSwitch;
 
-    @BindView(R.id.fragment_setting_native_crop_switch)
-    SwitchButton mCropSwitch;
-
     @BindView(R.id.fragment_setting_ring)
     RelativeLayout mRingContainer;
 
@@ -75,11 +70,16 @@ public class SettingFragment extends AppBaseFragment {
         super.onInitViewAndData(rootView, savedInstanceState);
     }
 
+    public static void initSetting() {
+        NIMClient.toggleNotification(SettingsPreferences.getNotificationToggle());
+        AppCache.setHasAnimation(SettingsPreferences.getAnimation());
+    }
+
     @Override
     protected void onLazyLoad() {
         registerObservers(true);
-        initConfig();
-        refreshInfo();
+        loadUserInfo();
+        loadConfig();
     }
 
     @Override
@@ -89,22 +89,18 @@ public class SettingFragment extends AppBaseFragment {
 //        L.d("isVisible: " + isVisible());
     }
 
-    private void initConfig() {
+    private void loadConfig() {
         mNotifySwitch.setSwitchStatus(SettingsPreferences.getNotificationToggle());
         mRingSwitch.setSwitchStatus(SettingsPreferences.getRingToggle());
         mVibrateSwitch.setSwitchStatus(SettingsPreferences.getVibrateToggle());
         mAnimatorSwitch.setSwitchStatus(SettingsPreferences.getAnimation());
-        mCropSwitch.setSwitchStatus(SettingsPreferences.getCropTool());
 
         int visible = mNotifySwitch.getSwitchStatus() ? View.VISIBLE : View.GONE;
         mRingContainer.setVisibility(visible);
         mVibrateContainer.setVisibility(visible);
-        NIMClient.toggleNotification(mNotifySwitch.getSwitchStatus());
-
-        AppCache.setHasAnimation(mAnimatorSwitch.getSwitchStatus());
     }
 
-    private void refreshInfo() {
+    private void loadUserInfo() {
         NimUserInfo userInfo = UserInfoCache.getInstance().getUserInfoByAccount(AppCache.getAccount());
         mHeadImage.loadBuddyAvatar(userInfo.getAccount());
         mAccountText.setText(getString(R.string.weishu_account_is, userInfo.getAccount()));
@@ -124,7 +120,7 @@ public class SettingFragment extends AppBaseFragment {
         @Override
         public void onUserInfoChanged(List<String> accounts) {
             if (accounts.contains(AppCache.getAccount())) {
-                refreshInfo();
+                loadUserInfo();
             }
         }
     };
@@ -133,11 +129,11 @@ public class SettingFragment extends AppBaseFragment {
     @OnClick(R.id.fragment_setting_notify)
     void switchNofity() {
         mNotifySwitch.setSwitchStatus(!mNotifySwitch.getSwitchStatus());
-        NIMClient.toggleNotification(mNotifySwitch.getSwitchStatus());
         SettingsPreferences.setNotificationToggle(mNotifySwitch.getSwitchStatus());
         int visible = mNotifySwitch.getSwitchStatus() ? View.VISIBLE : View.GONE;
         mRingContainer.setVisibility(visible);
         mVibrateContainer.setVisibility(visible);
+        initSetting();
     }
 
     @OnClick(R.id.fragment_setting_ring)
@@ -155,19 +151,13 @@ public class SettingFragment extends AppBaseFragment {
     @OnClick(R.id.fragment_setting_animator)
     void switchAnimator() {
         mAnimatorSwitch.setSwitchStatus(!mAnimatorSwitch.getSwitchStatus());
-        AppCache.setHasAnimation(mAnimatorSwitch.getSwitchStatus());
         SettingsPreferences.setAnimation(mAnimatorSwitch.getSwitchStatus());
-    }
-
-    @OnClick(R.id.fragment_setting_native_crop)
-    void switchCropTool() {
-        mCropSwitch.setSwitchStatus(!mCropSwitch.getSwitchStatus());
-        SettingsPreferences.setCropTool(mCropSwitch.getSwitchStatus());
+        initSetting();
     }
 
     @OnClick(R.id.fragment_setting_clear_message)
     void clearMessage() {
-        new MaterialDialog.Builder(getContext())
+        MaterialDialog dialog = new MaterialDialog.Builder(getContext())
                 .title(R.string.is_clear_message_record)
                 .positiveText(R.string.confirm)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -178,8 +168,8 @@ public class SettingFragment extends AppBaseFragment {
                     }
                 })
                 .negativeText(R.string.cancel)
-                .build()
-                .show();
+                .build();
+        EventDispatcher.startDialog(dialog);
     }
 
     @OnClick(R.id.fragment_setting_about)

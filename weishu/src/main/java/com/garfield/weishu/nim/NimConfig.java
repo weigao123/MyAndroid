@@ -6,10 +6,10 @@ import android.graphics.Color;
 import android.os.Environment;
 import android.text.TextUtils;
 
-import com.garfield.weishu.AppCache;
+import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
-import com.garfield.weishu.config.SettingsPreferences;
-import com.garfield.weishu.config.UserPreferences;
+import com.garfield.weishu.app.SettingsPreferences;
+import com.garfield.weishu.app.UserPreferences;
 import com.garfield.weishu.ui.activity.WelcomeActivity;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;

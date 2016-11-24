@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.garfield.baselib.utils.L;
+import com.garfield.baselib.utils.system.L;
 
 /**
  * Created by gaowei3 on 2016/8/2.

@@ -2,7 +2,7 @@ package com.garfield.weishu.nim.framework;
 
 import android.os.Handler;
 
-import com.garfield.weishu.AppCache;
+import com.garfield.weishu.app.AppCache;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;

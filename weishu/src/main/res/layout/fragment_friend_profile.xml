@@ -65,7 +65,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:text="@string/add_friend"
+        android:text="@string/add_as_friend"
         android:gravity="center"
         android:textSize="20sp"
         android:textColor="@color/white"

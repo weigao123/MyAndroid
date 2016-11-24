@@ -12,91 +12,91 @@
         android:background="@color/colorPrimary" >
 
         <LinearLayout
-            android:id="@+id/menu_item_1"
+            android:id="@+id/menu_item_chat"
             android:layout_width="@dimen/pop_menu_width"
             android:layout_height="@dimen/pop_menu_item_height"
             android:background="@drawable/bg_press_primary"
             android:orientation="horizontal"
             android:gravity="center_vertical" >
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_launcher"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_pop_chat"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="30dp"/>
+                android:layout_marginRight="20dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="第一条"
+                android:text="@string/start_group_chat"
                 android:textSize="@dimen/textSmallSize"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
-            android:layout_height="2px"
+            android:layout_height="1px"
             android:background="@color/colorPrimaryDark" />
         <LinearLayout
-            android:id="@+id/menu_item_2"
+            android:id="@+id/menu_item_add_friend"
             android:layout_width="@dimen/pop_menu_width"
             android:layout_height="@dimen/pop_menu_item_height"
             android:background="@drawable/bg_press_primary"
             android:orientation="horizontal"
             android:gravity="center_vertical" >
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_launcher"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_pop_add_friend"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="30dp"/>
+                android:layout_marginRight="20dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="第二条"
+                android:text="@string/add_friend"
                 android:textSize="@dimen/textSmallSize"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
-            android:layout_height="2px"
+            android:layout_height="1px"
             android:background="@color/colorPrimaryDark" />
         <LinearLayout
-            android:id="@+id/menu_item_3"
+            android:id="@+id/menu_item_scan"
             android:layout_width="@dimen/pop_menu_width"
             android:layout_height="@dimen/pop_menu_item_height"
             android:background="@drawable/bg_press_primary"
             android:orientation="horizontal"
             android:gravity="center_vertical" >
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_launcher"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_pop_scan_one"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="30dp"/>
+                android:layout_marginRight="20dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="第三条"
+                android:text="@string/scan_one"
                 android:textSize="@dimen/textSmallSize"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
-            android:layout_height="2px"
+            android:layout_height="1px"
             android:background="@color/colorPrimaryDark" />
         <LinearLayout
-            android:id="@+id/menu_item_4"
+            android:id="@+id/menu_item_help"
             android:layout_width="@dimen/pop_menu_width"
             android:layout_height="@dimen/pop_menu_item_height"
             android:background="@drawable/bg_press_primary"
             android:orientation="horizontal"
             android:gravity="center_vertical" >
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_launcher"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_pop_help"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="30dp"/>
+                android:layout_marginRight="20dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="第四条"
+                android:text="@string/help_and_feedback"
                 android:textSize="@dimen/textSmallSize"/>
         </LinearLayout>
 

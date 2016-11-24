@@ -30,8 +30,6 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 
-import com.garfield.baselib.utils.L;
-
 import java.util.Arrays;
 
 /**

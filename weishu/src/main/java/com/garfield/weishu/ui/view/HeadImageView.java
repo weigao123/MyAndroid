@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.garfield.baselib.utils.drawable.ImageLoaderUtils;
-import com.garfield.weishu.AppCache;
+import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.netease.nimlib.sdk.nos.model.NosThumbParam;

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -13,9 +12,7 @@ import com.garfield.baselib.R;
 import com.garfield.baselib.base.BaseFragment;
 import com.garfield.baselib.fragmentation.anim.DefaultNoAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
-import com.garfield.baselib.swipeback.SwipeBackFragment;
-import com.garfield.baselib.swipeback.SwipeBackLayout;
-import com.garfield.baselib.utils.InputUtils;
+import com.garfield.baselib.utils.system.InputUtils;
 
 /**
  * Created by gaowei3 on 2016/7/22.
@@ -32,7 +29,7 @@ public class SupportFragment extends BaseFragment implements ISupport {
 
     private FragmentHelper mFragmentHelper;
 
-    private boolean isAnimatorEnable = true;
+    private boolean isEnterAnimatorEnable = true;
 
     private Bundle mResultBundle;
 
@@ -80,18 +77,21 @@ public class SupportFragment extends BaseFragment implements ISupport {
         }
     }
 
+    @SuppressWarnings("ResourceType")
     @Override
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
-        if (isFragmentSwipeBacking() || !isAnimatorEnable) {
+        if (isFragmentSwipeBacking()) {
             return AnimationUtils.loadAnimation(mActivity, R.anim.no_anim);
         }
         if (transit == FragmentTransaction.TRANSIT_FRAGMENT_OPEN) {
+            // 打开时，两个都是TRANSIT_FRAGMENT_OPEN
             if (enter) {
-                return AnimationUtils.loadAnimation(mActivity, mFragmentAnimator.getEnter());
+                return AnimationUtils.loadAnimation(mActivity, isEnterAnimatorEnable ? mFragmentAnimator.getEnter() : R.anim.no_anim);
             } else {
                 return AnimationUtils.loadAnimation(mActivity, mFragmentAnimator.getExit());
             }
         } else if (transit == FragmentTransaction.TRANSIT_FRAGMENT_CLOSE) {
+            // 返回键时，两个都是TRANSIT_FRAGMENT_CLOSE
             if (enter) {
                 return AnimationUtils.loadAnimation(mActivity, mFragmentAnimator.getPopEnter());
             } else {
@@ -101,8 +101,11 @@ public class SupportFragment extends BaseFragment implements ISupport {
         return super.onCreateAnimation(transit, enter, nextAnim);
     }
 
-    protected void setAnimatorEnable(boolean enable) {
-        isAnimatorEnable = enable;
+    /**
+     * 打开时，有时候会卡顿，可以把打开的动画去掉
+     */
+    protected void setEnterAnimatorEnable(boolean enterEnable) {
+        isEnterAnimatorEnable = enterEnable;
     }
 
     protected FragmentAnimator onCreateFragmentAnimator() {

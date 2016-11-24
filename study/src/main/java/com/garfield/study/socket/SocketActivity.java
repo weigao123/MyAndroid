@@ -1,14 +1,12 @@
 package com.garfield.study.socket;
 
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.garfield.baselib.utils.L;
+import com.garfield.baselib.utils.system.L;
 import com.garfield.study.R;
-import com.garfield.study.socket.SocketManager;
 
 /**
  * Created by gaowei3 on 2016/10/20.

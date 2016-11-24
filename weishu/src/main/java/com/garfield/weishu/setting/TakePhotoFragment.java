@@ -14,16 +14,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.garfield.baselib.ui.widget.SwitchButton;
-import com.garfield.baselib.utils.DirectoryUtils;
-import com.garfield.baselib.utils.FileUtils;
-import com.garfield.baselib.utils.InvokerUtils;
+import com.garfield.baselib.utils.file.DirectoryUtils;
+import com.garfield.baselib.utils.file.FileUtils;
+import com.garfield.baselib.utils.system.InvokerUtils;
 import com.garfield.baselib.utils.drawable.PhotoUtil;
 import com.garfield.baselib.utils.drawable.ScreenSizeUtils;
-import com.garfield.weishu.AppCache;
+import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.base.listview.TListAdapter;
-import com.garfield.weishu.config.SettingsPreferences;
+import com.garfield.weishu.app.SettingsPreferences;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 
 import java.io.File;

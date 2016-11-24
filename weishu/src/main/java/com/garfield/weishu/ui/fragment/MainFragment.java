@@ -12,16 +12,12 @@ import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.ui.widget.BottomBar2;
-import com.garfield.baselib.utils.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.contact.ContactFragment;
 import com.garfield.weishu.discovery.DiscoveryFragment;
-import com.garfield.weishu.discovery.news.view.NewsListFragment;
 import com.garfield.weishu.nim.NimConfig;
 import com.garfield.weishu.session.sessionlist.SessionListFragment;
 import com.garfield.weishu.setting.SettingFragment;
-
-import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 
@@ -151,29 +147,8 @@ public class MainFragment extends AppBaseFragment implements BottomBar2.OnTabSel
         }
     }
 
-    /**
-     *  如果是根元素就不去动画，在loadRootFragment时没有设置setTransition
-     */
-    @Override
-    protected FragmentAnimator onCreateFragmentAnimator() {
-        return new DefaultHorizontalAnimator();
-    }
-
-//    @Override
-//    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
-//        Animation animation = super.onCreateAnimation(transit, enter, nextAnim);
-//        Class topClass = getTopFragment().getClass();
-//        if (topClass == SessionFragment.class) {
-//            if (transit == FragmentTransaction.TRANSIT_FRAGMENT_OPEN && !enter && animation.getDuration() > 100) {
-//                animation.setStartOffset(300);
-//            }
-//        }
-//        return animation;
-//    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 }

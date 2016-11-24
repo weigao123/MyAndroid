@@ -7,9 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.garfield.baselib.utils.L;
-import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

@@ -52,7 +52,7 @@
     <string name="advanced_group">高级群</string>
     <string name="discussion_group">讨论组</string>
     <string name="black_list">黑名单</string>
-    <string name="add_friend">加为好友</string>
+    <string name="add_as_friend">加为好友</string>
     <string name="add_friend_request">添加好友请求发送成功</string>
     <string name="add_friend_success">添加好友成功</string>
     <string name="can_not_add_self">不能加自己为好友</string>

@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.baselib.ui.widget.ClearableEditText;
 import com.garfield.weishu.R;
-import com.garfield.weishu.config.UserPreferences;
+import com.garfield.weishu.app.UserPreferences;
 import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.DataCacheManager;
 import com.garfield.weishu.utils.permission.MPermission;

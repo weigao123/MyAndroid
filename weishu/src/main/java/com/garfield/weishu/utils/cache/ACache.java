@@ -47,7 +47,7 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-import com.garfield.baselib.utils.DirectoryUtils;
+import com.garfield.baselib.utils.file.DirectoryUtils;
 
 /**
  * @author Michael Yang（www.yangfuhai.com） update at 2013.08.07

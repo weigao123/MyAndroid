@@ -2,15 +2,11 @@ package com.garfield.weishu.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import com.garfield.baselib.fragmentation.FragmentHelper;
 import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.baselib.ui.dialog.DialogMaker;
-import com.garfield.baselib.utils.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.StartBrotherEvent;
 import com.garfield.weishu.nim.NimConfig;
@@ -22,7 +18,7 @@ import com.netease.nimlib.sdk.Observer;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import static com.garfield.weishu.AppCache.USER_ACCOUNT;
+import static com.garfield.weishu.app.AppCache.USER_ACCOUNT;
 
 /**
  * Created by gaowei3 on 2016/7/31.
@@ -131,4 +127,6 @@ public class MainActivity extends AppBaseActivity {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
+
 }

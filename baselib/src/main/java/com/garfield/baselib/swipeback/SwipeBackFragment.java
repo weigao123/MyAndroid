@@ -60,7 +60,7 @@ public class SwipeBackFragment extends SupportFragment {
     }
 
     /**
-     * 正在pop back时，返回true，用于滑动关闭时无动画
+     * 正在pop back时，两个Fragment都返回true，用于滑动关闭后popBack时两个界面都不要动画
      */
     protected boolean isFragmentSwipeBacking() {
         Bundle bundle = getArguments();

@@ -3,10 +3,7 @@ package com.garfield.study.touch.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
-
-import com.garfield.baselib.utils.L;
 
 /**
  * Created by gaowei3 on 2016/8/16.

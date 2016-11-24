@@ -1,13 +1,12 @@
 package com.garfield.weishu.discovery.news.model;
 
-import com.garfield.baselib.utils.L;
+import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.base.OnMyRequestListener;
 import com.garfield.weishu.discovery.news.view.NewsFragment;
-import com.garfield.weishu.http.okhttp.OkHttp3Utils;
+import com.garfield.weishu.helper.http.okhttp.OkHttp3Utils;
 import com.garfield.weishu.discovery.news.Urls;
 import com.garfield.weishu.discovery.news.bean.NewsBean;
 import com.garfield.weishu.discovery.news.bean.NewsDetailBean;
-import com.garfield.weishu.discovery.news.view.NewsListFragment;
 
 import java.util.ArrayList;
 import java.util.List;

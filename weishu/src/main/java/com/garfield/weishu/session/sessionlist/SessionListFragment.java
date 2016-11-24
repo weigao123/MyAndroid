@@ -1,7 +1,6 @@
 package com.garfield.weishu.session.sessionlist;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -12,7 +11,6 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.garfield.baselib.adapter.DividerItemDecoration;
-import com.garfield.baselib.utils.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.base.recyclerview.RecyclerViewHolder;
@@ -30,7 +28,6 @@ import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.auth.AuthServiceObserver;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
-import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 
@@ -84,12 +81,7 @@ public class SessionListFragment extends AppBaseFragment {
         adapter.setItemEventListener(new TRecyclerAdapter.ItemEventListener<RecentContact>() {
             @Override
             public void onItemClick(final RecentContact recentContact, int position) {
-                getHandler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        EventDispatcher.getFragmentJumpEvent().onShowSession(recentContact.getContactId());
-                    }
-                }, 50);
+                EventDispatcher.getFragmentJumpEvent().onShowSession(recentContact.getContactId());
             }
 
             @Override

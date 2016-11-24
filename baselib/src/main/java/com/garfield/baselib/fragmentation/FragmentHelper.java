@@ -8,9 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentTransactionBugFixHack;
 
-import com.garfield.baselib.utils.InputUtils;
-import com.garfield.baselib.utils.L;
-
 import java.util.List;
 
 /**

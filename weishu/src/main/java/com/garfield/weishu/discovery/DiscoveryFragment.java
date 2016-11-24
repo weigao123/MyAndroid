@@ -2,13 +2,12 @@ package com.garfield.weishu.discovery;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ScrollView;
 
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
+import com.garfield.weishu.helper.browser.BrowserFragment;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 
-import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -31,9 +30,14 @@ public class DiscoveryFragment extends AppBaseFragment {
     protected void onLazyLoad() {
     }
 
-    @OnClick(R.id.fragment_netease_news)
+    @OnClick(R.id.fragment_discovery_news)
     void openNeteaseNews() {
         EventDispatcher.getFragmentJumpEvent().onShowNews();
+    }
+
+    @OnClick(R.id.fragment_discovery_browser)
+    void openWebView() {
+        EventDispatcher.startFragment(new BrowserFragment());
     }
 
 }

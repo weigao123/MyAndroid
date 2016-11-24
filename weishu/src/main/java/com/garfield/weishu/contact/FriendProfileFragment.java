@@ -7,8 +7,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.garfield.baselib.ui.dialog.DialogMaker;
-import com.garfield.baselib.utils.NetworkUtil;
-import com.garfield.weishu.AppCache;
+import com.garfield.baselib.utils.system.NetworkUtil;
+import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.nim.cache.FriendDataCache;
@@ -20,13 +20,12 @@ import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.friend.FriendService;
 import com.netease.nimlib.sdk.friend.constant.VerifyType;
 import com.netease.nimlib.sdk.friend.model.AddFriendData;
-import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.garfield.weishu.AppCache.USER_ACCOUNT;
+import static com.garfield.weishu.app.AppCache.USER_ACCOUNT;
 
 /**
  * Created by gwball on 2016/9/12.
@@ -185,7 +184,7 @@ public class FriendProfileFragment extends AppBaseFragment {
             mAddOrRemoveFriendBtn.setText(R.string.remove_friend);
         } else {
             mChatBtn.setVisibility(View.GONE);
-            mAddOrRemoveFriendBtn.setText(R.string.add_friend);
+            mAddOrRemoveFriendBtn.setText(R.string.add_as_friend);
         }
     }
 

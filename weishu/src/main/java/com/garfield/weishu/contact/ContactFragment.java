@@ -3,17 +3,13 @@ package com.garfield.weishu.contact;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.garfield.baselib.ui.widget.LetterIndexView;
-import com.garfield.baselib.utils.L;
+import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
-import com.garfield.weishu.contact.ContactDataAdapter;
-import com.garfield.weishu.contact.ContactDataProvider;
-import com.garfield.weishu.contact.ItemTypes;
 import com.garfield.weishu.contact.item.AbsContactItem;
 import com.garfield.weishu.contact.item.ContactItem;
 import com.garfield.weishu.contact.item.FuncItem;

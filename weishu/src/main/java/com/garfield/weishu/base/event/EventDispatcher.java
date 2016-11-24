@@ -1,8 +1,13 @@
 package com.garfield.weishu.base.event;
 
+import android.app.Dialog;
+import android.os.Handler;
+import android.os.Looper;
+
+import com.garfield.baselib.fragmentation.SupportFragment;
+import com.garfield.baselib.utils.drawable.UiUtils;
 import com.garfield.weishu.discovery.news.view.NewsDetailFragment;
 import com.garfield.weishu.discovery.news.view.NewsFragment;
-import com.garfield.weishu.discovery.news.view.NewsListFragment;
 import com.garfield.weishu.setting.ChangeInfoFragment;
 import com.garfield.weishu.setting.CropPhotoFragment;
 import com.garfield.weishu.contact.FriendProfileFragment;
@@ -20,65 +25,86 @@ import org.greenrobot.eventbus.EventBus;
 
 public class EventDispatcher {
 
-    private static MyEvent.FragmentJumpEvent fragmentJumpEvent;
+    private static Handler mHandler = new Handler(Looper.getMainLooper());
 
-    static {
-        fragmentJumpEvent = new MyEvent.FragmentJumpEvent() {
-            @Override
-            public void onShowUserProfile(String account) {
-                EventBus.getDefault().post(new StartBrotherEvent(FriendProfileFragment.newInstance(account)));
-            }
+    private static MyEvent.FragmentJumpEvent mFragmentJumpEvent = new MyEvent.FragmentJumpEvent() {
+        @Override
+        public void onShowUserProfile(String account) {
+            startFragment(FriendProfileFragment.newInstance(account));
+        }
 
-            @Override
-            public void onShowSession(String account) {
-                EventBus.getDefault().post(new StartBrotherEvent(SessionFragment.newInstance(account)));
-            }
+        @Override
+        public void onShowSession(String account) {
+            startFragment(SessionFragment.newInstance(account));
+        }
 
-            @Override
-            public void onShowSelfProfile() {
-                EventBus.getDefault().post(new StartBrotherEvent(new SelfProfileFragment()));
-            }
+        @Override
+        public void onShowSelfProfile() {
+            startFragment(new SelfProfileFragment());
+        }
 
-            @Override
-            public void onShowSearchUser() {
-                EventBus.getDefault().post(new StartBrotherEvent(new SearchUserFragment()));
-            }
+        @Override
+        public void onShowSearchUser() {
+            startFragment(new SearchUserFragment());
+        }
 
-            @Override
-            public void onShowChangeInfo() {
-                EventBus.getDefault().post(new StartBrotherEvent(new ChangeInfoFragment()));
-            }
+        @Override
+        public void onShowChangeInfo() {
+            startFragment(new ChangeInfoFragment());
+        }
 
-            @Override
-            public void onShowTakePhoto() {
-                EventBus.getDefault().post(new StartBrotherEvent(new TakePhotoFragment()));
-            }
+        @Override
+        public void onShowTakePhoto() {
+            startFragment(new TakePhotoFragment());
+        }
 
-            @Override
-            public void onShowCropPhoto(String photoPath) {
-                EventBus.getDefault().post(new StartBrotherEvent(CropPhotoFragment.newInstance(photoPath)));
-            }
+        @Override
+        public void onShowCropPhoto(String photoPath) {
+            startFragment(CropPhotoFragment.newInstance(photoPath));
+        }
 
-            @Override
-            public void onShowFullscreenPhoto(String photoPath) {
-                EventBus.getDefault().post(new StartBrotherEvent(FullscreenPhoto.newInstance(photoPath)));
-            }
+        @Override
+        public void onShowFullscreenPhoto(String photoPath) {
+            startFragment(FullscreenPhoto.newInstance(photoPath));
+        }
 
-            @Override
-            public void onShowNews() {
-                EventBus.getDefault().post(new StartBrotherEvent(new NewsFragment()));
-            }
+        @Override
+        public void onShowNews() {
+            startFragment(new NewsFragment());
+        }
 
+        @Override
+        public void onShowNewsDetail(String url) {
+            startFragment(NewsDetailFragment.newInstance(url));
+        }
+    };
+
+
+    public static void startFragment(final SupportFragment fragment) {
+        if (UiUtils.isFastDoubleClick(800)) return;
+        mHandler.postDelayed(new Runnable() {
             @Override
-            public void onShowNewsDetail(String url) {
-                EventBus.getDefault().post(new StartBrotherEvent(NewsDetailFragment.newInstance(url)));
+            public void run() {
+                EventBus.getDefault().post(new StartBrotherEvent(fragment));
             }
-        };
+        }, 100);
+    }
+
+    public static void startDialog(final Dialog dialog) {
+        if (UiUtils.isFastDoubleClick(500)) return;
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dialog.show();
+            }
+        }, 100);
     }
 
     public static MyEvent.FragmentJumpEvent getFragmentJumpEvent() {
-        return fragmentJumpEvent;
+        return mFragmentJumpEvent;
     }
+
+
 
 }
 

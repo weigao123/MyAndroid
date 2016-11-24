@@ -2,7 +2,7 @@ package com.garfield.baselib.base;
 
 import android.os.Bundle;
 
-import com.garfield.baselib.utils.L;
+import com.garfield.baselib.utils.system.L;
 
 /**
  * Created by gaowei3 on 2016/8/2.

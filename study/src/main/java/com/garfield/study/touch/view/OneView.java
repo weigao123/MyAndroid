@@ -5,8 +5,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.garfield.baselib.utils.L;
-
 /**
  * Created by gaowei3 on 2016/8/16.
  */

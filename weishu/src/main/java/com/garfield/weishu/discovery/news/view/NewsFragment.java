@@ -4,22 +4,16 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.garfield.baselib.fragmentation.SupportFragment;
-import com.garfield.baselib.utils.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
 
 /**
  * Created by gaowei3 on 2016/8/1.
@@ -44,6 +38,8 @@ public class NewsFragment extends AppBaseFragment {
 
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
+        setEnterAnimatorEnable(false);
+
         ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
         TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tabs);

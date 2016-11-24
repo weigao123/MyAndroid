@@ -6,7 +6,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 
 
-import com.garfield.weishu.AppCache;
+import com.garfield.weishu.app.AppCache;
 
 import java.lang.reflect.Field;
 

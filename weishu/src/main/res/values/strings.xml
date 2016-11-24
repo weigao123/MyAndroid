@@ -52,7 +52,7 @@
     <string name="advanced_group">高级群</string>
     <string name="discussion_group">讨论组</string>
     <string name="black_list">黑名单</string>
-    <string name="add_friend">加为好友</string>
+    <string name="add_as_friend">加为好友</string>
     <string name="add_friend_request">添加好友请求发送成功</string>
     <string name="add_friend_success">添加好友成功</string>
     <string name="can_not_add_self">不能加自己为好友</string>
@@ -111,7 +111,11 @@
     <string name="clear_message_record">清空聊天记录</string>
     <string name="is_clear_message_record">是否清空所有聊天记录</string>
     <string name="clear_message_record_done">聊天记录已清除</string>
+    <string name="scan_one">扫一扫</string>
     <string name="developer">开发者</string>
+    <string name="shopping">购物</string>
+    <string name="browser">浏览器</string>
+    <string name="game">游戏</string>
     <string name="about">关于微书</string>
 
     <string name="pull_to_refresh">下拉可以刷新</string>
@@ -128,5 +132,9 @@
     <string name="refresh_failed_and_retry">加载失败,点击重试</string>
     <string name="netease_news">网易新闻</string>
     <string name="discovery">发现</string>
+
+    <string name="start_group_chat">发起群聊</string>
+    <string name="add_friend">添加朋友</string>
+    <string name="help_and_feedback">帮助和反馈</string>
 
 </resources>

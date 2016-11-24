@@ -20,7 +20,7 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:id="@+id/fragment_netease_news"
+                android:id="@+id/fragment_discovery_news"
                 android:layout_marginTop="15dp"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -44,7 +44,112 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/fragment_developer"
+                android:id="@+id/fragment_discovery_scan"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:background="@drawable/bg_press_white_to_gray">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/ic_scan_one"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:text="@string/scan_one"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray" />
+
+            <LinearLayout
+                android:id="@+id/fragment_discovery_browser"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:background="@drawable/bg_press_white_to_gray">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="15dp"
+                    android:padding="3dp"
+                    android:src="@drawable/ic_browser"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:text="@string/browser"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fragment_discovery_shopping"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:background="@drawable/bg_press_white_to_gray">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/ic_shopping"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:text="@string/shopping"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray" />
+
+            <LinearLayout
+                android:id="@+id/fragment_discovery_game"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:background="@drawable/bg_press_white_to_gray">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/ic_game"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:text="@string/game"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fragment_discovery_developer"
                 android:layout_marginTop="15dp"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"

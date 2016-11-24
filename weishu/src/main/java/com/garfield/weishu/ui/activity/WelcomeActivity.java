@@ -5,19 +5,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 
-import com.garfield.baselib.utils.SysInfoUtil;
-import com.garfield.baselib.utils.SystemUtil;
-import com.garfield.weishu.AppCache;
 import com.garfield.weishu.R;
-import com.garfield.weishu.config.UserPreferences;
+import com.garfield.weishu.app.UserPreferences;
 import com.netease.nimlib.sdk.NimIntent;
-import com.netease.nimlib.sdk.msg.model.IMMessage;
-
-import java.util.ArrayList;
 
 /**
  * Created by gaowei3 on 2016/9/6.

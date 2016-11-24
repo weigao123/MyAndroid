@@ -3,14 +3,10 @@ package com.garfield.baselib.fragmentation;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 
 import com.garfield.baselib.base.BaseActivity;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
-import com.garfield.baselib.swipeback.SwipeBackActivity;
-import com.garfield.baselib.utils.L;
-
-import java.util.List;
+import com.garfield.baselib.utils.system.L;
 
 /**
  * Created by gaowei3 on 2016/7/22.

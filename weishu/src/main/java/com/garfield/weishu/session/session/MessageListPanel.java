@@ -10,9 +10,8 @@ import android.view.View;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.garfield.baselib.adapter.DividerItemDecoration;
-import com.garfield.baselib.utils.L;
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.listview.TListViewHolder;
+import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.base.listview.AutoRefreshListView;
 import com.garfield.weishu.base.listview.ListViewUtil;
 import com.garfield.weishu.utils.ClipboardUtil;
@@ -419,8 +418,7 @@ public class MessageListPanel {
                         }
                     })
                     .build();
-            dialog.show();
-
+            EventDispatcher.startDialog(dialog);
         }
     }
 

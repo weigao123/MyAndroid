@@ -17,7 +17,6 @@ import android.widget.FrameLayout;
 
 import com.garfield.baselib.R;
 import com.garfield.baselib.fragmentation.SupportFragment;
-import com.garfield.baselib.utils.L;
 
 import java.util.ArrayList;
 import java.util.List;

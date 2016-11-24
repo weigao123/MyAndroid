@@ -1,17 +1,13 @@
 package com.garfield.weishu.nim.cache;
 
-import android.content.Context;
 import android.os.Handler;
 
-import com.garfield.weishu.AppCache;
-import com.garfield.weishu.MyApplication;
+import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.nim.framework.SingleThreadExecutor;
 import com.netease.nimlib.sdk.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.garfield.weishu.MyApplication.imageLoaderKit;
 
 
 public class DataCacheManager {

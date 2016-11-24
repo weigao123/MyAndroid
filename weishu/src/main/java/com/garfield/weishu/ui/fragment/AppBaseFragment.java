@@ -16,13 +16,12 @@ import android.widget.PopupWindow;
 import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.swipeback.SwipeBackFragment;
-import com.garfield.baselib.utils.L;
 import com.garfield.baselib.utils.drawable.ScreenSizeUtils;
-import com.garfield.weishu.AppCache;
+import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
+import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.contact.ContactFragment;
 import com.garfield.weishu.discovery.DiscoveryFragment;
-import com.garfield.weishu.discovery.news.view.NewsFragment;
 import com.garfield.weishu.discovery.news.view.NewsListFragment;
 import com.garfield.weishu.session.sessionlist.SessionListFragment;
 import com.garfield.weishu.setting.SettingFragment;
@@ -93,7 +92,6 @@ public class AppBaseFragment extends SwipeBackFragment {
                 lazyLoad();
             }
         }
-        L.d("onCreateView");
         return mRootView;
     }
 
@@ -139,7 +137,6 @@ public class AppBaseFragment extends SwipeBackFragment {
                 this.getClass() == SessionListFragment.class ||
                 this.getClass() == ContactFragment.class ||
                 this.getClass() == DiscoveryFragment.class ||
-                this.getClass() == NewsFragment.class ||
                 this.getClass() == NewsListFragment.class ||
                 this.getClass() == SettingFragment.class);
     }
@@ -149,10 +146,10 @@ public class AppBaseFragment extends SwipeBackFragment {
         mPopupWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         // 这个有必要，否则在5.0上点不到它，否则5.0上点击外界菜单不被隐藏
         mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
-        contentView.findViewById(R.id.menu_item_1).setOnClickListener(mOnClickListener);
-        contentView.findViewById(R.id.menu_item_2).setOnClickListener(mOnClickListener);
-        contentView.findViewById(R.id.menu_item_3).setOnClickListener(mOnClickListener);
-        contentView.findViewById(R.id.menu_item_4).setOnClickListener(mOnClickListener);
+        contentView.findViewById(R.id.menu_item_chat).setOnClickListener(mOnClickListener);
+        contentView.findViewById(R.id.menu_item_add_friend).setOnClickListener(mOnClickListener);
+        contentView.findViewById(R.id.menu_item_scan).setOnClickListener(mOnClickListener);
+        contentView.findViewById(R.id.menu_item_help).setOnClickListener(mOnClickListener);
     }
 
     protected int onGetToolbarTitleResource() {
@@ -175,16 +172,17 @@ public class AppBaseFragment extends SwipeBackFragment {
 //                mPopupMenu.inflateView(R.menu.fragment_msg_list);
 //                mPopupMenu.show();
                     break;
-                case R.id.menu_item_1:
+                case R.id.menu_item_chat:
                     mPopupWindow.dismiss();
                     break;
-                case R.id.menu_item_2:
+                case R.id.menu_item_add_friend:
+                    EventDispatcher.getFragmentJumpEvent().onShowSearchUser();
                     mPopupWindow.dismiss();
                     break;
-                case R.id.menu_item_3:
+                case R.id.menu_item_scan:
                     mPopupWindow.dismiss();
                     break;
-                case R.id.menu_item_4:
+                case R.id.menu_item_help:
                     mPopupWindow.dismiss();
                     break;
             }
@@ -193,6 +191,8 @@ public class AppBaseFragment extends SwipeBackFragment {
 
     @Override
     protected FragmentAnimator onCreateFragmentAnimator() {
+        // 所有的Fragment默认都用这个动画
+        // 如果是根元素就不去动画，通过在loadRootFragment时不设置setTransition
         return new DefaultHorizontalAnimator();
     }
 

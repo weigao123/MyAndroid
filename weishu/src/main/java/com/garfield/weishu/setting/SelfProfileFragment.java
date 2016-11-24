@@ -9,8 +9,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.garfield.baselib.ui.dialog.DialogMaker;
-import com.garfield.baselib.utils.L;
-import com.garfield.weishu.AppCache;
+import com.garfield.baselib.utils.system.L;
+import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.nim.cache.UserInfoCache;

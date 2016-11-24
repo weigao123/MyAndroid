@@ -2,10 +2,6 @@ package com.garfield.weishu.base.recyclerview;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.ListView;
-
-import com.garfield.baselib.utils.L;
 
 /**
  * Created by gaowei3 on 2016/10/29.
