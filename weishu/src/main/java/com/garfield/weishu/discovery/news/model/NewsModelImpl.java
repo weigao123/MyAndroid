@@ -22,13 +22,7 @@ import java.util.List;
 
 public class NewsModelImpl implements NewsModel {
 
-    private HandlerThread mHandlerThread = new HandlerThread("NewsModelImpl");
-
-    Handler mHandler = new Handler(mHandlerThread.getLooper()) {
-        public void handleMessage(Message msg) {
-
-        }
-    };
+    private Handler mHandler = new Handler(Looper.getMainLooper());
 
     @Override
     public void loadNews(final String url, final int type, final OnMyRequestListener<NewsBean> listener) {
@@ -38,11 +32,6 @@ public class NewsModelImpl implements NewsModel {
             public void onSuccess(String response) {
                 L.d("loadNews response: "+response);
                 List<NewsBean> newsBeanList = NewsJsonUtils.readJsonNewsBeans(response, getID(type));
-                if (newsBeanList.isEmpty()) {
-                    L.d("loadNews retry");
-                    loadNews(url, type, listener);
-                    return;
-                }
                 listener.onSuccess(newsBeanList);
             }
 
