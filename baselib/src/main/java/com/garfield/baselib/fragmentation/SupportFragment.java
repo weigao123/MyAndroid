@@ -29,7 +29,7 @@ public class SupportFragment extends BaseFragment implements ISupport {
 
     private FragmentHelper mFragmentHelper;
 
-    private boolean isEnterAnimatorEnable = true;
+    private boolean isAnimationEnable = true;
 
     private Bundle mResultBundle;
 
@@ -77,7 +77,6 @@ public class SupportFragment extends BaseFragment implements ISupport {
         }
     }
 
-    @SuppressWarnings("ResourceType")
     @Override
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
         if (isFragmentSwipeBacking()) {
@@ -86,7 +85,7 @@ public class SupportFragment extends BaseFragment implements ISupport {
         if (transit == FragmentTransaction.TRANSIT_FRAGMENT_OPEN) {
             // 打开时，两个都是TRANSIT_FRAGMENT_OPEN
             if (enter) {
-                return AnimationUtils.loadAnimation(mActivity, isEnterAnimatorEnable ? mFragmentAnimator.getEnter() : R.anim.no_anim);
+                return AnimationUtils.loadAnimation(mActivity, mFragmentAnimator.getEnter());
             } else {
                 return AnimationUtils.loadAnimation(mActivity, mFragmentAnimator.getExit());
             }
@@ -104,8 +103,12 @@ public class SupportFragment extends BaseFragment implements ISupport {
     /**
      * 打开时，有时候会卡顿，可以把打开的动画去掉
      */
-    protected void setEnterAnimatorEnable(boolean enterEnable) {
-        isEnterAnimatorEnable = enterEnable;
+    protected void setAnimationEnable(boolean enable) {
+        isAnimationEnable = enable;
+    }
+
+    public boolean isAnimationEnable() {
+        return isAnimationEnable;
     }
 
     protected FragmentAnimator onCreateFragmentAnimator() {

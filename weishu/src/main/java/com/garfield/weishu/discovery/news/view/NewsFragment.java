@@ -31,6 +31,10 @@ public class NewsFragment extends AppBaseFragment {
 
     private List<SupportFragment> mFragments = new ArrayList<>();
 
+    {
+        setAnimationEnable(false);
+    }
+
     @Override
     protected int onGetFragmentLayout() {
         return R.layout.fragment_news;
@@ -38,8 +42,6 @@ public class NewsFragment extends AppBaseFragment {
 
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
-        setEnterAnimatorEnable(false);
-
         ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
         TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tabs);

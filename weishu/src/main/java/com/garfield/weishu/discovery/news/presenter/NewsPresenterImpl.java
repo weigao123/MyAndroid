@@ -78,7 +78,7 @@ public class NewsPresenterImpl implements NewsPresenter {
 
 
     private String getUrl(int type, int pageIndex) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         switch (type) {
             case NewsFragment.NEWS_TYPE_TOP:
                 sb.append(Urls.HOST_NEWS_TOP).append(Urls.TOP_ID);

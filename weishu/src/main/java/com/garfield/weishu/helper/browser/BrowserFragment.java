@@ -31,6 +31,10 @@ public class BrowserFragment extends AppBaseFragment {
 
     private String mUrl;
 
+    {
+        setAnimationEnable(false);
+    }
+
     @Override
     protected int onGetFragmentLayout() {
         return R.layout.fragment_browser;
@@ -39,8 +43,6 @@ public class BrowserFragment extends AppBaseFragment {
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
-        setEnterAnimatorEnable(false);
-        mWebView.setWebViewClient(new WebViewClient());
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         mWebView.setWebViewClient(mWebViewClient);

@@ -1,5 +1,8 @@
 package com.garfield.weishu.discovery.news.view;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -10,17 +13,24 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.garfield.baselib.utils.drawable.ScreenSizeUtils;
+import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.recyclerview.RecyclerUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.view.animation.Animation.INFINITE;
 
 /**
  * Created by gaowei3 on 2016/11/4.
@@ -41,12 +51,12 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
      * 功能1：刷新状态时，判断松手后，Head停留在显示还是隐藏
      * 功能2：刷新状态时，如果当前是Head显示，再次去触摸时，diff就要以containerOffset为基准，否则以yDown为基准
      */
-    private boolean isRefreshingHeadIsShowing;
+    private boolean isRefreshingHeadShowing;
     private int currentStatus = STATUS_REFRESH_FINISHED;
     private int lastStatus = currentStatus;
 
     private int containerOffset;
-    private boolean hasMeasured;
+    private boolean mHasMeasured;
     private boolean mEnabled = false;
     private float yDown = 0;
 
@@ -61,14 +71,20 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
 
     private RecyclerView mRecyclerView;
     private LinearLayout mPullRefreshHead;
-    @BindView(R.id.pull_to_refresh_progress_bar)
-    ProgressBar progressBar;
+
     @BindView(R.id.pull_to_refresh_arrow)
-    ImageView arrow;
+    ImageView mArrow;
+    @BindView(R.id.pull_to_refresh_progress)
+    ImageView mProgress;
+
     @BindView(R.id.pull_to_refresh_description)
     TextView description;
     @BindView(R.id.pull_to_refresh_updated_at)
     TextView updateAt;
+
+    private ValueAnimator mOffsetAnimator;
+    private List<Integer> mOffsetAnimatorTo = new ArrayList<>();
+    private boolean mIsTouching;
 
     private OnPullRefreshListener mListener;
 
@@ -94,7 +110,10 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
         setGravity(Gravity.CENTER_HORIZONTAL);
         ButterKnife.bind(this, this);
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        refreshUpdatedAtValue();
+        //refreshUpdatedAtValue();
+
+        mArrow.setColorFilter(getResources().getColor(R.color.colorPrimary));
+        mProgress.setColorFilter(getResources().getColor(R.color.colorPrimary));
     }
 
     @Override
@@ -110,34 +129,29 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        if (!hasMeasured) {
-            LinearLayout.LayoutParams headParams = (LinearLayout.LayoutParams) mPullRefreshHead.getLayoutParams();
-            headParams.topMargin = containerOffset = - mPullRefreshHead.getMeasuredHeight();
-            mPullRefreshHead.setLayoutParams(headParams);
-            hasMeasured = true;
+        if (!mHasMeasured) {
+            containerOffset = - mPullRefreshHead.getMeasuredHeight();
+            // 有可能会在layout之前就执行了refreshStart
+            setPullOffset(currentStatus != STATUS_REFRESHING ? 0 : -containerOffset);
+            updateHeaderView();
+            mHasMeasured = true;
         }
-    }
-
-    /**
-     * offset露出来的那部分高度
-     */
-    private void setPullOffset(int offset) {
-        LinearLayout.LayoutParams headParams = (LinearLayout.LayoutParams) mPullRefreshHead.getLayoutParams();
-        headParams.topMargin = containerOffset + offset;
-        mPullRefreshHead.setLayoutParams(headParams);
-    }
-
-    private int getOffset() {
-        LinearLayout.LayoutParams headParams = (LinearLayout.LayoutParams) mPullRefreshHead.getLayoutParams();
-        return headParams.topMargin - containerOffset;
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            yDown = ev.getRawY();
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                mIsTouching = true;
+                yDown = ev.getRawY();
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+            case MotionEvent.ACTION_OUTSIDE:
+                mIsTouching = false;
+                break;
         }
-        return super.onInterceptTouchEvent(ev);
+        return super.dispatchTouchEvent(ev);
     }
 
     /**
@@ -155,7 +169,7 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
         if (mEnabled) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    // 不回调
+                    // 没有拦截，不会回调
                     break;
                 case MotionEvent.ACTION_MOVE:
                     float diff = event.getRawY() - yDown;
@@ -179,7 +193,7 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
                         /**
                          * 正在刷新时去触摸，yDown是新的触摸点
                          */
-                        if (isRefreshingHeadIsShowing) {
+                        if (isRefreshingHeadShowing) {
                             if (diff >= 0) {
                                 // 平滑拉
                                 int firstShowHeadDiff = - containerOffset + (int)diff / 2;
@@ -193,7 +207,7 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
                                     return true;
                                 } else {
                                     setPullOffset(0);
-                                    isRefreshingHeadIsShowing = false;
+                                    isRefreshingHeadShowing = false;
                                     return false;
                                 }
                             }
@@ -217,15 +231,15 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
                     if (currentStatus == STATUS_PULLING_NOT_YET) {
                         refreshEnd(false);
                     } else if (currentStatus == STATUS_RELEASE_TO_REFRESH) {
-                        isRefreshingHeadIsShowing = true;
+                        isRefreshingHeadShowing = true;
                         currentStatus = STATUS_REFRESHING;
                         setPullOffset(-containerOffset);
                         updateHeaderView();
-                        isRefreshingHeadIsShowing = true;
+                        isRefreshingHeadShowing = true;
                         doTask();
                     } else if (currentStatus == STATUS_REFRESHING) {
                         setPullOffset(0);
-                        isRefreshingHeadIsShowing = false;
+                        isRefreshingHeadShowing = false;
                     }
                     break;
             }
@@ -233,38 +247,93 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
         return false;
     }
 
+    /**
+     * offset露出来的那部分高度
+     */
+    private void setPullOffset(int offset) {
+        LinearLayout.LayoutParams headParams = (LinearLayout.LayoutParams) mPullRefreshHead.getLayoutParams();
+        if (mIsTouching) {
+            headParams.topMargin = containerOffset + offset;
+            mPullRefreshHead.setLayoutParams(headParams);
+        } else {
+            // 松手后，先要回到正在刷新的位置，这时马上Task结束，而上次的动画还未结束
+            if (mOffsetAnimator != null && mOffsetAnimator.isRunning()) {
+                mOffsetAnimatorTo.add(offset);
+                return;
+            }
+            mOffsetAnimatorTo.add(offset);
+            startOffsetAnimator(offset);
+        }
+    }
+
+    private ValueAnimator.AnimatorUpdateListener updateListener = new ValueAnimator.AnimatorUpdateListener() {
+        public void onAnimationUpdate(ValueAnimator animation) {
+            Integer value = (Integer) animation.getAnimatedValue();   //取出新值
+            LinearLayout.LayoutParams headParams = (LinearLayout.LayoutParams) mPullRefreshHead.getLayoutParams();
+            headParams.topMargin = value;
+            mPullRefreshHead.setLayoutParams(headParams);
+        }
+    };
+
+    private AnimatorListenerAdapter animatorListener = new AnimatorListenerAdapter() {
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            mOffsetAnimatorTo.remove(0);
+            if (mOffsetAnimatorTo.size() == 0) {
+                updateHeaderView();
+                return;
+            }
+            Integer offset = mOffsetAnimatorTo.get(0);
+            startOffsetAnimator(offset);
+        }
+    };
+
+    private void startOffsetAnimator(int offset) {
+        LinearLayout.LayoutParams headParams = (LinearLayout.LayoutParams) mPullRefreshHead.getLayoutParams();
+        mOffsetAnimator = ValueAnimator.ofInt(headParams.topMargin, containerOffset + offset);
+        mOffsetAnimator.addUpdateListener(updateListener);
+        mOffsetAnimator.addListener(animatorListener);
+        int diff = Math.abs(containerOffset + offset - headParams.topMargin);
+        int time = (diff < -containerOffset + 10) ? ScreenSizeUtils.px2dp(getContext(), diff) * 4 : 300;
+        mOffsetAnimator.setDuration(time);
+        mOffsetAnimator.start();
+    }
 
     private void updateHeaderView() {
         if (lastStatus != currentStatus) {
             lastStatus = currentStatus;
-            description.setTextColor(getResources().getColor(R.color.black_gray));
-            updateAt.setTextColor(getResources().getColor(R.color.black_gray));
             if (currentStatus == STATUS_PULLING_NOT_YET) {
                 description.setText(getResources().getString(R.string.pull_to_refresh));
-                arrow.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.GONE);
+                mArrow.setVisibility(View.VISIBLE);
+                mProgress.setVisibility(View.INVISIBLE);
+                mProgress.clearAnimation();
                 rotateArrow();
             } else if (currentStatus == STATUS_RELEASE_TO_REFRESH) {
                 description.setText(getResources().getString(R.string.release_to_refresh));
-                arrow.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.GONE);
+                mArrow.setVisibility(View.VISIBLE);
+                mProgress.setVisibility(View.INVISIBLE);
+                mProgress.clearAnimation();
                 rotateArrow();
             } else if (currentStatus == STATUS_REFRESHING) {
                 description.setText(getResources().getString(R.string.refreshing));
-                progressBar.setVisibility(View.VISIBLE);
-                arrow.clearAnimation();
-                arrow.setVisibility(View.GONE);
-                description.setTextColor(getResources().getColor(R.color.colorAccent));
-                updateAt.setTextColor(getResources().getColor(R.color.colorAccent));
+                mProgress.setVisibility(View.VISIBLE);
+                mArrow.setVisibility(View.INVISIBLE);
+                mArrow.clearAnimation();
+                rotateProgress();
             } else if (currentStatus == STATUS_REFRESH_FINISHED) {
+                mArrow.clearAnimation();
+                mProgress.clearAnimation();
             }
-            refreshUpdatedAtValue();
+            //refreshUpdatedAtValue();
         }
     }
 
+    /**
+     * 只在状态改变时才调用
+     */
     private void rotateArrow() {
-        float pivotX = arrow.getWidth() / 2f;
-        float pivotY = arrow.getHeight() / 2f;
+        float pivotX = mArrow.getWidth() / 2f;
+        float pivotY = mArrow.getHeight() / 2f;
         float fromDegrees = 0f;
         float toDegrees = 0f;
         if (currentStatus == STATUS_PULLING_NOT_YET) {
@@ -275,9 +344,22 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
             toDegrees = 180f;
         }
         RotateAnimation animation = new RotateAnimation(fromDegrees, toDegrees, pivotX, pivotY);
-        animation.setDuration(100);
+        animation.setDuration(200);
         animation.setFillAfter(true);
-        arrow.startAnimation(animation);
+        mArrow.startAnimation(animation);
+    }
+
+    private void rotateProgress() {
+        float pivotX = mProgress.getWidth() / 2f;
+        float pivotY = mProgress.getHeight() / 2f;
+        float fromDegrees = 0f;
+        float toDegrees = 359f;
+        RotateAnimation animation = new RotateAnimation(fromDegrees, toDegrees, pivotX, pivotY);
+        animation.setRepeatCount(INFINITE);
+        animation.setDuration(800);
+        animation.setFillAfter(true);
+        animation.setInterpolator(new LinearInterpolator());
+        mProgress.startAnimation(animation);
     }
 
     private void refreshUpdatedAtValue() {
@@ -336,8 +418,9 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
         mEnabled = false;
         yDown = 0;
         setPullOffset(0);
-        updateHeaderView();
-        isRefreshingHeadIsShowing = false;
+        //不能现在更新，防止progress动画归位，在offset动画结束后更新
+        //updateHeaderView();
+        isRefreshingHeadShowing = false;
         if (isFinished) {
             preferences.edit().putLong(UPDATED_AT, System.currentTimeMillis()).apply();
         }
@@ -347,8 +430,11 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
         if (currentStatus == STATUS_REFRESHING) return;
         currentStatus = STATUS_REFRESHING;
         setPullOffset(-containerOffset);
-        updateHeaderView();
-        isRefreshingHeadIsShowing = true;
+        if (mHasMeasured) {
+            // 如果View还没有被测量等，会造成动画原点偏离，等layout结束后再更新
+            updateHeaderView();
+        }
+        isRefreshingHeadShowing = true;
     }
 
     private void doTask() {
@@ -389,5 +475,15 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
 
     public interface OnPullRefreshListener {
         void onPullRefresh();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (mOffsetAnimator != null && mOffsetAnimator.isRunning()) {
+            mOffsetAnimator.cancel();
+        }
+        mArrow.clearAnimation();
+        mProgress.clearAnimation();
     }
 }

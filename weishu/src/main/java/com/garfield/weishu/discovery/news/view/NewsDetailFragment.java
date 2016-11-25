@@ -5,6 +5,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import com.garfield.weishu.R;
@@ -35,6 +36,9 @@ public class NewsDetailFragment extends AppBaseFragment implements NewsView<News
     @BindView(R.id.fragment_news_detail_webview)
     WebView mWebView;
 
+    {
+        setAnimationEnable(false);
+    }
 
     @Override
     protected int onGetFragmentLayout() {
@@ -52,19 +56,15 @@ public class NewsDetailFragment extends AppBaseFragment implements NewsView<News
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
-        String docid = getArguments().getString(NEWS_DOC_ID);
 
+        mWebView.setWebViewClient(new WebViewClient());
+        WebSettings webSettings = mWebView.getSettings();
+        webSettings.setSupportZoom(true);
+        webSettings.setTextZoom(120);
+
+        String docid = getArguments().getString(NEWS_DOC_ID);
         NewsPresenter newsPresenter = new NewsPresenterImpl(this);
         newsPresenter.loadNewsDetail(docid);
-        WebSettings settings = mWebView.getSettings();
-        settings.setSupportZoom(true);
-        settings.setTextZoom(120);
-        mWebView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return false;
-            }
-        });
     }
 
     @Override
@@ -77,16 +77,16 @@ public class NewsDetailFragment extends AppBaseFragment implements NewsView<News
         if (bean != null) {
             String titleString = "<font size=\"4.2\"><b>" + bean.getTitle() + "</b></font><br/>";
             String sourceString = "<font size=\"1\" color=\"gray\"><b>" + bean.getSource() + "&nbsp;&nbsp;&nbsp;&nbsp;" + bean.getPtime() + "</b></font><br/>";
-            mWebView.loadData(titleString + sourceString + bean.getBody(), "text/html; charset=UTF-8", null);
+            // ToDo: 销毁后应该释放回调
+            if (mWebView != null) {
+                mWebView.loadData(titleString + sourceString + bean.getBody(), "text/html; charset=UTF-8", null);
+            }
         }
     }
 
     @Override
     public void onLoadFailed() {
-        showProgress(false);
     }
 
-    private void showProgress(boolean isShow) {
-        mWebView.setVisibility(!isShow ? View.VISIBLE : View.GONE);
-    }
+
 }

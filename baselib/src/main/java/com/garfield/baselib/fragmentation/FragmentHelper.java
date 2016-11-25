@@ -62,7 +62,9 @@ public class FragmentHelper {
      */
     void startFragment(FragmentManager fragmentManager, SupportFragment from, SupportFragment to) {
         FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        if (to.isAnimationEnable()) {
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        }
         String toClassName = to.getClass().getName();
         bindContainerId(from.getContainerId(), to);
         mActivity.onSwitchToFragment(to);

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
@@ -115,9 +116,12 @@ public class NewsListFragment extends AppBaseFragment implements
 
         mNewsPresenter = new NewsPresenterImpl(this);
         refreshNewsListFromACache();
-        if (pageIndex == 0) {
-            refreshAll();
-        }
+        getHandler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                refreshAll();
+            }
+        }, 1000);
     }
 
     @Override
@@ -151,6 +155,7 @@ public class NewsListFragment extends AppBaseFragment implements
 
     private void refreshData(List<NewsBean> data) {
         if (data.size() == 0) {
+            Toast.makeText(AppCache.getContext(), R.string.no_data, Toast.LENGTH_SHORT).show();
             endRefresh(true);
             return;
         }
@@ -282,4 +287,5 @@ public class NewsListFragment extends AppBaseFragment implements
     public void onItemLongPressed(NewsBean item, int position) {
 
     }
+
 }

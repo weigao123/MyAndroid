@@ -1,5 +1,10 @@
 package com.garfield.weishu.discovery.news.model;
 
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Message;
+
 import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.base.OnMyRequestListener;
 import com.garfield.weishu.discovery.news.view.NewsFragment;
@@ -17,15 +22,27 @@ import java.util.List;
 
 public class NewsModelImpl implements NewsModel {
 
+    private HandlerThread mHandlerThread = new HandlerThread("NewsModelImpl");
+
+    Handler mHandler = new Handler(mHandlerThread.getLooper()) {
+        public void handleMessage(Message msg) {
+
+        }
+    };
 
     @Override
-    public void loadNews(String url, final int type, final OnMyRequestListener<NewsBean> listener) {
+    public void loadNews(final String url, final int type, final OnMyRequestListener<NewsBean> listener) {
         L.d("loadNews url: " + url);
         OkHttp3Utils.OkHttpResultCallback<String> loadNewsCallback = new OkHttp3Utils.OkHttpResultCallback<String>() {
             @Override
             public void onSuccess(String response) {
                 L.d("loadNews response: "+response);
                 List<NewsBean> newsBeanList = NewsJsonUtils.readJsonNewsBeans(response, getID(type));
+                if (newsBeanList.isEmpty()) {
+                    L.d("loadNews retry");
+                    loadNews(url, type, listener);
+                    return;
+                }
                 listener.onSuccess(newsBeanList);
             }
 
