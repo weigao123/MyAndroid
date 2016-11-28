@@ -6,9 +6,12 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.R;
+import com.garfield.weishu.discovery.browser.BrowserFragment;
 import com.garfield.weishu.discovery.news.bean.NewsDetailBean;
 import com.garfield.weishu.discovery.news.presenter.NewsPresenter;
 import com.garfield.weishu.discovery.news.presenter.NewsPresenterImpl;
@@ -27,14 +30,8 @@ public class NewsDetailFragment extends AppBaseFragment implements NewsView<News
 
     public static final String NEWS_DOC_ID = "news_doc_id";
 
-    @BindView(R.id.fragment_news_detail_title)
-    TextView mTitle;
-
-    @BindView(R.id.fragment_news_detail_source)
-    TextView mSource;
-
-    @BindView(R.id.fragment_news_detail_webview)
-    WebView mWebView;
+    @BindView(R.id.fragment_detail_browser)
+    FrameLayout mBrowserContainer;
 
     {
         setAnimationEnable(false);
@@ -57,11 +54,6 @@ public class NewsDetailFragment extends AppBaseFragment implements NewsView<News
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
 
-        mWebView.setWebViewClient(new WebViewClient());
-        WebSettings webSettings = mWebView.getSettings();
-        webSettings.setSupportZoom(true);
-        webSettings.setTextZoom(120);
-
         String docid = getArguments().getString(NEWS_DOC_ID);
         NewsPresenter newsPresenter = new NewsPresenterImpl(this);
         newsPresenter.loadNewsDetail(docid);
@@ -77,10 +69,10 @@ public class NewsDetailFragment extends AppBaseFragment implements NewsView<News
         if (bean != null) {
             String titleString = "<font size=\"4.2\"><b>" + bean.getTitle() + "</b></font><br/>";
             String sourceString = "<font size=\"1\" color=\"gray\"><b>" + bean.getSource() + "&nbsp;&nbsp;&nbsp;&nbsp;" + bean.getPtime() + "</b></font><br/>";
-            // ToDo: 销毁后应该释放回调
-            if (mWebView != null) {
-                mWebView.loadData(titleString + sourceString + bean.getBody(), "text/html; charset=UTF-8", null);
-            }
+            String content = titleString + sourceString + bean.getBody();
+
+            loadRootFragment(R.id.fragment_detail_browser, BrowserFragment.newInstance(content, BrowserFragment.TYPE_DATA));
+
         }
     }
 

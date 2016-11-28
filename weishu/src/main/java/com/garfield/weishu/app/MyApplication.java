@@ -4,6 +4,7 @@ import android.app.Application;
 import android.text.TextUtils;
 
 import com.garfield.baselib.utils.drawable.ImageLoaderUtils;
+import com.garfield.baselib.utils.file.DirectoryUtils;
 import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.app.UserPreferences;
@@ -14,6 +15,14 @@ import com.garfield.weishu.nim.NimConfig;
 import com.garfield.baselib.utils.system.SystemUtil;
 import com.garfield.weishu.setting.SettingFragment;
 import com.garfield.weishu.ui.view.ImageLoaderKit;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 
 
 /**
@@ -27,7 +36,6 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        //Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
         AppCache.setContext(this);
         NimConfig.initSDK(this);
 
@@ -35,6 +43,8 @@ public class MyApplication extends Application {
          * 多进程，会执行多遍onCreate
          */
         if (SystemUtil.inMainProcess(this)) {
+            Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
+
             ImageLoaderUtils.initImageLoader(this);
             SettingFragment.initSetting();
 
@@ -55,8 +65,47 @@ public class MyApplication extends Application {
     public class CrashHandler implements Thread.UncaughtExceptionHandler {
         @Override
         public void uncaughtException(Thread thread, Throwable ex) {
-            L.d("崩溃", thread.getName() + ex.getMessage());
             ex.printStackTrace();
+
+            final Writer result = new StringWriter();
+            final PrintWriter printWriter = new PrintWriter(result);
+            ex.printStackTrace(printWriter);
+            L.d("崩溃：\n " + result.toString());
+
+            put(result.toString());
+            System.exit(0);
+            try {
+                throw ex;
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        }
+    }
+
+
+    public void put(String value) {
+        BufferedWriter out = null;
+        try {
+            File file;
+            for (int i = 0; ; i++) {
+                file = new File(DirectoryUtils.getOwnCacheDirectory(this, "/crash/"), "bug_" + i + ".txt");
+                if (!file.exists()) {
+                    break;
+                }
+            }
+            out = new BufferedWriter(new FileWriter(file), 2048);
+            out.write(value);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null) {
+                try {
+                    out.flush();
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

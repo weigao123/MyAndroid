@@ -30,10 +30,11 @@ public class FragmentHelper {
         mActivity.onSwitchToFragment(to);
         bindContainerId(containerId, to);
         FragmentTransaction ft = fragmentManager.beginTransaction();
-        //根Fragment不能设置动画
-        //ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        // 根Fragment不要设置动画
+        // ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         String toClassName = to.getClass().getName();
         ft.add(containerId, to, toClassName);
+        // 有可能也需要被弹出
         ft.addToBackStack(toClassName);
         ft.commit();
     }
@@ -105,7 +106,7 @@ public class FragmentHelper {
     }
 
     /**
-     * 返回到上一个
+     * 返回到上一个，并给与上一个Fragment带去Result，如果有的话
      */
     void popBack(FragmentManager fragmentManager) {
         SupportFragment targetFragment = getPreOfTopFragment(fragmentManager);

@@ -17,6 +17,8 @@
     <color name="white">#FFFFFF</color>
 
     <color name="green">#00FF00</color>
+    <color name="green_deep">#0dba04</color>
+
     <color name="red">#FF0000</color>
 
     <color name="pure_trans">#00000000</color>

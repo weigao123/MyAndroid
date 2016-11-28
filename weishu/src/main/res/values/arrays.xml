@@ -18,4 +18,8 @@
         <item>删除</item>
     </string-array>
 
+    <string-array name="news_menu">
+        <item>浏览电脑版</item>
+    </string-array>
+
 </resources>

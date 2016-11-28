@@ -40,7 +40,7 @@ public class NewsListViewHolder extends TRecyclerViewHolder<NewsBean> {
 
     @Override
     protected void refresh(NewsBean newsBean) {
-        ImageLoader.getInstance().displayImage(newsBean.getImgsrc(), newsImage, ImageLoaderUtils.getDisplayImageNoDiskCacheOptions());
+        ImageLoader.getInstance().displayImage(newsBean.getImgsrc(), newsImage, ImageLoaderUtils.getDisplayImageOptions());
         newsTitle.setText(newsBean.getTitle());
         newsSource.setText(newsBean.getSource());
         newsReply.setText(getAdapter().getContext().getResources().getString(R.string.num_reply, newsBean.getReplyCount()));

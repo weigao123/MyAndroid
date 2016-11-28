@@ -1,26 +1,32 @@
 package com.garfield.weishu.discovery.news.view;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.garfield.baselib.adapter.DividerItemDecoration;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.base.recyclerview.RecyclerUtil;
 import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
 import com.garfield.weishu.base.viewpager.TPagerAdapter;
+import com.garfield.weishu.discovery.browser.BrowserFragment;
 import com.garfield.weishu.discovery.news.bean.NewsBean;
 import com.garfield.weishu.discovery.news.head.NewsHeadView;
 import com.garfield.weishu.discovery.news.presenter.NewsPresenter;
 import com.garfield.weishu.discovery.news.presenter.NewsPresenterImpl;
 import com.garfield.weishu.discovery.news.presenter.NewsView;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
+import com.garfield.weishu.utils.ClipboardUtil;
 import com.garfield.weishu.utils.cache.ACache;
 
 import org.json.JSONArray;
@@ -154,8 +160,10 @@ public class NewsListFragment extends AppBaseFragment implements
     }
 
     private void refreshData(List<NewsBean> data) {
+        //if (!isAdded()) return;
+
         if (data.size() == 0) {
-            Toast.makeText(AppCache.getContext(), R.string.no_data, Toast.LENGTH_SHORT).show();
+            Snackbar.make(mRootView, R.string.no_data, Snackbar.LENGTH_SHORT).show();
             endRefresh(true);
             return;
         }
@@ -284,8 +292,30 @@ public class NewsListFragment extends AppBaseFragment implements
     }
 
     @Override
-    public void onItemLongPressed(NewsBean item, int position) {
-
+    public void onItemLongPressed(final NewsBean item, int position) {
+        MaterialDialog dialog = new MaterialDialog.Builder(getContext())
+                .items(R.array.news_menu)
+                .listSelector(R.drawable.bg_press_gray)
+                .itemsColorRes(R.color.black)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                        switch (position) {
+                            case 0:
+                                if (!TextUtils.isEmpty(item.getUrl_3w())) {
+                                    EventDispatcher.startFragment(BrowserFragment.newInstance(item.getUrl_3w(), BrowserFragment.TYPE_URL));
+                                } else {
+                                    //Toast.makeText(getContext(), R.string.no_data, Toast.LENGTH_SHORT).show();
+                                    Snackbar.make(mRootView, R.string.no_data, Snackbar.LENGTH_SHORT).show();
+                                }
+                                break;
+                        }
+                    }
+                })
+                .build();
+        RecyclerView recyclerView = dialog.getRecyclerView();
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
+        dialog.show();
     }
 
 }

@@ -21,7 +21,7 @@ public class DirectoryUtils {
     }
 
     /**
-     * 以包名为目录
+     * 以包名为目录，cacheDir要以/开头
      */
     public static File getOwnCacheDirectory(Context context, String cacheDir) {
         return getCacheDirectory(context, context.getPackageName() + cacheDir);
@@ -29,6 +29,7 @@ public class DirectoryUtils {
 
     /**
      * 先使用外置(根目录, 任意位置)，没有就使用内置(应用内部)
+     * 会自动创建
      */
     public static File getCacheDirectory(Context context, String cacheDir) {
         File appCacheDir = null;

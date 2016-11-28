@@ -137,5 +137,7 @@
     <string name="add_friend">添加朋友</string>
     <string name="help_and_feedback">帮助和反馈</string>
     <string name="no_data">无数据</string>
+    <string name="data_updated">已更新</string>
+    <string name="open">打开</string>
 
 </resources>

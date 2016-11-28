@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
-import com.garfield.weishu.helper.browser.BrowserFragment;
+import com.garfield.weishu.discovery.browser.BrowserFragment;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 
 import butterknife.OnClick;
@@ -37,7 +37,7 @@ public class DiscoveryFragment extends AppBaseFragment {
 
     @OnClick(R.id.fragment_discovery_browser)
     void openWebView() {
-        EventDispatcher.startFragment(new BrowserFragment());
+        EventDispatcher.startFragment(BrowserFragment.newInstance(null, BrowserFragment.TYPE_NULL));
     }
 
 }

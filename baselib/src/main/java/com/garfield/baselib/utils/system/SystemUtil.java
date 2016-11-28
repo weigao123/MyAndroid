@@ -1,7 +1,10 @@
 package com.garfield.baselib.utils.system;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.text.TextUtils;
 
 /**
@@ -39,6 +42,12 @@ public class SystemUtil {
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
+        }
+    }
+
+    public static void setStatusColor(Activity activity, int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            activity.getWindow().setStatusBarColor(color);
         }
     }
 

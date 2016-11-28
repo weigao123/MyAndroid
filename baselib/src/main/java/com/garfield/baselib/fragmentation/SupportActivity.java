@@ -86,9 +86,11 @@ public class SupportActivity extends BaseActivity implements ISupport {
 
     }
 
-
     @Override
     public void popFragment() {
+        /**
+         * 只弹出Activity级别的Fragment
+         */
         mFragmentHelper.popBack(getSupportFragmentManager());
     }
 
@@ -142,6 +144,9 @@ public class SupportActivity extends BaseActivity implements ISupport {
 
     @Override
     public void onBackPressed() {
+        /**
+         * 先处理Fragment的onBackPressed，然后处理是否弹出Activity级别的Fragment
+         */
         if (getTopFragment().onBackPressed()) {
             return;
         }

@@ -37,7 +37,7 @@ import butterknife.Unbinder;
 public class AppBaseFragment extends SwipeBackFragment {
 
     @Nullable @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+    protected Toolbar mToolbar;
 
     @Nullable @BindView(R.id.toolbar_control_view)
     LinearLayout mToolbarControl;
@@ -208,7 +208,8 @@ public class AppBaseFragment extends SwipeBackFragment {
     public void onDestroyView() {
         super.onDestroyView();
         if (mUnbinder != null) {
-            mUnbinder.unbind();
+            // ToDo 是否需要释放？
+            //mUnbinder.unbind();
         }
         mIsPrepared = false;
         mHasLoaded = false;
