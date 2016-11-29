@@ -2,6 +2,7 @@ package com.garfield.weishu.discovery.news.presenter;
 
 import android.widget.Toast;
 
+import com.garfield.baselib.utils.system.L;
 import com.garfield.baselib.utils.system.NetworkUtil;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
@@ -36,7 +37,7 @@ public class NewsPresenterImpl implements NewsPresenter {
     public void loadNews(int type, int pageIndex) {
         String url = getUrl(type, pageIndex);
         if (!NetworkUtil.isNetAvailable(AppCache.getContext())) {
-            Toast.makeText(AppCache.getContext(), R.string.status_network_is_not_available, Toast.LENGTH_SHORT).show();
+            L.show(R.string.status_network_is_not_available);
             mNewsView.onLoadFailed();
             return;
         }
@@ -57,7 +58,7 @@ public class NewsPresenterImpl implements NewsPresenter {
     @Override
     public void loadNewsDetail(String docId) {
         if (!NetworkUtil.isNetAvailable(AppCache.getContext())) {
-            Toast.makeText(AppCache.getContext(), R.string.status_network_is_not_available, Toast.LENGTH_SHORT).show();
+            L.show(R.string.status_network_is_not_available);
             mNewsView.onLoadFailed();
             return;
         }

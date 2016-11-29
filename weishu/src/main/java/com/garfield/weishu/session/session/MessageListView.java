@@ -63,7 +63,7 @@ public class MessageListView extends AutoRefreshListView {
 
         boolean isConsumed = super.onTouchEvent(event);
         // 目的是兼容SwipeBackLayout，边缘触摸不要消耗事件
-        if (event.getAction() == MotionEvent.ACTION_DOWN && event.getX() < ScreenSizeUtils.dp2px(getContext(), 20)) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN && event.getX() < ScreenSizeUtils.dp2px(20)) {
             postDelayed(new Runnable() {
                 @Override
                 public void run() {

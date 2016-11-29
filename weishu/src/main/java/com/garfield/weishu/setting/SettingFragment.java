@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.garfield.baselib.ui.widget.SwitchButton;
+import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
@@ -164,7 +165,7 @@ public class SettingFragment extends AppBaseFragment {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         NIMClient.getService(MsgService.class).clearMsgDatabase(true);
-                        Toast.makeText(mActivity, R.string.clear_message_record_done, Toast.LENGTH_SHORT).show();
+                        L.show(R.string.clear_message_record_done);
                     }
                 })
                 .negativeText(R.string.cancel)
@@ -174,12 +175,12 @@ public class SettingFragment extends AppBaseFragment {
 
     @OnClick(R.id.fragment_setting_about)
     void showAbout() {
-
+        EventDispatcher.startFragment(new AboutFragment());
     }
 
     @OnClick(R.id.fragment_setting_logout)
     void logout() {
-        new MaterialDialog.Builder(getContext())
+        MaterialDialog dialog = new MaterialDialog.Builder(getContext())
                 .title(R.string.logout_confirm)
                 .positiveText(R.string.confirm)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -191,8 +192,8 @@ public class SettingFragment extends AppBaseFragment {
                     }
                 })
                 .negativeText(R.string.cancel)
-                .build()
-                .show();
+                .build();
+        EventDispatcher.startDialog(dialog);
     }
 
     @Override

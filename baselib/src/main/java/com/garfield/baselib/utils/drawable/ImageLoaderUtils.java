@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 
+import com.garfield.baselib.Cache;
 import com.garfield.baselib.R;
 import com.nostra13.universalimageloader.cache.disc.impl.ext.LruDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -33,20 +34,20 @@ public class ImageLoaderUtils {
     private static DisplayImageOptions mDisplayImageOptions;
     private static DisplayImageOptions mDisplayImageNoDiskCacheOptions;
 
-    public static void initImageLoader(Context context) {
+    public static void initImageLoader() {
         int MAX_CACHE_MEMORY_SIZE = (int) (Runtime.getRuntime().maxMemory() / 8);
-        File cacheDir = StorageUtils.getOwnCacheDirectory(context, context.getPackageName() + "/cache/image/");
+        File cacheDir = StorageUtils.getOwnCacheDirectory(Cache.getContext(), Cache.getContext().getPackageName() + "/cache/image/");
 
         ImageLoaderConfiguration config = null;
         try {
-            config = new ImageLoaderConfiguration.Builder(context)
+            config = new ImageLoaderConfiguration.Builder(Cache.getContext())
                     .threadPoolSize(3) // 线程池内加载的数量
                     .threadPriority(Thread.NORM_PRIORITY - 2) // 降低线程的优先级，减小对UI主线程的影响
                     .denyCacheImageMultipleSizesInMemory()
                     .memoryCache(new LruMemoryCache(MAX_CACHE_MEMORY_SIZE))
                     .diskCache(new LruDiskCache(cacheDir, new Md5FileNameGenerator(), 0))
                     .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
-                    .imageDownloader(new BaseImageDownloader(context, 5 * 1000, 30 * 1000)) // connectTimeout (5 s), readTimeout (30 s)超时时间
+                    .imageDownloader(new BaseImageDownloader(Cache.getContext(), 5 * 1000, 30 * 1000)) // connectTimeout (5 s), readTimeout (30 s)超时时间
                     .build();
         } catch (IOException e) {
             e.printStackTrace();

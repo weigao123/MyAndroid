@@ -145,7 +145,7 @@ public class Util {
     }
 
     public static void t(Context context, String text) {
-        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+        L.show(text);
     }
 
 }

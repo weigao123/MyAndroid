@@ -30,6 +30,7 @@ dependencies {
     compile 'com.android.support:design:23.4.0'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:recyclerview-v7:23.4.0'
+    compile 'com.android.support:cardview-v7:23.4.0'
     compile 'com.github.chrisbanes:PhotoView:1.3.0'
     compile 'com.jakewharton:butterknife:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
@@ -41,5 +42,4 @@ dependencies {
     compile 'com.squareup.okio:okio:1.11.0'
     compile 'com.google.code.gson:gson:2.4'
     compile project(':material-dialogs')
-    compile 'com.android.support:cardview-v7:23.4.0'
 }

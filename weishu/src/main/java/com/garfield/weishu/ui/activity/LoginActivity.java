@@ -13,7 +13,9 @@ import android.widget.Toast;
 
 import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.baselib.ui.widget.ClearableEditText;
+import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.R;
+import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.app.UserPreferences;
 import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.DataCacheManager;
@@ -218,12 +220,12 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher{
 
     @OnMPermissionGranted(BASIC_PERMISSION_REQUEST_CODE)
     public void onBasicPermissionSuccess(){
-        Toast.makeText(this, "授权成功", Toast.LENGTH_SHORT).show();
+        L.show("授权成功");
     }
 
     @OnMPermissionDenied(BASIC_PERMISSION_REQUEST_CODE)
     public void onBasicPermissionFailed(){
-        Toast.makeText(this, "授权失败", Toast.LENGTH_SHORT).show();
+        L.show("授权失败");
         finish();
     }
 }

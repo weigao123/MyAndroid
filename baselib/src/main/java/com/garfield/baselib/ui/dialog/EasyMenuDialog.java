@@ -49,7 +49,7 @@ public class EasyMenuDialog extends DialogFragment {
         LinearLayout linearLayout = new LinearLayout(getActivity());
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         linearLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_round_corner_white));
-        int width = ScreenSizeUtils.getScreenWidth(getActivity()) - ScreenSizeUtils.dp2px(getActivity(), ITEM_MARGIN);
+        int width = ScreenSizeUtils.getScreenWidth() - ScreenSizeUtils.dp2px(ITEM_MARGIN);
         // 无效
         //linearLayout.setLayoutParams(new ViewGroup.LayoutParams(width, -2));
 
@@ -61,8 +61,8 @@ public class EasyMenuDialog extends DialogFragment {
             textView.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_press_gray));
             textView.setTextSize(TEXT_SIZE);
             textView.setGravity(Gravity.CENTER_VERTICAL);
-            textView.setPadding(ScreenSizeUtils.dp2px(getActivity(), TEXT_LEFT_MARGIN), 0, 0, 0);
-            textView.setLayoutParams(new LinearLayout.LayoutParams(width, ScreenSizeUtils.dp2px(getActivity(), ITEM_HEIGHT)));
+            textView.setPadding(ScreenSizeUtils.dp2px(TEXT_LEFT_MARGIN), 0, 0, 0);
+            textView.setLayoutParams(new LinearLayout.LayoutParams(width, ScreenSizeUtils.dp2px(ITEM_HEIGHT)));
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

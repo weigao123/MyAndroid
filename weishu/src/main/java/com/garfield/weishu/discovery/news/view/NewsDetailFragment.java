@@ -1,15 +1,9 @@
 package com.garfield.weishu.discovery.news.view;
 
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
-import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.discovery.browser.BrowserFragment;
 import com.garfield.weishu.discovery.news.bean.NewsDetailBean;
@@ -70,9 +64,9 @@ public class NewsDetailFragment extends AppBaseFragment implements NewsView<News
             String titleString = "<font size=\"4.2\"><b>" + bean.getTitle() + "</b></font><br/>";
             String sourceString = "<font size=\"1\" color=\"gray\"><b>" + bean.getSource() + "&nbsp;&nbsp;&nbsp;&nbsp;" + bean.getPtime() + "</b></font><br/>";
             String content = titleString + sourceString + bean.getBody();
-
-            loadRootFragment(R.id.fragment_detail_browser, BrowserFragment.newInstance(content, BrowserFragment.TYPE_DATA));
-
+            if (isAdded()) {
+                loadRootFragment(R.id.fragment_detail_browser, BrowserFragment.newInstance(content, BrowserFragment.TYPE_STRING));
+            }
         }
     }
 

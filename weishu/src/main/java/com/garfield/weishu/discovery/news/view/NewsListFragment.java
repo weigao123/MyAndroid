@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.garfield.baselib.adapter.DividerItemDecoration;
+import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
@@ -305,7 +306,7 @@ public class NewsListFragment extends AppBaseFragment implements
                                 if (!TextUtils.isEmpty(item.getUrl_3w())) {
                                     EventDispatcher.startFragment(BrowserFragment.newInstance(item.getUrl_3w(), BrowserFragment.TYPE_URL));
                                 } else {
-                                    //Toast.makeText(getContext(), R.string.no_data, Toast.LENGTH_SHORT).show();
+                                    //L.show(R.string.no_data);
                                     Snackbar.make(mRootView, R.string.no_data, Snackbar.LENGTH_SHORT).show();
                                 }
                                 break;

@@ -2,11 +2,11 @@ package com.garfield.weishu.app;
 
 import android.content.Context;
 
+import com.garfield.baselib.Cache;
 
-public class AppCache {
+
+public class AppCache extends Cache {
     public static final String USER_ACCOUNT = "account";
-
-    private static Context context;
 
     private static String account;
 
@@ -22,15 +22,6 @@ public class AppCache {
 
     public static void setAccount(String account) {
         AppCache.account = account;
-
-    }
-
-    public static Context getContext() {
-        return context;
-    }
-
-    public static void setContext(Context context) {
-        AppCache.context = context.getApplicationContext();
     }
 
     public static boolean isHasAnimation() {

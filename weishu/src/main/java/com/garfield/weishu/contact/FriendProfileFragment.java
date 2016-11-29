@@ -7,6 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.garfield.baselib.ui.dialog.DialogMaker;
+import com.garfield.baselib.utils.system.L;
 import com.garfield.baselib.utils.system.NetworkUtil;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
@@ -105,11 +106,11 @@ public class FriendProfileFragment extends AppBaseFragment {
 
     private void doAddFriend(String msg, boolean addDirectly) {
         if (!NetworkUtil.isNetAvailable(mActivity)) {
-            Toast.makeText(mActivity, R.string.status_network_is_not_available, Toast.LENGTH_SHORT).show();
+            L.show(R.string.status_network_is_not_available);
             return;
         }
         if (!TextUtils.isEmpty(mAccount) && mAccount.equals(AppCache.getAccount())) {
-            Toast.makeText(mActivity, R.string.can_not_add_self, Toast.LENGTH_SHORT).show();
+            L.show(R.string.can_not_add_self);
             return;
         }
         final VerifyType verifyType = addDirectly ? VerifyType.DIRECT_ADD : VerifyType.VERIFY_REQUEST;
@@ -120,9 +121,9 @@ public class FriendProfileFragment extends AppBaseFragment {
                         DialogMaker.dismissProgressDialog();
                         updateOperatorView(true);
                         if (VerifyType.DIRECT_ADD == verifyType) {
-                            Toast.makeText(mActivity, R.string.add_friend_success, Toast.LENGTH_SHORT).show();
+                            L.show(R.string.add_friend_success);
                         } else {
-                            Toast.makeText(mActivity, R.string.add_friend_request, Toast.LENGTH_SHORT).show();
+                            L.show(R.string.add_friend_request);
                         }
                     }
 
@@ -130,9 +131,9 @@ public class FriendProfileFragment extends AppBaseFragment {
                     public void onFailed(int code) {
                         DialogMaker.dismissProgressDialog();
                         if (code == 408) {
-                            Toast.makeText(mActivity, R.string.status_network_is_not_available, Toast.LENGTH_SHORT).show();
+                            L.show(R.string.status_network_is_not_available);
                         } else {
-                            Toast.makeText(mActivity, "on failed:" + code, Toast.LENGTH_SHORT).show();
+                            L.show("on failed:" + code);
                         }
                     }
 
@@ -146,7 +147,7 @@ public class FriendProfileFragment extends AppBaseFragment {
 
     private void doRemoveFriend() {
         if (!NetworkUtil.isNetAvailable(mActivity)) {
-            Toast.makeText(mActivity, R.string.status_network_is_not_available, Toast.LENGTH_SHORT).show();
+            L.show(R.string.status_network_is_not_available);
             return;
         }
         DialogMaker.showProgressDialog(mActivity, null, true);
@@ -155,7 +156,7 @@ public class FriendProfileFragment extends AppBaseFragment {
             @Override
             public void onSuccess(Void param) {
                 DialogMaker.dismissProgressDialog();
-                Toast.makeText(mActivity, R.string.remove_friend_success, Toast.LENGTH_SHORT).show();
+                L.show(R.string.remove_friend_success);
                 updateOperatorView(false);
             }
 
@@ -163,9 +164,9 @@ public class FriendProfileFragment extends AppBaseFragment {
             public void onFailed(int code) {
                 DialogMaker.dismissProgressDialog();
                 if (code == 408) {
-                    Toast.makeText(mActivity, R.string.status_network_is_not_available, Toast.LENGTH_SHORT).show();
+                    L.show(R.string.status_network_is_not_available);
                 } else {
-                    Toast.makeText(mActivity, "on failed:" + code, Toast.LENGTH_SHORT).show();
+                    L.show("on failed:" + code);
                 }
             }
 

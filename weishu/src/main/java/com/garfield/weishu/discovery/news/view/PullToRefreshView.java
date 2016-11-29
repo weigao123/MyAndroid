@@ -294,7 +294,7 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
         mOffsetAnimator.addUpdateListener(updateListener);
         mOffsetAnimator.addListener(animatorListener);
         int diff = Math.abs(containerOffset + offset - headParams.topMargin);
-        int time = (diff < -containerOffset + 10) ? ScreenSizeUtils.px2dp(getContext(), diff) * 4 : 300;
+        int time = (diff < -containerOffset + 10) ? ScreenSizeUtils.px2dp(diff) * 4 : 300;
         mOffsetAnimator.setDuration(time);
         mOffsetAnimator.start();
     }

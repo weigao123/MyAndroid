@@ -61,7 +61,7 @@ public class RegisterAndLogin {
             @Override
             public void onSuccess(LoginInfo loginInfo) {
                 callback.onResult(REQUEST_SUCCESS);
-                Toast.makeText(AppCache.getContext(), R.string.login_success, Toast.LENGTH_SHORT).show();
+                L.show(R.string.login_success);
             }
 
             @Override
@@ -69,19 +69,17 @@ public class RegisterAndLogin {
                 L.d("login result : "+code);
                 if (code == 302 || code == 404) {
                     callback.onResult(REQUEST_FAILED);
-                    Toast.makeText(AppCache.getContext(), R.string.login_account_or_password_wrong, Toast.LENGTH_SHORT).show();
+                    L.show(R.string.login_account_or_password_wrong);
                 } else {
                     callback.onResult(REQUEST_FAILED);
-                    Toast.makeText(AppCache.getContext(),
-                            AppCache.getContext().getResources().getString(R.string.login_failed) + code,
-                            Toast.LENGTH_SHORT).show();
+                    L.show(AppCache.getContext().getResources().getString(R.string.login_failed) + code);
                 }
             }
 
             @Override
             public void onException(Throwable throwable) {
                 callback.onResult(REQUEST_FAILED);
-                Toast.makeText(AppCache.getContext(), R.string.login_failed, Toast.LENGTH_SHORT).show();
+                L.show(R.string.login_failed);
             }
         });
         return new CancelableRequest() {
@@ -103,11 +101,11 @@ public class RegisterAndLogin {
                     public void onResult(RegisterRequest.RegisterResultBean result) {
                         if (result != null) {
                             if (result.getCode() == 200) {
-                                Toast.makeText(AppCache.getContext(), R.string.register_success, Toast.LENGTH_SHORT).show();
+                                L.show(R.string.register_success);
                                 callback.onResult(REQUEST_SUCCESS);
                                 return;
                             } else if ("already register".equals(result.getDesc())) {
-                                Toast.makeText(AppCache.getContext(), R.string.account_registered, Toast.LENGTH_SHORT).show();
+                                L.show(R.string.account_registered);
                             }
                             callback.onResult(REQUEST_FAILED);
                         }

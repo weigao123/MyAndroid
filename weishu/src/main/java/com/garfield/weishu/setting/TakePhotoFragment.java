@@ -78,7 +78,7 @@ public class TakePhotoFragment extends AppBaseFragment {
     private boolean isAnimatorRunning;
     private int mAlbumPosition;
     // 不带file://
-    private File mPhotoOutputPath = new File(DirectoryUtils.getOwnImageCacheDirectory(AppCache.getContext()), "take_photo.jpg");
+    private File mPhotoOutputPath = new File(DirectoryUtils.getOwnImageCacheDirectory(), "take_photo.jpg");
 
     protected int onGetToolbarTitleResource() {
         return R.string.photo_album;
@@ -143,7 +143,7 @@ public class TakePhotoFragment extends AppBaseFragment {
             public void run() {
                 int containerHeight = mAlbumContainer.getMeasuredHeight();
                 ViewGroup.LayoutParams params = mAlbumListView.getLayoutParams();
-                params.height = containerHeight - ScreenSizeUtils.dp2px(getContext(), 80);
+                params.height = containerHeight - ScreenSizeUtils.dp2px(80);
                 mAlbumListView.setLayoutParams(params);   //设置高度
                 mAlbumListView.setY(containerHeight);   //下移
             }
@@ -221,7 +221,7 @@ public class TakePhotoFragment extends AppBaseFragment {
         String b = sourceFile.getAbsolutePath();
         String c = sourceFile.getPath();
         String name = FileUtils.removeFileSuffix(a);
-        File targetFile = new File(DirectoryUtils.getOwnImageCacheDirectory(AppCache.getContext()), "crop_"+name+".jpg");
+        File targetFile = new File(DirectoryUtils.getOwnImageCacheDirectory(), "crop_"+name+".jpg");
         Uri targetUri = Uri.fromFile(targetFile);
         PhotoUtil.cropImage(TakePhotoFragment.this, sourceUri, targetUri, 500, 500);
     }
@@ -258,7 +258,7 @@ public class TakePhotoFragment extends AppBaseFragment {
             public boolean onRun() {
                 mPhotoItems.clear();
                 mAlbumItems.clear();
-                mAlbumHashMap = PhotoUtil.getGalleryPhotos(AppCache.getContext());
+                mAlbumHashMap = PhotoUtil.getGalleryPhotos();
 
                 mAlbumItems.addAll(mAlbumHashMap.values());
                 sortAlbum(mAlbumItems);
@@ -310,7 +310,7 @@ public class TakePhotoFragment extends AppBaseFragment {
          */
         if (isAnimatorRunning) return;
         int containerHeight = mAlbumContainer.getMeasuredHeight();
-        int originDiff = ScreenSizeUtils.dp2px(getContext(), 80);
+        int originDiff = ScreenSizeUtils.dp2px(80);
         if (isAlbumListShow()) {
             mAlbumListView.animate().y(containerHeight);
             mMask.setBackgroundColor(getResources().getColor(R.color.pure_trans));
@@ -321,7 +321,7 @@ public class TakePhotoFragment extends AppBaseFragment {
     }
 
     private boolean isAlbumListShow() {
-        int originDiff = ScreenSizeUtils.dp2px(getContext(), 80);
+        int originDiff = ScreenSizeUtils.dp2px(80);
         return Math.abs(mAlbumListView.getY() - originDiff) < 10 || isAnimatorRunning;
     }
 

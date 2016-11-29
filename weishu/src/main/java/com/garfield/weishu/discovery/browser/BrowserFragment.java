@@ -1,33 +1,26 @@
 package com.garfield.weishu.discovery.browser;
 
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.garfield.baselib.utils.system.InputUtils;
 import com.garfield.baselib.utils.system.L;
 import com.garfield.baselib.utils.system.SystemUtil;
 import com.garfield.weishu.R;
-import com.garfield.weishu.contact.FriendProfileFragment;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
-
-import javax.xml.transform.sax.SAXTransformerFactory;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static com.garfield.weishu.app.AppCache.USER_ACCOUNT;
 
 /**
  * Created by gaowei3 on 2016/11/24.
@@ -38,12 +31,18 @@ public class BrowserFragment extends AppBaseFragment {
     public static final String BROWSER_CONTENT = "content";
     public static final String BROWSER_TYPE = "type";
 
-    public static final int TYPE_NULL = 0;
+    public static final int TYPE_BROWSER = 0;
     public static final int TYPE_URL = 1;
-    public static final int TYPE_DATA = 2;
+    public static final int TYPE_STRING = 2;
+
+    @BindView(R.id.fragment_browser_webview_container)
+    FrameLayout mWebViewContainer;
 
     @BindView(R.id.fragment_browser_input)
     View mInputContainer;
+
+    @BindView(R.id.fragment_browser_url_set)
+    LinearLayout mUrlSet;
 
     @BindView(R.id.fragment_browser_url)
     EditText mEditText;
@@ -60,11 +59,11 @@ public class BrowserFragment extends AppBaseFragment {
     @BindView(R.id.fragment_browser_mask)
     View mMask;
 
+    /**
+     * url会改变，type不变
+     */
     private String mUrl;
-
-    {
-        setAnimationEnable(false);
-    }
+    private int mType;
 
     public static BrowserFragment newInstance(String content, int type) {
         Bundle args = new Bundle();
@@ -84,61 +83,69 @@ public class BrowserFragment extends AppBaseFragment {
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
 
-        if (savedInstanceState != null) {
+        if (savedInstanceState == null) {
+            mUrl = getArguments().getString(BROWSER_CONTENT);
+        } else {
             mUrl = savedInstanceState.getString("url");
         }
+        mType = getArguments().getInt(BROWSER_TYPE);
 
-        mWebView.setWebViewClient(mWebViewClient);
-        mWebView.setWebChromeClient(mWebChromeClient);
-
+        initWebView();
         mEditText.setOnFocusChangeListener(mOnFocusChangeListener);
         startLoadBundle();
-
-
     }
 
     @OnClick(R.id.fragment_browser_retry)
     void startLoadBundle() {
-        WebSettings webSettings = mWebView.getSettings();
-        String content = getArguments().getString(BROWSER_CONTENT);
-        int type = getArguments().getInt(BROWSER_TYPE);
-        if (type == TYPE_NULL) {
-            webSettings.setJavaScriptEnabled(true);
+        if (mType == TYPE_BROWSER) {
             mInputContainer.setVisibility(View.VISIBLE);
-            if (!TextUtils.isEmpty(mUrl)) {
-                mWebView.loadUrl(mUrl);
+            if (TextUtils.isEmpty(mUrl)) {
+                mUrlSet.setVisibility(View.VISIBLE);
             }
-        } else if (type == TYPE_URL) {
-            webSettings.setJavaScriptEnabled(true);
-            if (content != null) {
-                if (content.startsWith("www.")) {
-                    content = "http://" + content;
-                }
-                if (content.startsWith("http://news.163.com")) {
+        } else if (mType == TYPE_URL) {
+            if (mUrl != null) {
+                int index = mUrl.indexOf(".com");
+                if (index >= 3 && mUrl.substring(index - 3, index).equals("163")) {
                     SystemUtil.setStatusColor(mActivity, getResources().getColor(R.color.red));
                 }
             }
-            mWebView.loadUrl(content);
-        } else if (type == TYPE_DATA) {
-            webSettings.setTextZoom(120);
-            mWebView.loadData(content, "text/html; charset=UTF-8", null);
         }
+        checkAndLoadUrl(mUrl);
         mRetry.setVisibility(View.GONE);
         mWebView.setVisibility(View.VISIBLE);
     }
 
-
     @OnClick(R.id.fragment_browser_confirm)
-    public void startLoad() {
+    public void openEditUrl() {
         mUrl = mEditText.getText().toString();
-        if (TextUtils.isEmpty(mUrl)) {
-            mUrl = "http://www.baidu.com";
-        } else {
-            if (mUrl.startsWith("www.")) {
-                mUrl = "http://" + mUrl;
-            }
+        checkAndLoadUrl(mUrl);
+    }
+
+    private void checkAndLoadUrl(String url) {
+        if (TextUtils.isEmpty(url)) {
+            return;
         }
-        mWebView.loadUrl(mUrl);
+        if (url.startsWith("www.")) {
+            url = "http://" + url;
+        }
+
+        if (mType == TYPE_STRING) {
+            mWebView.loadData(url, "text/html; charset=UTF-8", null);
+        } else {
+            mWebView.loadUrl(url);
+        }
+    }
+
+    private void initWebView() {
+        mWebView.setWebViewClient(mWebViewClient);
+        mWebView.setWebChromeClient(mWebChromeClient);
+        WebSettings webSettings = mWebView.getSettings();
+        if (mType == TYPE_STRING) {
+            webSettings.setSupportZoom(true);
+            webSettings.setTextZoom(120);
+        } else {
+            webSettings.setJavaScriptEnabled(true);
+        }
     }
 
     @OnClick(R.id.fragment_browser_mask)
@@ -166,7 +173,9 @@ public class BrowserFragment extends AppBaseFragment {
             mProgressBar.setVisibility(View.VISIBLE);
             mEditText.setText(url);
             mEditText.clearFocus();
-            mUrl = url;
+            if (mType != TYPE_STRING) {
+                mUrl = url;
+            }
         }
 
         @Override
@@ -203,7 +212,20 @@ public class BrowserFragment extends AppBaseFragment {
     protected boolean onBackPressed() {
         if (mWebView.canGoBack()) {
             mWebView.goBack();
+            mRetry.setVisibility(View.GONE);
             return true;
+        } else if (mType == TYPE_BROWSER) {
+            if (mUrlSet.getVisibility() == View.GONE) {
+                WebView webView = new WebView(getContext());
+                mWebViewContainer.removeView(mWebView);
+                mWebViewContainer.addView(webView, 0);
+                mWebView = webView;
+                initWebView();
+                mUrlSet.setVisibility(View.VISIBLE);
+                mRetry.setVisibility(View.GONE);
+                mEditText.setText("");
+                return true;
+            }
         }
         return super.onBackPressed();
     }
@@ -230,11 +252,31 @@ public class BrowserFragment extends AppBaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         mWebView.stopLoading();
-        SystemUtil.setStatusColor(mActivity, getResources().getColor(R.color.colorPrimary));
+        if (mType == TYPE_URL) {
+            SystemUtil.setStatusColor(mActivity, getResources().getColor(R.color.colorPrimary));
+        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @OnClick(R.id.include_url_set_netease)
+    void startNetease() {
+        mUrlSet.setVisibility(View.GONE);
+        checkAndLoadUrl("http://news.163.com/");
+    }
+
+    @OnClick(R.id.include_url_set_baidu)
+    void startBaidu() {
+        mUrlSet.setVisibility(View.GONE);
+        checkAndLoadUrl("http://www.baidu.com/");
+    }
+
+    @OnClick(R.id.include_url_set_tecent)
+    void startTecent() {
+        mUrlSet.setVisibility(View.GONE);
+        checkAndLoadUrl("http://news.qq.com/");
     }
 }

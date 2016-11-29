@@ -31,12 +31,12 @@ import java.io.Writer;
 public class MyApplication extends Application {
 
     public static final String NIM_BASE_URL = "https://api.netease.im/nimserver/user";
-    public static ImageLoaderKit imageLoaderKit;
 
     @Override
     public void onCreate() {
         super.onCreate();
         AppCache.setContext(this);
+
         NimConfig.initSDK(this);
 
         /**
@@ -45,7 +45,7 @@ public class MyApplication extends Application {
         if (SystemUtil.inMainProcess(this)) {
             Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
 
-            ImageLoaderUtils.initImageLoader(this);
+            ImageLoaderUtils.initImageLoader();
             SettingFragment.initSetting();
 
             PinYin.init(this);
@@ -88,7 +88,7 @@ public class MyApplication extends Application {
         try {
             File file;
             for (int i = 0; ; i++) {
-                file = new File(DirectoryUtils.getOwnCacheDirectory(this, "/crash/"), "bug_" + i + ".txt");
+                file = new File(DirectoryUtils.getOwnCacheDirectory("/crash/"), "bug_" + i + ".txt");
                 if (!file.exists()) {
                     break;
                 }

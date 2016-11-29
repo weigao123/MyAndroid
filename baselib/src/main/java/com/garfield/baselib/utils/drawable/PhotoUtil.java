@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
+import com.garfield.baselib.Cache;
 import com.garfield.baselib.R;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -41,12 +42,12 @@ public class PhotoUtil {
             photoPaths = new ArrayList<>();
         }
     }
-    public static HashMap<String, AlbumInfo> getGalleryPhotos(Context context) {
+    public static HashMap<String, AlbumInfo> getGalleryPhotos() {
         HashMap<String, AlbumInfo> galleryList = new HashMap<>();
         final Uri images = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
         Cursor cursor = null;
         try {
-            cursor = context.getContentResolver().query(images, null, null, null, MediaStore.Images.Media.DATE_MODIFIED + " DESC");
+            cursor = Cache.getContext().getContentResolver().query(images, null, null, null, MediaStore.Images.Media.DATE_MODIFIED + " DESC");
             if (cursor != null && cursor.moveToFirst()) {
                 do {
                     int _id = cursor.getInt(cursor.getColumnIndex(MediaStore.Images.Media._ID));

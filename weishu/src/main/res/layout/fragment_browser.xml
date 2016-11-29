@@ -41,8 +41,10 @@
     </LinearLayout>
 
     <FrameLayout
+        android:id="@+id/fragment_browser_webview_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ImageView
             android:id="@+id/fragment_browser_retry"
             android:layout_width="150dp"
@@ -55,6 +57,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </WebView>
+        <include
+            android:id="@+id/fragment_browser_url_set"
+            layout="@layout/include_url_set"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="80dp"
+            android:visibility="gone"/>
         <ProgressBar
             android:id="@+id/fragment_browser_progress"
             android:layout_width="match_parent"

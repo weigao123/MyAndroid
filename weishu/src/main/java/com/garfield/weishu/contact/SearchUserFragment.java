@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.baselib.ui.widget.ClearableEditText;
+import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.nim.cache.UserInfoCache;
@@ -55,7 +56,7 @@ public class SearchUserFragment extends AppBaseFragment {
             public void onSuccess(NimUserInfo userInfo) {
                 DialogMaker.dismissProgressDialog();
                 if (userInfo == null) {
-                    Toast.makeText(mActivity, "该用户不存在", Toast.LENGTH_SHORT).show();
+                    L.show("该用户不存在");
                 } else {
                     EventDispatcher.getFragmentJumpEvent().onShowUserProfile(userInfo.getAccount());
                 }
@@ -65,16 +66,16 @@ public class SearchUserFragment extends AppBaseFragment {
             public void onFailed(int code) {
                 DialogMaker.dismissProgressDialog();
                 if (code == 408) {
-                    Toast.makeText(mActivity, "网络不可用", Toast.LENGTH_SHORT).show();
+                    L.show("网络不可用");
                 } else {
-                    Toast.makeText(mActivity, "on failed:" + code, Toast.LENGTH_SHORT).show();
+                    L.show("on failed:" + code);
                 }
             }
 
             @Override
             public void onException(Throwable throwable) {
                 DialogMaker.dismissProgressDialog();
-                Toast.makeText(mActivity, "on exception:" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                L.show("on exception:" + throwable.getMessage());
             }
         });
     }

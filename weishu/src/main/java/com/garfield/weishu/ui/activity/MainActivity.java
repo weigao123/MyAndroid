@@ -9,7 +9,6 @@ import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.StartBrotherEvent;
-import com.garfield.weishu.discovery.news.view.NewsFragment;
 import com.garfield.weishu.nim.NimConfig;
 import com.garfield.weishu.nim.cache.LoginSyncHelper;
 import com.garfield.weishu.session.session.SessionFragment;

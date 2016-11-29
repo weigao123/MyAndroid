@@ -133,7 +133,7 @@ public class SelfProfileFragment extends AppBaseFragment {
                     if (code == ResponseCode.RES_SUCCESS && !TextUtils.isEmpty(url)) {
                         updateUserInfo(UserInfoFieldEnum.AVATAR, url);
                     } else {
-                        Toast.makeText(AppCache.getContext(), R.string.head_upload_failed, Toast.LENGTH_SHORT).show();
+                        L.show(R.string.head_upload_failed);
                         onUpdateDone();
                     }
                 }
@@ -149,10 +149,10 @@ public class SelfProfileFragment extends AppBaseFragment {
             @Override
             public void onResult(int code, Void result, Throwable exception) {
                 if (code == ResponseCode.RES_SUCCESS) {
-                    Toast.makeText(AppCache.getContext(), R.string.user_info_update_success, Toast.LENGTH_SHORT).show();
+                    L.show(R.string.user_info_update_success);
                     onUpdateDone();
                 } else {
-                    Toast.makeText(AppCache.getContext(), R.string.user_info_update_failed, Toast.LENGTH_SHORT).show();
+                    L.show(R.string.user_info_update_failed);
                 }
             }
         });
@@ -161,7 +161,7 @@ public class SelfProfileFragment extends AppBaseFragment {
     private void cancelUpload(int resId) {
         if (uploadAvatarFuture != null) {
             uploadAvatarFuture.abort();
-            Toast.makeText(AppCache.getContext(), resId, Toast.LENGTH_SHORT).show();
+            L.show(resId);
             onUpdateDone();
         }
     }

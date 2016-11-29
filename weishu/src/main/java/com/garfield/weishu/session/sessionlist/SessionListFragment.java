@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.garfield.baselib.adapter.DividerItemDecoration;
+import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.base.recyclerview.RecyclerViewHolder;
@@ -367,9 +368,9 @@ public class SessionListFragment extends AppBaseFragment {
 
     private void kickOut(StatusCode code) {
         if (code == StatusCode.PWD_ERROR) {
-            Toast.makeText(getActivity(), R.string.login_account_or_password_wrong, Toast.LENGTH_SHORT).show();
+            L.show(R.string.login_account_or_password_wrong);
         } else {
-            Toast.makeText(getActivity(), R.string.kicked_out, Toast.LENGTH_SHORT).show();
+            L.show(R.string.kicked_out);
         }
         RegisterAndLogin.logout(mActivity);
     }

@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.garfield.baselib.fragmentation.SupportFragment;
-import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
-import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.ui.widget.BottomBar2;
 import com.garfield.weishu.R;
 import com.garfield.weishu.contact.ContactFragment;
@@ -85,7 +83,6 @@ public class MainFragment extends AppBaseFragment implements BottomBar2.OnTabSel
 
     @Override
     public void onTabReselected(int position) {
-
     }
 
     private void updateNotification(int position) {

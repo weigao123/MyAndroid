@@ -23,6 +23,7 @@ import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.contact.ContactFragment;
 import com.garfield.weishu.discovery.DiscoveryFragment;
 import com.garfield.weishu.discovery.news.view.NewsListFragment;
+import com.garfield.weishu.discovery.scan.ScanFragment;
 import com.garfield.weishu.session.sessionlist.SessionListFragment;
 import com.garfield.weishu.setting.SettingFragment;
 
@@ -164,8 +165,8 @@ public class AppBaseFragment extends SwipeBackFragment {
                     if (mPopupWindow == null) {
                         initMenu();
                     }
-                    int xoff = ScreenSizeUtils.getScreenWidth(mActivity) - (int)getResources().getDimension(R.dimen.pop_menu_width) - ScreenSizeUtils.dp2px(mActivity, 5);
-                    int yoff = -ScreenSizeUtils.dp2px(mActivity, 5);
+                    int xoff = ScreenSizeUtils.getScreenWidth() - (int)getResources().getDimension(R.dimen.pop_menu_width) - ScreenSizeUtils.dp2px(5);
+                    int yoff = -ScreenSizeUtils.dp2px(5);
                     mPopupWindow.showAsDropDown(mToolbar, xoff, yoff);
 
 //                PopupMenu mPopupMenu = new PopupMenu(mActivity, mToolbar, Gravity.END);
@@ -180,6 +181,7 @@ public class AppBaseFragment extends SwipeBackFragment {
                     mPopupWindow.dismiss();
                     break;
                 case R.id.menu_item_scan:
+                    EventDispatcher.startFragment(new ScanFragment());
                     mPopupWindow.dismiss();
                     break;
                 case R.id.menu_item_help:
