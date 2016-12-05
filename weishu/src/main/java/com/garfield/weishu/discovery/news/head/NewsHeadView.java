@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.viewpager.TPagerAdapter;
-import com.garfield.weishu.discovery.news.bean.NewsBean;
+import com.garfield.weishu.discovery.news.bean.netease.NewsBean;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,7 +3,7 @@ package com.garfield.weishu.discovery.news.view;
 import android.content.Context;
 
 import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
-import com.garfield.weishu.discovery.news.bean.NewsBean;
+import com.garfield.weishu.discovery.news.bean.netease.NewsBean;
 
 import java.util.List;
 

@@ -10,6 +10,8 @@ import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.discovery.browser.BrowserFragment;
 import com.garfield.weishu.discovery.developer.DeveloperFragment;
+import com.garfield.weishu.discovery.news.api.ZhihuApi;
+import com.garfield.weishu.discovery.news.view.NewsListFragment;
 import com.garfield.weishu.discovery.scan.ScanFragment;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 
@@ -38,6 +40,11 @@ public class DiscoveryFragment extends AppBaseFragment {
     @OnClick(R.id.fragment_discovery_news)
     void openNeteaseNews() {
         EventDispatcher.getFragmentJumpEvent().onShowNews();
+    }
+
+    @OnClick(R.id.fragment_discovery_zhihu)
+    void openZhihuDaily() {
+        EventDispatcher.startFragment(NewsListFragment.newInstance(ZhihuApi.NEWS_TYPE_ZHIHU));
     }
 
     @OnClick(R.id.fragment_discovery_browser)

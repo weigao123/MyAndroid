@@ -1,18 +1,13 @@
 package com.garfield.weishu.discovery.news.presenter;
 
-import android.widget.Toast;
-
 import com.garfield.baselib.utils.system.L;
 import com.garfield.baselib.utils.system.NetworkUtil;
-import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.OnMyRequestListener;
-import com.garfield.weishu.discovery.news.Urls;
-import com.garfield.weishu.discovery.news.bean.NewsBean;
-import com.garfield.weishu.discovery.news.bean.NewsDetailBean;
+import com.garfield.weishu.discovery.news.bean.netease.NewsBean;
+import com.garfield.weishu.discovery.news.bean.netease.NewsDetailBean;
 import com.garfield.weishu.discovery.news.model.NewsModel;
 import com.garfield.weishu.discovery.news.model.NewsModelImpl;
-import com.garfield.weishu.discovery.news.view.NewsFragment;
 
 import java.util.List;
 
@@ -35,14 +30,13 @@ public class NewsPresenterImpl implements NewsPresenter {
      */
     @Override
     public void loadNews(int type, int pageIndex) {
-        String url = getUrl(type, pageIndex);
-        if (!NetworkUtil.isNetAvailable(AppCache.getContext())) {
+        if (!NetworkUtil.isNetAvailable()) {
             L.show(R.string.status_network_is_not_available);
             mNewsView.onLoadFailed();
             return;
         }
         mNewsView.onLoadBefore();
-        mNewsModel.loadNews(url, type, new OnMyRequestListener<NewsBean>() {
+        mNewsModel.loadNews(type, pageIndex, new OnMyRequestListener<NewsBean>() {
             @Override
             public void onSuccess(List<NewsBean> data) {
                 mNewsView.onLoadSuccess(data);
@@ -57,7 +51,7 @@ public class NewsPresenterImpl implements NewsPresenter {
 
     @Override
     public void loadNewsDetail(String docId) {
-        if (!NetworkUtil.isNetAvailable(AppCache.getContext())) {
+        if (!NetworkUtil.isNetAvailable()) {
             L.show(R.string.status_network_is_not_available);
             mNewsView.onLoadFailed();
             return;
@@ -77,40 +71,9 @@ public class NewsPresenterImpl implements NewsPresenter {
         });
     }
 
-
-    private String getUrl(int type, int pageIndex) {
-        StringBuilder sb = new StringBuilder();
-        switch (type) {
-            case NewsFragment.NEWS_TYPE_TOP:
-                sb.append(Urls.HOST_NEWS_TOP).append(Urls.TOP_ID);
-                break;
-            case NewsFragment.NEWS_TYPE_TIANJIN:
-                sb.append(Urls.HOST_NEWS_LOCAL).append(Urls.TIANJIN_ID);
-                break;
-            case NewsFragment.NEWS_TYPE_TECHNOLOGY:
-                sb.append(Urls.HOST_NEWS_COMMON).append(Urls.TECHNOLOGY_ID);
-                break;
-            case NewsFragment.NEWS_TYPE_ENTERTAINMENT:
-                sb.append(Urls.HOST_NEWS_COMMON).append(Urls.ENTERTAINMENT_ID);
-                break;
-            case NewsFragment.NEWS_TYPE_FINANCE:
-                sb.append(Urls.HOST_NEWS_COMMON).append(Urls.FINANCE_ID);
-                break;
-            case NewsFragment.NEWS_TYPE_HOUSE:
-                sb.append(Urls.HOST_NEWS_HOUSE).append(Urls.HOUSE_ID);
-                break;
-            case NewsFragment.NEWS_TYPE_HEALTH:
-                sb.append(Urls.HOST_NEWS_COMMON).append(Urls.HEALTH_ID);
-                break;
-            case NewsFragment.NEWS_TYPE_EMOTION:
-                sb.append(Urls.HOST_NEWS_COMMON).append(Urls.EMOTION_ID);
-                break;
-            default:
-                sb.append(Urls.HOST_NEWS_COMMON).append(Urls.TOP_ID);
-                break;
-        }
-        sb.append("/").append(pageIndex * Urls.PAGE_SIZE).append(Urls.END_LIST_URL);
-        return sb.toString();
+    @Override
+    public void cancel() {
+        mNewsModel.cancel();
     }
 
     private void handleString(NewsDetailBean bean) {
@@ -130,4 +93,6 @@ public class NewsPresenterImpl implements NewsPresenter {
         }
         bean.setBody(body);
     }
+
+
 }

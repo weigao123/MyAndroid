@@ -7,4 +7,5 @@ package com.garfield.weishu.discovery.news.presenter;
 public interface NewsPresenter {
     void loadNews(int type, int pageIndex);
     void loadNewsDetail(String docId);
+    void cancel();
 }

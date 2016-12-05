@@ -1,4 +1,4 @@
-package com.garfield.weishu.discovery.news.bean;
+package com.garfield.weishu.discovery.news.bean.netease;
 
 import java.io.Serializable;
 import java.util.List;

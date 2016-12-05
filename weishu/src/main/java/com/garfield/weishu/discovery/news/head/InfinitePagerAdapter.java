@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.ViewGroup;
 
 import com.garfield.weishu.base.viewpager.TPagerAdapter;
-import com.garfield.weishu.discovery.news.bean.NewsBean;
+import com.garfield.weishu.discovery.news.bean.netease.NewsBean;
 
 import java.util.List;
 

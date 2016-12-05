@@ -1,8 +1,8 @@
 package com.garfield.weishu.discovery.news.model;
 
 import com.garfield.weishu.base.OnMyRequestListener;
-import com.garfield.weishu.discovery.news.bean.NewsBean;
-import com.garfield.weishu.discovery.news.bean.NewsDetailBean;
+import com.garfield.weishu.discovery.news.bean.netease.NewsBean;
+import com.garfield.weishu.discovery.news.bean.netease.NewsDetailBean;
 
 /**
  * Created by gaowei3 on 2016/11/10.
@@ -10,8 +10,9 @@ import com.garfield.weishu.discovery.news.bean.NewsDetailBean;
 
 public interface NewsModel {
 
-    void loadNews(String url, int type, OnMyRequestListener<NewsBean> listener);
+    void loadNews(int type, int pageIndex, OnMyRequestListener<NewsBean> listener);
 
     void loadNewsDetail(String docid, OnMyRequestListener<NewsDetailBean> listener);
 
+    void cancel();
 }

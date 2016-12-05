@@ -11,6 +11,8 @@ import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+import com.garfield.baselib.Cache;
+
 public class NetworkUtil {
 
 	public static final String TAG = "NetworkUtil";
@@ -192,12 +194,11 @@ public class NetworkUtil {
 
 	/**
 	 * 判断是否有网络可用
-	 * 
-	 * @param context
+	 *
 	 * @return
 	 */
-	public static boolean isNetAvailable(Context context) {
-		NetworkInfo networkInfo = getActiveNetworkInfo(context);
+	public static boolean isNetAvailable() {
+		NetworkInfo networkInfo = getActiveNetworkInfo(Cache.getContext());
 		if (networkInfo != null) {
 			return networkInfo.isAvailable();
 		} else {

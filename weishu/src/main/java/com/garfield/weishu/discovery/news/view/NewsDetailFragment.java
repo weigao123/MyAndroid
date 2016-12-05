@@ -6,7 +6,7 @@ import android.widget.FrameLayout;
 
 import com.garfield.weishu.R;
 import com.garfield.weishu.discovery.browser.BrowserFragment;
-import com.garfield.weishu.discovery.news.bean.NewsDetailBean;
+import com.garfield.weishu.discovery.news.bean.netease.NewsDetailBean;
 import com.garfield.weishu.discovery.news.presenter.NewsPresenter;
 import com.garfield.weishu.discovery.news.presenter.NewsPresenterImpl;
 import com.garfield.weishu.discovery.news.presenter.NewsView;
@@ -26,6 +26,8 @@ public class NewsDetailFragment extends AppBaseFragment implements NewsView<News
 
     @BindView(R.id.fragment_detail_browser)
     FrameLayout mBrowserContainer;
+
+    private NewsPresenter mNewsPresenter;
 
     {
         setAnimationEnable(false);
@@ -49,8 +51,8 @@ public class NewsDetailFragment extends AppBaseFragment implements NewsView<News
         super.onInitViewAndData(rootView, savedInstanceState);
 
         String docid = getArguments().getString(NEWS_DOC_ID);
-        NewsPresenter newsPresenter = new NewsPresenterImpl(this);
-        newsPresenter.loadNewsDetail(docid);
+        mNewsPresenter = new NewsPresenterImpl(this);
+        mNewsPresenter.loadNewsDetail(docid);
     }
 
     @Override
@@ -74,5 +76,11 @@ public class NewsDetailFragment extends AppBaseFragment implements NewsView<News
     public void onLoadFailed() {
     }
 
-
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mNewsPresenter != null) {
+            mNewsPresenter.cancel();
+        }
+    }
 }

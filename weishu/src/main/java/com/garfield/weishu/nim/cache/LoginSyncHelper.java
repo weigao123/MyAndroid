@@ -58,9 +58,9 @@ public class LoginSyncHelper {
             // 更新现在的状态
             mSyncStatus = status;
             if (status == LoginSyncStatus.BEGIN_SYNC) {
-                L.d(TAG, "login sync begin");
+                //L.d(TAG, "login sync begin");
             } else if (status == LoginSyncStatus.SYNC_COMPLETED) {
-                L.d(TAG, "login sync completed");
+                //L.d(TAG, "login sync completed");
                 onLoginSyncDataCompleted();
             }
         }

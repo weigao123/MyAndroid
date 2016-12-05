@@ -12,7 +12,8 @@
         <ProgressBar
             style="?android:attr/progressBarStyleSmall"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:indeterminate="true"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

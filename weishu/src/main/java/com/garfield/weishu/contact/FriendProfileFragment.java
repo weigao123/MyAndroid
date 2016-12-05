@@ -105,7 +105,7 @@ public class FriendProfileFragment extends AppBaseFragment {
     }
 
     private void doAddFriend(String msg, boolean addDirectly) {
-        if (!NetworkUtil.isNetAvailable(mActivity)) {
+        if (!NetworkUtil.isNetAvailable()) {
             L.show(R.string.status_network_is_not_available);
             return;
         }
@@ -146,7 +146,7 @@ public class FriendProfileFragment extends AppBaseFragment {
 
 
     private void doRemoveFriend() {
-        if (!NetworkUtil.isNetAvailable(mActivity)) {
+        if (!NetworkUtil.isNetAvailable()) {
             L.show(R.string.status_network_is_not_available);
             return;
         }

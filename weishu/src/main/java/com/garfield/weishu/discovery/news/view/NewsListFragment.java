@@ -19,7 +19,8 @@ import com.garfield.weishu.base.recyclerview.RecyclerUtil;
 import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
 import com.garfield.weishu.base.viewpager.TPagerAdapter;
 import com.garfield.weishu.discovery.browser.BrowserFragment;
-import com.garfield.weishu.discovery.news.bean.NewsBean;
+import com.garfield.weishu.discovery.news.api.ZhihuApi;
+import com.garfield.weishu.discovery.news.bean.netease.NewsBean;
 import com.garfield.weishu.discovery.news.head.NewsHeadView;
 import com.garfield.weishu.discovery.news.presenter.NewsPresenter;
 import com.garfield.weishu.discovery.news.presenter.NewsPresenterImpl;
@@ -90,12 +91,14 @@ public class NewsListFragment extends AppBaseFragment implements
 
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
-        super.onInitViewAndData(rootView, savedInstanceState);
+        mType = getArguments().getInt("type");
+        if (mType == ZhihuApi.NEWS_TYPE_ZHIHU) {
+            mToolbar.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     protected void onLazyLoad() {
-        mType = getArguments().getInt("type");
         mACache = ACache.get(AppCache.getContext());
         mACacheTag = "data_list_" + mType;
         mPullToRefreshView.setOnRefreshListener(this);
@@ -158,8 +161,6 @@ public class NewsListFragment extends AppBaseFragment implements
     }
 
     private void refreshData(List<NewsBean> data) {
-        //if (!isAdded()) return;
-
         if (data.size() == 0) {
             Snackbar.make(mRootView, R.string.no_data, Snackbar.LENGTH_SHORT).show();
             endRefresh(true);
@@ -316,4 +317,11 @@ public class NewsListFragment extends AppBaseFragment implements
         dialog.show();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mNewsPresenter != null) {
+            mNewsPresenter.cancel();
+        }
+    }
 }
