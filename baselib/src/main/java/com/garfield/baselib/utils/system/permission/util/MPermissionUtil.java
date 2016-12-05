@@ -1,4 +1,4 @@
-package com.garfield.weishu.utils.permission.util;
+package com.garfield.baselib.utils.system.permission.util;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -6,9 +6,9 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 
-import com.garfield.weishu.utils.permission.annotation.OnMPermissionDenied;
-import com.garfield.weishu.utils.permission.annotation.OnMPermissionGranted;
-import com.garfield.weishu.utils.permission.annotation.OnMPermissionNeverAskAgain;
+import com.garfield.baselib.utils.system.permission.annotation.OnMPermissionDenied;
+import com.garfield.baselib.utils.system.permission.annotation.OnMPermissionGranted;
+import com.garfield.baselib.utils.system.permission.annotation.OnMPermissionNeverAskAgain;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;

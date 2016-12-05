@@ -14,7 +14,7 @@ import com.garfield.weishu.R;
 import com.garfield.weishu.base.listview.TListViewHolder;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.ui.view.HeadImageView;
-import com.garfield.weishu.utils.TimeUtil;
+import com.garfield.baselib.utils.system.TimeUtil;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;

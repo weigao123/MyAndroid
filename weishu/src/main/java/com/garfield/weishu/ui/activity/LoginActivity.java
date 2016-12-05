@@ -1,6 +1,5 @@
 package com.garfield.weishu.ui.activity;
 
-import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,19 +8,13 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.baselib.ui.widget.ClearableEditText;
-import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.R;
-import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.app.UserPreferences;
 import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.DataCacheManager;
-import com.garfield.weishu.utils.permission.MPermission;
-import com.garfield.weishu.utils.permission.annotation.OnMPermissionDenied;
-import com.garfield.weishu.utils.permission.annotation.OnMPermissionGranted;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -32,7 +25,6 @@ import butterknife.OnClick;
  */
 public class LoginActivity extends AppBaseActivity implements TextWatcher{
 
-    private final int BASIC_PERMISSION_REQUEST_CODE = 110;
 
     @BindView(R.id.activity_login_layout)
     LinearLayout mLoginLayout;
@@ -203,29 +195,5 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher{
 
     }
 
-    private void requestBasicPermission() {
-        MPermission.with(LoginActivity.this)
-                .addRequestCode(BASIC_PERMISSION_REQUEST_CODE)
-                .permissions(
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                )
-                .request();
-    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        MPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
-    }
-
-    @OnMPermissionGranted(BASIC_PERMISSION_REQUEST_CODE)
-    public void onBasicPermissionSuccess(){
-        L.show("授权成功");
-    }
-
-    @OnMPermissionDenied(BASIC_PERMISSION_REQUEST_CODE)
-    public void onBasicPermissionFailed(){
-        L.show("授权失败");
-        finish();
-    }
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.garfield.weishu.utils.cache;
+package com.garfield.baselib.utils.cache;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

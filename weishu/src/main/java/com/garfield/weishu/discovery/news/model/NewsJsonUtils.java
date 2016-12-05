@@ -2,7 +2,7 @@ package com.garfield.weishu.discovery.news.model;
 
 import com.garfield.weishu.discovery.news.bean.NewsBean;
 import com.garfield.weishu.discovery.news.bean.NewsDetailBean;
-import com.garfield.weishu.utils.JsonUtils;
+import com.garfield.baselib.utils.string.JsonUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

@@ -1,4 +1,4 @@
-package com.garfield.weishu.utils.permission;
+package com.garfield.baselib.utils.system.permission;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -7,17 +7,17 @@ import android.os.Build;
 import android.support.v4.app.Fragment;
 
 
-import com.garfield.weishu.utils.permission.annotation.OnMPermissionDenied;
-import com.garfield.weishu.utils.permission.annotation.OnMPermissionGranted;
-import com.garfield.weishu.utils.permission.annotation.OnMPermissionNeverAskAgain;
-import com.garfield.weishu.utils.permission.util.MPermissionUtil;
+import com.garfield.baselib.utils.system.permission.annotation.OnMPermissionDenied;
+import com.garfield.baselib.utils.system.permission.annotation.OnMPermissionGranted;
+import com.garfield.baselib.utils.system.permission.annotation.OnMPermissionNeverAskAgain;
+import com.garfield.baselib.utils.system.permission.util.MPermissionUtil;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.garfield.weishu.utils.permission.util.MPermissionUtil.getActivity;
+import static com.garfield.baselib.utils.system.permission.util.MPermissionUtil.getActivity;
 
 
 public class MPermission {

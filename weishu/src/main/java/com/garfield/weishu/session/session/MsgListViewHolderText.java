@@ -3,8 +3,8 @@ package com.garfield.weishu.session.session;
 import android.graphics.Color;
 import android.widget.TextView;
 
+import com.garfield.baselib.utils.system.ScreenUtils;
 import com.garfield.weishu.R;
-import com.garfield.weishu.utils.ScreenUtil;
 
 /**
  * Created by gaowei3 on 2016/9/30.
@@ -35,10 +35,10 @@ public class MsgListViewHolderText extends MsgListViewHolderBase {
     private void layoutDirection() {
         if (isReceivedMessage()) {
             mText.setBackgroundResource(R.drawable.message_item_bg_left_selector);
-            mText.setPadding(ScreenUtil.dip2px(8), ScreenUtil.dip2px(8), ScreenUtil.dip2px(8), ScreenUtil.dip2px(8));
+            mText.setPadding(ScreenUtils.dp2px(8), ScreenUtils.dp2px(8), ScreenUtils.dp2px(8), ScreenUtils.dp2px(8));
         } else {
             mText.setBackgroundResource(R.drawable.message_item_bg_right_selector);
-            mText.setPadding(ScreenUtil.dip2px(8), ScreenUtil.dip2px(8), ScreenUtil.dip2px(8), ScreenUtil.dip2px(8));
+            mText.setPadding(ScreenUtils.dp2px(8), ScreenUtils.dp2px(8), ScreenUtils.dp2px(8), ScreenUtils.dp2px(8));
         }
     }
 

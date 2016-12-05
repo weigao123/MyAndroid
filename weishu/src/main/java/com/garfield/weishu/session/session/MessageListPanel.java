@@ -10,12 +10,12 @@ import android.view.View;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.garfield.baselib.adapter.DividerItemDecoration;
+import com.garfield.baselib.utils.system.ScreenUtils;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.base.listview.AutoRefreshListView;
 import com.garfield.weishu.base.listview.ListViewUtil;
-import com.garfield.weishu.utils.ClipboardUtil;
-import com.garfield.weishu.utils.ScreenUtil;
+import com.garfield.baselib.utils.system.ClipboardUtil;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -345,7 +345,7 @@ public class MessageListPanel {
             uiHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    ListViewUtil.scrollToPosition(messageListView, jumpTo, jumpTo == 0 ? 0 : ScreenUtil.dip2px(30));
+                    ListViewUtil.scrollToPosition(messageListView, jumpTo, jumpTo == 0 ? 0 : ScreenUtils.dp2px(30));
                 }
             }, 30);
         }

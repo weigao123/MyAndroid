@@ -1,4 +1,4 @@
-package com.garfield.baselib.utils.file;
+package com.garfield.baselib.utils.string;
 
 import java.util.ArrayList;
 import java.util.List;

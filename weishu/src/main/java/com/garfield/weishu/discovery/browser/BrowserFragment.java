@@ -216,6 +216,7 @@ public class BrowserFragment extends AppBaseFragment {
             return true;
         } else if (mType == TYPE_BROWSER) {
             if (mUrlSet.getVisibility() == View.GONE) {
+                mWebView.destroy();
                 WebView webView = new WebView(getContext());
                 mWebViewContainer.removeView(mWebView);
                 mWebViewContainer.addView(webView, 0);
@@ -260,6 +261,7 @@ public class BrowserFragment extends AppBaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mWebView.destroy();
     }
 
     @OnClick(R.id.include_url_set_netease)

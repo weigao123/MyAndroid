@@ -27,7 +27,7 @@ public class WelcomeActivity extends AppBaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
             //ViewGroup rootView = (ViewGroup) ((ViewGroup) getWindow().getDecorView()).getChildAt(0);
             //rootView.setFitsSystemWindows(true);
@@ -53,7 +53,7 @@ public class WelcomeActivity extends AppBaseActivity {
                     onIntent();
                 }
             };
-            new Handler().postDelayed(runnable, 1000);
+            new Handler().postDelayed(runnable, 1500);
         }
     }
 

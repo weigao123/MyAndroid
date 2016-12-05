@@ -8,7 +8,7 @@ import com.garfield.weishu.R;
 import com.garfield.weishu.base.recyclerview.TRecyclerViewHolder;
 import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.garfield.weishu.ui.view.HeadImageView;
-import com.garfield.weishu.utils.TimeUtil;
+import com.garfield.baselib.utils.system.TimeUtil;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 
 import java.util.Locale;

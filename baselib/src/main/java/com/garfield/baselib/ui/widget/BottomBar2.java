@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.garfield.baselib.R;
-import com.garfield.baselib.utils.drawable.ScreenSizeUtils;
+import com.garfield.baselib.utils.system.ScreenUtils;
 
 /**
  * Created by gaowei3 on 2016/11/21.
@@ -151,7 +151,7 @@ public class BottomBar2 extends LinearLayout {
             mBitmap2 = drawable2.getBitmap();
 
             mTextBound = new Rect();
-            mTextSize = ScreenSizeUtils.dp2px(11);
+            mTextSize = ScreenUtils.dp2px(11);
             mTextPaint = new Paint();
             mTextPaint.setTextSize(mTextSize);
             mTextPaint.setTextAlign(Paint.Align.CENTER);
@@ -159,7 +159,7 @@ public class BottomBar2 extends LinearLayout {
             mTextPaint.setDither(true);
             mTextPaint.getTextBounds(mText, 0, mText.length(), mTextBound);
 
-            int padding = ScreenSizeUtils.dp2px(5);
+            int padding = ScreenUtils.dp2px(5);
             setPadding(padding, padding, padding, padding);
 
             colorPaint = new Paint();
@@ -199,7 +199,7 @@ public class BottomBar2 extends LinearLayout {
                 mCanvasInner = new Canvas(mBitmapInner);
 
                 mX = getMeasuredWidth() / 2;
-                mY = (getMeasuredHeight() + mIconRect.bottom) / 2 - (mTextBound.top + mTextBound.bottom) / 2 - ScreenSizeUtils.dp2px(2);
+                mY = (getMeasuredHeight() + mIconRect.bottom) / 2 - (mTextBound.top + mTextBound.bottom) / 2 - ScreenUtils.dp2px(2);
 
                 hasMeasured = true;
             }

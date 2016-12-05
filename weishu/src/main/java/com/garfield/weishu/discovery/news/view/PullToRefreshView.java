@@ -19,8 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.garfield.baselib.utils.drawable.ScreenSizeUtils;
-import com.garfield.baselib.utils.system.L;
+import com.garfield.baselib.utils.system.ScreenUtils;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.recyclerview.RecyclerUtil;
 
@@ -294,7 +293,7 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
         mOffsetAnimator.addUpdateListener(updateListener);
         mOffsetAnimator.addListener(animatorListener);
         int diff = Math.abs(containerOffset + offset - headParams.topMargin);
-        int time = (diff < -containerOffset + 10) ? ScreenSizeUtils.px2dp(diff) * 4 : 300;
+        int time = (diff < -containerOffset + 10) ? ScreenUtils.px2dp(diff) * 4 : 300;
         mOffsetAnimator.setDuration(time);
         mOffsetAnimator.start();
     }

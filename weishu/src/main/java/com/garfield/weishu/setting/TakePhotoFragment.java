@@ -18,7 +18,7 @@ import com.garfield.baselib.utils.file.DirectoryUtils;
 import com.garfield.baselib.utils.file.FileUtils;
 import com.garfield.baselib.utils.system.InvokerUtils;
 import com.garfield.baselib.utils.drawable.PhotoUtil;
-import com.garfield.baselib.utils.drawable.ScreenSizeUtils;
+import com.garfield.baselib.utils.system.ScreenUtils;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
@@ -143,7 +143,7 @@ public class TakePhotoFragment extends AppBaseFragment {
             public void run() {
                 int containerHeight = mAlbumContainer.getMeasuredHeight();
                 ViewGroup.LayoutParams params = mAlbumListView.getLayoutParams();
-                params.height = containerHeight - ScreenSizeUtils.dp2px(80);
+                params.height = containerHeight - ScreenUtils.dp2px(80);
                 mAlbumListView.setLayoutParams(params);   //设置高度
                 mAlbumListView.setY(containerHeight);   //下移
             }
@@ -310,7 +310,7 @@ public class TakePhotoFragment extends AppBaseFragment {
          */
         if (isAnimatorRunning) return;
         int containerHeight = mAlbumContainer.getMeasuredHeight();
-        int originDiff = ScreenSizeUtils.dp2px(80);
+        int originDiff = ScreenUtils.dp2px(80);
         if (isAlbumListShow()) {
             mAlbumListView.animate().y(containerHeight);
             mMask.setBackgroundColor(getResources().getColor(R.color.pure_trans));
@@ -321,7 +321,7 @@ public class TakePhotoFragment extends AppBaseFragment {
     }
 
     private boolean isAlbumListShow() {
-        int originDiff = ScreenSizeUtils.dp2px(80);
+        int originDiff = ScreenUtils.dp2px(80);
         return Math.abs(mAlbumListView.getY() - originDiff) < 10 || isAnimatorRunning;
     }
 

@@ -1,10 +1,9 @@
-package com.garfield.weishu.utils.download;
+package com.garfield.baselib.utils.file;
 
 import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import java.io.File;

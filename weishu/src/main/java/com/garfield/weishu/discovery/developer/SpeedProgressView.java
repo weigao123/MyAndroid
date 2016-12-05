@@ -257,7 +257,7 @@ public class SpeedProgressView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         mWidth = MeasureSpec.getSize(widthMeasureSpec);
         int viewHeight = MeasureSpec.getSize(heightMeasureSpec);
-        mHeight = (int)(Math.sin(Math.PI*(Angle/2-90)/180) * (mWidth/2)) + mWidth/2;
+        mHeight = (int)(Math.sin(Math.PI*(Angle/2-90)/180) * (mWidth/2)) + mWidth/2 + 5;
         if (viewHeight < mHeight) {
             setMeasuredDimension(mWidth, mHeight);
         } else {

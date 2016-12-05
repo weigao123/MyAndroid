@@ -9,11 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.garfield.baselib.adapter.DividerItemDecoration;
-import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
@@ -27,8 +25,7 @@ import com.garfield.weishu.discovery.news.presenter.NewsPresenter;
 import com.garfield.weishu.discovery.news.presenter.NewsPresenterImpl;
 import com.garfield.weishu.discovery.news.presenter.NewsView;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
-import com.garfield.weishu.utils.ClipboardUtil;
-import com.garfield.weishu.utils.cache.ACache;
+import com.garfield.baselib.utils.cache.ACache;
 
 import org.json.JSONArray;
 import org.json.JSONException;

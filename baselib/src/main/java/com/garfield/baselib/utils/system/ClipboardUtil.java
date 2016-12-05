@@ -1,4 +1,4 @@
-package com.garfield.weishu.utils;
+package com.garfield.baselib.utils.system;
 
 import android.content.Context;
 import android.text.ClipboardManager;

@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.ImageView;
 
-import com.garfield.baselib.utils.drawable.ScreenSizeUtils;
+import com.garfield.baselib.utils.system.ScreenUtils;
 import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
@@ -62,7 +60,7 @@ public class ScanFragment extends AppBaseFragment implements SurfaceHolder.Callb
                 Camera.Size size_tmp = supportedPreviewSizes.get(i);
                 //L.d("scale: " + (float)size_tmp.width / size_tmp.height);
                 //L.d("size: width " + size_tmp.width + ", height " + size_tmp.height);
-                if (Math.abs((float)size_tmp.width / size_tmp.height - ScreenSizeUtils.getScreenScale()) < 0.01f) {
+                if (Math.abs((float)size_tmp.width / size_tmp.height - ScreenUtils.screenScale) < 0.01f) {
                     L.d("size: width " + size_tmp.width + ", height " + size_tmp.height);
                     size = size_tmp;
                     break;
@@ -70,12 +68,14 @@ public class ScanFragment extends AppBaseFragment implements SurfaceHolder.Callb
             }
             if (size == null) return;
             params.setPreviewSize(size.width, size.height);
-            params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+            List<String> focusModes = params.getSupportedFocusModes();
+            if (focusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+                params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+            }
             camera.setParameters(params);
             camera.setDisplayOrientation(90);
             camera.setPreviewCallback(this);
             camera.startPreview();
-
         } catch(Exception e) {
             e.printStackTrace();
         }

@@ -1,4 +1,4 @@
-package com.garfield.weishu.utils;
+package com.garfield.baselib.utils.string;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
