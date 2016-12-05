@@ -1,54 +1,219 @@
 package com.garfield.weishu.discovery.news.view;
 
+import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.garfield.baselib.utils.cache.ACache;
+import com.garfield.weishu.R;
+import com.garfield.weishu.app.AppCache;
+import com.garfield.weishu.base.recyclerview.RecyclerUtil;
 import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
-import com.garfield.weishu.base.viewpager.TPagerAdapter;
-import com.garfield.weishu.discovery.news.bean.netease.NewsBean;
+import com.garfield.weishu.discovery.news.api.ZhihuApi;
+import com.garfield.weishu.discovery.news.presenter.NewsPresenter;
+import com.garfield.weishu.discovery.news.presenter.NewsPresenterImpl;
 import com.garfield.weishu.discovery.news.presenter.NewsView;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
 
 /**
  * Created by gaowei3 on 2016/12/5.
  */
 
-public class NewsListBaseFragment<T> extends AppBaseFragment implements
+public abstract class NewsListBaseFragment<T> extends AppBaseFragment implements
         PullToRefreshView.OnPullRefreshListener, NewsView<T>,
-        View.OnClickListener, TRecyclerAdapter.ItemEventListener<T>, TPagerAdapter.ItemEventListener<T> {
-    @Override
-    public void onClick(View v) {
+        View.OnClickListener {
 
+    @BindView(R.id.fragment_news_list_refresh)
+    PullToRefreshView mPullToRefreshView;
+
+    @BindView(R.id.fragment_news_list_recyclerView)
+    RecyclerView mRecyclerView;
+
+    @BindView(R.id.fragment_news_list_reload_btn)
+    Button mReloadBtn;
+
+    private View footRefreshing;
+    private View footRefreshFailed;
+    protected TRecyclerAdapter mRecyclerAdapter;
+    protected List<T> mItems = new ArrayList<>();
+
+    protected int mType;
+    private NewsPresenter mNewsPresenter;
+
+    /**
+     * 当前已有的页数
+     */
+    private int pageIndex = 0;
+    /**
+     * 如果是true，要把PullView显示
+     */
+    protected boolean isLoadAll;
+
+    protected String mACacheTag;
+    protected ACache mACache;
+
+    @Override
+    protected int onGetFragmentLayout() {
+        return R.layout.fragment_news_list;
     }
 
     @Override
-    public void onItemClick(T item, int position) {
-
+    protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
+        mType = getArguments().getInt("type");
+        if (mType == ZhihuApi.NEWS_TYPE_ZHIHU) {
+            mToolbar.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
-    public void onItemLongPressed(T item, int position) {
+    protected void onLazyLoad() {
+        setupPrepare();
 
+        mPullToRefreshView.setOnRefreshListener(this);
+        mReloadBtn.setOnClickListener(this);
+
+        View footView = LayoutInflater.from(getContext()).inflate(R.layout.view_footer, (ViewGroup) mRootView, false);
+        footRefreshing = footView.findViewById(R.id.foot_refreshing);
+        footRefreshFailed = footView.findViewById(R.id.foot_refresh_failed);
+        footRefreshFailed.setOnClickListener(this);
+        mRecyclerAdapter.setFootView(footView);
+
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(AppCache.getContext()));
+        mRecyclerView.setAdapter(mRecyclerAdapter);
+        mRecyclerView.addOnScrollListener(mOnScrollListener);
+
+        mNewsPresenter = new NewsPresenterImpl(this);
+
+        loadDataFromCache();
+        getHandler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                refreshAll();
+            }
+        }, 1000);
+    }
+
+    protected abstract void setupPrepare();
+    protected abstract void loadDataFromCache();
+    protected abstract void putDataToCache();
+    protected abstract void refreshView(List<T> data);
+
+    private RecyclerView.OnScrollListener mOnScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            if (newState == RecyclerView.SCROLL_STATE_IDLE &&
+                    RecyclerUtil.isAtBottom(recyclerView) &&
+                    !mRecyclerAdapter.isFootVisible()) {
+                refreshMore();
+            }
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
+        }
+    };
+
+    private void refreshAll() {
+        isLoadAll = true;
+        mNewsPresenter.loadNews(mType, 0);
     }
 
     @Override
     public void onLoadBefore() {
-
+        if (isLoadAll) {
+            mPullToRefreshView.setRefreshState(true);
+        }
     }
 
     @Override
     public void onLoadSuccess(List<T> data) {
-
+        refreshData(data);
+        putDataToCache();
     }
 
     @Override
     public void onLoadFailed() {
+        endRefresh(false);
+    }
 
+    /**
+     * 还有可能从Cache中加载后调用
+     */
+    public void refreshData(List<T> data) {
+        if (data.size() == 0) {
+            Snackbar.make(mRootView, R.string.no_data, Snackbar.LENGTH_SHORT).show();
+            endRefresh(true);
+            return;
+        }
+        refreshView(data);
+        if (isLoadAll) {
+            pageIndex = 1;
+        } else {
+            ++ pageIndex;
+        }
+        endRefresh(true);
     }
 
     @Override
     public void onPullRefresh() {
+        refreshAll();
+    }
 
+    private void refreshMore() {
+        mRecyclerAdapter.setFootVisible(true);
+        footRefreshing.setVisibility(View.VISIBLE);
+        footRefreshFailed.setVisibility(View.GONE);
+        mNewsPresenter.loadNews(mType, pageIndex);
+    }
+
+    private void endRefresh(boolean isSuccess) {
+        isLoadAll = false;
+        if (pageIndex == 0) {
+            mPullToRefreshView.setVisibility(View.GONE);
+            mReloadBtn.setVisibility(View.VISIBLE);
+            mRecyclerAdapter.setFootVisible(false);
+        } else {
+            mPullToRefreshView.setVisibility(View.VISIBLE);
+            mReloadBtn.setVisibility(View.GONE);
+            if (isSuccess) {
+                mRecyclerAdapter.setFootVisible(false);
+            } else {
+                mRecyclerAdapter.setFootVisible(true);
+                footRefreshing.setVisibility(View.GONE);
+                footRefreshFailed.setVisibility(View.VISIBLE);
+            }
+        }
+        mPullToRefreshView.setRefreshState(false);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == mReloadBtn) {
+            refreshAll();
+        } else if (v == footRefreshFailed) {
+            footRefreshing.setVisibility(View.VISIBLE);
+            footRefreshFailed.setVisibility(View.GONE);
+            refreshMore();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mNewsPresenter != null) {
+            mNewsPresenter.cancel();
+        }
     }
 }

@@ -4,14 +4,15 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-/**
- * Created by 蔡小木 on 2016/3/6 0006.
- */
-public class ZhihuDaily{
+
+public class ZhihuDaily {
+
     @SerializedName("date")
     private String date;
+
     @SerializedName("top_stories")
     private ArrayList<ZhihuDailyItem> mZhihuDailyItems;
+
     @SerializedName("stories")
     private ArrayList<ZhihuDailyItem> stories;
 

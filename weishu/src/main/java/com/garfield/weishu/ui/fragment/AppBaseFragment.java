@@ -57,7 +57,7 @@ public class AppBaseFragment extends SwipeBackFragment {
      */
     private boolean mIsPrepared;
     private boolean mHasLoaded;
-    private boolean mIsVisibleToUser;
+    protected boolean mIsVisibleToUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

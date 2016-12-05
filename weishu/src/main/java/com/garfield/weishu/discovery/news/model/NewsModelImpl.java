@@ -9,6 +9,7 @@ import com.garfield.weishu.discovery.news.api.ApiManager;
 import com.garfield.weishu.discovery.news.api.NeteaseApi;
 import com.garfield.weishu.discovery.news.bean.netease.NewsBean;
 import com.garfield.weishu.discovery.news.bean.netease.NewsDetailBean;
+import com.garfield.weishu.discovery.news.bean.zhihu.ZhihuDaily;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,6 @@ public class NewsModelImpl implements NewsModel {
     public void loadNews(final int type, int pageIndex, final OnMyRequestListener<NewsBean> listener) {
         String url = getUrl(type, pageIndex);
         L.d("loadNews url: " + url);
-
         Subscription subscription = ApiManager.getNeteaseManager().getNews(url)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -124,6 +124,31 @@ public class NewsModelImpl implements NewsModel {
 //            }
 //        };
 //        OkHttp3Utils.get(url, loadNewsCallback);
+    }
+
+    @Override
+    public void loadZhihu(int pageIndex, final OnMyRequestListener<ZhihuDaily> listener) {
+        Subscription subscription = ApiManager.getZhihuManager().getLastDaily()
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<ZhihuDaily>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ZhihuDaily response) {
+                        L.d("loadNewsDetail response: " + response);
+
+                        //listener.onSuccess(response);
+                    }
+                });
+        addSubscription(subscription);
     }
 
     @Override

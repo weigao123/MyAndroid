@@ -6,14 +6,19 @@ import com.google.gson.annotations.SerializedName;
  * Created by 蔡小木 on 2016/3/7 0007.
  */
 public class ZhihuStory  {
+
     @SerializedName("body")
     private String body;
+
     @SerializedName("title")
     private String title;
+
     @SerializedName("image")
     private String image;
+
     @SerializedName("share_url")
     private String mShareUrl;
+
     @SerializedName("css")
     private String[] css;
 

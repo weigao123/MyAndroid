@@ -4,8 +4,10 @@ import com.garfield.baselib.utils.system.L;
 import com.garfield.baselib.utils.system.NetworkUtil;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.OnMyRequestListener;
+import com.garfield.weishu.discovery.news.api.ZhihuApi;
 import com.garfield.weishu.discovery.news.bean.netease.NewsBean;
 import com.garfield.weishu.discovery.news.bean.netease.NewsDetailBean;
+import com.garfield.weishu.discovery.news.bean.zhihu.ZhihuDaily;
 import com.garfield.weishu.discovery.news.model.NewsModel;
 import com.garfield.weishu.discovery.news.model.NewsModelImpl;
 
@@ -36,17 +38,31 @@ public class NewsPresenterImpl implements NewsPresenter {
             return;
         }
         mNewsView.onLoadBefore();
-        mNewsModel.loadNews(type, pageIndex, new OnMyRequestListener<NewsBean>() {
-            @Override
-            public void onSuccess(List<NewsBean> data) {
-                mNewsView.onLoadSuccess(data);
-            }
+        if (type == ZhihuApi.NEWS_TYPE_ZHIHU) {
+            mNewsModel.loadZhihu(pageIndex, new OnMyRequestListener<ZhihuDaily>() {
+                @Override
+                public void onSuccess(List<ZhihuDaily> data) {
+                    mNewsView.onLoadSuccess(data);
+                }
 
-            @Override
-            public void onFailure(Exception e) {
-                mNewsView.onLoadFailed();
-            }
-        });
+                @Override
+                public void onFailure(Exception e) {
+                    mNewsView.onLoadFailed();
+                }
+            });
+        } else {
+            mNewsModel.loadNews(type, pageIndex, new OnMyRequestListener<NewsBean>() {
+                @Override
+                public void onSuccess(List<NewsBean> data) {
+                    mNewsView.onLoadSuccess(data);
+                }
+
+                @Override
+                public void onFailure(Exception e) {
+                    mNewsView.onLoadFailed();
+                }
+            });
+        }
     }
 
     @Override

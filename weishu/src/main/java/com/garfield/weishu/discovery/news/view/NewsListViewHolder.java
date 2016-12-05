@@ -1,13 +1,17 @@
 package com.garfield.weishu.discovery.news.view;
 
+import android.content.Context;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.garfield.baselib.utils.drawable.ImageLoaderUtils;
 import com.garfield.weishu.R;
+import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
 import com.garfield.weishu.base.recyclerview.TRecyclerViewHolder;
 import com.garfield.weishu.discovery.news.bean.netease.NewsBean;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import java.util.List;
 
 /**
  * Created by gaowei3 on 2016/11/4.
@@ -67,5 +71,15 @@ public class NewsListViewHolder extends TRecyclerViewHolder<NewsBean> {
     @Override
     protected NewsListRecyclerAdapter getAdapter() {
         return (NewsListRecyclerAdapter) mAdapter;
+    }
+
+    public static class NewsListRecyclerAdapter extends TRecyclerAdapter<NewsBean> {
+        public NewsListRecyclerAdapter(Context context, List<NewsBean> items) {
+            super(context, items);
+        }
+        @Override
+        public Class getViewHolderClassAtPosition(int position) {
+            return NewsListViewHolder.class;
+        }
     }
 }

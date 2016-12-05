@@ -112,6 +112,7 @@
     <string name="is_clear_message_record">是否清空所有聊天记录</string>
     <string name="clear_message_record_done">聊天记录已清除</string>
     <string name="scan_one">扫一扫</string>
+    <string name="zhihu_daily">知乎日报</string>
     <string name="developer">开发者</string>
     <string name="shopping">购物</string>
     <string name="browser">浏览器</string>

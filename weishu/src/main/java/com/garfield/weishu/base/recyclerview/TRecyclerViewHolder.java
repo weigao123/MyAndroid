@@ -3,7 +3,8 @@ package com.garfield.weishu.base.recyclerview;
 import android.view.View;
 
 /**
- * Adapter的所有item必须实现的接口.<br>
+ * Adapter的所有item必须实现的接口
+ * 不能作为内部类
  */
 public abstract class TRecyclerViewHolder<T> {
 
