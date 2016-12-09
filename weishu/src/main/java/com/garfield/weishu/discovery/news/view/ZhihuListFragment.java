@@ -1,13 +1,19 @@
 package com.garfield.weishu.discovery.news.view;
 
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.garfield.weishu.app.AppCache;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.garfield.baselib.adapter.DividerItemDecoration;
+import com.garfield.weishu.R;
+import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
 import com.garfield.weishu.base.viewpager.TPagerAdapter;
 import com.garfield.weishu.discovery.news.bean.zhihu.ZhihuDaily;
+import com.garfield.weishu.discovery.news.bean.zhihu.ZhihuDailyItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +21,10 @@ import java.util.List;
  */
 
 public class ZhihuListFragment extends NewsListBaseFragment<ZhihuDaily> implements
-        TRecyclerAdapter.ItemEventListener<ZhihuDaily>, TPagerAdapter.ItemEventListener<ZhihuDaily> {
+        TRecyclerAdapter.ItemEventListener<ZhihuDailyItem>, TPagerAdapter.ItemEventListener<ZhihuDailyItem> {
+
+    private List<ZhihuDailyItem> mItems = new ArrayList<>();
+    private String mCurrentDate;
 
     public static ZhihuListFragment newInstance(int type) {
         Bundle args = new Bundle();
@@ -33,7 +42,7 @@ public class ZhihuListFragment extends NewsListBaseFragment<ZhihuDaily> implemen
 
     @Override
     protected void setupPrepare() {
-        mRecyclerAdapter = new ZhihuListViewHolder.ZhihuRecyclerAdapter(AppCache.getContext(), mItems);
+        mRecyclerAdapter = new ZhihuListViewHolder.ZhihuRecyclerAdapter(mActivity, mItems);
         mRecyclerAdapter.setItemEventListener(this);
     }
 
@@ -49,16 +58,48 @@ public class ZhihuListFragment extends NewsListBaseFragment<ZhihuDaily> implemen
 
     @Override
     protected void refreshView(List<ZhihuDaily> data) {
-
+        mCurrentDate = data.get(0).getDate();
+        if (isLoadAll) {
+            mRecyclerAdapter.refreshItems(data.get(0).getStories());
+        } else {
+            mRecyclerAdapter.addItems(data.get(0).getStories());
+        }
     }
 
     @Override
-    public void onItemClick(ZhihuDaily item, int position) {
-
+    protected void loadAll() {
+        mNewsPresenter.loadZhihu(null);
     }
 
     @Override
-    public void onItemLongPressed(ZhihuDaily item, int position) {
+    protected void loadMore() {
+        mNewsPresenter.loadZhihu(mCurrentDate);
+    }
 
+    @Override
+    public void onItemClick(ZhihuDailyItem item, int position) {
+        EventDispatcher.startFragment(ZhihuDetailFragment.newInstance(item.getId(), false));
+    }
+
+    @Override
+    public void onItemLongPressed(final ZhihuDailyItem item, int position) {
+        MaterialDialog dialog = new MaterialDialog.Builder(getContext())
+                .items(R.array.news_menu)
+                .listSelector(R.drawable.bg_press_gray)
+                .itemsColorRes(R.color.black)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                        switch (position) {
+                            case 0:
+                                EventDispatcher.startFragment(ZhihuDetailFragment.newInstance(item.getId(), true));
+                                break;
+                        }
+                    }
+                })
+                .build();
+        RecyclerView recyclerView = dialog.getRecyclerView();
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
+        dialog.show();
     }
 }

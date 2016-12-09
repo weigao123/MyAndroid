@@ -10,10 +10,13 @@ import com.garfield.weishu.discovery.news.api.NeteaseApi;
 import com.garfield.weishu.discovery.news.bean.netease.NewsBean;
 import com.garfield.weishu.discovery.news.bean.netease.NewsDetailBean;
 import com.garfield.weishu.discovery.news.bean.zhihu.ZhihuDaily;
+import com.garfield.weishu.discovery.news.bean.zhihu.ZhihuDailyItem;
+import com.garfield.weishu.discovery.news.bean.zhihu.ZhihuStory;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -86,26 +89,27 @@ public class NewsModelImpl implements NewsModel {
 
         Subscription subscription = ApiManager.getNeteaseManager().getNews(url)
             .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Observer<String>() {
-                @Override
-                public void onCompleted() {
+            @Override
+            public void onCompleted() {
 
-                }
+            }
 
-                @Override
-                public void onError(Throwable e) {
+            @Override
+            public void onError(Throwable e) {
 
-                }
+            }
 
-                @Override
-                public void onNext(String response) {
-                    L.d("loadNewsDetail response: " + response);
-                    List<NewsDetailBean> newsDetailBeanList = new ArrayList<>();
-                    NewsDetailBean newsDetailBean = NewsJsonUtils.readJsonNewsDetailBeans(response, docid);
-                    newsDetailBeanList.add(newsDetailBean);
-                    listener.onSuccess(newsDetailBeanList);
-                }
-            });
+            @Override
+            public void onNext(String response) {
+                L.d("loadNewsDetail response: " + response);
+                List<NewsDetailBean> newsDetailBeanList = new ArrayList<>();
+                NewsDetailBean newsDetailBean = NewsJsonUtils.readJsonNewsDetailBeans(response, docid);
+                newsDetailBeanList.add(newsDetailBean);
+                listener.onSuccess(newsDetailBeanList);
+            }
+        });
         addSubscription(subscription);
 
 //        OkHttp3Utils.OkHttpResultCallback<String> loadNewsCallback = new OkHttp3Utils.OkHttpResultCallback<String>() {
@@ -127,9 +131,16 @@ public class NewsModelImpl implements NewsModel {
     }
 
     @Override
-    public void loadZhihu(int pageIndex, final OnMyRequestListener<ZhihuDaily> listener) {
-        Subscription subscription = ApiManager.getZhihuManager().getLastDaily()
+    public void loadZhihu(String date, final OnMyRequestListener<ZhihuDaily> listener) {
+        Observable<ZhihuDaily> observable;
+        if (date == null) {
+            observable = ApiManager.getZhihuManager().getLastDaily();
+        } else {
+            observable = ApiManager.getZhihuManager().getTheDaily(date);
+        }
+        Subscription subscription = observable
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ZhihuDaily>() {
                     @Override
                     public void onCompleted() {
@@ -144,8 +155,36 @@ public class NewsModelImpl implements NewsModel {
                     @Override
                     public void onNext(ZhihuDaily response) {
                         L.d("loadNewsDetail response: " + response);
+                        List<ZhihuDaily> list = new ArrayList<>();
+                        list.add(response);
+                        listener.onSuccess(list);
+                    }
+                });
+        addSubscription(subscription);
+    }
 
-                        //listener.onSuccess(response);
+    @Override
+    public void loadZhihuDetail(String docid, final OnMyRequestListener<ZhihuStory> listener) {
+        Subscription subscription = ApiManager.getZhihuManager().getZhihuStory(docid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ZhihuStory>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ZhihuStory response) {
+                        L.d("loadNewsDetail response: " + response);
+                        List<ZhihuStory> list = new ArrayList<>();
+                        list.add(response);
+                        listener.onSuccess(list);
                     }
                 });
         addSubscription(subscription);

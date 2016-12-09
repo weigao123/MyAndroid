@@ -45,22 +45,18 @@ public abstract class NewsListBaseFragment<T> extends AppBaseFragment implements
     private View footRefreshing;
     private View footRefreshFailed;
     protected TRecyclerAdapter mRecyclerAdapter;
-    protected List<T> mItems = new ArrayList<>();
 
     protected int mType;
-    private NewsPresenter mNewsPresenter;
+    protected NewsPresenter mNewsPresenter;
 
     /**
      * 当前已有的页数
      */
-    private int pageIndex = 0;
+    protected int pageIndex = 0;
     /**
      * 如果是true，要把PullView显示
      */
     protected boolean isLoadAll;
-
-    protected String mACacheTag;
-    protected ACache mACache;
 
     @Override
     protected int onGetFragmentLayout() {
@@ -69,14 +65,13 @@ public abstract class NewsListBaseFragment<T> extends AppBaseFragment implements
 
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
-        mType = getArguments().getInt("type");
-        if (mType == ZhihuApi.NEWS_TYPE_ZHIHU) {
-            mToolbar.setVisibility(View.VISIBLE);
-        }
+
     }
 
     @Override
     protected void onLazyLoad() {
+        mType = getArguments().getInt("type");
+
         setupPrepare();
 
         mPullToRefreshView.setOnRefreshListener(this);
@@ -101,13 +96,15 @@ public abstract class NewsListBaseFragment<T> extends AppBaseFragment implements
             public void run() {
                 refreshAll();
             }
-        }, 1000);
+        }, 500);
     }
 
     protected abstract void setupPrepare();
     protected abstract void loadDataFromCache();
     protected abstract void putDataToCache();
     protected abstract void refreshView(List<T> data);
+    protected abstract void loadAll();
+    protected abstract void loadMore();
 
     private RecyclerView.OnScrollListener mOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
@@ -127,7 +124,7 @@ public abstract class NewsListBaseFragment<T> extends AppBaseFragment implements
 
     private void refreshAll() {
         isLoadAll = true;
-        mNewsPresenter.loadNews(mType, 0);
+        loadAll();
     }
 
     @Override
@@ -175,7 +172,7 @@ public abstract class NewsListBaseFragment<T> extends AppBaseFragment implements
         mRecyclerAdapter.setFootVisible(true);
         footRefreshing.setVisibility(View.VISIBLE);
         footRefreshFailed.setVisibility(View.GONE);
-        mNewsPresenter.loadNews(mType, pageIndex);
+        loadMore();
     }
 
     private void endRefresh(boolean isSuccess) {
@@ -213,7 +210,7 @@ public abstract class NewsListBaseFragment<T> extends AppBaseFragment implements
     public void onDestroyView() {
         super.onDestroyView();
         if (mNewsPresenter != null) {
-            mNewsPresenter.cancel();
+            //mNewsPresenter.cancel();
         }
     }
 }

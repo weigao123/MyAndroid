@@ -96,6 +96,7 @@
         <meta-data
             android:name="com.netease.cosine.target.receiver"
             android:value="com.netease.nimlib.service.NimReceiver"/>
+
     </application>
 
 </manifest>

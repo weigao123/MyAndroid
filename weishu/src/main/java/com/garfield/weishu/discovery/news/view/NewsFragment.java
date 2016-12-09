@@ -22,8 +22,6 @@ import java.util.List;
  */
 public class NewsFragment extends AppBaseFragment {
 
-    private List<SupportFragment> mFragments = new ArrayList<>();
-
     {
         setAnimationEnable(false);
     }

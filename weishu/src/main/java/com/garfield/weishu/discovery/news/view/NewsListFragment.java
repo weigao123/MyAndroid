@@ -35,6 +35,10 @@ public class NewsListFragment extends NewsListBaseFragment<NewsBean> implements
         TRecyclerAdapter.ItemEventListener<NewsBean>, TPagerAdapter.ItemEventListener<NewsBean> {
 
     private NewsHeadView mNewsHeadView;
+    private String mACacheTag;
+    private ACache mACache;
+
+    private List<NewsBean> mItems = new ArrayList<>();
 
     public static NewsListFragment newInstance(int type) {
         Bundle args = new Bundle();
@@ -69,6 +73,16 @@ public class NewsListFragment extends NewsListBaseFragment<NewsBean> implements
         } else {
             mRecyclerAdapter.addItems(normalItem);
         }
+    }
+
+    @Override
+    protected void loadAll() {
+        mNewsPresenter.loadNews(mType, 0);
+    }
+
+    @Override
+    protected void loadMore() {
+        mNewsPresenter.loadNews(mType, pageIndex);
     }
 
     private void separateItems(List<NewsBean> data, List<NewsBean> slideItem, List<NewsBean> normalItem) {

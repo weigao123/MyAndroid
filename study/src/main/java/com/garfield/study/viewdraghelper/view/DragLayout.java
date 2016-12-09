@@ -16,7 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.garfield.baselib.utils.L;
+import com.garfield.baselib.utils.system.L;
 import com.garfield.study.R;
 import com.nineoldandroids.view.ViewHelper;
 

@@ -9,33 +9,9 @@
     <include layout="@layout/include_toolbar"/>
 
     <FrameLayout
-        android:id="@+id/lazyload_content"
+        android:id="@+id/fragment_zhihu_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.garfield.weishu.discovery.news.view.PullToRefreshView
-            android:id="@+id/fragment_zhihu_refresh"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/fragment_zhihu_recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="vertical"
-                android:visibility="visible" />
-        </com.garfield.weishu.discovery.news.view.PullToRefreshView>
-
-        <Button
-            android:id="@+id/fragment_zhihu_reload_btn"
-            style="?android:borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/click_and_refresh"
-            android:textColor="@color/colorAccent"
-            android:textSize="18sp"
-            android:visibility="gone" />
     </FrameLayout>
 
 </LinearLayout>

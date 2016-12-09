@@ -26,6 +26,9 @@ public class FragmentHelper {
         mActivity = activity;
     }
 
+    /**
+     * 根Fragment没有动画
+     */
     void loadRootFragment(FragmentManager fragmentManager, int containerId, SupportFragment to) {
         mActivity.onSwitchToFragment(to);
         bindContainerId(containerId, to);
@@ -39,6 +42,9 @@ public class FragmentHelper {
         ft.commit();
     }
 
+    /**
+     * 根Fragment没有动画
+     */
     void loadMultiRootFragment(FragmentManager fragmentManager, int containerId, int showPosition, SupportFragment... tos) {
         FragmentTransaction ft = fragmentManager.beginTransaction();
         for (int i = 0; i < tos.length; i++) {

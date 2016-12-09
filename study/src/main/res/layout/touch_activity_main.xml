@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<com.garfield.study.touch.view.MyLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/red">
     
-    <com.garfield.study.touch.view.OneViewGroup
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        
-        <com.garfield.study.touch.view.OneView
-            android:id="@+id/touch_one_view"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="#000000"/>
-    </com.garfield.study.touch.view.OneViewGroup>
+        android:background="@color/green">
 
-</LinearLayout>
+    </LinearLayout>
+
+</com.garfield.study.touch.view.MyLinearLayout>

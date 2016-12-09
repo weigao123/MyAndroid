@@ -30,6 +30,7 @@ public class BrowserFragment extends AppBaseFragment {
 
     public static final String BROWSER_CONTENT = "content";
     public static final String BROWSER_TYPE = "type";
+    public static final String BROWSER_CONTENT_SIZE = "size";
 
     public static final int TYPE_BROWSER = 0;
     public static final int TYPE_URL = 1;
@@ -64,11 +65,23 @@ public class BrowserFragment extends AppBaseFragment {
      */
     private String mUrl;
     private int mType;
+    private int mSize;
+    private WebSettings webSettings;
 
     public static BrowserFragment newInstance(String content, int type) {
         Bundle args = new Bundle();
         args.putString(BROWSER_CONTENT, content);
         args.putInt(BROWSER_TYPE, type);
+        BrowserFragment fragment = new BrowserFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static BrowserFragment newInstance(String content, int type, int size) {
+        Bundle args = new Bundle();
+        args.putString(BROWSER_CONTENT, content);
+        args.putInt(BROWSER_TYPE, type);
+        args.putInt(BROWSER_CONTENT_SIZE, size);
         BrowserFragment fragment = new BrowserFragment();
         fragment.setArguments(args);
         return fragment;
@@ -89,6 +102,7 @@ public class BrowserFragment extends AppBaseFragment {
             mUrl = savedInstanceState.getString("url");
         }
         mType = getArguments().getInt(BROWSER_TYPE);
+        mSize = getArguments().getInt(BROWSER_CONTENT_SIZE);
 
         initWebView();
         mEditText.setOnFocusChangeListener(mOnFocusChangeListener);
@@ -139,12 +153,13 @@ public class BrowserFragment extends AppBaseFragment {
     private void initWebView() {
         mWebView.setWebViewClient(mWebViewClient);
         mWebView.setWebChromeClient(mWebChromeClient);
-        WebSettings webSettings = mWebView.getSettings();
-        if (mType == TYPE_STRING) {
-            webSettings.setSupportZoom(true);
-            webSettings.setTextZoom(120);
-        } else {
+        webSettings = mWebView.getSettings();
+        if (mType != TYPE_STRING) {
             webSettings.setJavaScriptEnabled(true);
+        }
+        if (mSize != 0) {
+            webSettings.setSupportZoom(true);
+            webSettings.setTextZoom(mSize);
         }
     }
 

@@ -168,9 +168,10 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
         if (mEnabled) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    // 没有拦截，不会回调
+                    // 没有拦截，是透明的，不会回调
                     break;
                 case MotionEvent.ACTION_MOVE:
+                    // item不会消耗move，所以正常返回
                     float diff = event.getRawY() - yDown;
                     if (currentStatus != STATUS_REFRESHING) {
                         if (diff >= 0) {

@@ -21,15 +21,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.touch_activity_main);
-        mOneView = (OneView) findViewById(R.id.touch_one_view);
-
-        mOneView.setOnDragListener(new View.OnDragListener() {
-            @Override
-            public boolean onDrag(View v, DragEvent event) {
-                L.d("MainActivity onDrag");
-                return false;
-            }
-        });
+//        mOneView = (OneView) findViewById(R.id.touch_one_view);
+//
+//        mOneView.setOnDragListener(new View.OnDragListener() {
+//            @Override
+//            public boolean onDrag(View v, DragEvent event) {
+//                L.d("MainActivity onDrag");
+//                return false;
+//            }
+//        });
     }
 
     @Override

@@ -8,6 +8,8 @@ import com.garfield.weishu.discovery.news.api.ZhihuApi;
 import com.garfield.weishu.discovery.news.bean.netease.NewsBean;
 import com.garfield.weishu.discovery.news.bean.netease.NewsDetailBean;
 import com.garfield.weishu.discovery.news.bean.zhihu.ZhihuDaily;
+import com.garfield.weishu.discovery.news.bean.zhihu.ZhihuDailyItem;
+import com.garfield.weishu.discovery.news.bean.zhihu.ZhihuStory;
 import com.garfield.weishu.discovery.news.model.NewsModel;
 import com.garfield.weishu.discovery.news.model.NewsModelImpl;
 
@@ -38,31 +40,17 @@ public class NewsPresenterImpl implements NewsPresenter {
             return;
         }
         mNewsView.onLoadBefore();
-        if (type == ZhihuApi.NEWS_TYPE_ZHIHU) {
-            mNewsModel.loadZhihu(pageIndex, new OnMyRequestListener<ZhihuDaily>() {
-                @Override
-                public void onSuccess(List<ZhihuDaily> data) {
-                    mNewsView.onLoadSuccess(data);
-                }
+        mNewsModel.loadNews(type, pageIndex, new OnMyRequestListener<NewsBean>() {
+            @Override
+            public void onSuccess(List<NewsBean> data) {
+                mNewsView.onLoadSuccess(data);
+            }
 
-                @Override
-                public void onFailure(Exception e) {
-                    mNewsView.onLoadFailed();
-                }
-            });
-        } else {
-            mNewsModel.loadNews(type, pageIndex, new OnMyRequestListener<NewsBean>() {
-                @Override
-                public void onSuccess(List<NewsBean> data) {
-                    mNewsView.onLoadSuccess(data);
-                }
-
-                @Override
-                public void onFailure(Exception e) {
-                    mNewsView.onLoadFailed();
-                }
-            });
-        }
+            @Override
+            public void onFailure(Exception e) {
+                mNewsView.onLoadFailed();
+            }
+        });
     }
 
     @Override
@@ -76,7 +64,38 @@ public class NewsPresenterImpl implements NewsPresenter {
         mNewsModel.loadNewsDetail(docId, new OnMyRequestListener<NewsDetailBean>() {
             @Override
             public void onSuccess(List<NewsDetailBean> data) {
-                handleString(data.get(0));
+                mNewsView.onLoadSuccess(data);
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                mNewsView.onLoadFailed();
+            }
+        });
+    }
+
+    @Override
+    public void loadZhihu(String date) {
+        mNewsView.onLoadBefore();
+        mNewsModel.loadZhihu(date, new OnMyRequestListener<ZhihuDaily>() {
+            @Override
+            public void onSuccess(List<ZhihuDaily> data) {
+                mNewsView.onLoadSuccess(data);
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                mNewsView.onLoadFailed();
+            }
+        });
+    }
+
+    @Override
+    public void loadZhihuDetail(String docId) {
+        mNewsView.onLoadBefore();
+        mNewsModel.loadZhihuDetail(docId, new OnMyRequestListener<ZhihuStory>() {
+            @Override
+            public void onSuccess(List<ZhihuStory> data) {
                 mNewsView.onLoadSuccess(data);
             }
 
@@ -92,23 +111,6 @@ public class NewsPresenterImpl implements NewsPresenter {
         mNewsModel.cancel();
     }
 
-    private void handleString(NewsDetailBean bean) {
-        if (bean == null) return;
-        String body = bean.getBody();
-        int i = 0;
-        while (true) {
-            String imgTag = "<!--IMG#" + i +"-->";
-            if (body.contains(imgTag)) {
-                String imgUrl = bean.getImg().get(i).getSrc();
-                String realImgTag = "<img src=\"" + imgUrl + "\" width=\"100%\">";
-                body = body.replace(imgTag, realImgTag);
-                ++i;
-            } else {
-                break;
-            }
-        }
-        bean.setBody(body);
-    }
 
 
 }
