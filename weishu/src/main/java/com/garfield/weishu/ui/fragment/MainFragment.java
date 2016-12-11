@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.baselib.ui.widget.BottomBar2;
+import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.contact.ContactFragment;
 import com.garfield.weishu.discovery.DiscoveryFragment;

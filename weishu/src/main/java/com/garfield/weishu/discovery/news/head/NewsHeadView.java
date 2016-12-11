@@ -71,6 +71,7 @@ public class NewsHeadView extends FrameLayout {
      * 必须要重建Adapter，否则卡顿
      */
     public void refreshItems(List<NewsBean> items) {
+        setVisibility(items.isEmpty() ? GONE : VISIBLE);
         mItems.clear();
         mItems.addAll(items);
         TPagerAdapter.ItemEventListener itemEventListener = null;

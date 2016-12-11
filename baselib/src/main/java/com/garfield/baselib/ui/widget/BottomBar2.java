@@ -159,7 +159,7 @@ public class BottomBar2 extends LinearLayout {
             mTextPaint.setDither(true);
             mTextPaint.getTextBounds(mText, 0, mText.length(), mTextBound);
 
-            int padding = ScreenUtils.dp2px(5);
+            int padding = ScreenUtils.dp2px(5.5f);
             setPadding(padding, padding, padding, padding);
 
             colorPaint = new Paint();

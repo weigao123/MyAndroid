@@ -56,9 +56,7 @@ public class NewsListFragment extends NewsListBaseFragment<NewsBean> implements
         mRecyclerAdapter = new NewsListViewHolder.NewsListRecyclerAdapter(AppCache.getContext(), mItems);
         mNewsHeadView = new NewsHeadView(AppCache.getContext());
         mNewsHeadView.setItemEventListener(this);
-        if (mType == 0) {
-            mRecyclerAdapter.setHeadView(mNewsHeadView);
-        }
+        mRecyclerAdapter.setHeadView(mNewsHeadView);
         mRecyclerAdapter.setItemEventListener(this);
     }
 
