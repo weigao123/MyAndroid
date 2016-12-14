@@ -43,6 +43,21 @@ public class DirectoryUtils {
         return appCacheDir;
     }
 
+    /**
+     * 卸载后自动被删除
+     */
+    public static File getDiskCacheDir(String uniqueName) {
+        boolean externalStorageAvailable = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+        final String cachePath;
+        if (externalStorageAvailable && hasExternalStoragePermission(Cache.getContext())) {
+            cachePath = Cache.getContext().getExternalCacheDir().getPath();
+        } else {
+            cachePath = Cache.getContext().getCacheDir().getPath();
+        }
+        return new File(cachePath + File.separator + uniqueName);
+    }
+
+
     private static boolean hasExternalStoragePermission(Context context) {
         int perm = context.checkCallingOrSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE");
         return perm == 0;

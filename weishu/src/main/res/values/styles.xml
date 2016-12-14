@@ -11,7 +11,10 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="welcomeTheme" parent="Fullscreen">
+    <!-- 背景图会嵌入状态栏 -->
+    <style name="welcomeTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/pure_trans</item>
+        <item name="colorPrimaryDark">@color/pure_trans</item>
         <item name="android:background">@drawable/welcome_bg</item>
     </style>
 

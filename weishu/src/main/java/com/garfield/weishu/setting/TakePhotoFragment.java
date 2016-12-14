@@ -16,9 +16,9 @@ import android.widget.TextView;
 import com.garfield.baselib.ui.widget.SwitchButton;
 import com.garfield.baselib.utils.file.DirectoryUtils;
 import com.garfield.baselib.utils.file.FileUtils;
-import com.garfield.baselib.utils.system.InvokerUtils;
 import com.garfield.baselib.utils.drawable.PhotoUtil;
 import com.garfield.baselib.utils.system.ScreenUtils;
+import com.garfield.baselib.utils.system.ThreadUtils;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
@@ -249,13 +249,13 @@ public class TakePhotoFragment extends AppBaseFragment {
     }
 
     private void loadImage() {
-        new InvokerUtils(new InvokerUtils.Callback() {
+        new ThreadUtils.Invoker(new ThreadUtils.Callback() {
             @Override
             public void onBefore() {
             }
 
             @Override
-            public boolean onRun() {
+            public boolean doInBackground() {
                 mPhotoItems.clear();
                 mAlbumItems.clear();
                 mAlbumHashMap = PhotoUtil.getGalleryPhotos();

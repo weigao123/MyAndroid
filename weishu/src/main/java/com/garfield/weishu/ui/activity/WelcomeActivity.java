@@ -1,12 +1,16 @@
 package com.garfield.weishu.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.WindowManager;
 
+import com.garfield.baselib.utils.system.L;
+import com.garfield.baselib.utils.system.TranslucentUtils;
 import com.garfield.weishu.R;
 import com.garfield.weishu.app.UserPreferences;
 import com.netease.nimlib.sdk.NimIntent;
@@ -26,16 +30,15 @@ public class WelcomeActivity extends AppBaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            //ViewGroup rootView = (ViewGroup) ((ViewGroup) getWindow().getDecorView()).getChildAt(0);
-            //rootView.setFitsSystemWindows(true);
-            //rootView.setClipToPadding(true);
-        }
-        if (!(firstEnter && !isNotify())) {
-            onIntent();
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+//            ViewGroup rootView = (ViewGroup) ((ViewGroup) getWindow().getDecorView()).getChildAt(0);
+//            rootView.setFitsSystemWindows(true);
+//            rootView.setClipToPadding(true);
+//        }
+
+        //TranslucentUtils.showTranslucent(this);
     }
 
     @Override
@@ -53,7 +56,7 @@ public class WelcomeActivity extends AppBaseActivity {
                     onIntent();
                 }
             };
-            new Handler().postDelayed(runnable, 500);
+            new Handler().postDelayed(runnable, 1500);
         }
     }
 
