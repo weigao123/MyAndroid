@@ -121,25 +121,31 @@ public class BottomBar2 extends LinearLayout {
         private Bitmap mBitmap1;
         // 被填充的图
         private Bitmap mBitmap2;
-        // 要画图的区域
+        // 要画图的区域在整个Tab的位置
         private Rect mIconRect;
+        // 要画图的区域，坐标是0
+        private Rect mIconSize;
 
-        private Bitmap mBitmapOutLine;
+        private Bitmap mBitmapOutSide;
         private Bitmap mBitmapInner;
-        private Canvas mCanvasOutLine;
+        private Canvas mCanvasOutSide;
         private Canvas mCanvasInner;
 
+        // 专门用来画颜色的paint
         private Paint colorPaint;
+        // 专门用于DST_IN的paint
         private Paint bitmapPaint;
+        // 专门用于clear的paint
         private Paint clearPaint;
 
         private Rect mTextBound;
         private Paint mTextPaint;
         private int mTextSize;
         private String mText;
-        private int mX;
-        private int mY;
+        private int mTextX;
+        private int mTextY;
 
+        // 在按钮列表中的位置
         private int mTabPosition;
 
         // 0.0 ~ 1.0f
@@ -199,14 +205,15 @@ public class BottomBar2 extends LinearLayout {
                 int left = getMeasuredWidth() / 2 - iconWidth / 2;
                 int top = getMeasuredHeight() - mTextBound.height() - getPaddingTop() * 2 - iconHeight;
                 mIconRect = new Rect(left, top, left + iconWidth, top + iconHeight);
+                mIconSize = new Rect(0, 0, iconWidth, iconHeight);
 
-                mBitmapOutLine = Bitmap.createBitmap(getMeasuredWidth(), getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-                mCanvasOutLine = new Canvas(mBitmapOutLine);
-                mBitmapInner = Bitmap.createBitmap(getMeasuredWidth(), getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+                mBitmapOutSide = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
+                mCanvasOutSide = new Canvas(mBitmapOutSide);
+                mBitmapInner = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
                 mCanvasInner = new Canvas(mBitmapInner);
 
-                mX = getMeasuredWidth() / 2;
-                mY = (getMeasuredHeight() + mIconRect.bottom) / 2 - (mTextBound.top + mTextBound.bottom) / 2 - ScreenUtils.dp2px(2);
+                mTextX = getMeasuredWidth() / 2;
+                mTextY = (getMeasuredHeight() + mIconRect.bottom) / 2 - (mTextBound.top + mTextBound.bottom) / 2 - ScreenUtils.dp2px(2);
 
                 hasMeasured = true;
             }
@@ -214,55 +221,60 @@ public class BottomBar2 extends LinearLayout {
 
         private void drawImage(Canvas canvas) {
             /**
-             * 画底座
+             * 画底座，否则一开始都是空白
              */
             if (mShift <= 0.5f) {
                 canvas.drawBitmap(mBitmap1, null, mIconRect, null);
             }
             /**
-             * 描边
+             * 描边，需要一直描
              */
-            mCanvasOutLine.drawPaint(clearPaint);
+            mCanvasOutSide.drawPaint(clearPaint);
             // 0~255
             colorPaint.setColor(mSelectedColor);
             // 0~0.5时透明度递增直到255，0.5~1不变
             colorPaint.setAlpha(mShift <= 0.5f ? (int)(255 * 2 * mShift) : 255);
-            mCanvasOutLine.drawRect(mIconRect, colorPaint);
+            mCanvasOutSide.drawPaint(colorPaint);
             // 整个颜色区域，只保留mBitmap1的边框
-            mCanvasOutLine.drawBitmap(mBitmap1, null, mIconRect, bitmapPaint);
-            canvas.drawBitmap(mBitmapOutLine, 0, 0, null);
+            mCanvasOutSide.drawBitmap(mBitmap1, null, mIconSize, bitmapPaint);
+            canvas.drawBitmap(mBitmapOutSide, null, mIconRect, null);
 
+            /**
+             * 填充内部，只需要在后半段填充即可
+             */
             if (mShift > 0.5f) {
                 /**
-                 * 因为新闻按钮，中间最后是白色，所以画个白色
+                 * 新闻按钮，mBitmap1中间有内容，描边后导致最后是蓝色，为了中间是白色，所以画个白色
                  */
-                colorPaint.setColor(getResources().getColor(R.color.white));
-                // 0~255
-                colorPaint.setAlpha((int)(255 * 2 * (mShift - 0.5f)));
-                canvas.drawRect(mIconRect, colorPaint);
+                if (mTabPosition == 2) {
+                    colorPaint.setColor(Color.WHITE);
+                    // 0~255
+                    colorPaint.setAlpha((int) (255 * 2 * (mShift - 0.5f)));
+                    canvas.drawRect(mIconRect, colorPaint);
+                }
 
                 /**
-                 * 填充内部
+                 * 新闻按钮，mBitmap2中间是空心，所以下面代码最后是透明的
                  */
                 mCanvasInner.drawPaint(clearPaint);
                 colorPaint.setColor(mSelectedColor);
-                // 0~255
+                // 0~0.5时透明度0，0.5~1透明度递增到255
                 colorPaint.setAlpha((int)(255 * 2 * (mShift - 0.5f)));
-                mCanvasInner.drawRect(mIconRect, colorPaint);
-                mCanvasInner.drawBitmap(mBitmap2, null, mIconRect, bitmapPaint);
-                canvas.drawBitmap(mBitmapInner, 0, 0, null);
+                mCanvasInner.drawPaint(colorPaint);
+                mCanvasInner.drawBitmap(mBitmap2, null, mIconSize, bitmapPaint);
+                canvas.drawBitmap(mBitmapInner, null, mIconRect, null);
             }
         }
 
         private void drawText(Canvas canvas) {
 //            mTextPaint.setColor(mUnSelectedColor);
-//            canvas.drawText(mText, mX, mY, mTextPaint);
+//            canvas.drawText(mText, mTextX, mTextY, mTextPaint);
 //            mTextPaint.setColor(mSelectedColor);
 //            mTextPaint.setAlpha((int)(255 * mShift));
 
             int color = ColorUtils.evaluate(mShift, mUnSelectedColor, mSelectedColor);
             mTextPaint.setColor(color);
-            canvas.drawText(mText, mX, mY, mTextPaint);
+            canvas.drawText(mText, mTextX, mTextY, mTextPaint);
         }
 
         public void setTabPosition(int position) {

@@ -7,10 +7,7 @@
     <com.garfield.weishu.discovery.news.head.InfiniteViewPager
         android:id="@+id/view_news_head_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </com.garfield.weishu.discovery.news.head.InfiniteViewPager>
-
+        android:layout_height="match_parent"/>
 
     <LinearLayout
         android:id="@+id/view_news_head_point"

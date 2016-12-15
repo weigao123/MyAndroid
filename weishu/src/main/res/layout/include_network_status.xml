@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/network_status_bar"
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/status_desc_label"
     android:layout_width="match_parent"
-    android:layout_height="30dp"
-    android:orientation="horizontal"
-    android:visibility="gone">
+    android:layout_height="100dp"
+    android:gravity="center"
+    android:background="@color/network_state_bg"
+    android:textColor="@color/white"
+    android:textSize="14sp"/>
 
-    <TextView
-        android:id="@+id/status_desc_label"
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:background="@color/network_state_bg"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="14sp"/>
-
-</LinearLayout>

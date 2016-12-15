@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,14 +46,13 @@ import butterknife.BindView;
 public class SessionListFragment extends AppBaseFragment {
     public static final long RECENT_TAG_STICKY = 1; // 联系人置顶tag
 
-    @BindView(R.id.network_status_bar)
-    LinearLayout mNetworkStateBar;
-
-    @BindView(R.id.status_desc_label)
-    TextView mNetworkStatus;
-
     @BindView(R.id.fragment_session_list_no_session)
     LinearLayout mNoSessionRecord;
+
+    @BindView(R.id.session_list_network_viewstub)
+    ViewStub mNetworkViewStub;
+
+    private TextView mNetworkStatus;
 
     private List<RecentContact> items;
     private RecyclerView recyclerView;
@@ -347,20 +347,24 @@ public class SessionListFragment extends AppBaseFragment {
             if (code.wontAutoLogin()) {
                 kickOut(code);
             } else {
+                if (mNetworkStatus == null) {
+                    View view = mNetworkViewStub.inflate();
+                    mNetworkStatus = (TextView) view.findViewById(R.id.status_desc_label);
+                }
                 if (code == StatusCode.NET_BROKEN) {
-                    mNetworkStateBar.setVisibility(View.VISIBLE);
+                    mNetworkStatus.setVisibility(View.VISIBLE);
                     mNetworkStatus.setText(R.string.status_network_is_not_available);
                 } else if (code == StatusCode.UNLOGIN) {
-                    mNetworkStateBar.setVisibility(View.VISIBLE);
+                    mNetworkStatus.setVisibility(View.VISIBLE);
                     mNetworkStatus.setText(R.string.status_unlogin);
                 } else if (code == StatusCode.CONNECTING) {
-                    mNetworkStateBar.setVisibility(View.VISIBLE);
+                    mNetworkStatus.setVisibility(View.VISIBLE);
                     mNetworkStatus.setText(R.string.status_connecting);
                 } else if (code == StatusCode.LOGINING) {
-                    mNetworkStateBar.setVisibility(View.VISIBLE);
+                    mNetworkStatus.setVisibility(View.VISIBLE);
                     mNetworkStatus.setText(R.string.status_logining);
                 } else {
-                    mNetworkStateBar.setVisibility(View.GONE);
+                    mNetworkStatus.setVisibility(View.GONE);
                 }
             }
         }

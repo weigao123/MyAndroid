@@ -6,7 +6,11 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <include layout="@layout/include_network_status" />
+    <ViewStub
+        android:id="@+id/session_list_network_viewstub"
+        android:layout="@layout/include_network_status"
+        android:layout_width="match_parent"
+        android:layout_height="30dp" />
 
     <FrameLayout
         android:layout_width="match_parent"
