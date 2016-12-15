@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.garfield.baselib.R;
+import com.garfield.baselib.utils.drawable.ColorUtils;
 import com.garfield.baselib.utils.system.ScreenUtils;
 
 /**
@@ -71,7 +72,6 @@ public class BottomBar2 extends LinearLayout {
         return this;
     }
 
-
     public BottomBar2 addItem(int icon1, int icon2, int title) {
         final Tab tab = new Tab(getContext(), icon1, icon2, title);
         tab.setOnClickListener(new OnClickListener() {
@@ -117,9 +117,13 @@ public class BottomBar2 extends LinearLayout {
     }
 
     private class Tab extends View {
+        // 只有边的图
         private Bitmap mBitmap1;
+        // 被填充的图
         private Bitmap mBitmap2;
+        // 要画图的区域
         private Rect mIconRect;
+
         private Bitmap mBitmapOutLine;
         private Bitmap mBitmapInner;
         private Canvas mCanvasOutLine;
@@ -137,6 +141,8 @@ public class BottomBar2 extends LinearLayout {
         private int mY;
 
         private int mTabPosition;
+
+        // 0.0 ~ 1.0f
         private float mShift;
 
         private boolean hasMeasured;
@@ -171,6 +177,7 @@ public class BottomBar2 extends LinearLayout {
             bitmapPaint.setAntiAlias(true);
             bitmapPaint.setFilterBitmap(true);
             bitmapPaint.setDither(true);
+            // 从背景中砍去新图的区域，只保留背景中，新图有内容的区域
             bitmapPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
 
             clearPaint = new Paint();
@@ -213,13 +220,15 @@ public class BottomBar2 extends LinearLayout {
                 canvas.drawBitmap(mBitmap1, null, mIconRect, null);
             }
             /**
-              * 描边
-              */
+             * 描边
+             */
             mCanvasOutLine.drawPaint(clearPaint);
             // 0~255
             colorPaint.setColor(mSelectedColor);
+            // 0~0.5时透明度递增直到255，0.5~1不变
             colorPaint.setAlpha(mShift <= 0.5f ? (int)(255 * 2 * mShift) : 255);
             mCanvasOutLine.drawRect(mIconRect, colorPaint);
+            // 整个颜色区域，只保留mBitmap1的边框
             mCanvasOutLine.drawBitmap(mBitmap1, null, mIconRect, bitmapPaint);
             canvas.drawBitmap(mBitmapOutLine, 0, 0, null);
 
@@ -246,10 +255,13 @@ public class BottomBar2 extends LinearLayout {
         }
 
         private void drawText(Canvas canvas) {
-            mTextPaint.setColor(mUnSelectedColor);
-            canvas.drawText(mText, mX, mY, mTextPaint);
-            mTextPaint.setColor(mSelectedColor);
-            mTextPaint.setAlpha((int)(255 * mShift));
+//            mTextPaint.setColor(mUnSelectedColor);
+//            canvas.drawText(mText, mX, mY, mTextPaint);
+//            mTextPaint.setColor(mSelectedColor);
+//            mTextPaint.setAlpha((int)(255 * mShift));
+
+            int color = ColorUtils.evaluate(mShift, mUnSelectedColor, mSelectedColor);
+            mTextPaint.setColor(color);
             canvas.drawText(mText, mX, mY, mTextPaint);
         }
 

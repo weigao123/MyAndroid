@@ -23,11 +23,6 @@ public class WelcomeActivity extends AppBaseActivity {
     private static boolean firstEnter = true; // 是否首次进入
 
     @Override
-    protected int onGetActivityLayout() {
-        return R.layout.activity_welcome;
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -56,7 +51,7 @@ public class WelcomeActivity extends AppBaseActivity {
                     onIntent();
                 }
             };
-            new Handler().postDelayed(runnable, 1500);
+            new Handler().postDelayed(runnable, 0);
         }
     }
 

@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/gray_white">
 
     <include layout="@layout/include_loading"/>
 
@@ -12,7 +12,6 @@
         android:id="@+id/lazyload_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray_white"
         android:scrollbars="none">
         <LinearLayout
             android:orientation="vertical"

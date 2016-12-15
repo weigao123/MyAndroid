@@ -1,7 +1,9 @@
 package com.garfield.weishu.contact;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -60,7 +62,7 @@ public class ContactFragment extends AppBaseFragment implements AdapterView.OnIt
     @Override
     protected void onLazyLoad() {
         initAdapter();
-        View countLayout = View.inflate(mActivity, R.layout.item_contacts_count, null);
+        View countLayout = LayoutInflater.from(getContext()).inflate(R.layout.item_contacts_count, mListView, false);
         mCountView = (TextView) countLayout.findViewById(R.id.contactCountText);
         mListView.addFooterView(countLayout);
         mListView.setAdapter(adapter);
@@ -82,8 +84,6 @@ public class ContactFragment extends AppBaseFragment implements AdapterView.OnIt
         adapter.addViewHolder(ItemTypes.FUNC, FuncHolder.class);
         adapter.addViewHolder(ItemTypes.FRIEND, ContactHolder.class);
     }
-
-
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
