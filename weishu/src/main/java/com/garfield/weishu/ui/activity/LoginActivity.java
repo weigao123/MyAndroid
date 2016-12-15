@@ -25,7 +25,6 @@ import butterknife.OnClick;
  */
 public class LoginActivity extends AppBaseActivity implements TextWatcher{
 
-
     @BindView(R.id.activity_login_layout)
     LinearLayout mLoginLayout;
     @BindView(R.id.activity_login_account)
