@@ -14,11 +14,12 @@
             android:id="@+id/contact_list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:cacheColorHint="@color/pure_trans"
-            android:divider="@color/pure_trans"
+            android:cacheColorHint="@null"
+            android:divider="@null"
             android:dividerHeight="0dp"
-            android:listSelector="@color/pure_trans"
-            android:scrollbars="none"/>
+            android:listSelector="@null"
+            android:scrollbars="none"
+            android:background="@color/gray_white"/>
 
         <com.garfield.baselib.ui.widget.LetterIndexView
             android:id="@+id/contact_letter_index"

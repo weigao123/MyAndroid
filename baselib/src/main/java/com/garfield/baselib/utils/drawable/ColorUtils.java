@@ -8,6 +8,7 @@ public class ColorUtils {
 
     /**
      * 颜色必须是ARGB
+     * 等同于 new ArgbEvaluator().evaluate(fraction, startInt, endInt);
      */
     public static Integer evaluate(float fraction, Integer startInt, Integer endInt) {
         int startA = (startInt >> 24) & 0xff;

@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="52dp"
     android:paddingLeft="15dp"
-    android:paddingRight="25dp"
-    android:background="@drawable/bg_press_gray">
+    android:paddingRight="25dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="52dp"
         android:orientation="horizontal"
         android:gravity="center_vertical">
         <com.garfield.weishu.ui.view.HeadImageView
             android:id="@+id/item_contact_image"
             android:layout_width="35dp"
-            android:layout_height="35dp" />
+            android:layout_height="35dp"
+            tools:src="@drawable/default_avatar"/>
 
         <TextView
             android:id="@+id/item_contact_name"
@@ -27,11 +26,13 @@
             android:layout_marginLeft="13dp"
             android:textSize="16sp"
             android:textColor="@color/black"
-            android:text="0"/>
+            tools:text="word"/>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/gray" />
+    <!--  layout_marginBottom 用于workaround，background被父LinearLayout的颜色给覆盖了，
+          最后在代码里setBackgroundResource -->
 </LinearLayout>
