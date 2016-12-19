@@ -5,9 +5,38 @@ package com.garfield.weishu.datastructure.linearlist;
  */
 
 public class SingleLinkedList<T> implements ILinearList<T> {
-    @Override
-    public void clear() {
 
+    private Node head = null; // 头节点
+
+    private class Node {
+        Node next;
+        Object data;
+        public Node(Object data) {
+            this.data = data;
+        }
+    }
+
+    @Override
+    public boolean insert(int index, Object elem) {
+        Node newNode = new Node(elem);
+        if (head == null) {
+            head = newNode;
+            return true;
+        }
+        Node tmp = head;
+        while (tmp.next != null) {
+            tmp = tmp.next;
+        }
+        tmp.next = newNode;
+        return true;
+    }
+
+    @Override
+    public boolean delete(int index) {
+        if (index < 1 || index > length()) {
+            return false;
+        }
+        return false;
     }
 
     @Override
@@ -21,17 +50,14 @@ public class SingleLinkedList<T> implements ILinearList<T> {
     }
 
     @Override
-    public boolean insert(int index, T elem) {
-        return false;
-    }
+    public void clear() {
 
-    @Override
-    public boolean delete(int index) {
-        return false;
     }
 
     @Override
     public int length() {
+        int sum = 0;
+        while ()
         return 0;
     }
 }

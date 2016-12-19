@@ -5,12 +5,32 @@ package com.garfield.weishu.datastructure.linearlist;
  */
 
 public interface ILinearList<T> {
-    void clear();
-    T get(int index);
-    int locate(T elem);
-    boolean insert(int index, T elem);
-    boolean delete(int index);
-    int length();
 
+    /**
+     * 增
+     */
+    boolean insert(int index, T elem);
+
+    /**
+     * 删
+     */
+    boolean delete(int index);
+
+    /**
+     * 查
+     */
+    T get(int index);
+
+    /**
+     * 定
+     */
+    int locate(T elem);
+
+    /**
+     * 清
+     */
+    void clear();
+
+    int length();
     String toString();
 }

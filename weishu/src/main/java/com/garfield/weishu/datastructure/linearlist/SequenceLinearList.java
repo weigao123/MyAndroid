@@ -4,37 +4,21 @@ package com.garfield.weishu.datastructure.linearlist;
  * Created by gaowei3 on 2016/12/2.
  */
 
+/**
+ * 顺序线性列表
+ *
+ * 连续排列
+ * 由预先初始化好的数组构成
+ *
+ */
 public class SequenceLinearList<T> implements ILinearList<T> {
     private static final int MAX_SIZE = 100;
 
+    /**
+     * 不能用T，因为T不能被new
+     */
     private Object[] mDataList = new Object[MAX_SIZE];
     private int mLength;
-
-    @Override
-    public void clear() {
-        for (int i = 0; i <= mLength - 1; i++) {
-            mDataList[i] = null;
-        }
-        mLength = 0;
-    }
-
-    @Override
-    public T get(int index) {
-        if (index >= 0 && index <= mLength - 1) {
-            return (T) mDataList[index];
-        }
-        return null;
-    }
-
-    @Override
-    public int locate(T elem) {
-        for (int i = 0; i <= mLength - 1; i ++) {
-            if (mDataList[i] == elem) {
-                return i;
-            }
-        }
-        return -1;
-    }
 
     @Override
     public boolean insert(int index, Object elem) {
@@ -63,6 +47,32 @@ public class SequenceLinearList<T> implements ILinearList<T> {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public T get(int index) {
+        if (index >= 0 && index <= mLength - 1) {
+            return (T) mDataList[index];
+        }
+        return null;
+    }
+
+    @Override
+    public int locate(T elem) {
+        for (int i = 0; i <= mLength - 1; i ++) {
+            if (mDataList[i] == elem) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    @Override
+    public void clear() {
+        for (int i = 0; i <= mLength - 1; i++) {
+            mDataList[i] = null;
+        }
+        mLength = 0;
     }
 
     @Override

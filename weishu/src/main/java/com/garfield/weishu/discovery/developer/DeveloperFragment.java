@@ -42,6 +42,7 @@ public class DeveloperFragment extends AppBaseFragment implements TRecyclerAdapt
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         mData.add(getResources().getString(R.string.develop_speed_progress));
+        mData.add(getResources().getString(R.string.develop_algorithm));
         DevelopAdapter adapter = new DevelopAdapter(getContext(), mData);
         adapter.setItemEventListener(this);
         mRecyclerView.setHasFixedSize(true);
@@ -54,6 +55,9 @@ public class DeveloperFragment extends AppBaseFragment implements TRecyclerAdapt
     public void onItemClick(String item, int position) {
         switch (position) {
             case 0:
+                EventDispatcher.startFragment(new DeveloperSpeedFragment());
+                break;
+            case 1:
                 EventDispatcher.startFragment(new DeveloperSpeedFragment());
                 break;
         }
