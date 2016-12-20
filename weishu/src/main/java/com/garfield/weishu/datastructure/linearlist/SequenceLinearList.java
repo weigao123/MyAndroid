@@ -21,7 +21,7 @@ public class SequenceLinearList<T> implements ILinearList<T> {
     private int mLength;
 
     @Override
-    public boolean insert(int index, Object elem) {
+    public boolean insert(int index, T elem) {
         if (index >= 0 && index <= mLength && mLength + 1 <= MAX_SIZE) {
             for (int i = mLength - 1; i >= index; i--) {
                 mDataList[i + 1] = mDataList[i];

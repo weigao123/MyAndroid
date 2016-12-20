@@ -10,14 +10,14 @@ public class SingleLinkedList<T> implements ILinearList<T> {
 
     private class Node {
         Node next;
-        Object data;
-        public Node(Object data) {
+        T data;
+        public Node(T data) {
             this.data = data;
         }
     }
 
     @Override
-    public boolean insert(int index, Object elem) {
+    public boolean insert(int index, T elem) {
         Node newNode = new Node(elem);
         if (head == null) {
             head = newNode;
@@ -57,7 +57,6 @@ public class SingleLinkedList<T> implements ILinearList<T> {
     @Override
     public int length() {
         int sum = 0;
-        while ()
         return 0;
     }
 }
