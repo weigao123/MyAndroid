@@ -21,7 +21,6 @@ import com.garfield.baselib.utils.string.StringUtils;
 import com.garfield.baselib.utils.system.SystemUtil;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -34,9 +33,9 @@ import android.support.v4.util.LruCache;
 import android.util.Log;
 import android.widget.ImageView;
 
-public class ImageLoader {
+public class MyImageLoader {
 
-    private static final String TAG = "ImageLoader";
+    private static final String TAG = "MyImageLoader";
 
     public static final int MESSAGE_POST_RESULT = 1;
 
@@ -59,7 +58,7 @@ public class ImageLoader {
         private final AtomicInteger mCount = new AtomicInteger(1);
 
         public Thread newThread(Runnable r) {
-            return new Thread(r, "ImageLoader#" + mCount.getAndIncrement());
+            return new Thread(r, "MyImageLoader#" + mCount.getAndIncrement());
         }
     };
 
@@ -83,7 +82,7 @@ public class ImageLoader {
         }
     };
 
-    private ImageLoader() {
+    private MyImageLoader() {
         int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
         int cacheSize = maxMemory / 8;
         mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
@@ -106,8 +105,8 @@ public class ImageLoader {
         }
     }
 
-    public static ImageLoader build() {
-        return new ImageLoader();
+    public static MyImageLoader build() {
+        return new MyImageLoader();
     }
 
     private void addBitmapToMemoryCache(String key, Bitmap bitmap) {

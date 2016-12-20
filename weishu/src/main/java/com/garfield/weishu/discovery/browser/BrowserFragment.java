@@ -1,5 +1,6 @@
 package com.garfield.weishu.discovery.browser;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -21,6 +22,8 @@ import com.garfield.weishu.ui.fragment.AppBaseFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static android.webkit.WebSettings.LOAD_NO_CACHE;
 
 /**
  * Created by gaowei3 on 2016/11/24.
@@ -150,10 +153,12 @@ public class BrowserFragment extends AppBaseFragment {
         }
     }
 
+    @SuppressLint("setJavaScriptEnabled")
     private void initWebView() {
         mWebView.setWebViewClient(mWebViewClient);
         mWebView.setWebChromeClient(mWebChromeClient);
         webSettings = mWebView.getSettings();
+        webSettings.setCacheMode(LOAD_NO_CACHE);
         if (mType != TYPE_STRING) {
             webSettings.setJavaScriptEnabled(true);
         }
@@ -231,6 +236,7 @@ public class BrowserFragment extends AppBaseFragment {
             return true;
         } else if (mType == TYPE_BROWSER) {
             if (mUrlSet.getVisibility() == View.GONE) {
+                mWebView.removeAllViews();
                 mWebView.destroy();
                 WebView webView = new WebView(getContext());
                 mWebViewContainer.removeView(mWebView);
@@ -276,6 +282,7 @@ public class BrowserFragment extends AppBaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mWebView.removeAllViews();
         mWebView.destroy();
     }
 

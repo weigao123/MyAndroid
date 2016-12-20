@@ -2,6 +2,7 @@ package com.garfield.baselib.utils.file;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 import android.text.TextUtils;
@@ -56,11 +57,13 @@ public class AppDownloadManager {
         }
 
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        //指定网络下才能下载
         request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
+        //通知栏
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         request.setTitle(title);
         request.setDescription(String.format("%s正在下载，请稍等...", title));
-        //request.setDestinationUri(Uri.fromFile(new File(subPath)));
+        //下载路径
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, title);
         long id = manager.enqueue(request);
         mSubPathContainer.put(id, title);
@@ -82,5 +85,21 @@ public class AppDownloadManager {
         }
         return "";
     }
+
+//    //注册广播接收者，监听下载状态
+//    mContext.registerReceiver(receiver,
+//            new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+
+    //下载到本地后执行安装
+    protected void installAPK(Context context, File file) {
+        if (!file.exists()) return;
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri uri = Uri.parse("file://" + file.toString());
+        intent.setDataAndType(uri, "application/vnd.android.package-archive");
+        //在服务中开启activity必须设置flag
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
 
 }
