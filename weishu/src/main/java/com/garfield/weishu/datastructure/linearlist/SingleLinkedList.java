@@ -11,7 +11,7 @@ public class SingleLinkedList<T> implements ILinearList<T> {
     private class Node {
         Node next;
         T data;
-        public Node(T data) {
+        Node(T data) {
             this.data = data;
         }
     }
@@ -36,6 +36,22 @@ public class SingleLinkedList<T> implements ILinearList<T> {
         if (index < 1 || index > length()) {
             return false;
         }
+        if (index == 1) {
+            head = head.next;
+            return true;
+        }
+        int i = 1;
+        Node preNode = head;
+        Node curNode = preNode.next;
+        while (curNode != null) {
+            if (i == index) {
+                preNode.next = curNode.next;
+                return true;
+            }
+            preNode = curNode;
+            curNode = curNode.next;
+            i++;
+        }
         return false;
     }
 
@@ -56,7 +72,12 @@ public class SingleLinkedList<T> implements ILinearList<T> {
 
     @Override
     public int length() {
-        int sum = 0;
-        return 0;
+        int length = 0;
+        Node tmp = head;
+        while (tmp != null) {
+            length++;
+            tmp = tmp.next;
+        }
+        return length;
     }
 }
