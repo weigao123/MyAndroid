@@ -44,7 +44,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.LoginActivity" />
+            android:name=".ui.activity.LoginActivity"/>
         <activity
             android:name=".ui.activity.MainActivity"
             android:launchMode="singleTask"/>

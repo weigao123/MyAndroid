@@ -54,7 +54,7 @@ public class SessionListFragment extends AppBaseFragment {
 
     private TextView mNetworkStatus;
 
-    private List<RecentContact> items;
+    private List<RecentContact> items = new ArrayList<>();
     private RecyclerView recyclerView;
     private SessionListAdapter adapter;
     private List<RecentContact> loadedRecents;
@@ -76,7 +76,6 @@ public class SessionListFragment extends AppBaseFragment {
         // 分隔线，与item分离，设置背景的时候无法把分割线包含
         // recyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL_LIST));
 
-        items = new ArrayList<>();
         adapter = new SessionListAdapter(mActivity, items);
         recyclerView.setAdapter(adapter);
         adapter.setItemEventListener(new TRecyclerAdapter.ItemEventListener<RecentContact>() {

@@ -11,7 +11,8 @@
     <LinearLayout
         android:id="@+id/activity_login_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="vertical"
         android:paddingLeft="20dp"
         android:paddingStart="20dp"
@@ -72,6 +73,13 @@
             android:background="@drawable/bg_login_button" />
 
     </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="60dp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="60dp"/>
 
     <LinearLayout
         android:id="@+id/activity_register_layout"
