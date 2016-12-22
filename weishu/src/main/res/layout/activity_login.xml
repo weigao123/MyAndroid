@@ -4,12 +4,15 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:fitsSystemWindows="true">
 
     <include layout="@layout/include_toolbar" />
 
     <LinearLayout
         android:id="@+id/activity_login_layout"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -36,12 +39,10 @@
             android:hint="@string/please_input_account"
             android:textCursorDrawable="@null"
             android:textSize="15sp"/>
-
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/gray" />
-
         <com.garfield.baselib.ui.widget.ClearableEditText
             android:id="@+id/activity_login_password"
             android:layout_width="match_parent"
@@ -53,14 +54,11 @@
             android:hint="@string/please_input_password"
             android:inputType="textPassword"
             android:textCursorDrawable="@null"
-            android:layout_marginTop="300dp"
             android:textSize="15sp"/>
-
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/gray" />
-
         <TextView
             android:id="@+id/activity_login_login"
             android:layout_width="match_parent"
@@ -71,18 +69,11 @@
             android:textSize="20sp"
             android:textColor="@color/white"
             android:background="@drawable/bg_login_button" />
-
     </LinearLayout>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="60dp"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="60dp"/>
 
     <LinearLayout
         android:id="@+id/activity_register_layout"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -91,7 +82,6 @@
         android:paddingRight="20dp"
         android:paddingEnd="20dp"
         android:visibility="gone">
-
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
@@ -141,12 +131,10 @@
             android:inputType="textPassword"
             android:textCursorDrawable="@null"
             android:textSize="15sp"/>
-
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/gray" />
-
         <TextView
             android:id="@+id/activity_login_register"
             android:layout_width="match_parent"

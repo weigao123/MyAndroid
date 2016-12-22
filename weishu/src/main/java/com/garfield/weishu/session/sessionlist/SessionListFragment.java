@@ -1,10 +1,13 @@
 package com.garfield.weishu.session.sessionlist;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -69,6 +72,13 @@ public class SessionListFragment extends AppBaseFragment {
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
+
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+            View activityView = ((ViewGroup) getActivity().getWindow().getDecorView().findViewById(android.R.id.content)).getChildAt(0);
+            activityView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            rootView.setBackgroundColor(Color.WHITE);
+        }
+
         recyclerView = (RecyclerView) mRootView.findViewById(R.id.session_list_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         // 动画

@@ -26,7 +26,6 @@
     <!-- 接收 SDK 消息广播权限， 第三方 APP 接入时，请将 com.netease.nim.demo 替换为自己的包名 -->
     <uses-permission android:name="com.garfield.weishu.permission.RECEIVE_MSG"/>
 
-
     <application
         android:name=".app.MyApplication"
         android:allowBackup="true"
@@ -44,9 +43,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.LoginActivity"/>
+            android:name=".ui.activity.LoginActivity"
+            android:theme="@style/TranslucentBar"/>
         <activity
             android:name=".ui.activity.MainActivity"
+            android:theme="@style/TranslucentBar"
             android:launchMode="singleTask"/>
 
         <!--网易云信-->
