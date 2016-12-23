@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.baselib.ui.widget.ClearableEditText;
+import com.garfield.baselib.utils.system.SystemUtil;
 import com.garfield.weishu.R;
 import com.garfield.weishu.app.UserPreferences;
 import com.garfield.weishu.nim.RegisterAndLogin;
@@ -23,7 +24,7 @@ import butterknife.OnClick;
 /**
  * Created by gaowei3 on 2016/8/30.
  */
-public class LoginActivity extends AppBaseActivity implements TextWatcher{
+public class LoginActivity extends AppBaseActivity implements TextWatcher {
 
     @BindView(R.id.activity_login_layout)
     LinearLayout mLoginLayout;
@@ -68,6 +69,21 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher{
         mRegisterAccountText.addTextChangedListener(this);
         mRegisterNickNameText.addTextChangedListener(this);
         mRegisterPasswordText.addTextChangedListener(this);
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    SystemUtil.printMemInfo();
+                }
+            }
+        }).start();
     }
 
     private void switchLoginAndRegister(boolean isLogin) {

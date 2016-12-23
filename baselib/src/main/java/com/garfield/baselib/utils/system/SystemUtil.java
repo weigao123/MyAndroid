@@ -5,6 +5,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Debug;
 import android.text.TextUtils;
 
 import com.garfield.baselib.Cache;
@@ -55,6 +56,21 @@ public class SystemUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void printMemInfo() {
+        ActivityManager activityManager = (ActivityManager)  Cache.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
+        activityManager.getMemoryInfo(mi);
+        L.d("mi.availMem  " + mi.availMem/1024/1024f);
+        L.d("mi.threshold  " + mi.threshold/1024/1024f);
+        L.d("mi.lowMemory  " + mi.lowMemory);
+        L.d("getMemoryClass  " + activityManager.getMemoryClass());
+
+        Runtime runtime = Runtime.getRuntime();
+        L.d("runtime.maxMemory  " + runtime.maxMemory()/1024/1024f);
+        L.d("runtime.totalMemory  " + runtime.totalMemory()/1024/1024f);
+        L.d("runtime.freeMemory  " + runtime.freeMemory()/1024/1024f);
     }
 
 }
