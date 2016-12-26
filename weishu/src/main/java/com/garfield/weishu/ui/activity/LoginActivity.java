@@ -71,19 +71,19 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher {
         mRegisterPasswordText.addTextChangedListener(this);
 
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    SystemUtil.printMemInfo();
-                }
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                while (true) {
+//                    try {
+//                        Thread.sleep(1000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                    SystemUtil.printMemInfo();
+//                }
+//            }
+//        }).start();
     }
 
     private void switchLoginAndRegister(boolean isLogin) {
