@@ -163,6 +163,8 @@ public class BrowserFragment extends AppBaseFragment {
             webSettings.setJavaScriptEnabled(true);
         }
         if (mSize != 0) {
+            webSettings.setBuiltInZoomControls(true);
+            webSettings.setDisplayZoomControls(false);
             webSettings.setSupportZoom(true);
             webSettings.setTextZoom(mSize);
         }

@@ -124,4 +124,9 @@ public class ScreenUtils {
         return 0;
     }
 
+    public static double getScreenPhysicalSize(Activity ctx) {
+        double diagonalPixels = Math.sqrt(Math.pow(screenWidth, 2) + Math.pow(screenHeight, 2));
+        return diagonalPixels / (160 * density);
+    }
+
 }
