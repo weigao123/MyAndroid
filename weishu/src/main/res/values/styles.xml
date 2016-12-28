@@ -12,11 +12,14 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="TranslucentBar" parent="AppTheme">
+        <!--在Android 4.4之前的版本上运行，直接跟随系统主题-->
+    </style>
+
+
     <!-- 背景图会嵌入状态栏 -->
-    <style name="welcomeTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/pure_trans</item>
-        <item name="colorPrimaryDark">@color/pure_trans</item>
-        <item name="android:background">@drawable/welcome_bg</item>
+    <style name="welcomeTheme" parent="TranslucentBar">
+        <item name="android:windowBackground">@drawable/welcome_bg</item>
     </style>
 
     <style name="Fullscreen" parent="AppTheme">
@@ -25,8 +28,5 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
-    <style name="TranslucentBar" parent="AppTheme">
-        <!--在Android 4.4之前的版本上运行，直接跟随系统主题-->
-    </style>
 
 </resources>

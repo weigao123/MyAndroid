@@ -3,12 +3,14 @@ package com.garfield.baselib.utils.system;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
-import android.os.Debug;
-import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import com.garfield.baselib.Cache;
+import com.garfield.baselib.R;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -42,11 +44,56 @@ public class SystemUtil {
         return null;
     }
 
-    public static void setStatusColor(Activity activity, int color) {
+    /**
+     * StatusBar
+     */
+    public static void setStatusBarColorK(Activity activity, int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setStatusBarColorL(activity, color);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            /**
+             * DecorView是一个FrameLayout，addView后会在最顶上，rootView使用FitsSystemWindows后，rootView会下移
+             */
+            View statusBarView = activity.findViewById(R.id.status_bar_id);
+            if (statusBarView == null) {
+                activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                statusBarView = new View(activity);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ScreenUtils.statusBarHeight);
+                statusBarView.setLayoutParams(params);
+                ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
+                decorView.addView(statusBarView);
+
+                ViewGroup rootView = (ViewGroup) ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
+                rootView.setFitsSystemWindows(true);
+                rootView.setClipToPadding(true);
+            }
+            statusBarView.setBackgroundColor(color);
+        }
+    }
+
+    private static void setStatusBarColorL(Activity activity, int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             activity.getWindow().setStatusBarColor(color);
         }
     }
+
+    /**
+     * StatusBar，第三方库
+     * https://github.com/jgilfelt/SystemBarTint
+     * compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+     */
+//    public static void setStatusBarColorTint(Activity activity, int color) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//            ViewGroup rootView = (ViewGroup) ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
+//            rootView.setFitsSystemWindows(true);
+//            rootView.setClipToPadding(true);
+//
+//            SystemBarTintManager tintManager = new SystemBarTintManager(activity);
+//            tintManager.setStatusBarTintEnabled(true);
+//            tintManager.setStatusBarTintColor(color);
+//        }
+//    }
 
     public static void close(Closeable closeable) {
         try {

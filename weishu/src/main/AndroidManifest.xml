@@ -43,11 +43,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.LoginActivity"
-            android:theme="@style/TranslucentBar"/>
+            android:name=".ui.activity.LoginActivity"/>
         <activity
             android:name=".ui.activity.MainActivity"
-            android:theme="@style/TranslucentBar"
             android:launchMode="singleTask"/>
 
         <!--网易云信-->

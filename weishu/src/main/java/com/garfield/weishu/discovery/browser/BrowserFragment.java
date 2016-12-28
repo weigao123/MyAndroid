@@ -123,7 +123,7 @@ public class BrowserFragment extends AppBaseFragment {
             if (mUrl != null) {
                 int index = mUrl.indexOf(".com");
                 if (index >= 3 && mUrl.substring(index - 3, index).equals("163")) {
-                    SystemUtil.setStatusColor(mActivity, getResources().getColor(R.color.red));
+                    SystemUtil.setStatusBarColorK(mActivity, getResources().getColor(R.color.red));
                 }
             }
         }
@@ -277,7 +277,7 @@ public class BrowserFragment extends AppBaseFragment {
         super.onDestroyView();
         mWebView.stopLoading();
         if (mType == TYPE_URL) {
-            SystemUtil.setStatusColor(mActivity, getResources().getColor(R.color.colorPrimary));
+            SystemUtil.setStatusBarColorK(mActivity, getResources().getColor(R.color.colorPrimary));
         }
     }
 

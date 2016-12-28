@@ -2,7 +2,6 @@ package com.garfield.weishu.ui.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,7 +16,6 @@ import com.garfield.weishu.R;
 import com.garfield.weishu.app.UserPreferences;
 import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.DataCacheManager;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -72,25 +70,7 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher {
         mRegisterNickNameText.addTextChangedListener(this);
         mRegisterPasswordText.addTextChangedListener(this);
 
-        // https://github.com/jgilfelt/SystemBarTint
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        tintManager.setStatusBarTintEnabled(true);
-        tintManager.setTintColor(R.color.green);
-        tintManager.setStatusBarTintResource(R.color.green);
-
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                while (true) {
-//                    try {
-//                        Thread.sleep(1000);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                    SystemUtil.printMemInfo();
-//                }
-//            }
-//        }).start();
+        SystemUtil.setStatusBarColorK(this, getResources().getColor(R.color.colorPrimary));
     }
 
     private void switchLoginAndRegister(boolean isLogin) {
@@ -216,8 +196,5 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher {
     public void afterTextChanged(Editable s) {
 
     }
-
-
-
 
 }

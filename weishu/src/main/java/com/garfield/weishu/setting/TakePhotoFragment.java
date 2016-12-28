@@ -18,7 +18,7 @@ import com.garfield.baselib.utils.file.DirectoryUtils;
 import com.garfield.baselib.utils.file.FileUtils;
 import com.garfield.baselib.utils.drawable.PhotoUtil;
 import com.garfield.baselib.utils.system.ScreenUtils;
-import com.garfield.baselib.utils.system.ThreadUtils;
+import com.garfield.baselib.utils.system.TaskUtils;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
@@ -249,7 +249,7 @@ public class TakePhotoFragment extends AppBaseFragment {
     }
 
     private void loadImage() {
-        new ThreadUtils.Invoker(new ThreadUtils.Callback() {
+        new TaskUtils.Invoker(new TaskUtils.Callback() {
             @Override
             public void onBefore() {
             }

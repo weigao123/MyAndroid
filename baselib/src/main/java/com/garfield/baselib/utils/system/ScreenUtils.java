@@ -3,17 +3,10 @@ package com.garfield.baselib.utils.system;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.util.TypedValue;
-import android.view.Display;
-import android.view.WindowManager;
 
 import com.garfield.baselib.Cache;
-
-import java.lang.reflect.Field;
 
 /**
  * Created by gaowei3 on 2016/5/26.
@@ -32,8 +25,8 @@ public class ScreenUtils {
     public static float ydpi;
     public static int densityDpi;
 
-    public static int statusbarheight;
-    public static int navbarheight;
+    public static int statusBarHeight;
+    public static int navBarHeight;
 
     static {
         init(Cache.getContext());
@@ -55,8 +48,8 @@ public class ScreenUtils {
         xdpi = dm.xdpi;
         ydpi = dm.ydpi;
         densityDpi = dm.densityDpi;
-        statusbarheight = getStatusBarHeight();
-        navbarheight = getNavBarHeight();
+        statusBarHeight = getStatusBarHeight();
+        navBarHeight = getNavBarHeight();
     }
 
     public static int dp2px(float dpValue) {
@@ -80,39 +73,13 @@ public class ScreenUtils {
         return (int) (pxValue / scaleDensity + 0.5F);
     }
 
-    public static int getStatusBarHeight(Activity activity) {
-        Rect frame = new Rect();
-        // 不包括状态栏
-        // 还可以直接拿到一个全屏的View(getRootView)，直接view.getWindowVisibleDisplayFrame(frame)
-        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
-        return frame.top;
-    }
-
-    public static Point getScreenSize() {
-        WindowManager windowManager = (WindowManager) Cache.getContext().getSystemService(Context.WINDOW_SERVICE);
-        Display display = windowManager.getDefaultDisplay();
-        DisplayMetrics metrics = new DisplayMetrics();
-        display.getMetrics(metrics);
-        return new Point(metrics.widthPixels, metrics.heightPixels);
-    }
-
-
-
     public static int getStatusBarHeight() {
-        Class<?> c = null;
-        Object obj = null;
-        Field field = null;
-        int x = 0, sbar = 0;
-        try {
-            c = Class.forName("com.android.internal.R$dimen");
-            obj = c.newInstance();
-            field = c.getField("status_bar_height");
-            x = Integer.parseInt(field.get(obj).toString());
-            sbar = Cache.getContext().getResources().getDimensionPixelSize(x);
-        } catch (Exception E) {
-            E.printStackTrace();
+        int result = 0;
+        int resourceId = Cache.getContext().getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = Cache.getContext().getResources().getDimensionPixelSize(resourceId);
         }
-        return sbar;
+        return result;
     }
 
     public static int getNavBarHeight(){
@@ -122,6 +89,14 @@ public class ScreenUtils {
             return resources.getDimensionPixelSize(resourceId);
         }
         return 0;
+    }
+
+    public static int getStatusBarHeight(Activity activity) {
+        Rect frame = new Rect();
+        // 不包括状态栏
+        // 还可以直接拿到一个全屏的View(getRootView)，直接view.getWindowVisibleDisplayFrame(frame)
+        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
+        return frame.top;
     }
 
     public static double getScreenPhysicalSize(Activity ctx) {

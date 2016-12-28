@@ -1,14 +1,3 @@
 <resources>
 
-    <style name="TranslucentBar" parent="AppTheme">
-        <!-- 界面不去入侵状态栏 -->
-        <item name="android:windowTranslucentStatus">false</item>
-        <!-- 修改状态栏颜色 -->
-        <!--<item name="android:statusBarColor">@color/colorPrimary</item>-->
-
-        <item name="colorPrimary">@color/pure_trans</item>
-        <item name="colorPrimaryDark">@color/pure_trans</item>
-        <item name="android:colorBackground">@color/black_gray</item>
-    </style>
-
 </resources>

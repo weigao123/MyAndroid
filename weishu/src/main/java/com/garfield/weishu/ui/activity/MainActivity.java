@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.WindowManager;
 
 import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.baselib.ui.dialog.DialogMaker;
+import com.garfield.baselib.utils.system.SystemUtil;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.StartBrotherEvent;
 import com.garfield.weishu.nim.NimConfig;
@@ -50,6 +50,7 @@ public class MainActivity extends AppBaseActivity {
     @Override
     protected void onInitViewAndData(Bundle savedInstanceState) {
         super.onInitViewAndData(savedInstanceState);
+        SystemUtil.setStatusBarColorK(this, getResources().getColor(R.color.colorPrimary));
         EventBus.getDefault().register(this);
         // 旋转时会非空
         if (savedInstanceState == null) {
