@@ -74,8 +74,8 @@ public class FriendProfileFragment extends AppBaseFragment {
     }
 
     @Override
-    protected int onGetToolbarTitleResource() {
-        return R.string.details;
+    protected String onGetToolbarTitleResource() {
+        return getString(R.string.details);
     }
 
 

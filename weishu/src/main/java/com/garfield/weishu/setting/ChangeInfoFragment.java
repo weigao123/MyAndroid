@@ -33,8 +33,8 @@ public class ChangeInfoFragment extends AppBaseFragment {
     }
 
     @Override
-    protected int onGetToolbarTitleResource() {
-        return R.string.change_name;
+    protected String onGetToolbarTitleResource() {
+        return getString(R.string.change_name);
     }
 
     @Override

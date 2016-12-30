@@ -46,8 +46,8 @@ public class ZhihuDetailFragment extends AppBaseFragment implements NewsView<Zhi
     }
 
     @Override
-    protected int onGetToolbarTitleResource() {
-        return R.string.zhihu_daily;
+    protected String onGetToolbarTitleResource() {
+        return getString(R.string.zhihu_daily);
     }
 
     public static ZhihuDetailFragment newInstance(String url, boolean is3w) {

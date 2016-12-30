@@ -61,8 +61,8 @@ public class SelfProfileFragment extends AppBaseFragment {
     }
 
     @Override
-    protected int onGetToolbarTitleResource() {
-        return R.string.self_details;
+    protected String onGetToolbarTitleResource() {
+        return getString(R.string.self_details);
     }
 
     @Override

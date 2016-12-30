@@ -15,7 +15,7 @@ public class AboutFragment extends AppBaseFragment {
     }
 
     @Override
-    protected int onGetToolbarTitleResource() {
-        return R.string.about_weishu;
+    protected String onGetToolbarTitleResource() {
+        return getString(R.string.about_weishu);
     }
 }

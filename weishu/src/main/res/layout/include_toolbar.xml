@@ -5,6 +5,7 @@
     android:id="@+id/toolbar"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/toolbar_height"
     android:background="?attr/colorPrimary"
@@ -12,16 +13,58 @@
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
     app:layout_scrollFlags="scroll|enterAlways|snap">
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="right">
+        <TextView
+            android:id="@+id/toolbar_title1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            tool:text="微书"
+            android:visibility="gone"/>
+        <LinearLayout
+            android:id="@+id/toolbar_back_container"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone">
+            <FrameLayout
+                android:id="@+id/toolbar_back"
+                android:layout_width="35dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical|start"
+                    android:src="@drawable/ic_left"/>
+            </FrameLayout>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/colorPrimaryDark" />
+            <TextView
+                android:id="@+id/toolbar_title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:textSize="18sp"/>
+        </LinearLayout>
         <LinearLayout
             android:id="@+id/toolbar_control_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:visibility="gone">
             <FrameLayout
                 android:id="@+id/toolbar_search"
@@ -56,6 +99,9 @@
             android:id="@+id/login_register"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/toolbar_height"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:gravity="center"
@@ -67,6 +113,9 @@
             android:id="@+id/confirm"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/toolbar_height"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:background="@drawable/bg_press_primary"
@@ -74,6 +123,17 @@
             android:text="@string/confirm"
             android:textSize="16sp"
             android:visibility="gone"/>
-    </FrameLayout>
+
+        <ImageView
+            android:id="@+id/menu"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_menu"
+            android:layout_marginRight="10dp"
+            android:visibility="gone"/>
+    </RelativeLayout>
 
 </android.support.v7.widget.Toolbar>

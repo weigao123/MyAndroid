@@ -43,10 +43,6 @@ public class MainFragment extends AppBaseFragment implements BottomBar2.OnTabSel
 
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
-        if (mToolbarControl != null) {
-            mToolbarControl.setVisibility(View.VISIBLE);
-        }
-
         mFragments[0] = new SessionListFragment();
         mFragments[1] = new ContactFragment();
         mFragments[2] = new DiscoveryFragment();

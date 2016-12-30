@@ -12,6 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
@@ -26,6 +27,7 @@ import com.garfield.weishu.discovery.news.view.NewsListFragment;
 import com.garfield.weishu.discovery.scan.ScanFragment;
 import com.garfield.weishu.session.sessionlist.SessionListFragment;
 import com.garfield.weishu.setting.SettingFragment;
+import com.garfield.weishu.ui.activity.MainActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,9 +41,6 @@ public class AppBaseFragment extends SwipeBackFragment {
 
     @Nullable @BindView(R.id.toolbar)
     protected Toolbar mToolbar;
-
-    @Nullable @BindView(R.id.toolbar_control_view)
-    LinearLayout mToolbarControl;
 
     @Nullable @BindView(R.id.lazyload_loading)
     View mLoadingView;
@@ -68,20 +67,30 @@ public class AppBaseFragment extends SwipeBackFragment {
                 setSwipeBackEnable(true);
             }
             mUnbinder = ButterKnife.bind(this, mRootView);
+            onInitViewAndData(mRootView, savedInstanceState);
+
             // NewsTabFragment没有toolbar
             if (mToolbar != null) {
-                mToolbar.setTitle(onGetToolbarTitleResource());
-                mToolbar.setTitleTextAppearance(mActivity, R.style.toolbar_text);
-
                 //mToolbar.inflateMenu(R.menu.fragment_msg_list);
                 //mToolbar.setOnMenuItemClickListener(this);
-
                 ImageView addView = (ImageView) mToolbar.findViewById(R.id.toolbar_add_view);
                 addView.setRotation(45);
                 mToolbar.findViewById(R.id.toolbar_add).setOnClickListener(mOnClickListener);
                 mToolbar.findViewById(R.id.toolbar_search).setOnClickListener(mOnClickListener);
+                mToolbar.findViewById(R.id.toolbar_back).setOnClickListener(mOnClickListener);
+                if (onEnableBack()) {
+                    mToolbar.findViewById(R.id.toolbar_back_container).setVisibility(View.VISIBLE);
+                    TextView title2View = (TextView) mToolbar.findViewById(R.id.toolbar_title2);
+                    title2View.setText(onGetToolbarTitleResource());
+                } else {
+                    TextView title1View = (TextView) mToolbar.findViewById(R.id.toolbar_title1);
+                    title1View.setText(onGetToolbarTitleResource());
+                    title1View.setVisibility(View.VISIBLE);
+                    //mToolbar.setTitle(onGetToolbarTitleResource());
+                    //mToolbar.setTitleTextAppearance(mActivity, R.style.toolbar_text);
+                    mToolbar.findViewById(R.id.toolbar_control_view).setVisibility(View.VISIBLE);
+                }
             }
-            onInitViewAndData(mRootView, savedInstanceState);
         }
         /**
          * lazy load
@@ -133,13 +142,17 @@ public class AppBaseFragment extends SwipeBackFragment {
         return 0;
     }
 
-    protected boolean onEnableSwipe() {
+    private boolean onEnableSwipe() {
         return !(this.getClass() == MainFragment.class ||
                 this.getClass() == SessionListFragment.class ||
                 this.getClass() == ContactFragment.class ||
                 this.getClass() == DiscoveryFragment.class ||
                 this.getClass() == NewsListFragment.class ||
                 this.getClass() == SettingFragment.class);
+    }
+
+    private boolean onEnableBack() {
+        return !(this.getClass() == MainFragment.class);
     }
 
     private void initMenu() {
@@ -153,8 +166,8 @@ public class AppBaseFragment extends SwipeBackFragment {
         contentView.findViewById(R.id.menu_item_help).setOnClickListener(mOnClickListener);
     }
 
-    protected int onGetToolbarTitleResource() {
-        return R.string.app_name;
+    protected String onGetToolbarTitleResource() {
+        return getString(R.string.app_name);
     }
 
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
@@ -186,6 +199,9 @@ public class AppBaseFragment extends SwipeBackFragment {
                     break;
                 case R.id.menu_item_help:
                     mPopupWindow.dismiss();
+                    break;
+                case R.id.toolbar_back:
+                    popFragment();
                     break;
             }
         }

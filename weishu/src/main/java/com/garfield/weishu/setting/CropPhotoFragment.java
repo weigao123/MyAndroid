@@ -42,8 +42,8 @@ public class CropPhotoFragment extends AppBaseFragment implements View.OnClickLi
     }
 
     @Override
-    protected int onGetToolbarTitleResource() {
-        return R.string.crop_photo;
+    protected String onGetToolbarTitleResource() {
+        return getString(R.string.crop_photo);
     }
 
     @Override

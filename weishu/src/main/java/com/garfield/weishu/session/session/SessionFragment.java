@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.garfield.weishu.R;
+import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
@@ -48,6 +49,11 @@ public class SessionFragment extends AppBaseFragment implements ModuleProxy {
         SessionFragment fragment = new SessionFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    protected String onGetToolbarTitleResource() {
+        return UserInfoCache.getInstance().getUserDisplayName(mAccount);
     }
 
     private void registerObservers(boolean register) {

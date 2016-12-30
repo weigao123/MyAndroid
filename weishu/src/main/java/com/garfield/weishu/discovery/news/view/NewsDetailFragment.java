@@ -39,8 +39,8 @@ public class NewsDetailFragment extends AppBaseFragment implements NewsView<News
     }
 
     @Override
-    protected int onGetToolbarTitleResource() {
-        return R.string.netease_news;
+    protected String onGetToolbarTitleResource() {
+        return getString(R.string.netease_news);
     }
 
     public static NewsDetailFragment newInstance(String url) {

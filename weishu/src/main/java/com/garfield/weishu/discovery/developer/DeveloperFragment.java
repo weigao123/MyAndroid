@@ -35,14 +35,14 @@ public class DeveloperFragment extends AppBaseFragment implements TRecyclerAdapt
     }
 
     @Override
-    protected int onGetToolbarTitleResource() {
-        return R.string.developer;
+    protected String onGetToolbarTitleResource() {
+        return getString(R.string.developer);
     }
 
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         mData.add(getResources().getString(R.string.develop_speed_progress));
-        mData.add(getResources().getString(R.string.develop_algorithm));
+        mData.add(getResources().getString(R.string.develop_sort));
         DevelopAdapter adapter = new DevelopAdapter(getContext(), mData);
         adapter.setItemEventListener(this);
         mRecyclerView.setHasFixedSize(true);
