@@ -4,11 +4,12 @@ package com.garfield.weishu.datastructure.sort;
  * Created by gaowei3 on 2016/12/30.
  */
 
-public class BubbleSort extends BaseSort {
+public class BubbleSort extends BaseSort implements ISort {
 
     int score[] = {67, 69, 75, 87, 89, 90, 99, 100};
 
-    public static int[] bubbleSort(int[] array) {
+    @Override
+    public void bubbleSort(int[] array) {
         int size = array.length;
 
         // 循环size-1次
@@ -18,6 +19,5 @@ public class BubbleSort extends BaseSort {
                 swap(array, j, j+1);
             }
         }
-        return array;
     }
 }

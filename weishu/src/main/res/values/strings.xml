@@ -145,6 +145,9 @@
     <string name="develop_speed_progress">1、速度码表</string>
     <string name="develop_sort">2、排序</string>
     <string name="develop_find">3、查找</string>
+    <string name="sort">排序</string>
+    <string name="algorithm">算法</string>
+    <string name="bubble_sort">冒泡算法</string>
 
     <string name="weishu_version">微书 1.3.1</string>
     <string name="weishu_brief">

@@ -22,4 +22,9 @@
         <item>浏览电脑版</item>
     </string-array>
 
+    <string-array name="sort_algorithm">
+        <item>@string/bubble_sort</item>
+        <item>删除聊天</item>
+    </string-array>
+
 </resources>

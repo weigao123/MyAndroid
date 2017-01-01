@@ -58,7 +58,7 @@ public class DeveloperFragment extends AppBaseFragment implements TRecyclerAdapt
                 EventDispatcher.startFragment(new DeveloperSpeedFragment());
                 break;
             case 1:
-                EventDispatcher.startFragment(new DeveloperSpeedFragment());
+                EventDispatcher.startFragment(new DeveloperSortFragment());
                 break;
         }
     }
