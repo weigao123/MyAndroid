@@ -43,7 +43,7 @@ public class FriendDataCache {
         List<Friend> friends = NIMClient.getService(FriendService.class).getFriends();
         for (Friend f : friends) {
             allFriendMap.put(f.getAccount(), f);
-            L.d(TAG, "buildCache account: "+f.getAccount());
+            //L.d(TAG, "buildCache account: "+f.getAccount());
         }
         // 获取我所有好友的帐号
         List<String> accounts = NIMClient.getService(FriendService.class).getFriendAccounts();

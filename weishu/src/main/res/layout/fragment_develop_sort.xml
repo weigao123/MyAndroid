@@ -4,8 +4,145 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white" >
 
-    <include layout="@layout/include_toolbar"/>
+    <include layout="@layout/include_toolbar" />
+
+    <TextView
+        android:id="@+id/fragment_developer_sort_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="16sp"
+        android:text="@string/bubble_sort"
+        android:textColor="@color/red"/>
+
+    <RadioGroup
+        android:id="@+id/fragment_developer_sort_quantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/fragment_developer_sort_quantity_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="100"/>
+        <RadioButton
+            android:id="@+id/fragment_developer_sort_quantity_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textSize="16sp"
+            android:text="1000"/>
+        <RadioButton
+            android:id="@+id/fragment_developer_sort_quantity_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textSize="16sp"
+            android:text="10000"/>
+        <RadioButton
+            android:id="@+id/fragment_developer_sort_quantity_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textSize="16sp"
+            android:text="100000"/>
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/origin_data"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="10dp"
+        android:textSize="16sp"
+        android:textColor="@color/black"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="10dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/fragment_developer_sort_origin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:text="@string/sort_result"
+        android:textSize="16sp"
+        android:textColor="@color/black"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="10dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/fragment_developer_sort_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/fragment_developer_sort_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:paddingRight="10dp"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:gravity="right">
+        <TextView
+            android:id="@+id/fragment_developer_sort_refresh"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:text="@string/reset_data"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_primary_button" />
+
+        <TextView
+            android:id="@+id/fragment_developer_sort_start"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:text="@string/sort_start"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_primary_button" />
+    </LinearLayout>
 
 </LinearLayout>

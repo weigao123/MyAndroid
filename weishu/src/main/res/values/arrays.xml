@@ -24,7 +24,10 @@
 
     <string-array name="sort_algorithm">
         <item>@string/bubble_sort</item>
-        <item>删除聊天</item>
+        <item>@string/simple_selection_sort</item>
+        <item>@string/straight_insertion_sort</item>
+        <item>@string/shell_sort</item>
+        <item>@string/fast_sort</item>
     </string-array>
 
 </resources>

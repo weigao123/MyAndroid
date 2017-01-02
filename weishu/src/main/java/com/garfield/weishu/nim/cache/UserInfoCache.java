@@ -41,7 +41,7 @@ public class UserInfoCache {
         List<NimUserInfo> users = NIMClient.getService(UserService.class).getAllUserInfo();
         for (NimUserInfo u : users) {
             mUserMap.put(u.getAccount(), u);
-            L.d(TAG, "buildCache account: "+u.getAccount());
+            //L.d(TAG, "buildCache account: "+u.getAccount());
         }
     }
 

@@ -15,12 +15,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="right">
+        android:layout_height="match_parent">
         <TextView
             android:id="@+id/toolbar_title1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_centerVertical="true"
             android:textSize="18sp"
             android:textColor="@color/white"
@@ -35,12 +36,12 @@
             android:visibility="gone">
             <FrameLayout
                 android:id="@+id/toolbar_back"
-                android:layout_width="35dp"
+                android:layout_width="@dimen/toolbar_height"
                 android:layout_height="match_parent">
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_gravity="center_vertical|start"
+                    android:layout_gravity="center"
                     android:src="@drawable/ic_left"/>
             </FrameLayout>
             <View
@@ -133,6 +134,7 @@
             android:layout_centerVertical="true"
             android:src="@drawable/ic_menu"
             android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:visibility="gone"/>
     </RelativeLayout>
 

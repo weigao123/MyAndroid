@@ -5,5 +5,5 @@ package com.garfield.weishu.datastructure.sort;
  */
 
 public interface ISort {
-    void bubbleSort(int[] array);
+    long sort(int[] array);
 }

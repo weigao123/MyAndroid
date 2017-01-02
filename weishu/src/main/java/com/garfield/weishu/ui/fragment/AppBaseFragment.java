@@ -73,6 +73,8 @@ public class AppBaseFragment extends SwipeBackFragment {
             if (mToolbar != null) {
                 //mToolbar.inflateMenu(R.menu.fragment_msg_list);
                 //mToolbar.setOnMenuItemClickListener(this);
+                mToolbar.setTitleMarginStart(0);
+                mToolbar.setContentInsetsAbsolute(0, 0);
                 ImageView addView = (ImageView) mToolbar.findViewById(R.id.toolbar_add_view);
                 addView.setRotation(45);
                 mToolbar.findViewById(R.id.toolbar_add).setOnClickListener(mOnClickListener);

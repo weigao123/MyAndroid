@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.text.TextUtils;
 
+import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.app.UserPreferences;
 import com.netease.nimlib.sdk.NimIntent;
 
@@ -29,8 +30,11 @@ public class WelcomeActivity extends AppBaseActivity {
                     onIntent();
                 }
             };
-            new Handler().postDelayed(runnable, 0);
+            new Handler().postDelayed(runnable, 500);
+        } else {
+            onIntent();
         }
+        firstEnter = false;
     }
 
     private boolean isNotify() {
