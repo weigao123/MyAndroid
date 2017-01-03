@@ -18,8 +18,8 @@ public class ShellSort implements ISort {
         int interval = size;
         do {
             interval = interval / 3 + 1;
-            // 把距离为 interval 的元素编为一个组，每一组进行直接插入排序
-            // 共size-interval组，其实后面的组是包含前面的组的
+            // 把距离为interval的元素编为一个组，每一组进行直接插入排序，共interval组
+            // 连续的i实际属于不同的组，把所有的组里所有的数字都拿出来，其实就是连续的i
             for (int i = interval; i < size; i++) {
                 // 下面才是直接插入排序的核心
                 if (array[i] >= array[i - interval])

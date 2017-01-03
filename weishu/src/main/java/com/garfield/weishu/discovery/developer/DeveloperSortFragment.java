@@ -87,7 +87,7 @@ public class DeveloperSortFragment extends AppBaseFragment {
                             .title(R.string.algorithm)
                             .items(R.array.sort_algorithm)
                             .itemsColorRes(R.color.black)
-                            .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
+                            .itemsCallbackSingleChoice(3, new MaterialDialog.ListCallbackSingleChoice() {
                                 @Override
                                 public boolean onSelection(MaterialDialog dialog, View itemView, final int which, final CharSequence text) {
                                     switchAlgo(text);
