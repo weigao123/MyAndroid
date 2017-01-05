@@ -6,13 +6,17 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.garfield.baselib.utils.string.RandomUtils;
+import com.garfield.baselib.utils.system.L;
 import com.garfield.baselib.utils.system.TaskUtils;
 import com.garfield.weishu.R;
 import com.garfield.weishu.datastructure.sort.BubbleSort;
+import com.garfield.weishu.datastructure.sort.HeapSort;
 import com.garfield.weishu.datastructure.sort.ISort;
+import com.garfield.weishu.datastructure.sort.QuickSort;
 import com.garfield.weishu.datastructure.sort.ShellSort;
 import com.garfield.weishu.datastructure.sort.SimpleSelectionSort;
 import com.garfield.weishu.datastructure.sort.StraightInsertionSort;
@@ -96,7 +100,7 @@ public class DeveloperSortFragment extends AppBaseFragment {
                                         public void run() {
                                             mAlgoDialog.dismiss();
                                         }
-                                    }, 300);
+                                    }, 200);
                                     return true;
                                 }
                             })
@@ -170,6 +174,10 @@ public class DeveloperSortFragment extends AppBaseFragment {
     }
 
     private void sortData() {
+        if (mSortAlgo == null) {
+            L.show("该算法待开发");
+            return;
+        }
         new TaskUtils.Invoker(new TaskUtils.Callback() {
             private long time;
             private Dialog dialog;
@@ -225,8 +233,16 @@ public class DeveloperSortFragment extends AppBaseFragment {
             mSortAlgo = new ShellSort();
             mTitleView.setText(R.string.shell_sort);
         } else if (getString(R.string.fast_sort).equals(algo)) {
-            mSortAlgo = new BubbleSort();
+            mSortAlgo = new QuickSort();
             mTitleView.setText(R.string.fast_sort);
+        } else if (getString(R.string.heap_sort).equals(algo)) {
+            mSortAlgo = new HeapSort();
+            mTitleView.setText(R.string.heap_sort);
+        } else if (getString(R.string.merging_sort).equals(algo)) {
+            mSortAlgo = null;
+            mTitleView.setText(R.string.merging_sort);
         }
+        //mResultArrayView.setText("");
+        //mTimeView.setText("");
     }
 }

@@ -159,11 +159,13 @@
     <string name="time_consuming">耗时：%1$d 毫秒</string>
     <string name="sort">排序算法</string>
     <string name="algorithm">算法</string>
-    <string name="bubble_sort">冒泡算法</string>
-    <string name="simple_selection_sort">简单选择排序</string>
-    <string name="straight_insertion_sort">直接插入排序</string>
+    <string name="bubble_sort">冒泡排序</string>
+    <string name="simple_selection_sort">选择排序</string>
+    <string name="straight_insertion_sort">插入排序</string>
     <string name="shell_sort">希尔排序</string>
     <string name="fast_sort">快速排序</string>
+    <string name="heap_sort">堆排序</string>
+    <string name="merging_sort">归并排序</string>
     <string name="data_is_too_large_to_show">已完成，但数据量太大，不做显示</string>
 
 

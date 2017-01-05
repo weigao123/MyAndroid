@@ -28,6 +28,8 @@
         <item>@string/straight_insertion_sort</item>
         <item>@string/shell_sort</item>
         <item>@string/fast_sort</item>
+        <item>@string/heap_sort</item>
+        <item>@string/merging_sort</item>
     </string-array>
 
 </resources>

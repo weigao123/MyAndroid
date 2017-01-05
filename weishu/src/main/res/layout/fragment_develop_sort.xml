@@ -125,7 +125,7 @@
         <TextView
             android:id="@+id/fragment_developer_sort_refresh"
             android:layout_width="80dp"
-            android:layout_height="30dp"
+            android:layout_height="35dp"
             android:text="@string/reset_data"
             android:textSize="15sp"
             android:gravity="center"
@@ -135,7 +135,7 @@
         <TextView
             android:id="@+id/fragment_developer_sort_start"
             android:layout_width="80dp"
-            android:layout_height="30dp"
+            android:layout_height="35dp"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:text="@string/sort_start"
