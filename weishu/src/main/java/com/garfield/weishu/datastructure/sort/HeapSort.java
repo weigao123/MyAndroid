@@ -22,6 +22,12 @@ public class HeapSort implements ISort {
         return System.currentTimeMillis() - current;
     }
 
+    /**
+     * 排成大顶堆
+     *
+     * 第一个for，从下往上排时，每一次都会执行到break，因为下面的已经排好了
+     * 第二个for，交换后，从0到last排，可能会导致下面的直接元素不再大顶堆，继续排，但是非直接元素还是大顶堆，不用动
+     */
     private void headAdjust(int[] array, int start, int end) {
 
         // 从最后一个非叶节点开始调整
