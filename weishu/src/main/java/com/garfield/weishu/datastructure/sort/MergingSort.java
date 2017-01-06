@@ -7,11 +7,24 @@ package com.garfield.weishu.datastructure.sort;
 public class MergingSort implements ISort {
     @Override
     public long sort(int[] array) {
-        return 0;
+        long current = System.currentTimeMillis();
+        int size = array.length;
+        mSort(array, array, 0, size - 1);
+        return System.currentTimeMillis() - current;
+    }
+
+    private void mSort(int[] sa, int[] ta, int first, int last) {
+//        if (first == last) {
+//            ta[first] = sa[first];
+//        } else {
+//            int[] tmp =
+//            int m = (first + last) / 2;
+//            mSort(sa, );
+//        }
     }
 
     /**
-     * 把sa[first, middle]和sa[middle+1, last]合入到ta中
+     * 把有序的sa[first, middle]和有序的sa[middle+1, last]合并到ta中
      */
     private void merge(int[] sa, int[] ta, int first, int middle, int last) {
 

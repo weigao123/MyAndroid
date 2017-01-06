@@ -79,7 +79,7 @@ public class DeveloperSortFragment extends AppBaseFragment {
             }
         });
         switchAlgo(getString(R.string.shell_sort));
-        refreshData();
+        //refreshData();
     }
 
     @OnClick({R.id.menu, R.id.fragment_developer_sort_refresh, R.id.fragment_developer_sort_start})
@@ -121,16 +121,16 @@ public class DeveloperSortFragment extends AppBaseFragment {
     }
 
     private void refreshData() {
-        int num = 100;
+        int num = 1000;
         int quantityId = mDataQuantity.getCheckedRadioButtonId();
         if (quantityId == R.id.fragment_developer_sort_quantity_1) {
-            num = 100;
-        } else if (quantityId == R.id.fragment_developer_sort_quantity_2) {
             num = 1000;
-        } else if (quantityId == R.id.fragment_developer_sort_quantity_3) {
+        } else if (quantityId == R.id.fragment_developer_sort_quantity_2) {
             num = 10000;
-        } else if (quantityId == R.id.fragment_developer_sort_quantity_4) {
+        } else if (quantityId == R.id.fragment_developer_sort_quantity_3) {
             num = 100000;
+        } else if (quantityId == R.id.fragment_developer_sort_quantity_4) {
+            num = 1000000;
         }
         final int finalNum = num;
         new TaskUtils.Invoker(new TaskUtils.Callback() {
