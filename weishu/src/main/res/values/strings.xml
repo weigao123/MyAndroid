@@ -146,9 +146,9 @@
 
     <!-- 排序 -->
     <string name="function_has_not_developed">功能尚未开发</string>
-    <string name="origin_data">原始数据：</string>
-    <string name="sort_result">排序结果：</string>
-    <string name="load_data">加载数据</string>
+    <string name="origin_data_show">原始数据：</string>
+    <string name="sort_result_show">排序结果：</string>
+    <string name="origin_data">原始数据</string>
     <string name="sort_start">开始排序</string>
     <string name="initializing">正在初始化数据…</string>
     <string name="sorting">正在排序…</string>

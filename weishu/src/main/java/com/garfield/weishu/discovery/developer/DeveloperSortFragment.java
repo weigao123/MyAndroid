@@ -16,6 +16,7 @@ import com.garfield.weishu.R;
 import com.garfield.weishu.datastructure.sort.BubbleSort;
 import com.garfield.weishu.datastructure.sort.HeapSort;
 import com.garfield.weishu.datastructure.sort.ISort;
+import com.garfield.weishu.datastructure.sort.MergingSort;
 import com.garfield.weishu.datastructure.sort.QuickSort;
 import com.garfield.weishu.datastructure.sort.ShellSort;
 import com.garfield.weishu.datastructure.sort.SimpleSelectionSort;
@@ -79,7 +80,7 @@ public class DeveloperSortFragment extends AppBaseFragment {
             }
         });
         switchAlgo(getString(R.string.shell_sort));
-        //refreshData();
+        refreshData();
     }
 
     @OnClick({R.id.menu, R.id.fragment_developer_sort_refresh, R.id.fragment_developer_sort_start})
@@ -121,15 +122,17 @@ public class DeveloperSortFragment extends AppBaseFragment {
     }
 
     private void refreshData() {
-        int num = 1000;
+        int num = 100;
         int quantityId = mDataQuantity.getCheckedRadioButtonId();
         if (quantityId == R.id.fragment_developer_sort_quantity_1) {
-            num = 1000;
+            num = 100;
         } else if (quantityId == R.id.fragment_developer_sort_quantity_2) {
-            num = 10000;
+            num = 1000;
         } else if (quantityId == R.id.fragment_developer_sort_quantity_3) {
-            num = 100000;
+            num = 10000;
         } else if (quantityId == R.id.fragment_developer_sort_quantity_4) {
+            num = 100000;
+        } else if (quantityId == R.id.fragment_developer_sort_quantity_5) {
             num = 1000000;
         }
         final int finalNum = num;
@@ -239,10 +242,8 @@ public class DeveloperSortFragment extends AppBaseFragment {
             mSortAlgo = new HeapSort();
             mTitleView.setText(R.string.heap_sort);
         } else if (getString(R.string.merging_sort).equals(algo)) {
-            mSortAlgo = null;
+            mSortAlgo = new MergingSort();
             mTitleView.setText(R.string.merging_sort);
         }
-        //mResultArrayView.setText("");
-        //mTimeView.setText("");
     }
 }

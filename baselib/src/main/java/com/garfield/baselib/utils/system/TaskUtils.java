@@ -11,14 +11,8 @@ import android.os.Message;
 
 public class TaskUtils {
 
-    private static Handler mHandler;
+    private static Handler mThreadHandler;
     private static HandlerThread mHandlerThread;
-
-    public static Thread executeInThread(Runnable runnable) {
-        Thread thread = new Thread(runnable);
-        thread.start();
-        return thread;
-    }
 
     public static class Invoker extends Thread {
         private Callback callback;
@@ -48,20 +42,26 @@ public class TaskUtils {
         void onAfter(boolean b);
     }
 
+    public static Thread execute(Runnable runnable) {
+        Thread thread = new Thread(runnable);
+        thread.start();
+        return thread;
+    }
+
     public static HandlerThread executeCycle(final Runnable runnable, final int time) {
         if (mHandlerThread != null && mHandlerThread.isAlive()) {
             mHandlerThread.quit();
         }
         mHandlerThread = new HandlerThread("task_utils");
         mHandlerThread.start();
-        mHandler = new Handler(mHandlerThread.getLooper()) {
+        mThreadHandler = new Handler(mHandlerThread.getLooper()) {
             @Override
             public void handleMessage(Message msg) {
-                mHandler.post(runnable);
-                mHandler.sendEmptyMessageDelayed(0, time);
+                mThreadHandler.post(runnable);
+                mThreadHandler.sendEmptyMessageDelayed(0, time);
             }
         };
-        mHandler.sendEmptyMessage(0);
+        mThreadHandler.sendEmptyMessage(0);
         return mHandlerThread;
     }
 }
