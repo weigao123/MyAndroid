@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -23,11 +22,10 @@ import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.contact.ContactFragment;
 import com.garfield.weishu.discovery.DiscoveryFragment;
-import com.garfield.weishu.discovery.news.view.NewsListFragment;
+import com.garfield.weishu.discovery.news.ui.NewsListFragment;
 import com.garfield.weishu.discovery.scan.ScanFragment;
 import com.garfield.weishu.session.sessionlist.SessionListFragment;
 import com.garfield.weishu.setting.SettingFragment;
-import com.garfield.weishu.ui.activity.MainActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

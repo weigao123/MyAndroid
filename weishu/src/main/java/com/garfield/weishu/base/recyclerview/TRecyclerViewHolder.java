@@ -4,7 +4,7 @@ import android.view.View;
 
 /**
  * Adapter的所有item必须实现的接口
- * 不能作为内部类
+ * 不能作为内部类，否则newInstance不能用
  */
 public abstract class TRecyclerViewHolder<T> {
 

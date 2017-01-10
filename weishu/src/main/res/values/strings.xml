@@ -154,6 +154,8 @@
     <string name="sorting">正在排序…</string>
     <string name="develop_speed_progress">1、速度码表</string>
     <string name="develop_sort">2、排序算法</string>
+    <string name="develop_multi_thread">3、多线程</string>
+
     <string name="develop_find">3、查找</string>
     <string name="current_algorithm">当前算法: %1$s</string>
     <string name="time_consuming">耗时：%1$d 毫秒</string>

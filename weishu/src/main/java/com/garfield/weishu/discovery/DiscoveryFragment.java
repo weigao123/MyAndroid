@@ -2,18 +2,13 @@ package com.garfield.weishu.discovery;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.R;
-import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.discovery.browser.BrowserFragment;
-import com.garfield.weishu.discovery.developer.DeveloperFragment;
-import com.garfield.weishu.discovery.news.api.ZhihuApi;
-import com.garfield.weishu.discovery.news.view.NewsListFragment;
-import com.garfield.weishu.discovery.news.view.ZhihuFragment;
-import com.garfield.weishu.discovery.news.view.ZhihuListFragment;
+import com.garfield.weishu.discovery.developer.ui.DeveloperFragment;
+import com.garfield.weishu.discovery.news.ui.ZhihuFragment;
 import com.garfield.weishu.discovery.scan.ScanFragment;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 

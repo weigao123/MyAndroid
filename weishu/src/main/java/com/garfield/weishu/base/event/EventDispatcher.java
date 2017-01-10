@@ -6,8 +6,8 @@ import android.os.Looper;
 
 import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.baselib.utils.drawable.UiUtils;
-import com.garfield.weishu.discovery.news.view.NewsDetailFragment;
-import com.garfield.weishu.discovery.news.view.NewsFragment;
+import com.garfield.weishu.discovery.news.ui.NewsDetailFragment;
+import com.garfield.weishu.discovery.news.ui.NewsFragment;
 import com.garfield.weishu.setting.ChangeInfoFragment;
 import com.garfield.weishu.setting.CropPhotoFragment;
 import com.garfield.weishu.contact.FriendProfileFragment;

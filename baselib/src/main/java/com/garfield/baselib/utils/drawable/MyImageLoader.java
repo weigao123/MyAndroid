@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.garfield.baselib.utils.file.DirectoryUtils;
-import com.garfield.baselib.utils.string.StringUtils;
+import com.garfield.baselib.utils.array.StringUtils;
 import com.garfield.baselib.utils.system.SystemUtil;
 
 import android.annotation.TargetApi;

@@ -11,7 +11,7 @@
         android:id="@+id/lazyload_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.garfield.weishu.discovery.news.view.PullToRefreshView
+        <com.garfield.weishu.ui.view.PullToRefreshView
             android:id="@+id/fragment_news_list_refresh"
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="vertical"/>
-        </com.garfield.weishu.discovery.news.view.PullToRefreshView>
+        </com.garfield.weishu.ui.view.PullToRefreshView>
 
         <Button
             android:id="@+id/fragment_news_list_reload_btn"

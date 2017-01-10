@@ -7,7 +7,7 @@
     android:background="@color/black"
     android:gravity="center_horizontal">
 
-    <com.garfield.weishu.discovery.developer.SpeedProgressView
+    <com.garfield.weishu.discovery.developer.view.SpeedProgressView
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_marginTop="30dp"/>
