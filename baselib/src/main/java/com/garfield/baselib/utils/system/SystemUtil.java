@@ -3,6 +3,8 @@ package com.garfield.baselib.utils.system;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +16,10 @@ import com.garfield.baselib.R;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.pm.PackageManager.GET_UNINSTALLED_PACKAGES;
 
 /**
  * 系统工具箱
@@ -94,6 +99,19 @@ public class SystemUtil {
 //            tintManager.setStatusBarTintColor(color);
 //        }
 //    }
+
+    public static boolean isAppInstalled(Context context, String packageName) {
+        final PackageManager packageManager = context.getPackageManager();
+        List<PackageInfo> info = packageManager.getInstalledPackages(GET_UNINSTALLED_PACKAGES);
+        List<String> pName = new ArrayList<>();
+        if (info != null) {
+            for (int i = 0; i < info.size(); i++) {
+                String pn = info.get(i).packageName;
+                pName.add(pn);
+            }
+        }
+        return pName.contains(packageName);
+    }
 
     public static void close(Closeable closeable) {
         try {

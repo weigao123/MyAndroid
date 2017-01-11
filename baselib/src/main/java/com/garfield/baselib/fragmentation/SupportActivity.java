@@ -136,9 +136,9 @@ public class SupportActivity extends BaseActivity implements ISupport {
      */
     protected void onSwitchToFragment(Fragment fragment) {
         if (fragment != null) {
-            L.d("onSwitchFragment: "+ fragment.getClass().getSimpleName());
+            //L.d("onSwitchFragment: "+ fragment.getClass().getSimpleName());
         } else {
-            L.d("onSwitchFragment: null");
+            //L.d("onSwitchFragment: null");
         }
     }
 
