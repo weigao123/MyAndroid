@@ -71,14 +71,16 @@ public class DeveloperThreadFragment extends AppBaseFragment {
         public void run() {
             synchronized (mArray) {
                 /**
-                 * 因为锁，所以内部同时只能有一个线程执行
+                 * 可以都执行到内部，但是同时只能有一个线程在执行
+                 * 画图纸，可以发现其实同时只有一个被等待唤醒
                  */
                 while (mArrayIndex < mArray.length && !mStop) {
+                    L.d("while: "+mThreadIndex);
                     if (mArrayIndex % 5 == mThreadIndex) {
                         Message.obtain(mHandler, mThreadIndex, mArrayIndex, 0).sendToTarget();
                         mArrayIndex++;
                         try {
-                            Thread.sleep(500);
+                            Thread.sleep(1000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -86,19 +88,21 @@ public class DeveloperThreadFragment extends AppBaseFragment {
                     /**
                      * 必须得先唤醒再去等待
                      */
-                    mArray.notifyAll();    // 被wait的线程可以继续执行
+                    mArray.notify();    // 被wait的线程可以继续执行
                     try {
+                        L.d("wait: "+mThreadIndex);
                         mArray.wait();    // 释放锁，并等待，其他被锁卡住的线程可以执行
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    L.d("wait go on: "+mThreadIndex);
                 }
                 /**
                  * 必须增加这个，否则退出线程时，其他线程无法被唤醒
                  */
-                mArray.notifyAll();
+                mArray.notify();
             }
-            //L.d("thread over: "+mThreadIndex);
+            L.d("thread over: "+mThreadIndex);
         }
     }
 
@@ -121,6 +125,7 @@ public class DeveloperThreadFragment extends AppBaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        L.d("onDestroyView");
         mStop = true;
     }
 }
