@@ -8,7 +8,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.garfield.baselib.utils.array.ArrayUtils;
-import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 
@@ -32,8 +31,10 @@ public class DeveloperThreadFragment extends AppBaseFragment {
     @BindView(R.id.fragment_developer_thread_scrollview)
     ScrollView mScrollView;
 
+    private static final int THREAD_NUM = 3;
+
     private volatile boolean mStop = false;
-    private final int[] mArray = ArrayUtils.getArray(50);
+    private final int[] mArray = ArrayUtils.getArray(THREAD_NUM * 5);
     private volatile int mArrayIndex;
 
     // 初始化实例变量时，就可以使用this了，先执行MyHandler构造器，再执行DeveloperThreadFragment构造器
@@ -53,11 +54,9 @@ public class DeveloperThreadFragment extends AppBaseFragment {
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
         mOriginText.setText(Arrays.toString(mArray));
-        new Thread(new MyRunnable(0)).start();
-        new Thread(new MyRunnable(1)).start();
-        new Thread(new MyRunnable(2)).start();
-        new Thread(new MyRunnable(3)).start();
-        new Thread(new MyRunnable(4)).start();
+        for (int i = 0; i < THREAD_NUM; i++) {
+            new Thread(new MyRunnable(i)).start();
+        }
     }
 
     private class MyRunnable implements Runnable {
@@ -71,12 +70,11 @@ public class DeveloperThreadFragment extends AppBaseFragment {
         public void run() {
             synchronized (mArray) {
                 /**
-                 * 可以都执行到内部，但是同时只能有一个线程在执行
-                 * 画图纸，可以发现其实同时只有一个被等待唤醒
+                 * 由wait所以可以都执行到内部，由synchronized同时只能有一个线程在内部活动
+                 * 其实同时只有一个线程是在wait状态等待被唤醒，其他的都是唤醒状态
                  */
                 while (mArrayIndex < mArray.length && !mStop) {
-                    L.d("while: "+mThreadIndex);
-                    if (mArrayIndex % 5 == mThreadIndex) {
+                    if (mArrayIndex % THREAD_NUM == mThreadIndex) {
                         Message.obtain(mHandler, mThreadIndex, mArrayIndex, 0).sendToTarget();
                         mArrayIndex++;
                         try {
@@ -86,23 +84,21 @@ public class DeveloperThreadFragment extends AppBaseFragment {
                         }
                     }
                     /**
-                     * 必须得先唤醒再去等待
+                     * 先唤醒再去等待
                      */
                     mArray.notify();    // 被wait的线程可以继续执行
                     try {
-                        L.d("wait: "+mThreadIndex);
                         mArray.wait();    // 释放锁，并等待，其他被锁卡住的线程可以执行
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    L.d("wait go on: "+mThreadIndex);
                 }
                 /**
-                 * 必须增加这个，否则退出线程时，其他线程无法被唤醒
+                 * 必须增加这个，否则退出时，总有一个线程无法被唤醒，无法中止
                  */
                 mArray.notify();
             }
-            L.d("thread over: "+mThreadIndex);
+            //L.d("thread over: "+mThreadIndex);
         }
     }
 
@@ -125,7 +121,6 @@ public class DeveloperThreadFragment extends AppBaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        L.d("onDestroyView");
         mStop = true;
     }
 }

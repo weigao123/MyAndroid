@@ -10,7 +10,7 @@ import com.garfield.weishu.base.recyclerview.TRecyclerViewHolder;
  * Created by gaowei3 on 2016/11/30.
  */
 
-public class DevelopListViewHolder extends TRecyclerViewHolder<String> {
+public class DeveloperListViewHolder extends TRecyclerViewHolder<String> {
 
     private TextView mTextView;
     @Override

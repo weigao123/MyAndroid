@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <include layout="@layout/include_toolbar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+
+        <RadioGroup
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/fragment_developer_surfaceview_repeat"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:text="@string/rebroadcast"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_primary_button" />
+
+    </LinearLayout>
+
+    <SurfaceView
+        android:id="@+id/fragment_developer_surfaceview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

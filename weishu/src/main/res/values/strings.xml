@@ -152,11 +152,7 @@
     <string name="sort_start">开始排序</string>
     <string name="initializing">正在初始化数据…</string>
     <string name="sorting">正在排序…</string>
-    <string name="develop_speed_progress">1、速度码表</string>
-    <string name="develop_sort">2、排序算法</string>
-    <string name="develop_multi_thread">3、多线程</string>
 
-    <string name="develop_find">3、查找</string>
     <string name="current_algorithm">当前算法: %1$s</string>
     <string name="time_consuming">耗时：%1$d 毫秒</string>
     <string name="sort">排序算法</string>
@@ -170,7 +166,7 @@
     <string name="merging_sort">归并排序</string>
     <string name="data_is_too_large_to_show">已完成，但数据量太大，不做显示</string>
 
-
+    <string name="rebroadcast">重播</string>
 
 
 

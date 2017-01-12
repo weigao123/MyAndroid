@@ -41,9 +41,10 @@ public class DeveloperFragment extends AppBaseFragment implements TRecyclerAdapt
 
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
-        mData.add(getResources().getString(R.string.develop_speed_progress));
-        mData.add(getResources().getString(R.string.develop_sort));
-        mData.add(getResources().getString(R.string.develop_multi_thread));
+        mData.add("1、速度码表");
+        mData.add("2、排序算法");
+        mData.add("3、多线程");
+        mData.add("4、SurfaceView");
         DevelopAdapter adapter = new DevelopAdapter(getContext(), mData);
         adapter.setItemEventListener(this);
         mRecyclerView.setHasFixedSize(true);
@@ -64,6 +65,9 @@ public class DeveloperFragment extends AppBaseFragment implements TRecyclerAdapt
             case 2:
                 EventDispatcher.startFragment(new DeveloperThreadFragment());
                 break;
+            case 3:
+                EventDispatcher.startFragment(new DeveloperSurfaceViewFragment());
+                break;
         }
     }
 
@@ -75,13 +79,13 @@ public class DeveloperFragment extends AppBaseFragment implements TRecyclerAdapt
 
     private class DevelopAdapter extends TRecyclerAdapter<String> {
 
-        public DevelopAdapter(Context context, List<String> items) {
+        private DevelopAdapter(Context context, List<String> items) {
             super(context, items);
         }
 
         @Override
         public Class getViewHolderClassAtPosition(int position) {
-            return DevelopListViewHolder.class;
+            return DeveloperListViewHolder.class;
         }
     }
 }
