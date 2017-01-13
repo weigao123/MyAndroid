@@ -81,7 +81,7 @@ public class EventDispatcher {
 
 
     public static void startFragment(final SupportFragment fragment) {
-        if (UiUtils.isFastDoubleClick(800)) return;
+        if (UiUtils.isFastDoubleClick(500)) return;
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {

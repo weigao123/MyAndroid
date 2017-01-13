@@ -44,7 +44,7 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration{
 
 	private int mOrientation;
 
-    private int mLineWidth = 2;
+    private int mLineWidth = 1;
 
 	private boolean mIsDrawLast = false;
 

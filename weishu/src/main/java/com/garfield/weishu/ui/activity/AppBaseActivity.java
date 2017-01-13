@@ -4,7 +4,9 @@ import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.garfield.baselib.swipeback.SwipeBackActivity;
 import com.garfield.baselib.utils.system.L;
@@ -39,8 +41,11 @@ public class AppBaseActivity extends SwipeBackActivity {
             setContentView(onGetActivityLayout());
             ButterKnife.bind(this);
             if (mToolbar != null) {
-                mToolbar.setTitle(R.string.app_name);
-                mToolbar.setTitleTextAppearance(this, R.style.toolbar_text);
+                mToolbar.setTitleMarginStart(0);
+                mToolbar.setContentInsetsAbsolute(0, 0);
+                TextView title1View = (TextView) mToolbar.findViewById(R.id.toolbar_title1);
+                title1View.setText(R.string.app_name);
+                title1View.setVisibility(View.VISIBLE);
             }
             onInitViewAndData(savedInstanceState);
         }

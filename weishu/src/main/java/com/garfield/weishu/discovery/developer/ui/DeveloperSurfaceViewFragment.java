@@ -28,6 +28,10 @@ import butterknife.OnClick;
 
 public class DeveloperSurfaceViewFragment extends AppBaseFragment implements SurfaceHolder.Callback {
 
+    {
+        setAnimationEnable(false);
+    }
+
     private static final int BALL_RADIUS = ScreenUtils.dp2px(10);
 
     @BindView(R.id.fragment_developer_surfaceview)
@@ -73,7 +77,6 @@ public class DeveloperSurfaceViewFragment extends AppBaseFragment implements Sur
         super.onInitViewAndData(rootView, savedInstanceState);
         mSurfaceHolder = mSurfaceView.getHolder();
         mSurfaceHolder.addCallback(this);
-
         mSurfaceView.post(new Runnable() {
             public void run() {
                 mRealWidth = mSurfaceView.getWidth();
@@ -118,15 +121,15 @@ public class DeveloperSurfaceViewFragment extends AppBaseFragment implements Sur
         @Override
         public void run() {
             while (mCanDraw) {
-                try {
-                    if (mIsChanged) {
-                        Canvas canvas = mSurfaceHolder.lockCanvas();
+                if (mIsChanged) {
+                    Canvas canvas = mSurfaceHolder.lockCanvas();
+                    try {
                         draw(canvas);
-                        mSurfaceHolder.unlockCanvasAndPost(canvas);
-                        mIsChanged = false;
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    mSurfaceHolder.unlockCanvasAndPost(canvas);
+                    mIsChanged = false;
                 }
             }
         }
@@ -137,7 +140,7 @@ public class DeveloperSurfaceViewFragment extends AppBaseFragment implements Sur
      */
     private void draw(Canvas canvas) {
         canvas.drawPaint(clearPaint);
-        canvas.drawLine(0, 0, mSurfaceView.getWidth(), mSurfaceView.getHeight(), linePaint);
+        //canvas.drawLine(0, 0, mSurfaceView.getWidth(), mSurfaceView.getHeight(), linePaint);
         for (int i = 0; i + 1 < mPointFs.size(); i ++) {
             canvas.drawLine(mPointFs.get(i).x, mPointFs.get(i).y, mPointFs.get(i + 1).x, mPointFs.get(i + 1).y, ballPaint);
         }

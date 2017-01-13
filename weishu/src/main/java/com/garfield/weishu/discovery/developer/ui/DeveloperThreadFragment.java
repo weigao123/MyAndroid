@@ -78,7 +78,7 @@ public class DeveloperThreadFragment extends AppBaseFragment {
                         Message.obtain(mHandler, mThreadIndex, mArrayIndex, 0).sendToTarget();
                         mArrayIndex++;
                         try {
-                            Thread.sleep(1000);
+                            Thread.sleep(500);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
