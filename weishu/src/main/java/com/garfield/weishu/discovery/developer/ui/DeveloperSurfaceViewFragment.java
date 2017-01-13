@@ -11,10 +11,13 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
-import android.widget.TextView;
 
+import com.garfield.baselib.utils.system.ScreenUtils;
 import com.garfield.weishu.R;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -25,12 +28,14 @@ import butterknife.OnClick;
 
 public class DeveloperSurfaceViewFragment extends AppBaseFragment implements SurfaceHolder.Callback {
 
-    private static final int BALL_RADIUS = 10;
+    private static final int BALL_RADIUS = ScreenUtils.dp2px(10);
 
     @BindView(R.id.fragment_developer_surfaceview)
     SurfaceView mSurfaceView;
 
-    private Thread mThread;
+    private float mRealWidth;
+    private float mRealHeight;
+    private List<PointF> mPointFs = new ArrayList<>();
 
     /**
      * SurfaceHolder 是对 SurfaceView 的 Surface 的包装
@@ -40,7 +45,7 @@ public class DeveloperSurfaceViewFragment extends AppBaseFragment implements Sur
 
     private ValueAnimator mAnimator;
     private PointF mPointF = new PointF(0, 0);
-    private Paint paint;
+    private Paint ballPaint;
     private Paint linePaint;
     private Paint clearPaint;
     private volatile boolean mIsChanged = true;
@@ -71,17 +76,19 @@ public class DeveloperSurfaceViewFragment extends AppBaseFragment implements Sur
 
         mSurfaceView.post(new Runnable() {
             public void run() {
-                k = (float) mSurfaceView.getHeight() / mSurfaceView.getWidth();
-                multiple = mSurfaceView.getWidth() / k;
+                mRealWidth = mSurfaceView.getWidth();
+                mRealHeight = mSurfaceView.getHeight();
+                k = mRealHeight / mRealWidth;
+                multiple = mRealWidth / k;
                 reStartAnimation();
             }
         });
 
-        paint = new Paint();
-        paint.setColor(Color.RED);
-        paint.setStrokeWidth(20);
-        paint.setAntiAlias(true);
-        paint.setDither(true);
+        ballPaint = new Paint();
+        ballPaint.setColor(Color.RED);
+        ballPaint.setStrokeWidth(1);
+        ballPaint.setAntiAlias(true);
+        ballPaint.setDither(true);
         linePaint = new Paint();
         linePaint.setColor(Color.GRAY);
         linePaint.setStrokeWidth(1);
@@ -131,7 +138,10 @@ public class DeveloperSurfaceViewFragment extends AppBaseFragment implements Sur
     private void draw(Canvas canvas) {
         canvas.drawPaint(clearPaint);
         canvas.drawLine(0, 0, mSurfaceView.getWidth(), mSurfaceView.getHeight(), linePaint);
-        canvas.drawCircle(mPointF.x, mPointF.y, BALL_RADIUS, paint);
+        for (int i = 0; i + 1 < mPointFs.size(); i ++) {
+            canvas.drawLine(mPointFs.get(i).x, mPointFs.get(i).y, mPointFs.get(i + 1).x, mPointFs.get(i + 1).y, ballPaint);
+        }
+        canvas.drawCircle(mPointF.x, mPointF.y, BALL_RADIUS, ballPaint);
     }
 
     private TypeEvaluator evaluator = new TypeEvaluator<PointF>() {
@@ -151,10 +161,8 @@ public class DeveloperSurfaceViewFragment extends AppBaseFragment implements Sur
         @Override
         public void onAnimationUpdate(ValueAnimator animation) {
             mPointF = (PointF) animation.getAnimatedValue();
-            mPointF.y += BALL_RADIUS;
-            if (mPointF.y + BALL_RADIUS <= mSurfaceView.getHeight()) {
-                mIsChanged = true;
-            }
+            mPointFs.add(mPointF);
+            mIsChanged = true;
         }
     };
 
@@ -163,7 +171,8 @@ public class DeveloperSurfaceViewFragment extends AppBaseFragment implements Sur
         if (mAnimator != null && mAnimator.isRunning()) {
             mAnimator.cancel();
         }
-        mAnimator = ValueAnimator.ofObject(evaluator, new PointF(0, 0), new PointF(mSurfaceView.getWidth(), mSurfaceView.getHeight()));
+        mPointFs.clear();
+        mAnimator = ValueAnimator.ofObject(evaluator, new PointF(0, 0), new PointF(mRealWidth, mRealHeight));
         mAnimator.addUpdateListener(updateListener);
         mAnimator.setInterpolator(new LinearInterpolator());
         mAnimator.setDuration(3000);
