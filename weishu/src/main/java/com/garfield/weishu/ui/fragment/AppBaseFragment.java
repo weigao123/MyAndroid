@@ -184,7 +184,7 @@ public class AppBaseFragment extends SwipeBackFragment {
 
 //                PopupMenu mPopupMenu = new PopupMenu(mActivity, mToolbar, Gravity.END);
 //                mPopupMenu.inflateView(R.menu.fragment_msg_list);
-//                mPopupMenu.show();
+//                mPopupMenu.toast();
                     break;
                 case R.id.menu_item_chat:
                     mPopupWindow.dismiss();

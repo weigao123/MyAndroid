@@ -177,7 +177,7 @@ public class DeveloperSortFragment extends AppBaseFragment {
 
     private void sortData() {
         if (mSortAlgo == null) {
-            L.show("该算法待开发");
+            L.toast("该算法待开发");
             return;
         }
         new TaskUtils.Invoker(new TaskUtils.Callback() {

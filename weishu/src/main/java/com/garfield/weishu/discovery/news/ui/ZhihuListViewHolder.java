@@ -4,12 +4,11 @@ import android.content.Context;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.garfield.baselib.utils.drawable.ImageLoaderUtils;
+import com.garfield.baselib.utils.http.image.ImageHelper;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
 import com.garfield.weishu.base.recyclerview.TRecyclerViewHolder;
 import com.garfield.weishu.discovery.news.bean.zhihu.ZhihuDailyItem;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -40,7 +39,8 @@ public class ZhihuListViewHolder extends TRecyclerViewHolder<ZhihuDailyItem> {
 
     @Override
     protected void refresh(ZhihuDailyItem zhihuDailyItem) {
-        ImageLoader.getInstance().displayImage(zhihuDailyItem.getImages()[0], zhihuImage, ImageLoaderUtils.getDisplayImageOptions());
+        ImageHelper.load(mRootView.getContext(), zhihuDailyItem.getImages()[0], zhihuImage);
+
         zhihuTitle.setText(zhihuDailyItem.getTitle());
     }
 

@@ -70,7 +70,7 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher {
         mRegisterNickNameText.addTextChangedListener(this);
         mRegisterPasswordText.addTextChangedListener(this);
 
-        SystemUtil.setStatusBarColorK(this, getResources().getColor(R.color.colorPrimary));
+        //SystemUtil.setStatusBarColorK(this, getResources().getColor(R.color.colorPrimary));
     }
 
     private void switchLoginAndRegister(boolean isLogin) {

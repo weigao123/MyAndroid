@@ -4,12 +4,11 @@ import android.content.Context;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.garfield.baselib.utils.drawable.ImageLoaderUtils;
+import com.garfield.baselib.utils.http.image.ImageHelper;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
 import com.garfield.weishu.base.recyclerview.TRecyclerViewHolder;
 import com.garfield.weishu.discovery.news.bean.netease.NewsBean;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -44,7 +43,7 @@ public class NewsListViewHolder extends TRecyclerViewHolder<NewsBean> {
 
     @Override
     protected void refresh(NewsBean newsBean) {
-        ImageLoader.getInstance().displayImage(newsBean.getImgsrc(), newsImage, ImageLoaderUtils.getDisplayImageOptions());
+        ImageHelper.load(mRootView.getContext(), newsBean.getImgsrc(), newsImage);
         newsTitle.setText(newsBean.getTitle());
         newsSource.setText(newsBean.getSource());
         newsReply.setText(getAdapter().getContext().getResources().getString(R.string.num_reply, newsBean.getReplyCount()));

@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.garfield.baselib.utils.http.image.ImageHelper;
 import com.garfield.weishu.R;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import butterknife.BindView;
 import uk.co.senab.photoview.PhotoView;
@@ -53,7 +53,7 @@ public class CropPhotoFragment extends AppBaseFragment implements View.OnClickLi
         mConfirm.setOnClickListener(this);
         mPhotoPath = getArguments().getString(INFO_HEAD);
 
-        ImageLoader.getInstance().displayImage("file://" + mPhotoPath, mPhotoView);
+        ImageHelper.load(getContext(), "file://" + mPhotoPath, mPhotoView);
     }
 
     @Override

@@ -1,9 +1,9 @@
-package com.garfield.weishu.helper.http.volley;
+package com.garfield.baselib.utils.http.http;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.garfield.weishu.app.AppCache;
 
 import java.util.Map;
 
@@ -26,7 +26,7 @@ public class VolleyHelper {
         return mVolleyHelper;
     }
     private VolleyHelper() {
-        mQueue = Volley.newRequestQueue(AppCache.getContext());
+        mQueue = Volley.newRequestQueue(com.garfield.baselib.Cache.getContext());
     }
 
     public VolleyHelper setParameters(Map<String, String> parameters) {
@@ -34,7 +34,7 @@ public class VolleyHelper {
         return this;
     }
 
-    public RequestQueue addRequest(BaseRequest request) {
+    public RequestQueue addRequest(StringRequest request) {
         if (attachToken()) {
             //mUrlBase.addQueryParameter("access_token", SettingApplication.getAccesToken());
         }

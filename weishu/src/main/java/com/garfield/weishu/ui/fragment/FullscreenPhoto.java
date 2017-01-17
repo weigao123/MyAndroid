@@ -2,12 +2,10 @@ package com.garfield.weishu.ui.fragment;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.garfield.baselib.utils.http.image.ImageHelper;
 import com.garfield.weishu.R;
-import com.garfield.weishu.setting.CropPhotoFragment;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import butterknife.BindView;
 
@@ -43,7 +41,7 @@ public class FullscreenPhoto extends AppBaseFragment {
         //mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         mPhotoPath = getArguments().getString(INFO_HEAD);
-        ImageLoader.getInstance().displayImage(mPhotoPath, mFullscreenPhoto);
+        ImageHelper.load(mRootView.getContext(), mPhotoPath, mFullscreenPhoto);
     }
 
 

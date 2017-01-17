@@ -1,9 +1,7 @@
 
-package com.garfield.weishu.helper.http.retrofit;
+package com.garfield.baselib.utils.http.http;
 
 import com.garfield.baselib.utils.system.NetworkUtil;
-import com.garfield.weishu.app.AppCache;
-import com.garfield.weishu.app.MyApplication;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +35,7 @@ public class RetrofitHelper {
     }
 
 
-    private static File httpCacheDirectory = new File(AppCache.getContext().getCacheDir(), "zhihuCache");
+    private static File httpCacheDirectory = new File(com.garfield.baselib.Cache.getContext().getCacheDir(), "zhihuCache");
     private static int cacheSize = 10 * 1024 * 1024; // 10 MiB
 
     private static Cache cache = new Cache(httpCacheDirectory, cacheSize);

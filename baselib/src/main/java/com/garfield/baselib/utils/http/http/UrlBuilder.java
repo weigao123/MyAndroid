@@ -1,4 +1,4 @@
-package com.garfield.weishu.helper.http.volley;
+package com.garfield.baselib.utils.http.http;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

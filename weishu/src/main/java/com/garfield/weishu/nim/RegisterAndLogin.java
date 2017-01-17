@@ -2,7 +2,6 @@ package com.garfield.weishu.nim;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.garfield.baselib.base.BaseActivity;
@@ -12,7 +11,7 @@ import com.garfield.weishu.R;
 import com.garfield.weishu.app.UserPreferences;
 import com.garfield.weishu.helper.http.volley.BaseRequest;
 import com.garfield.weishu.helper.http.volley.RegisterRequest;
-import com.garfield.weishu.helper.http.volley.VolleyHelper;
+import com.garfield.baselib.utils.http.http.VolleyHelper;
 import com.garfield.weishu.nim.cache.DataCacheManager;
 import com.garfield.weishu.nim.cache.LoginSyncHelper;
 import com.garfield.weishu.ui.activity.WelcomeActivity;
@@ -61,7 +60,7 @@ public class RegisterAndLogin {
             @Override
             public void onSuccess(LoginInfo loginInfo) {
                 callback.onResult(REQUEST_SUCCESS);
-                L.show(R.string.login_success);
+                L.toast(R.string.login_success);
             }
 
             @Override
@@ -69,17 +68,17 @@ public class RegisterAndLogin {
                 L.d("login result : "+code);
                 if (code == 302 || code == 404) {
                     callback.onResult(REQUEST_FAILED);
-                    L.show(R.string.login_account_or_password_wrong);
+                    L.toast(R.string.login_account_or_password_wrong);
                 } else {
                     callback.onResult(REQUEST_FAILED);
-                    L.show(AppCache.getContext().getResources().getString(R.string.login_failed) + code);
+                    L.toast(AppCache.getContext().getResources().getString(R.string.login_failed) + code);
                 }
             }
 
             @Override
             public void onException(Throwable throwable) {
                 callback.onResult(REQUEST_FAILED);
-                L.show(R.string.login_failed);
+                L.toast(R.string.login_failed);
             }
         });
         return new CancelableRequest() {
@@ -101,11 +100,11 @@ public class RegisterAndLogin {
                     public void onResult(RegisterRequest.RegisterResultBean result) {
                         if (result != null) {
                             if (result.getCode() == 200) {
-                                L.show(R.string.register_success);
+                                L.toast(R.string.register_success);
                                 callback.onResult(REQUEST_SUCCESS);
                                 return;
                             } else if ("already register".equals(result.getDesc())) {
-                                L.show(R.string.account_registered);
+                                L.toast(R.string.account_registered);
                             }
                             callback.onResult(REQUEST_FAILED);
                         }

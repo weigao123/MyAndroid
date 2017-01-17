@@ -82,12 +82,12 @@ public class AppBaseActivity extends SwipeBackActivity {
 
     @OnMPermissionGranted(BASIC_PERMISSION_REQUEST_CODE)
     public void onBasicPermissionSuccess(){
-        L.show("授权成功");
+        L.toast("授权成功");
     }
 
     @OnMPermissionDenied(BASIC_PERMISSION_REQUEST_CODE)
     public void onBasicPermissionFailed(){
-        L.show("授权失败");
+        L.toast("授权失败");
         finish();
     }
 

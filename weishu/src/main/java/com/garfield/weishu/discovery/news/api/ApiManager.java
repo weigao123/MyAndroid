@@ -1,6 +1,6 @@
 package com.garfield.weishu.discovery.news.api;
 
-import com.garfield.weishu.helper.http.retrofit.RetrofitHelper;
+import com.garfield.baselib.utils.http.http.RetrofitHelper;
 
 /**
  * Created by gaowei3 on 2016/12/5.

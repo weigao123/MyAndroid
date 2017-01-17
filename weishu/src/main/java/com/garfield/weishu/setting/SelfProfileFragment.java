@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.baselib.utils.system.L;
@@ -133,7 +132,7 @@ public class SelfProfileFragment extends AppBaseFragment {
                     if (code == ResponseCode.RES_SUCCESS && !TextUtils.isEmpty(url)) {
                         updateUserInfo(UserInfoFieldEnum.AVATAR, url);
                     } else {
-                        L.show(R.string.head_upload_failed);
+                        L.toast(R.string.head_upload_failed);
                         onUpdateDone();
                     }
                 }
@@ -149,10 +148,10 @@ public class SelfProfileFragment extends AppBaseFragment {
             @Override
             public void onResult(int code, Void result, Throwable exception) {
                 if (code == ResponseCode.RES_SUCCESS) {
-                    L.show(R.string.user_info_update_success);
+                    L.toast(R.string.user_info_update_success);
                     onUpdateDone();
                 } else {
-                    L.show(R.string.user_info_update_failed);
+                    L.toast(R.string.user_info_update_failed);
                 }
             }
         });
@@ -161,7 +160,7 @@ public class SelfProfileFragment extends AppBaseFragment {
     private void cancelUpload(int resId) {
         if (uploadAvatarFuture != null) {
             uploadAvatarFuture.abort();
-            L.show(resId);
+            L.toast(resId);
             onUpdateDone();
         }
     }

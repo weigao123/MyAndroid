@@ -3,18 +3,15 @@ package com.garfield.weishu.app;
 import android.app.Application;
 import android.text.TextUtils;
 
-import com.garfield.baselib.utils.drawable.ImageLoaderUtils;
 import com.garfield.baselib.utils.file.DirectoryUtils;
+import com.garfield.baselib.utils.http.image.ImageLoaderHelper;
 import com.garfield.baselib.utils.system.L;
-import com.garfield.weishu.app.AppCache;
-import com.garfield.weishu.app.UserPreferences;
 import com.garfield.weishu.contact.query.PinYin;
 import com.garfield.weishu.nim.cache.DataCacheManager;
 import com.garfield.weishu.nim.cache.LoginSyncHelper;
 import com.garfield.weishu.nim.NimConfig;
 import com.garfield.baselib.utils.system.SystemUtil;
 import com.garfield.weishu.setting.SettingFragment;
-import com.garfield.weishu.ui.view.ImageLoaderKit;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -45,7 +42,7 @@ public class MyApplication extends Application {
         if (SystemUtil.inMainProcess()) {
             Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
 
-            ImageLoaderUtils.initImageLoader();
+            ImageLoaderHelper.init();
             SettingFragment.initSetting();
 
             PinYin.init(this);

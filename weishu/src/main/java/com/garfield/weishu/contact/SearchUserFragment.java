@@ -3,7 +3,6 @@ package com.garfield.weishu.contact;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.baselib.ui.widget.ClearableEditText;
@@ -56,7 +55,7 @@ public class SearchUserFragment extends AppBaseFragment {
             public void onSuccess(NimUserInfo userInfo) {
                 DialogMaker.dismissProgressDialog();
                 if (userInfo == null) {
-                    L.show("该用户不存在");
+                    L.toast("该用户不存在");
                 } else {
                     EventDispatcher.getFragmentJumpEvent().onShowUserProfile(userInfo.getAccount());
                 }
@@ -66,16 +65,16 @@ public class SearchUserFragment extends AppBaseFragment {
             public void onFailed(int code) {
                 DialogMaker.dismissProgressDialog();
                 if (code == 408) {
-                    L.show("网络不可用");
+                    L.toast("网络不可用");
                 } else {
-                    L.show("on failed:" + code);
+                    L.toast("on failed:" + code);
                 }
             }
 
             @Override
             public void onException(Throwable throwable) {
                 DialogMaker.dismissProgressDialog();
-                L.show("on exception:" + throwable.getMessage());
+                L.toast("on exception:" + throwable.getMessage());
             }
         });
     }

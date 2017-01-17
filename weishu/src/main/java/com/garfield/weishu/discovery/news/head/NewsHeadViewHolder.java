@@ -2,11 +2,10 @@ package com.garfield.weishu.discovery.news.head;
 
 import android.widget.ImageView;
 
-import com.garfield.baselib.utils.drawable.ImageLoaderUtils;
+import com.garfield.baselib.utils.http.image.ImageHelper;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.viewpager.TPagerViewHolder;
 import com.garfield.weishu.discovery.news.bean.netease.NewsBean;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
  * Created by gaowei3 on 2016/10/31.
@@ -33,7 +32,7 @@ public class NewsHeadViewHolder extends TPagerViewHolder<NewsBean> {
 
     @Override
     protected void refresh(NewsBean item) {
-        ImageLoader.getInstance().displayImage(item.getImgsrc(), mHeadImage, ImageLoaderUtils.getDisplayImageNoDiskCacheOptions());
+        ImageHelper.load(mRootView.getContext(), item.getImgsrc(), mHeadImage);
     }
 
     @Override

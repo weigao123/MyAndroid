@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.garfield.baselib.adapter.DividerItemDecoration;
@@ -126,7 +125,7 @@ public class SessionListFragment extends AppBaseFragment {
                 recyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL_LIST));
                 dialog.show();
                 //EasyMenuDialog menuDialog = new EasyMenuDialog();
-                //menuDialog.show(getChildFragmentManager(), "dialoglist");
+                //menuDialog.toast(getChildFragmentManager(), "dialoglist");
             }
         });
 
@@ -381,9 +380,9 @@ public class SessionListFragment extends AppBaseFragment {
 
     private void kickOut(StatusCode code) {
         if (code == StatusCode.PWD_ERROR) {
-            L.show(R.string.login_account_or_password_wrong);
+            L.toast(R.string.login_account_or_password_wrong);
         } else {
-            L.show(R.string.kicked_out);
+            L.toast(R.string.kicked_out);
         }
         RegisterAndLogin.logout(mActivity);
     }

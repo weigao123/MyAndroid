@@ -1,4 +1,4 @@
-package com.garfield.baselib.utils.drawable;
+package com.garfield.baselib.utils.http.image;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -29,31 +29,30 @@ import java.util.List;
  * Created by gaowei3 on 2016/10/20.
  */
 
-public class ImageLoaderUtils {
+public class ImageLoaderHelper {
 
     private static DisplayImageOptions mDisplayImageOptions;
     private static DisplayImageOptions mDisplayImageNoDiskCacheOptions;
 
-    public static void initImageLoader() {
-        int MAX_CACHE_MEMORY_SIZE = (int) (Runtime.getRuntime().maxMemory() / 8);
+    public static void init() {
+        int memoryCacheSize = (int) (Runtime.getRuntime().maxMemory() / 8);
         File cacheDir = StorageUtils.getOwnCacheDirectory(Cache.getContext(), Cache.getContext().getPackageName() + "/cache/image/");
 
-        ImageLoaderConfiguration config = null;
         try {
-            config = new ImageLoaderConfiguration.Builder(Cache.getContext())
+            ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(Cache.getContext())
                     .threadPoolSize(3) // 线程池内加载的数量
                     .threadPriority(Thread.NORM_PRIORITY - 2) // 降低线程的优先级，减小对UI主线程的影响
                     .denyCacheImageMultipleSizesInMemory()
-                    .memoryCache(new LruMemoryCache(MAX_CACHE_MEMORY_SIZE))
+                    .memoryCache(new LruMemoryCache(memoryCacheSize))
                     .diskCache(new LruDiskCache(cacheDir, new Md5FileNameGenerator(), 0))
-                    .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
+                    .defaultDisplayImageOptions(DisplayImageOptions.createSimple())   //默认配置
                     .imageDownloader(new BaseImageDownloader(Cache.getContext(), 5 * 1000, 30 * 1000)) // connectTimeout (5 s), readTimeout (30 s)超时时间
                     .build();
+            ImageLoader.getInstance().init(config);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        ImageLoader.getInstance().init(config);
     }
 
     public static void clear() {
@@ -105,34 +104,6 @@ public class ImageLoaderUtils {
         return mDisplayImageNoDiskCacheOptions;
     }
 
-    /**
-     * 判断图片地址是否合法，合法地址如下：
-     * String uri = "http://site.com/image.png"; // from Web
-     * String uri = "file:///mnt/sdcard/image.png"; // from SD card
-     * String uri = "content://media/external/audio/albumart/13"; // from content provider
-     * String uri = "assets://image.png"; // from assets
-     * String uri = "drawable://" + R.drawable.image; // from drawables (only images, non-9patch)
-     */
-    private static List<String> uriSchemes;
-    public static boolean isImageUriValid(String uri) {
-        if (TextUtils.isEmpty(uri)) {
-            return false;
-        }
 
-        if (uriSchemes == null) {
-            uriSchemes = new ArrayList<>();
-            for (ImageDownloader.Scheme scheme : ImageDownloader.Scheme.values()) {
-                uriSchemes.add(scheme.name().toLowerCase());
-            }
-        }
-
-        for (String scheme : uriSchemes) {
-            if (uri.toLowerCase().startsWith(scheme)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
 }

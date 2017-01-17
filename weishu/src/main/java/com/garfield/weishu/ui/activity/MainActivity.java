@@ -50,7 +50,7 @@ public class MainActivity extends AppBaseActivity {
     @Override
     protected void onInitViewAndData(Bundle savedInstanceState) {
         super.onInitViewAndData(savedInstanceState);
-        SystemUtil.setStatusBarColorK(this, getResources().getColor(R.color.colorPrimary));
+        //SystemUtil.setStatusBarColorK(this, getResources().getColor(R.color.colorPrimary));
         EventBus.getDefault().register(this);
         // 旋转时会非空
         if (savedInstanceState == null) {

@@ -6,7 +6,11 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.garfield.baselib.utils.drawable.ImageLoaderUtils;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.garfield.baselib.utils.http.image.ImageHelper;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.nim.cache.UserInfoCache;
@@ -85,7 +89,7 @@ public class HeadImageView extends ImageView {
 
         // 判断是否需要ImageLoader加载
         final UserInfoProvider.UserInfo userInfo = UserInfoCache.getInstance().getUserInfoByAccount(account);
-        boolean needLoad = userInfo != null && ImageLoaderUtils.isImageUriValid(userInfo.getAvatar());
+        boolean needLoad = userInfo != null && ImageHelper.isImageUriValid(userInfo.getAvatar());
 
         doLoadImage(needLoad, account, userInfo != null ? userInfo.getAvatar() : null, thumbSize);
     }
@@ -97,26 +101,34 @@ public class HeadImageView extends ImageView {
      */
     private void doLoadImage(final boolean needLoad, final String tag, final String url, final int thumbSize) {
         if (needLoad) {
-            setTag(tag); // 解决ViewHolder复用问题
             /**
              * 若使用网易云信云存储，这里可以设置下载图片的压缩尺寸，生成下载URL
              * 如果图片来源是非网易云信云存储，请不要使用NosThumbImageUtil
              */
             final String thumbUrl = makeAvatarThumbNosUrl(url, thumbSize);
             // 异步从cache or NOS加载图片
-            ImageLoader.getInstance().displayImage(thumbUrl, new NonViewAware(new ImageSize(thumbSize, thumbSize),
-                    ViewScaleType.CROP), options, new SimpleImageLoadingListener() {
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    /**
-                     * 滑动后，getTag()得到的值已变化多次，当前是最新的要被显示的值
-                     * 但是后台会有多个不同的tag获取到图片，但是只有新的tag才应该被显示
-                     */
-                    if (getTag() != null && getTag().equals(tag)) {
-                        setImageBitmap(loadedImage);
-                    }
-                }
-            });
+//            setTag(tag); // 解决ViewHolder复用问题
+//            ImageLoader.getInstance().displayImage(thumbUrl, new NonViewAware(new ImageSize(thumbSize, thumbSize),
+//                    ViewScaleType.CROP), options, new SimpleImageLoadingListener() {
+//                @Override
+//                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+//                    /**
+//                     * 滑动后，getTag()得到的值已变化多次，当前是最新的要被显示的值
+//                     * 但是后台会有多个不同的tag获取到图片，但是只有新的tag才应该被显示
+//                     */
+//                    if (getTag() != null && getTag().equals(tag)) {
+//                        setImageBitmap(loadedImage);
+//                    }
+//                }
+//            });
+
+            ImageHelper.load(getContext(), thumbUrl, this);
+//            Glide.with(getContext()).load(url).into(new SimpleTarget<GlideDrawable>() {
+//                @Override
+//                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+//                    setImageDrawable(resource);
+//                }
+//            });
         } else {
             setTag(null);
         }

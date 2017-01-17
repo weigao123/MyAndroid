@@ -56,12 +56,12 @@ public class DiscoveryFragment extends AppBaseFragment {
 
     @OnClick(R.id.fragment_discovery_game)
     void openGame() {
-        L.show(R.string.function_has_not_developed);
+        L.toast(R.string.function_has_not_developed);
     }
 
     @OnClick(R.id.fragment_discovery_shopping)
     void openShopping() {
-        L.show(R.string.function_has_not_developed);
+        L.toast(R.string.function_has_not_developed);
     }
 
     @OnClick(R.id.fragment_discovery_developer)

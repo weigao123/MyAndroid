@@ -90,9 +90,9 @@ public class SessionFragment extends AppBaseFragment implements ModuleProxy {
             @Override
             public void onResult(int i, Void aVoid, Throwable throwable) {
                 if (i == ResponseCode.RES_SUCCESS) {
-                    //L.show(R.string.send_success);
+                    //L.toast(R.string.send_success);
                 } else {
-                    //L.show(R.string.send_fail);
+                    //L.toast(R.string.send_fail);
                 }
             }
         });

@@ -2,6 +2,7 @@ package com.garfield.weishu.ui.view;
 
 import android.graphics.Bitmap;
 
+import com.garfield.baselib.utils.http.image.ImageHelper;
 import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -11,7 +12,6 @@ import com.nostra13.universalimageloader.utils.MemoryCacheUtils;
 
 import java.util.List;
 
-import static com.garfield.baselib.utils.drawable.ImageLoaderUtils.isImageUriValid;
 
 /**
  * 图片加载、缓存、管理组件
@@ -24,7 +24,7 @@ public class ImageLoaderKit {
      * 从ImageLoader内存缓存中取出头像位图
      */
     private static Bitmap getMemoryCachedAvatarBitmap(UserInfoProvider.UserInfo userInfo) {
-        if(userInfo == null || !isImageUriValid(userInfo.getAvatar())) {
+        if(userInfo == null || !ImageHelper.isImageUriValid(userInfo.getAvatar())) {
             return null;
         }
 
@@ -43,7 +43,7 @@ public class ImageLoaderKit {
      * 异步加载头像位图到ImageLoader内存缓存
      */
     private static void asyncLoadAvatarBitmapToCache(UserInfoProvider.UserInfo userInfo) {
-        if(userInfo == null || !isImageUriValid(userInfo.getAvatar())) {
+        if(userInfo == null || !ImageHelper.isImageUriValid(userInfo.getAvatar())) {
             return;
         }
 

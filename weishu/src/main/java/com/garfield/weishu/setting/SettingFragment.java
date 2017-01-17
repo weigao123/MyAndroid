@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -165,7 +164,7 @@ public class SettingFragment extends AppBaseFragment {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         NIMClient.getService(MsgService.class).clearMsgDatabase(true);
-                        L.show(R.string.clear_message_record_done);
+                        L.toast(R.string.clear_message_record_done);
                     }
                 })
                 .negativeText(R.string.cancel)

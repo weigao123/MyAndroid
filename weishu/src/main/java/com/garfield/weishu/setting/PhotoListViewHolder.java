@@ -2,10 +2,9 @@ package com.garfield.weishu.setting;
 
 import android.widget.ImageView;
 
-import com.garfield.baselib.utils.drawable.ImageLoaderUtils;
+import com.garfield.baselib.utils.http.image.ImageHelper;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.listview.TListViewHolder;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
  * Created by gaowei3 on 2016/10/19.
@@ -36,7 +35,8 @@ public class PhotoListViewHolder extends TListViewHolder<String> {
             mImageView.setImageResource(R.drawable.ic_camera_pressed);
             return;
         }
-        ImageLoader.getInstance().displayImage("file://" + item, mImageView, ImageLoaderUtils.getDisplayImageNoDiskCacheOptions());
+        ImageHelper.load(mRootView.getContext(), "file://" + item, mImageView);
+
     }
 
     @Override
