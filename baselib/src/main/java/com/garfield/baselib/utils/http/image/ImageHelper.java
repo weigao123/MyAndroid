@@ -18,7 +18,8 @@ import java.util.List;
 public class ImageHelper {
 
     public static void load(Context context, String url, ImageView imageView) {
-        GlideHelper.load(context, url, imageView);
+        // 必须得用Application的，否则会覆盖一个空白SupportRequestManagerFragment，导致很多问题
+        GlideHelper.load(context.getApplicationContext(), url, imageView);
     }
 
 

@@ -2,7 +2,9 @@ package com.garfield.baselib.utils.http.image;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -19,6 +21,7 @@ import com.bumptech.glide.load.engine.cache.MemorySizeCalculator;
 import com.bumptech.glide.module.GlideModule;
 import com.garfield.baselib.R;
 import com.garfield.baselib.utils.file.DirectoryUtils;
+import com.garfield.baselib.utils.system.L;
 
 import java.io.File;
 
@@ -49,6 +52,7 @@ public class GlideHelper {
     }
 
     public static void load(Context context, String url, ImageView imageView) {
+        L.d(((ContextWrapper)context).getBaseContext());
         Glide.with(context)
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)

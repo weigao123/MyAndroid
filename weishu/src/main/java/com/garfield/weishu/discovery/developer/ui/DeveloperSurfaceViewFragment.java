@@ -28,10 +28,6 @@ import butterknife.OnClick;
 
 public class DeveloperSurfaceViewFragment extends AppBaseFragment implements SurfaceHolder.Callback {
 
-    {
-        setAnimationEnable(false);
-    }
-
     private static final int BALL_RADIUS = ScreenUtils.dp2px(10);
 
     @BindView(R.id.fragment_developer_surfaceview)

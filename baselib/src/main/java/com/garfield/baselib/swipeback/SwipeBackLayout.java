@@ -187,11 +187,14 @@ public class SwipeBackLayout extends FrameLayout {
         boolean drawChild = super.drawChild(canvas, child, drawingTime);
         if (mScrimOpacity > 0 && drawContent && mDragHelper.getViewDragState() != ViewDragHelper.STATE_IDLE) {
             drawShadow(canvas, child);
-            drawScrim(canvas, child);
+            //drawScrim(canvas, child);
         }
         return drawChild;
     }
 
+    /**
+     * 绘制全左侧半透明遮盖
+     */
     private void drawScrim(Canvas canvas, View child) {
         final int baseAlpha = (DEFAULT_SCRIM_COLOR & 0xff000000) >>> 24;
         final int alpha = (int) (baseAlpha * mScrimOpacity);
@@ -206,6 +209,9 @@ public class SwipeBackLayout extends FrameLayout {
         canvas.drawColor(color);
     }
 
+    /**
+     * 绘制细条阴影
+     */
     private void drawShadow(Canvas canvas, View child) {
         final Rect childRect = mTmpRect;
         //获取位置坐标

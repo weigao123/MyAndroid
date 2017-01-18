@@ -26,6 +26,6 @@ public class DeveloperSpeedFragment extends AppBaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        SystemUtil.setStatusBarColorK(mActivity, getResources().getColor(R.color.colorPrimary));
+        SystemUtil.setStatusBarColorK(mActivity, getResources().getColor(R.color.colorPrimaryDark));
     }
 }

@@ -277,7 +277,7 @@ public class BrowserFragment extends AppBaseFragment {
         super.onDestroyView();
         mWebView.stopLoading();
         if (mType == TYPE_URL) {
-            SystemUtil.setStatusBarColorK(mActivity, getResources().getColor(R.color.colorPrimary));
+            SystemUtil.setStatusBarColorK(mActivity, getResources().getColor(R.color.colorPrimaryDark));
         }
     }
 

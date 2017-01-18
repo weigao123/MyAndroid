@@ -143,6 +143,7 @@ public class MainFragment extends AppBaseFragment implements BottomBar2.OnTabSel
 
     @Override
     public void onDestroy() {
+        L.d("ondestory");
         super.onDestroy();
     }
 }
