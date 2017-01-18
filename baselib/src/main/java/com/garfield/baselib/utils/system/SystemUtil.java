@@ -53,7 +53,11 @@ public class SystemUtil {
      * StatusBar
      */
     public static void setStatusBarColorK(Activity activity, int color) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        setStatusBarColorK(activity, color, false);
+    }
+
+    public static void setStatusBarColorK(Activity activity, int color, boolean isAddView) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !isAddView) {
             setStatusBarColorL(activity, color);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             /**
@@ -62,6 +66,7 @@ public class SystemUtil {
             View statusBarView = activity.findViewById(R.id.status_bar_id);
             if (statusBarView == null) {
                 activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
                 statusBarView = new View(activity);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ScreenUtils.statusBarHeight);
                 statusBarView.setLayoutParams(params);
@@ -69,7 +74,7 @@ public class SystemUtil {
                 decorView.addView(statusBarView);
 
                 ViewGroup rootView = (ViewGroup) ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
-                rootView.setFitsSystemWindows(true);
+                rootView.setFitsSystemWindows(true);    // 要和FLAG_TRANSLUCENT_STATUS一起使用
                 rootView.setClipToPadding(true);
             }
             statusBarView.setBackgroundColor(color);
@@ -78,6 +83,9 @@ public class SystemUtil {
 
     private static void setStatusBarColorL(Activity activity, int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            /**
+             * 一旦设置了FLAG_TRANSLUCENT_STATUS，就无效了
+             */
             activity.getWindow().setStatusBarColor(color);
         }
     }

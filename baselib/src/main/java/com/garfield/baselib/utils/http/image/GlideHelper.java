@@ -52,7 +52,7 @@ public class GlideHelper {
     }
 
     public static void load(Context context, String url, ImageView imageView) {
-        L.d(((ContextWrapper)context).getBaseContext());
+        //L.d(((ContextWrapper)context).getBaseContext());
         Glide.with(context)
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)

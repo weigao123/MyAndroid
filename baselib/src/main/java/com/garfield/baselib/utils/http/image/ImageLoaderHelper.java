@@ -36,7 +36,7 @@ public class ImageLoaderHelper {
 
     public static void init() {
         int memoryCacheSize = (int) (Runtime.getRuntime().maxMemory() / 8);
-        File cacheDir = StorageUtils.getOwnCacheDirectory(Cache.getContext(), Cache.getContext().getPackageName() + "/cache/image/");
+        File cacheDir = StorageUtils.getOwnCacheDirectory(Cache.getContext(), Cache.getContext().getPackageName() + "/cache/image/ImageLoader");
 
         try {
             ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(Cache.getContext())

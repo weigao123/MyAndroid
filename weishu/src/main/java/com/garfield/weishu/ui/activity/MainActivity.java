@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.baselib.ui.dialog.DialogMaker;
@@ -50,7 +52,11 @@ public class MainActivity extends AppBaseActivity {
     @Override
     protected void onInitViewAndData(Bundle savedInstanceState) {
         super.onInitViewAndData(savedInstanceState);
-        //SystemUtil.setStatusBarColorK(this, getResources().getColor(R.color.colorPrimary));
+        /**
+         * 用来规避全屏造成的闪动
+         */
+        SystemUtil.setStatusBarColorK(this, getResources().getColor(R.color.colorPrimaryDark), true);
+
         EventBus.getDefault().register(this);
         // 旋转时会非空
         if (savedInstanceState == null) {

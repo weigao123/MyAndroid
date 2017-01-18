@@ -1,10 +1,16 @@
 package com.garfield.weishu.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.view.WindowManager;
 
 import com.garfield.baselib.utils.system.L;
+import com.garfield.baselib.utils.system.SystemUtil;
+import com.garfield.baselib.utils.system.TranslucentUtils;
+import com.garfield.weishu.R;
 import com.garfield.weishu.app.UserPreferences;
 import com.netease.nimlib.sdk.NimIntent;
 
@@ -21,6 +27,12 @@ public class WelcomeActivity extends AppBaseActivity {
     }
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //setContentView(R.layout.activity_welcome);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         if (firstEnter && !isNotify()) {
@@ -30,11 +42,11 @@ public class WelcomeActivity extends AppBaseActivity {
                     onIntent();
                 }
             };
-            new Handler().postDelayed(runnable, 500);
+            new Handler().postDelayed(runnable, 1500);
         } else {
             onIntent();
         }
-        firstEnter = false;
+        //firstEnter = false;
     }
 
     private boolean isNotify() {
