@@ -31,36 +31,17 @@ import java.io.File;
 
 public class GlideHelper {
 
-    public static void load(Activity activity, String url, ImageView imageView) {
-        Glide.with(activity)
-             .load(url)
-             .diskCacheStrategy(DiskCacheStrategy.RESULT)
-             .placeholder(R.drawable.image_default)
-             .error(R.drawable.image_default)
-             //.animate(R.anim.item_alpha_in)     //加载动画
-             .into(imageView);
-    }
-
-    public static void load(Fragment fragment, String url, ImageView imageView) {
-        Glide.with(fragment)
-                .load(url)
-                .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                .placeholder(R.drawable.image_default)
-                .error(R.drawable.image_default)
-                //.animate(R.anim.item_alpha_in)     //加载动画
-                .into(imageView);
-    }
-
-    public static void load(Context context, String url, ImageView imageView) {
+    public static void load(Context context, String url, ImageView imageView, int holderRes) {
         //L.d(((ContextWrapper)context).getBaseContext());
         Glide.with(context)
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                .placeholder(R.drawable.image_default)
-                .error(R.drawable.image_default)
+                .placeholder(holderRes)
+                .error(R.drawable.image_error)
                 //.animate(R.anim.item_alpha_in)     //加载动画
                 .into(imageView);
     }
+
 
     public static class MyGlideModule implements GlideModule {
 

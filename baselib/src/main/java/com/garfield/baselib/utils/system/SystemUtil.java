@@ -52,14 +52,16 @@ public class SystemUtil {
     /**
      * StatusBar
      */
-    public static void setStatusBarColorK(Activity activity, int color) {
-        setStatusBarColorK(activity, color, false);
-    }
-
-    public static void setStatusBarColorK(Activity activity, int color, boolean isAddView) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !isAddView) {
+    public static void setStatusBarColor(Activity activity, int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setStatusBarColorL(activity, color);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            setStatusBarColorK(activity, color);
+        }
+    }
+
+    public static void setStatusBarColorK(Activity activity, int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             /**
              * DecorView是一个FrameLayout，addView后会在最顶上，rootView使用FitsSystemWindows后，rootView会下移
              */
@@ -84,7 +86,7 @@ public class SystemUtil {
     private static void setStatusBarColorL(Activity activity, int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             /**
-             * 一旦设置了FLAG_TRANSLUCENT_STATUS，就无效了
+             * 一旦设置了FLAG_TRANSLUCENT_STATUS透明，就无效了
              */
             activity.getWindow().setStatusBarColor(color);
         }

@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
+import com.garfield.baselib.R;
 import com.nostra13.universalimageloader.core.download.ImageDownloader;
 
 import java.util.ArrayList;
@@ -18,8 +19,12 @@ import java.util.List;
 public class ImageHelper {
 
     public static void load(Context context, String url, ImageView imageView) {
+        load(context, url, imageView, R.drawable.image_default);
+    }
+
+    public static void load(Context context, String url, ImageView imageView, int imageRes) {
         // 必须得用Application的，否则会覆盖一个空白SupportRequestManagerFragment，导致很多问题
-        GlideHelper.load(context.getApplicationContext(), url, imageView);
+        GlideHelper.load(context.getApplicationContext(), url, imageView, imageRes);
     }
 
 

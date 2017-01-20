@@ -7,7 +7,8 @@
     </style>
 
     <style name="AppTheme" parent="BaseTheme">
-        <!-- colorBackground包含windowBackground，而且还控制其他元素的颜色 -->
+        <!-- windowBackground只会影响主窗口的背景
+             colorBackground包含windowBackground，而且还控制其他元素的颜色 -->
         <item name="android:colorBackground">@color/white</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/white</item>

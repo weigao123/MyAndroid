@@ -4,12 +4,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.garfield.baselib.utils.http.image.ImageHelper;
+import com.garfield.baselib.ui.widget.CropImage.GestureCropImageView;
 import com.garfield.weishu.R;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 
 import butterknife.BindView;
-import uk.co.senab.photoview.PhotoView;
 
 import static com.garfield.weishu.setting.SelfProfileFragment.INFO_HEAD;
 
@@ -26,7 +25,7 @@ public class CropPhotoFragment extends AppBaseFragment implements View.OnClickLi
     TextView mConfirm;
 
     @BindView(R.id.fragment_crop_photo_view)
-    PhotoView mPhotoView;
+    GestureCropImageView mGestureCropImageView;
 
     public static CropPhotoFragment newInstance(String photoPath) {
         Bundle args = new Bundle();
@@ -53,7 +52,8 @@ public class CropPhotoFragment extends AppBaseFragment implements View.OnClickLi
         mConfirm.setOnClickListener(this);
         mPhotoPath = getArguments().getString(INFO_HEAD);
 
-        ImageHelper.load(getContext(), "file://" + mPhotoPath, mPhotoView);
+        //ImageHelper.load(getContext(), "file://" + mPhotoPath, mGestureImageView);
+        mGestureCropImageView.setImageUrl("file://" + mPhotoPath);
     }
 
     @Override

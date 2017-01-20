@@ -391,7 +391,13 @@ public class SwipeBackLayout2 extends FrameLayout {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
         if (!mEnable) return super.onInterceptTouchEvent(event);
-        return mDragHelper.shouldInterceptTouchEvent(event);
+        try {
+            return mDragHelper.shouldInterceptTouchEvent(event);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            // FIXME: handle exception
+            // issues #9
+            return false;
+        }
     }
 
     @Override

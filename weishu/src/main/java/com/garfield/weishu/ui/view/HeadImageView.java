@@ -122,7 +122,7 @@ public class HeadImageView extends ImageView {
 //                }
 //            });
 
-            ImageHelper.load(getContext(), thumbUrl, this);
+            ImageHelper.load(getContext(), thumbUrl, this, R.drawable.avatar_def);
 //            Glide.with(getContext()).load(url).into(new SimpleTarget<GlideDrawable>() {
 //                @Override
 //                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {

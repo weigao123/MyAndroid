@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
-
-    <include layout="@layout/include_toolbar" />
+    android:layout_height="match_parent">
 
     <com.garfield.baselib.ui.widget.CropImage.GestureCropImageView
-        android:id="@+id/fragment_crop_photo_view"
+        android:id="@+id/widget_crop_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-</LinearLayout>
+
+    <com.garfield.baselib.ui.widget.CropImage.OverlayView
+        android:id="@+id/widget_crop_image_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</merge>

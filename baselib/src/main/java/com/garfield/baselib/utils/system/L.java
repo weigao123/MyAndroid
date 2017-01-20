@@ -16,7 +16,7 @@ public class L {
 
     static {
         Logger.init(TAG)                 // default PRETTYLOGGER or use just init()
-            .methodCount(1)                 // default 2
+            .methodCount(0)                 // default 2
             .hideThreadInfo()               // default shown
             .logLevel(LogLevel.FULL)        // default LogLevel.FULL
             .methodOffset(1);                // default 0

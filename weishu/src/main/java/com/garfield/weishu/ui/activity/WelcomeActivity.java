@@ -42,11 +42,11 @@ public class WelcomeActivity extends AppBaseActivity {
                     onIntent();
                 }
             };
-            new Handler().postDelayed(runnable, 1500);
+            new Handler().postDelayed(runnable, 0);
         } else {
             onIntent();
         }
-        //firstEnter = false;
+        firstEnter = false;
     }
 
     private boolean isNotify() {

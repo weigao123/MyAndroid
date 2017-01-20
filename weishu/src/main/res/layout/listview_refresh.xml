@@ -7,7 +7,9 @@
 
     <ProgressBar
         android:id="@+id/refresh_loading_indicator"
-        style="?android:attr/progressBarStyleSmall"
+        android:indeterminateDrawable="@drawable/my_progress"
+        android:indeterminateDuration="1000"
+        android:indeterminate="true"
         android:layout_width="18dp"
         android:layout_height="18dp"
         android:visibility="gone"/>

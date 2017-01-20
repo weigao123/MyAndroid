@@ -55,7 +55,7 @@ public class MainActivity extends AppBaseActivity {
         /**
          * 用来规避全屏造成的闪动
          */
-        SystemUtil.setStatusBarColorK(this, getResources().getColor(R.color.colorPrimaryDark), true);
+        SystemUtil.setStatusBarColorK(this, getResources().getColor(R.color.colorPrimaryDark));
 
         EventBus.getDefault().register(this);
         // 旋转时会非空
