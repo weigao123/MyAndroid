@@ -5,11 +5,6 @@ import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
-import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.garfield.baselib.utils.system.L;
 
 /**
  * Created by gaowei3 on 2017/1/19.
@@ -49,27 +44,19 @@ public class GestureCropImageView extends CropImageView {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
         if (event.getPointerCount() > 1) {
             mMidPntX = (event.getX(0) + event.getX(1)) / 2;
             mMidPntY = (event.getY(0) + event.getY(1)) / 2;
         }
-
-
         mGestureDetector.onTouchEvent(event);
-
         if (mIsScaleEnabled) {
             mScaleDetector.onTouchEvent(event);
         }
-
         if (mIsRotateEnabled) {
             mRotateDetector.onTouchEvent(event);
         }
-
         return true;
     }
-
-
 
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
 
@@ -92,7 +79,6 @@ public class GestureCropImageView extends CropImageView {
             postTranslate(-distanceX, -distanceY);
             return false;
         }
-
     }
 
     private class RotateListener extends RotationGestureDetector.SimpleOnRotationGestureListener {

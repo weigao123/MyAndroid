@@ -8,7 +8,8 @@
     <com.garfield.baselib.ui.widget.CropImage.GestureCropImageView
         android:id="@+id/widget_crop_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="@android:color/black"/>
 
     <com.garfield.baselib.ui.widget.CropImage.OverlayView
         android:id="@+id/widget_crop_image_overlay"

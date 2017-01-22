@@ -31,8 +31,12 @@ public class MyCropView extends FrameLayout implements ModuleProxy {
         mGestureCropImageView = (GestureCropImageView) findViewById(R.id.widget_crop_image);
         mGestureCropImageView.setModuleProxy(this);
         mOverlayView = (OverlayView) findViewById(R.id.widget_crop_image_overlay);
+        mOverlayView.setModuleProxy(this);
     }
 
+    public void setImageUrl(String url) {
+        mGestureCropImageView.setImageUrl(url);
+    }
 
     @Override
     public void setCropAspectRatio(float aspectRatio) {
@@ -40,7 +44,9 @@ public class MyCropView extends FrameLayout implements ModuleProxy {
     }
 
     @Override
-    public void setCropRect(RectF rectF) {
-
+    public void onCropRectUpdated(RectF rectF) {
+        mGestureCropImageView.setCropRect(rectF);
     }
+
+
 }

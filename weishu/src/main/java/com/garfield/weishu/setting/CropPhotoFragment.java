@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.garfield.baselib.ui.widget.CropImage.GestureCropImageView;
+import com.garfield.baselib.ui.widget.CropImage.MyCropView;
 import com.garfield.weishu.R;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 
@@ -25,7 +25,7 @@ public class CropPhotoFragment extends AppBaseFragment implements View.OnClickLi
     TextView mConfirm;
 
     @BindView(R.id.fragment_crop_photo_view)
-    GestureCropImageView mGestureCropImageView;
+    MyCropView mMyCropView;
 
     public static CropPhotoFragment newInstance(String photoPath) {
         Bundle args = new Bundle();
@@ -53,7 +53,7 @@ public class CropPhotoFragment extends AppBaseFragment implements View.OnClickLi
         mPhotoPath = getArguments().getString(INFO_HEAD);
 
         //ImageHelper.load(getContext(), "file://" + mPhotoPath, mGestureImageView);
-        mGestureCropImageView.setImageUrl("file://" + mPhotoPath);
+        mMyCropView.setImageUrl("file://" + mPhotoPath);
     }
 
     @Override

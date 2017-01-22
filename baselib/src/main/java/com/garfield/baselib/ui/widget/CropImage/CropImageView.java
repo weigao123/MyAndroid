@@ -1,8 +1,11 @@
 package com.garfield.baselib.ui.widget.CropImage;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
 /**
@@ -30,6 +33,10 @@ public class CropImageView extends GestureImageView {
 
     void setModuleProxy(ModuleProxy moduleProxy) {
         mModuleProxy = moduleProxy;
+    }
+
+    public void setCropRect(RectF cropRect) {
+
     }
 
     @Override
@@ -74,5 +81,20 @@ public class CropImageView extends GestureImageView {
         mCurrentImageMatrix.postScale(maxScale, maxScale);    //宽高都按一样的尺寸缩放
         mCurrentImageMatrix.postTranslate(xDiff, yDiff);      //tw的计算前提是，先缩小，再移动
         setImageMatrix(mCurrentImageMatrix);
+    }
+
+    public void cropAndSaveImage(@NonNull Bitmap.CompressFormat compressFormat, int compressQuality,
+                                 @Nullable BitmapCropCallback cropCallback) {
+
+        final ImageState imageState = new ImageState(
+                mCropRect, RectUtils.trapToRect(mCurrentImageCorners),
+                getCurrentScale(), getCurrentAngle());
+
+        final CropParameters cropParameters = new CropParameters(
+                mMaxResultImageSizeX, mMaxResultImageSizeY,
+                compressFormat, compressQuality,
+                getImageInputPath(), getImageOutputPath(), getExifInfo());
+
+        new BitmapCropTask(getViewBitmap(), imageState, cropParameters, cropCallback).execute();
     }
 }
