@@ -145,7 +145,7 @@ public class Util {
     }
 
     public static void t(Context context, String text) {
-        L.show(text);
+        L.toast(text);
     }
 
 }

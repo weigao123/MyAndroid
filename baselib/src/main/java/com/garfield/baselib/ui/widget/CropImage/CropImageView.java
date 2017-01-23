@@ -83,18 +83,5 @@ public class CropImageView extends GestureImageView {
         setImageMatrix(mCurrentImageMatrix);
     }
 
-    public void cropAndSaveImage(@NonNull Bitmap.CompressFormat compressFormat, int compressQuality,
-                                 @Nullable BitmapCropCallback cropCallback) {
 
-        final ImageState imageState = new ImageState(
-                mCropRect, RectUtils.trapToRect(mCurrentImageCorners),
-                getCurrentScale(), getCurrentAngle());
-
-        final CropParameters cropParameters = new CropParameters(
-                mMaxResultImageSizeX, mMaxResultImageSizeY,
-                compressFormat, compressQuality,
-                getImageInputPath(), getImageOutputPath(), getExifInfo());
-
-        new BitmapCropTask(getViewBitmap(), imageState, cropParameters, cropCallback).execute();
-    }
 }
