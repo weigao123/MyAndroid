@@ -91,7 +91,7 @@ public class MyImageLoader {
                 return bitmap.getRowBytes() * bitmap.getHeight() / 1024;
             }
         };
-        File diskCacheDir = DirectoryUtils.getOwnCacheDirectory("/DiskLruCache/bitmap");
+        File diskCacheDir = DirectoryUtils.getOwnCacheDirectory("DiskLruCache/bitmap");
         if (!diskCacheDir.exists()) {
             diskCacheDir.mkdirs();
         }

@@ -23,7 +23,7 @@ android {
     }
     sourceSets.main{
         //jni.srcDirs 'src/main/source'
-        jniLibs.srcDir 'src/main/libs'    //编译成功的so，会存放在目录
+        //jniLibs.srcDir 'src/main/libs'    //编译成功的so，会存放在目录
         jni.srcDirs = []    //将gradle的jni源目录设置为空，禁用gradle自带的ndk编译
     }
 

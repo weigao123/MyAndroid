@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.garfield.baselib.fragmentation.SupportFragment;
-import com.garfield.baselib.ui.widget.BottomBar2;
+import com.garfield.baselib.ui.widget.BottomBarTransition;
 import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.contact.ContactFragment;
@@ -28,10 +28,10 @@ import butterknife.BindView;
  * 不把BottomBar放在Activity中的原因是，要启动一个覆盖BottomBar的MsgFragment，否则无法覆盖
  * MainFragment包含1个BottomBar和3个Tab页Fragment
  */
-public class MainFragment extends AppBaseFragment implements BottomBar2.OnTabSelectedListener {
+public class MainFragment extends AppBaseFragment implements BottomBarTransition.OnTabSelectedListener {
 
     private SupportFragment[] mFragments = new SupportFragment[4];
-    private BottomBar2 mBottomBar;
+    private BottomBarTransition mBottomBar;
 
     @BindView(R.id.main_fragment_container)
     ViewPager mViewPager;
@@ -59,7 +59,7 @@ public class MainFragment extends AppBaseFragment implements BottomBar2.OnTabSel
         mViewPager.setAdapter(pagerAdapter);
         mViewPager.addOnPageChangeListener(mOnPageChangeListener);
 
-        mBottomBar = (BottomBar2) rootView.findViewById(R.id.bottomBar);
+        mBottomBar = (BottomBarTransition) rootView.findViewById(R.id.bottomBar);
         mBottomBar.setColor(R.color.bottom_bar_unselected, R.color.colorPrimary)
                 .addItem(R.drawable.ic_bottom_message1, R.drawable.ic_bottom_message2, R.string.message)
                 .addItem(R.drawable.ic_bottom_contact1, R.drawable.ic_bottom_contact2, R.string.contact)

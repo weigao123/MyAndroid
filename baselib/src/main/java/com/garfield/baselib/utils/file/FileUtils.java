@@ -6,13 +6,30 @@ package com.garfield.baselib.utils.file;
 
 public class FileUtils {
 
-    public static String removeFileSuffix(String filename) {
-        if ((filename != null) && (filename.length() > 0)) {
-            int dot = filename.lastIndexOf('.');
-            if ((dot > -1) && (dot < (filename.length()))) {
-                return filename.substring(0, dot);
+    /**
+     * 移除文件后缀
+     */
+    public static String removeFileSuffix(String filePath) {
+        if ((filePath != null) && (filePath.length() > 0)) {
+            int dot = filePath.lastIndexOf('.');
+            if ((dot > -1) && (dot < (filePath.length()))) {
+                return filePath.substring(0, dot);
             }
         }
-        return filename;
+        return filePath;
+    }
+
+    public static String getFileName(String filePath) {
+        if ((filePath != null) && (filePath.length() > 0)) {
+            int divide = filePath.lastIndexOf('/');
+            if ((divide > -1) && (divide < (filePath.length()))) {
+                return filePath.substring(divide, filePath.length() - 1);
+            }
+        }
+        return filePath;
+    }
+
+    public static String getFileNameWithoutSuffix(String filePath) {
+        return getFileName(removeFileSuffix(filePath));
     }
 }

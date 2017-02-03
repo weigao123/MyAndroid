@@ -1,4 +1,4 @@
-package com.garfield.baselib.ui.widget.CropImage;
+package com.garfield.baselib.ui.crop.model;
 
 /**
  * Created by Oleksii Shliama [https://github.com/shliama] on 6/21/16.

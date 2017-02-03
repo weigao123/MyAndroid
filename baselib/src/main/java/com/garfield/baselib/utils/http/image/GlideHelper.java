@@ -59,7 +59,7 @@ public class GlideHelper {
             /**
              * 硬盘缓存
              */
-            File cacheDir = DirectoryUtils.getOwnCacheDirectory("/cache/image");
+            File cacheDir = DirectoryUtils.getOwnCacheDirectory("cache/image");
             int diskCacheSize = 1024 * 1024 * 30;
             builder.setDiskCache(new DiskLruCacheFactory(cacheDir.getPath(), "Glide", diskCacheSize));
             //存放在内部存储 data/data/package/cache/

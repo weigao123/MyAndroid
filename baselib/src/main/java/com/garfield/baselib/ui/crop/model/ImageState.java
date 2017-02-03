@@ -1,4 +1,4 @@
-package com.garfield.baselib.ui.widget.CropImage;
+package com.garfield.baselib.ui.crop.model;
 
 import android.graphics.RectF;
 

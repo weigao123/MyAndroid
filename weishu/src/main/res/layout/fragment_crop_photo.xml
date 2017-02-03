@@ -8,8 +8,8 @@
 
     <include layout="@layout/include_toolbar" />
 
-    <com.garfield.baselib.ui.widget.CropImage.MyCropView
+    <com.garfield.baselib.ui.crop.view.MyCropView
         android:id="@+id/fragment_crop_photo_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 </LinearLayout>

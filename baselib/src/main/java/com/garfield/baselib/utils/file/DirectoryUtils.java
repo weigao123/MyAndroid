@@ -15,17 +15,17 @@ import java.io.File;
 public class DirectoryUtils {
 
     /**
-     * 以自己的包名为目录，下面的/cache/image/
+     * 以自己的包名为目录，下面的cache/image/
      */
     public static File getOwnImageCacheDirectory() {
-        return getOwnCacheDirectory("/cache/image/");
+        return getOwnCacheDirectory("cache/image/");
     }
 
     /**
-     * 以自己的包名为目录，cacheDir要以/开头
+     * 以自己的包名为目录，不要"/"
      */
     public static File getOwnCacheDirectory(String cacheDir) {
-        return getCacheDirectory(Cache.getContext().getPackageName() + cacheDir);
+        return getCacheDirectory(Cache.getContext().getPackageName() + "/" + cacheDir);
     }
 
     /**

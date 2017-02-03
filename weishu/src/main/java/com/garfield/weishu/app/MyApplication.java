@@ -85,7 +85,7 @@ public class MyApplication extends Application {
         try {
             File file;
             for (int i = 0; ; i++) {
-                file = new File(DirectoryUtils.getOwnCacheDirectory("/crash/"), "bug_" + i + ".txt");
+                file = new File(DirectoryUtils.getOwnCacheDirectory("crash/"), "bug_" + i + ".txt");
                 if (!file.exists()) {
                     break;
                 }
