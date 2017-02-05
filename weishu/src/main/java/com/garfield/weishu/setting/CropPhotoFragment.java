@@ -97,10 +97,10 @@ public class CropPhotoFragment extends AppBaseFragment implements View.OnClickLi
                         L.d(resultUri);
                         L.d(imageWidth);
                         L.d(imageHeight);
-                        Bundle bundle = new Bundle();
-                        bundle.putString(INFO_HEAD, resultUri.getPath());
-                        setFragmentResult(bundle);
-                        popToFragment(SelfProfileFragment.class, false);
+                        //Bundle bundle = new Bundle();
+                        //bundle.putString(INFO_HEAD, resultUri.getPath());
+                        //setFragmentResult(bundle);
+                        //popToFragment(SelfProfileFragment.class, false);
                     }
 
                     @Override

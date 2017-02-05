@@ -7,6 +7,6 @@ import android.graphics.RectF;
  */
 
 public interface ModuleProxy {
-    void setTargetCropRatio(float aspectRatio);
+    void setTargetCropRatio(float aspectRatio, RectF imgRect);
     void onCropRectUpdated(RectF rectF);
 }

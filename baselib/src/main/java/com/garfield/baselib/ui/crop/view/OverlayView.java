@@ -31,7 +31,6 @@ public class OverlayView extends View {
     private final RectF mCropViewRect = new RectF();   //包含了padding
     private final RectF mTempRect = new RectF();
 
-    private float mTargetCropRatio;
     private ModuleProxy mModuleProxy;
 
     private boolean mDrawGrid = true;
@@ -93,27 +92,32 @@ public class OverlayView extends View {
         mModuleProxy = moduleProxy;
     }
 
-    void setTargetCropRatio(float ratio) {
-        mTargetCropRatio = ratio;
-        setCropBounds();
+    void setTargetCropRatio(float ratio, RectF imgRect) {
+        setCropBounds(ratio, imgRect);
         invalidate();
     }
 
     /**
      * 设置裁剪边界
      */
-    void setCropBounds() {
-        int height = (int) (mThisWidth / mTargetCropRatio);
-        if (height > mThisHeight) {
-            int width = (int) (mThisHeight * mTargetCropRatio);
-            int halfDiff = (mThisWidth - width) / 2;
-            mCropViewRect.set(getPaddingLeft() + halfDiff, getPaddingTop(),
-                    getPaddingLeft() + width + halfDiff, getPaddingTop() + mThisHeight);
+    void setCropBounds(float ratio, RectF imgRect) {
+        float imgWidth = imgRect.width();
+        float imgHeight = imgRect.height();
+        // 以宽为标准
+        int height = (int) (imgWidth / ratio);
+        if (height > imgHeight) {
+            // 比如正方形比例，图像是矮胖，这时需要重新以高为标准
+            int width = (int) (imgHeight * ratio);
+            float halfDiff = (getWidth() - width) / 2;
+            mCropViewRect.set(halfDiff, getPaddingTop() + imgRect.top,
+                    width + halfDiff, getPaddingTop() + imgRect.bottom);
         } else {
-            int halfDiff = (mThisHeight - height) / 2;
-            mCropViewRect.set(getPaddingLeft(), getPaddingTop() + halfDiff,
-                    getPaddingLeft() + mThisWidth, getPaddingTop() + height + halfDiff);
+            // 比如正方形比例，图像是瘦高，不需要重新计算了
+            float halfDiff = (getHeight() - height) / 2;
+            mCropViewRect.set(getPaddingLeft() + imgRect.left, halfDiff,
+                    getPaddingLeft() + imgRect.right, height + halfDiff);
         }
+
         if (mModuleProxy != null) {
             mModuleProxy.onCropRectUpdated(mCropViewRect);
         }

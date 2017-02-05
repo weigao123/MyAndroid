@@ -102,7 +102,7 @@ public class CropImageView extends TransformImageView {
         initialImagePosition(drawableWidth, drawableHeight);
 
         if (mModuleProxy != null && mIsCrop) {
-            mModuleProxy.setTargetCropRatio(mTargetCropRatio);
+            mModuleProxy.setTargetCropRatio(mTargetCropRatio, mCropRect);
         }
     }
 

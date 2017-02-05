@@ -47,8 +47,8 @@ public class MyCropView extends FrameLayout implements ModuleProxy {
     }
 
     @Override
-    public void setTargetCropRatio(float aspectRatio) {
-        mOverlayView.setTargetCropRatio(aspectRatio);
+    public void setTargetCropRatio(float aspectRatio, RectF imgRect) {
+        mOverlayView.setTargetCropRatio(aspectRatio, imgRect);
     }
 
     @Override
