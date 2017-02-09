@@ -47,7 +47,7 @@ public class TransformImageView extends ImageView {
     private String mImageInputPath, mImageOutputPath;
     private ExifInfo mExifInfo;
 
-    protected Bitmap mBitmap;
+    protected Bitmap mBitmapLoaded;
 
     public TransformImageView(Context context) {
         this(context, null);
@@ -86,7 +86,7 @@ public class TransformImageView extends ImageView {
 
                     @Override
                     public void onBitmapLoaded(@NonNull Bitmap bitmap, @NonNull ExifInfo exifInfo, @NonNull String imageInputPath, @Nullable String imageOutputPath) {
-                        mBitmap = bitmap;
+                        mBitmapLoaded = bitmap;
                         mImageInputPath = imageInputPath;
                         mImageOutputPath = imageOutputPath;
                         mExifInfo = exifInfo;

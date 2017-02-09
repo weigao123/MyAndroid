@@ -2,30 +2,42 @@ package com.garfield.baselib.ui.crop;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
-
-import java.io.Serializable;
 
 /**
  * Created by Oleksii Shliama (https://github.com/shliama).
  * <p/>
  * Builder class to ease Intent setup.
  */
-public class CropParams implements Serializable {
+public class CropParams implements Parcelable {
 
     public static final int REQUEST_CROP = 69;
     public static final int RESULT_ERROR = 96;
 
-    public static final String PHOTO_INPUT_URI = "input_path";
-    public static final String PHOTO_OUTPUT_URI = "output_path";
-    public static final String IS_CROP = "is_crop";
-    public static final String CROP_RATIO = "ratio";
-    public static final String IS_HOLD = "hold";
-    public static final String MAX_SIZE_X = "size_x";
-    public static final String MAX_SIZE_Y = "size_y";
+    private static final String PHOTO_INPUT_URI = "input_path";
+    private static final String PHOTO_OUTPUT_URI = "output_path";
+    // 是否显示裁剪框
+    private static final String CROP_ENABLE = "crop_enable";
+    // 裁剪框初始化的比例
+    private static final String CROP_RATIO = "ratio";
+    // 是否固定这个裁剪比例
+    private static final String HOLD_ENABLE = "hold_enable";
+    // 是否允许缩放
+    private static final String SCALE_ENABLE = "scale_enable";
+    // 是否允许旋转
+    private static final String ROTATE_ENABLE = "rotate_enable";
+    // 最大裁剪后的像素
+    private static final String MAX_SIZE_X = "size_x";
+    private static final String MAX_SIZE_Y = "size_y";
 
     private Bundle mCropOptionsBundle;
+
+    private CropParams() {
+
+    }
 
     public static CropParams of(@NonNull Uri source) {
         return new CropParams(source);
@@ -41,8 +53,8 @@ public class CropParams implements Serializable {
         return this;
     }
 
-    public CropParams withIsCrop(boolean isCrop) {
-        mCropOptionsBundle.putBoolean(IS_CROP, isCrop);
+    public CropParams withCropEnable(boolean cropEnable) {
+        mCropOptionsBundle.putBoolean(CROP_ENABLE, cropEnable);
         return this;
     }
 
@@ -51,8 +63,18 @@ public class CropParams implements Serializable {
         return this;
     }
 
-    public CropParams withIsHold(boolean isHold) {
-        mCropOptionsBundle.putBoolean(IS_HOLD, isHold);
+    public CropParams withHoldEnable(boolean holdEnable) {
+        mCropOptionsBundle.putBoolean(HOLD_ENABLE, holdEnable);
+        return this;
+    }
+
+    public CropParams withScaleEnable(boolean scaleEnable) {
+        mCropOptionsBundle.putBoolean(SCALE_ENABLE, scaleEnable);
+        return this;
+    }
+
+    public CropParams withRotateEnable(boolean rotateEnable) {
+        mCropOptionsBundle.putBoolean(ROTATE_ENABLE, rotateEnable);
         return this;
     }
 
@@ -60,11 +82,6 @@ public class CropParams implements Serializable {
         mCropOptionsBundle.putInt(MAX_SIZE_X, width);
         mCropOptionsBundle.putInt(MAX_SIZE_Y, height);
         return this;
-    }
-
-
-    public Bundle getCropOptionsBundle() {
-        return mCropOptionsBundle;
     }
 
     public Uri getInputUri() {
@@ -75,16 +92,24 @@ public class CropParams implements Serializable {
         return mCropOptionsBundle.getParcelable(PHOTO_OUTPUT_URI);
     }
 
-    public boolean getIsCrop() {
-        return mCropOptionsBundle.getBoolean(IS_CROP);
+    public boolean getCropEnable() {
+        return mCropOptionsBundle.getBoolean(CROP_ENABLE);
+    }
+
+    public boolean getScaleEnable() {
+        return mCropOptionsBundle.getBoolean(SCALE_ENABLE);
+    }
+
+    public boolean getRotateEnable() {
+        return mCropOptionsBundle.getBoolean(ROTATE_ENABLE);
     }
 
     public float getCropRatio() {
         return mCropOptionsBundle.getFloat(CROP_RATIO);
     }
 
-    public boolean getIsHold() {
-        return mCropOptionsBundle.getBoolean(IS_HOLD);
+    public boolean getHoldEnable() {
+        return mCropOptionsBundle.getBoolean(HOLD_ENABLE);
     }
 
     public int getMaxSizeX() {
@@ -95,4 +120,25 @@ public class CropParams implements Serializable {
         return mCropOptionsBundle.getInt(MAX_SIZE_Y);
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(mCropOptionsBundle, flags);
+    }
+
+    public static final Parcelable.Creator<CropParams> CREATOR = new Parcelable.Creator<CropParams>() {
+        public CropParams createFromParcel(Parcel source) {
+            CropParams cropParams = new CropParams();
+            cropParams.mCropOptionsBundle = source.readParcelable(CropParams.class.getClassLoader());
+            return cropParams;
+        }
+        public CropParams[] newArray(int size) {
+            return new CropParams[size];
+        }
+    };
 }

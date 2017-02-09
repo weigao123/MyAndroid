@@ -14,6 +14,7 @@ import android.graphics.Path;
 import android.graphics.PathDashPathEffect;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Region;
 import android.graphics.Shader;
 import android.graphics.SweepGradient;
 import android.graphics.Typeface;
@@ -268,6 +269,7 @@ public class SpeedProgressView2 extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
         canvas.drawPath(mDottedArcPath, mDottedArcPaint);
         canvas.drawPath(mTrackArcPath, mTrackArcPaint);
 

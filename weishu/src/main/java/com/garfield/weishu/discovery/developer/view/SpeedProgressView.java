@@ -23,7 +23,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
-
 import com.garfield.weishu.R;
 
 import java.text.DecimalFormat;
@@ -269,6 +268,7 @@ public class SpeedProgressView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
         canvas.drawPath(mDottedArcPath, mDottedArcPaint);
         canvas.drawPath(mTrackArcPath, mTrackArcPaint);
 

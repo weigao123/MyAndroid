@@ -7,12 +7,12 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.Region;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.garfield.baselib.R;
 import com.garfield.baselib.ui.crop.callback.ModuleProxy;
 import com.garfield.baselib.ui.crop.utils.RectUtils;
 import com.garfield.baselib.utils.system.ScreenUtils;
@@ -37,7 +37,7 @@ public class OverlayView extends View {
     private boolean mCanChangeSize = true;
     private boolean mCircleCrop = false;
 
-    private boolean mIsHold;
+    private boolean mHoldEnabled;
 
     // 绘图
     private int mCropGridRowCount = 2, mCropGridColumnCount = 2;
@@ -69,6 +69,11 @@ public class OverlayView extends View {
     }
 
     private void init() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2 &&
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            // 关闭硬件加速
+            setLayerType(LAYER_TYPE_SOFTWARE, null);
+        }
         mCropGridPaint.setColor(Color.parseColor("#80FFFFFF"));
         mCropGridPaint.setStrokeWidth(ScreenUtils.dp2px(1));
         mCropBorderPaint.setColor(Color.WHITE);
@@ -77,6 +82,7 @@ public class OverlayView extends View {
         mCropBorderCornersPaint.setStrokeWidth(ScreenUtils.dp2px(3));
         mCropBorderCornersPaint.setColor(Color.WHITE);
         mCropBorderCornersPaint.setStyle(Paint.Style.STROKE);
+        setVisibility(INVISIBLE);
     }
 
     @Override
@@ -92,7 +98,12 @@ public class OverlayView extends View {
         mModuleProxy = moduleProxy;
     }
 
+    /**
+     * 从Image传过来，imgRect需要加上padding
+     */
     void setTargetCropRatio(float ratio, RectF imgRect) {
+        // 执行后表示允许裁剪，所以显示
+        setVisibility(VISIBLE);
         setCropBounds(ratio, imgRect);
         invalidate();
     }
@@ -123,8 +134,8 @@ public class OverlayView extends View {
         }
     }
 
-    void setIsHold(boolean isHold) {
-        mIsHold = isHold;
+    void setHoldEnabled(boolean holdEnabled) {
+        mHoldEnabled = holdEnabled;
     }
 
     @Override
@@ -190,10 +201,10 @@ public class OverlayView extends View {
             case 4:
                 float dx = touchX - mPreviousTouchX;
                 float dy = touchY - mPreviousTouchY;
-                if (mTempRect.left + dx < getLeft() || mTempRect.right + dx > getRight()) {
+                if (mTempRect.left + dx < 0 || mTempRect.right + dx > getWidth()) {
                     dx = 0;
                 }
-                if (mTempRect.top + dy < getTop() || mTempRect.bottom + dy > getBottom()) {
+                if (mTempRect.top + dy < 0 || mTempRect.bottom + dy > getHeight()) {
                     dy = 0;
                 }
                 mTempRect.offset(dx, dy);     //位移
@@ -231,7 +242,7 @@ public class OverlayView extends View {
         } else {
             canvas.clipRect(mCropViewRect, Region.Op.DIFFERENCE);
         }
-        canvas.drawColor(getResources().getColor(R.color.black_trans));
+        canvas.drawColor(Color.parseColor("#8c000000"));
         canvas.restore();
     }
 

@@ -2,7 +2,6 @@ package com.garfield.baselib.ui.crop.view;
 
 import android.content.Context;
 import android.graphics.RectF;
-import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
@@ -39,11 +38,16 @@ public class MyCropView extends FrameLayout implements ModuleProxy {
 
     public void setCropParams(CropParams cropParams) {
         mGestureCropImageView.setImageUrl(cropParams.getInputUri(), cropParams.getOutputUri());
-        mGestureCropImageView.setMaxResultImageSizeX(cropParams.getMaxSizeX());
-        mGestureCropImageView.setMaxResultImageSizeY(cropParams.getMaxSizeY());
-        mGestureCropImageView.setEnableCrop(cropParams.getIsCrop());
+        mGestureCropImageView.setMaxResultImageSize(cropParams.getMaxSizeX(), cropParams.getMaxSizeY());
+        mGestureCropImageView.setCropEnabled(cropParams.getCropEnable());
+        mGestureCropImageView.setScaleEnabled(cropParams.getScaleEnable());
+        mGestureCropImageView.setRotateEnabled(cropParams.getRotateEnable());
         mGestureCropImageView.setTargetCropRatio(cropParams.getCropRatio());
-        mOverlayView.setIsHold(cropParams.getIsHold());
+        mOverlayView.setHoldEnabled(cropParams.getHoldEnable());
+    }
+
+    public void setTransformListener(TransformImageView.TransformImageListener listener) {
+        mGestureCropImageView.setTransformImageListener(listener);
     }
 
     @Override

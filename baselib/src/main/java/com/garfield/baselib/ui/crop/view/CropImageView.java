@@ -2,6 +2,7 @@ package com.garfield.baselib.ui.crop.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.IntRange;
@@ -16,6 +17,8 @@ import com.garfield.baselib.ui.crop.model.ImageState;
 import com.yalantis.ucrop.task.BitmapCropTask;
 import com.garfield.baselib.ui.crop.utils.RectUtils;
 
+import java.util.Arrays;
+
 /**
  * Created by gaowei3 on 2017/1/20.
  */
@@ -28,12 +31,16 @@ public class CropImageView extends TransformImageView {
      */
     private final RectF mCropRect = new RectF();
 
-    private boolean mIsCrop;
+    private boolean mCropEnabled;
     private float mTargetCropRatio;    //裁剪框的比例
 
     private ModuleProxy mModuleProxy;
 
     private int mMaxResultImageSizeX = 0, mMaxResultImageSizeY = 0;
+
+    private float mMaxScale, mMinScale;
+    private float mMaxScaleMultiplier = 10;
+    private final Matrix mTempMatrix = new Matrix();
 
     public CropImageView(Context context) {
         this(context, null);
@@ -56,9 +63,10 @@ public class CropImageView extends TransformImageView {
      */
     public void setCropRect(RectF cropRect) {
         mTargetCropRatio = cropRect.width() / cropRect.height();
-        mCropRect.set(cropRect.left - getPaddingLeft(), cropRect.top - getPaddingTop(),
-                cropRect.right - getPaddingRight(), cropRect.bottom - getPaddingBottom());
-
+        mCropRect.set(cropRect);
+        mCropRect.offset(-getPaddingLeft(), -getPaddingTop());
+        calculateImageScaleBounds();
+        setImageToWrapCropBounds();
     }
 
     @Override
@@ -101,11 +109,14 @@ public class CropImageView extends TransformImageView {
         }
         initialImagePosition(drawableWidth, drawableHeight);
 
-        if (mModuleProxy != null && mIsCrop) {
+        if (mModuleProxy != null && mCropEnabled) {
             mModuleProxy.setTargetCropRatio(mTargetCropRatio, mCropRect);
         }
     }
 
+    /**
+     * 初始化放置图像
+     */
     private void initialImagePosition(float drawableWidth, float drawableHeight) {
         float widthScale = mCropRect.width() / drawableWidth;
         float heightScale = mCropRect.height() / drawableHeight;
@@ -121,27 +132,28 @@ public class CropImageView extends TransformImageView {
         setImageMatrix(mCurrentImageMatrix);
     }
 
-    public void setEnableCrop(boolean isCrop) {
-        mIsCrop = isCrop;
+    public void setCropEnabled(boolean cropEnabled) {
+        mCropEnabled = cropEnabled;
     }
 
     public void setTargetCropRatio(float ratio) {
         mTargetCropRatio = ratio;
     }
 
-    public void setMaxResultImageSizeX(@IntRange(from = 10) int maxResultImageSizeX) {
+    public void setMaxResultImageSize(@IntRange(from = 10) int maxResultImageSizeX, @IntRange(from = 10) int maxResultImageSizeY) {
         mMaxResultImageSizeX = maxResultImageSizeX;
-    }
-
-    public void setMaxResultImageSizeY(@IntRange(from = 10) int maxResultImageSizeY) {
         mMaxResultImageSizeY = maxResultImageSizeY;
     }
 
     public void cropAndSaveImage(@NonNull Bitmap.CompressFormat compressFormat, int compressQuality,
                                  @Nullable BitmapCropCallback cropCallback) {
-//        cancelAllAnimations();
-//        setImageToWrapCropBounds(false);
-//
+        if (getImageOutputPath() == null) {
+            return;
+        }
+
+        //cancelAllAnimations();
+        setImageToWrapCropBounds(false);
+
         final ImageState imageState = new ImageState(
                 mCropRect, RectUtils.trapToRect(mCurrentImageCorners),
                 getCurrentScale(), getCurrentAngle());
@@ -151,6 +163,150 @@ public class CropImageView extends TransformImageView {
                 compressFormat, compressQuality,
                 getImageInputPath(), getImageOutputPath(), getExifInfo());
 
-        new BitmapCropTask(mBitmap, imageState, cropParameters, cropCallback).execute();
+        new BitmapCropTask(mBitmapLoaded, imageState, cropParameters, cropCallback).execute();
     }
+
+    public void zoomInImage(float scale, float centerX, float centerY) {
+        if (scale <= mMaxScale) {
+            postScale(scale / getCurrentScale(), centerX, centerY);
+        }
+    }
+
+    /**
+     * 计算，不懂。。。
+     */
+    private void calculateImageScaleBounds() {
+        final Drawable drawable = getDrawable();
+        if (drawable == null) {
+            return;
+        }
+        calculateImageScaleBounds(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+    }
+
+    private void calculateImageScaleBounds(float drawableWidth, float drawableHeight) {
+        float widthScale = Math.min(mCropRect.width() / drawableWidth, mCropRect.width() / drawableHeight);
+        float heightScale = Math.min(mCropRect.height() / drawableHeight, mCropRect.height() / drawableWidth);
+
+        mMinScale = Math.min(widthScale, heightScale);
+        mMaxScale = mMinScale * mMaxScaleMultiplier;
+    }
+
+    /**
+     * 移动加缩放，使裁剪框在图像内部
+     */
+    public void setImageToWrapCropBounds() {
+        setImageToWrapCropBounds(false);
+    }
+
+    public void setImageToWrapCropBounds(boolean animate) {
+        if (mCropEnabled && mBitmapLaidOut && !isImageWrapCropBounds()) {
+
+            float currentX = mCurrentImageCenter[0];
+            float currentY = mCurrentImageCenter[1];
+            float currentScale = getCurrentScale();
+
+            float deltaX = mCropRect.centerX() - currentX;
+            float deltaY = mCropRect.centerY() - currentY;
+            float deltaScale = 0;
+
+            mTempMatrix.reset();
+            mTempMatrix.setTranslate(deltaX, deltaY);
+
+            final float[] tempCurrentImageCorners = Arrays.copyOf(mCurrentImageCorners, mCurrentImageCorners.length);
+
+            // 把图像中心移动到裁剪框中心，这时候再判断isImageWrapCropBounds
+            mTempMatrix.mapPoints(tempCurrentImageCorners);
+            // 是否需要放大
+            boolean willImageWrapCropBoundsAfterTranslate = isImageWrapCropBounds(tempCurrentImageCorners);
+
+            if (willImageWrapCropBoundsAfterTranslate) {
+                // 大小合适，只需要移动，但是不需要移动到中心点对齐，所以重新计算需要移动的距离
+                final float[] imageIndents = calculateImageIndents();
+                deltaX = -(imageIndents[0] + imageIndents[2]);    //左加右
+                deltaY = -(imageIndents[1] + imageIndents[3]);    //上加下
+            } else {
+                // 大小不对，移动后(移动到中心点对齐)，必须再放大
+                RectF tempCropRect = new RectF(mCropRect);
+                mTempMatrix.reset();
+                mTempMatrix.setRotate(getCurrentAngle());
+                mTempMatrix.mapRect(tempCropRect);
+
+                final float[] currentImageSides = RectUtils.getRectSidesFromCorners(mCurrentImageCorners);
+
+                deltaScale = Math.max(tempCropRect.width() / currentImageSides[0],
+                        tempCropRect.height() / currentImageSides[1]);
+                deltaScale = deltaScale * currentScale - currentScale;
+            }
+
+            if (animate) {
+
+            } else {
+                // 移动完后检查是否需要再放大
+                postTranslate(deltaX, deltaY);
+                if (!willImageWrapCropBoundsAfterTranslate) {
+                    zoomInImage(currentScale + deltaScale, mCropRect.centerX(), mCropRect.centerY());
+                }
+            }
+        }
+    }
+
+    /**
+     * 想象把手机反方向旋转后的效果，就理解了
+     * true：裁剪框在图像内
+     */
+    protected boolean isImageWrapCropBounds() {
+        return isImageWrapCropBounds(mCurrentImageCorners);
+    }
+
+    protected boolean isImageWrapCropBounds(float[] imageCorners) {
+        mTempMatrix.reset();
+        mTempMatrix.setRotate(-getCurrentAngle());
+
+        // 图像和裁剪框同时反方向旋转
+        float[] unRotatedImageCorners = Arrays.copyOf(imageCorners, imageCorners.length);
+        mTempMatrix.mapPoints(unRotatedImageCorners);
+        float[] unRotatedCropBoundsCorners = RectUtils.getCornersFromRect(mCropRect);
+        mTempMatrix.mapPoints(unRotatedCropBoundsCorners);
+
+        return RectUtils.trapToRect(unRotatedImageCorners).contains(RectUtils.trapToRect(unRotatedCropBoundsCorners));
+    }
+
+    /**
+     * 1、旋转图像角点和裁剪角点，使图像矩形水平
+     * 2、计算角点的边框差
+     * 3、根据差值，得出是否需要用到这个差值(差值/0)，组合成4个值，想象成左上角和右下角的点
+     */
+    private float[] calculateImageIndents() {
+        mTempMatrix.reset();
+        mTempMatrix.setRotate(-getCurrentAngle());
+
+        float[] unRotatedImageCorners = Arrays.copyOf(mCurrentImageCorners, mCurrentImageCorners.length);
+        float[] unRotatedCropBoundsCorners = RectUtils.getCornersFromRect(mCropRect);
+
+        mTempMatrix.mapPoints(unRotatedImageCorners);
+        mTempMatrix.mapPoints(unRotatedCropBoundsCorners);
+
+        RectF unRotatedImageRect = RectUtils.trapToRect(unRotatedImageCorners);
+        RectF unRotatedCropRect = RectUtils.trapToRect(unRotatedCropBoundsCorners);
+
+        float deltaLeft = unRotatedImageRect.left - unRotatedCropRect.left;
+        float deltaTop = unRotatedImageRect.top - unRotatedCropRect.top;
+        float deltaRight = unRotatedImageRect.right - unRotatedCropRect.right;
+        float deltaBottom = unRotatedImageRect.bottom - unRotatedCropRect.bottom;
+
+        float indents[] = new float[4];
+        indents[0] = (deltaLeft > 0) ? deltaLeft : 0;   // 正值说明裁剪在图像外面，要用到这个差值，返回正
+        indents[1] = (deltaTop > 0) ? deltaTop : 0;
+        indents[2] = (deltaRight < 0) ? deltaRight : 0;   // 负值说明裁剪在图像外面，要用到这个差值，返回负
+        indents[3] = (deltaBottom < 0) ? deltaBottom : 0;
+
+        mTempMatrix.reset();
+        mTempMatrix.setRotate(getCurrentAngle());
+        mTempMatrix.mapPoints(indents);
+
+        return indents;
+    }
+
+
+
 }
