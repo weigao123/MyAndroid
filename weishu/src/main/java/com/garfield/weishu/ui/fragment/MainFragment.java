@@ -141,9 +141,4 @@ public class MainFragment extends AppBaseFragment implements BottomBarTransition
         }
     }
 
-    @Override
-    public void onDestroy() {
-        L.d("ondestory");
-        super.onDestroy();
-    }
 }

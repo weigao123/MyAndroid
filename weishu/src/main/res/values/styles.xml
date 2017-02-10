@@ -21,7 +21,6 @@
     <!-- 背景图会嵌入状态栏 -->
     <style name="welcomeTheme" parent="TranslucentBar">
         <item name="android:windowBackground">@drawable/welcome_bg</item>
-        <item name="android:windowFullscreen">true</item>
     </style>
 
     <style name="Fullscreen" parent="AppTheme">

@@ -1,48 +1,50 @@
 package com.garfield.weishu.ui.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.view.WindowManager;
 
+import com.garfield.baselib.BuildConfig;
 import com.garfield.baselib.utils.system.L;
-import com.garfield.baselib.utils.system.SystemUtil;
-import com.garfield.baselib.utils.system.TranslucentUtils;
-import com.garfield.weishu.R;
 import com.garfield.weishu.app.UserPreferences;
 import com.netease.nimlib.sdk.NimIntent;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
+
+import java.util.ArrayList;
 
 /**
  * Created by gaowei3 on 2016/9/6.
  */
 public class WelcomeActivity extends AppBaseActivity {
 
-    private static boolean firstEnter = true; // 是否首次进入
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-    }
+    public static boolean firstEnter = true; // 是否首次进入
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_welcome);
+        L.d(getIntent());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        onIntent();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (firstEnter && !isNotify()) {
+        if (!BuildConfig.API_DEBUG && firstEnter && !isNotify()) {
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
                     onIntent();
                 }
             };
-            new Handler().postDelayed(runnable, 0);
+            new Handler().postDelayed(runnable, 1000);
         } else {
             onIntent();
         }
@@ -56,10 +58,20 @@ public class WelcomeActivity extends AppBaseActivity {
     private void onIntent() {
         if (!canAutoLogin()) {
             startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
+            finish();
         } else {
-            MainActivity.start(WelcomeActivity.this, getIntent());
+            Intent intent = getIntent();
+            if (intent != null) {
+                if (intent.hasExtra(NimIntent.EXTRA_NOTIFY_CONTENT)) {
+                    ArrayList<IMMessage> messages = (ArrayList<IMMessage>) intent.getSerializableExtra(NimIntent.EXTRA_NOTIFY_CONTENT);
+                    if (messages != null && messages.size() > 0) {
+                        showMainActivity(new Intent().putExtra(NimIntent.EXTRA_NOTIFY_CONTENT, messages.get(0)));
+                        return;
+                    }
+                }
+            }
+            showMainActivity(null);
         }
-        finish();
     }
 
     /**
@@ -69,6 +81,11 @@ public class WelcomeActivity extends AppBaseActivity {
         String account = UserPreferences.getUserAccount();
         String token = UserPreferences.getUserToken();
         return !TextUtils.isEmpty(account) && !TextUtils.isEmpty(token);
+    }
+
+    private void showMainActivity(Intent intent) {
+        MainActivity.start(WelcomeActivity.this, intent);
+        finish();
     }
 
     @Override

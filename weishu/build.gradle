@@ -1,8 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
-//apply plugin: 'com.antfortune.freeline'
-
-
 
 android {
     useLibrary 'org.apache.http.legacy'
@@ -40,9 +37,8 @@ android {
         //jniLibs.srcDir 'src/main/libs'    //编译成功的so，会存放在目录
         //jni.srcDirs = []    //将gradle的jni源目录设置为空，禁用gradle自带的ndk编译
     }
-
     lintOptions {
-        abortOnError false
+        abortOnError false   //编译时屏蔽掉lint检查,即使有报错也不会停止打包
     }
 
 }
@@ -59,7 +55,5 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'org.greenrobot:eventbus:3.0.0'
-
-    compile 'com.facebook.stetho:stetho:1.4.2'
 
 }

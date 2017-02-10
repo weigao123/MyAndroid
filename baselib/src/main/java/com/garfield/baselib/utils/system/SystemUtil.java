@@ -49,21 +49,15 @@ public class SystemUtil {
         return null;
     }
 
-    /**
-     * StatusBar
-     */
-    public static void setStatusBarColor(Activity activity, int color) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setStatusBarColorL(activity, color);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            setStatusBarColorK(activity, color);
-        }
-    }
 
+    /**
+     * 19以上通用，用一种变色方式
+     */
     public static void setStatusBarColorK(Activity activity, int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             /**
-             * DecorView是一个FrameLayout，addView后会在最顶上，rootView使用FitsSystemWindows后，rootView会下移
+             * 19的StatusBar默认是不能直接改颜色的，没有setStatusBarColor方法
+             * DecorView是一个FrameLayout，addView(bar)后会自动在最顶上，rootView使用FitsSystemWindows后，DecorView内的rootView会下移
              */
             View statusBarView = activity.findViewById(R.id.status_bar_id);
             if (statusBarView == null) {
@@ -80,6 +74,17 @@ public class SystemUtil {
                 rootView.setClipToPadding(true);
             }
             statusBarView.setBackgroundColor(color);
+        }
+    }
+
+    /**
+     * 19以上通用，用两种变色方式
+     */
+    public static void setStatusBarColor(Activity activity, int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setStatusBarColorL(activity, color);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            setStatusBarColorK(activity, color);
         }
     }
 

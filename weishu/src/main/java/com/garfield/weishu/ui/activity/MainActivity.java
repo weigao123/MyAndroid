@@ -4,19 +4,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.baselib.ui.dialog.DialogMaker;
+import com.garfield.baselib.utils.system.L;
 import com.garfield.baselib.utils.system.SystemUtil;
 import com.garfield.weishu.R;
+import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.base.event.StartBrotherEvent;
 import com.garfield.weishu.nim.NimConfig;
 import com.garfield.weishu.nim.cache.LoginSyncHelper;
 import com.garfield.weishu.session.session.SessionFragment;
 import com.garfield.weishu.ui.fragment.MainFragment;
+import com.netease.nimlib.sdk.NimIntent;
 import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -37,7 +42,7 @@ public class MainActivity extends AppBaseActivity {
     public static void start(Context context, Intent extras) {
         Intent intent = new Intent();
         intent.setClass(context, MainActivity.class);
-        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         if (extras != null) {
             intent.putExtras(extras);
         }
@@ -52,6 +57,7 @@ public class MainActivity extends AppBaseActivity {
     @Override
     protected void onInitViewAndData(Bundle savedInstanceState) {
         super.onInitViewAndData(savedInstanceState);
+        onParseIntent();
         /**
          * 用来规避全屏造成的闪动
          */
@@ -77,6 +83,34 @@ public class MainActivity extends AppBaseActivity {
             }
         }
         setIsToBack(isToBack);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        onParseIntent();
+    }
+
+    private void onParseIntent() {
+        Intent intent = getIntent();
+        if (intent.hasExtra(NimIntent.EXTRA_NOTIFY_CONTENT)) {
+            final IMMessage message = (IMMessage) getIntent().getSerializableExtra(NimIntent.EXTRA_NOTIFY_CONTENT);
+            switch (message.getSessionType()) {
+                case P2P:
+                    getHandler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            popToFragment(MainFragment.class, false);
+                            startFragment(SessionFragment.newInstance(message.getSessionId()));
+                        }
+                    });
+                    break;
+                case Team:
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     @Subscribe

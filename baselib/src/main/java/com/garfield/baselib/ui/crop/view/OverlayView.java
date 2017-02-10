@@ -69,8 +69,8 @@ public class OverlayView extends View {
     }
 
     private void init() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2 &&
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB &&
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
             // 关闭硬件加速
             setLayerType(LAYER_TYPE_SOFTWARE, null);
         }

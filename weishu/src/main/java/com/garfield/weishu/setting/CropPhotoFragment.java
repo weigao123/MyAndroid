@@ -21,6 +21,8 @@ import java.io.File;
 
 import butterknife.BindView;
 
+import static com.garfield.weishu.setting.SelfProfileFragment.INFO_HEAD;
+
 
 /**
  * Created by gaowei3 on 2016/10/19.
@@ -39,14 +41,14 @@ public class CropPhotoFragment extends AppBaseFragment implements View.OnClickLi
     MyCropView mMyCropView;
 
     public static CropPhotoFragment newInstance(String photoPath) {
-        return newInstance(photoPath, true, 1, false);
+        return newInstance(photoPath, true, 1, true);
     }
 
     public static CropPhotoFragment newInstance(String photoPath,
-                                                boolean isCrop, float ratio, boolean hold) {
+                                                boolean cropEnable, float cropRatio, boolean cropHoldEnable) {
         Bundle args = new Bundle();
         CropParams cropParams = CropParams.of(Uri.fromFile(new File(photoPath)));
-        cropParams.withCropRatio(ratio).withCropEnable(isCrop).withHoldEnable(hold);
+        cropParams.withCropRatio(cropRatio).withCropEnable(cropEnable).withHoldEnable(cropHoldEnable);
         args.putParcelable("cropParams", cropParams);
         CropPhotoFragment fragment = new CropPhotoFragment();
         fragment.setArguments(args);
@@ -72,12 +74,12 @@ public class CropPhotoFragment extends AppBaseFragment implements View.OnClickLi
         if (cropParams != null) {
             String photoPath = cropParams.getInputUri().getPath();
             cropParams.withOutputUri(Uri.fromFile(new File(DirectoryUtils.getOwnCacheDirectory("crop"), FileUtils.getFileNameWithoutSuffix(photoPath) + "_crop.jpg")));
-            cropParams.withCropEnable(true);
+            //cropParams.withCropEnable(true);
             cropParams.withScaleEnable(true);
             cropParams.withRotateEnable(true);
             cropParams.withMaxResultSize(300, 0);
-            cropParams.withCropRatio(1);
-            cropParams.withHoldEnable(true);
+            //cropParams.withCropRatio(1);
+            //cropParams.withHoldEnable(true);
             mMyCropView.setCropParams(cropParams);
             mMyCropView.setTransformListener(new TransformImageView.TransformImageListener() {
                 @Override
@@ -110,13 +112,13 @@ public class CropPhotoFragment extends AppBaseFragment implements View.OnClickLi
 
             @Override
             public void onBitmapCropped(@NonNull Uri resultUri, int imageWidth, int imageHeight) {
-                L.d(resultUri);
-                L.d(imageWidth);
-                L.d(imageHeight);
-                //Bundle bundle = new Bundle();
-                //bundle.putString(INFO_HEAD, resultUri.getPath());
-                //setFragmentResult(bundle);
-                //popToFragment(SelfProfileFragment.class, false);
+//                L.d(resultUri);
+//                L.d(imageWidth);
+//                L.d(imageHeight);
+                Bundle bundle = new Bundle();
+                bundle.putString(INFO_HEAD, resultUri.getPath());
+                setFragmentResult(bundle);
+                popToFragment(SelfProfileFragment.class, false);
             }
 
             @Override

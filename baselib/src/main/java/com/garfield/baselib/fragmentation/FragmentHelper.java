@@ -124,14 +124,14 @@ public class FragmentHelper {
     }
 
     /**
-     * 返回到特定的某一个
+     * 返回到特定的某一个,includeSelf表示把fragmentClass也弹出去
      */
     void popToFragment(final FragmentManager fragmentManager, Class<?> fragmentClass, boolean includeSelf) {
         int flag;
         SupportFragment thisFragment = getTopFragment(fragmentManager);
         SupportFragment targetFragment = (SupportFragment) fragmentManager.findFragmentByTag(fragmentClass.getName());
         mActivity.onSwitchToFragment(targetFragment);
-        if (false) {
+        if (includeSelf) {
             //暂时不用
             flag = FragmentManager.POP_BACK_STACK_INCLUSIVE;
             targetFragment = getPreFragment(targetFragment);

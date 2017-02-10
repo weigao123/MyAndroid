@@ -56,7 +56,7 @@ public class SettingsPreferences {
     }
 
     public static boolean getCropTool() {
-        return getBoolean(KEY_CROP_TOGGLE, true);
+        return getBoolean(KEY_CROP_TOGGLE, false);
     }
 
     public static void setStatusConfig(StatusBarNotificationConfig config) {

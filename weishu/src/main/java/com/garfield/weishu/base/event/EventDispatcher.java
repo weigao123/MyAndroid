@@ -87,7 +87,7 @@ public class EventDispatcher {
             public void run() {
                 EventBus.getDefault().post(new StartBrotherEvent(fragment));
             }
-        }, 100);
+        }, 100);   //延迟是为了让点击item后，item能看到按下的效果
     }
 
     public static void startDialog(final Dialog dialog) {

@@ -18,11 +18,13 @@ import android.graphics.Shader;
 import android.graphics.SweepGradient;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
+import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.R;
 
 import java.text.DecimalFormat;
@@ -141,6 +143,7 @@ public class SpeedProgressView extends View {
 
     private void initView() {
         if (mTrackArcRect != null) return;
+
         setBackgroundColor(Color.parseColor("#" + BackgroundColor));
 
         //大圈
