@@ -120,7 +120,8 @@ public class SupportFragment extends BaseFragment implements ISupport {
     }
 
     /**
-     * 正在pop back时，返回true，用于滑动关闭时无动画
+     * 1、正在pop back时，返回true，用于滑动关闭时无动画
+     * 2、执行popToFragment时，关闭动画
      */
     protected boolean isFragmentSwipeBacking() {
         return false;

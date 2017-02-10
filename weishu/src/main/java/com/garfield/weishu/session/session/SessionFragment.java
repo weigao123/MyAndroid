@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.garfield.weishu.R;
+import com.garfield.weishu.app.AppCache;
+import com.garfield.weishu.app.SettingsPreferences;
 import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 import com.netease.nimlib.sdk.NIMClient;
@@ -49,6 +51,13 @@ public class SessionFragment extends AppBaseFragment implements ModuleProxy {
         SessionFragment fragment = new SessionFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // workaround 通过状态栏进入,popFragment后，把动画状态恢复
+        AppCache.setHasAnimation(SettingsPreferences.getAnimation());
     }
 
     @Override

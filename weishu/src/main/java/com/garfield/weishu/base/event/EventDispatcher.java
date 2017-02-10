@@ -79,15 +79,18 @@ public class EventDispatcher {
         }
     };
 
-
     public static void startFragment(final SupportFragment fragment) {
+        startFragment(fragment, 100);
+    }
+
+    public static void startFragment(final SupportFragment fragment, int delayTime) {
         if (UiUtils.isFastDoubleClick(500)) return;
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 EventBus.getDefault().post(new StartBrotherEvent(fragment));
             }
-        }, 100);   //延迟是为了让点击item后，item能看到按下的效果
+        }, delayTime);   //延迟是为了让点击item后，item能看到按下的效果
     }
 
     public static void startDialog(final Dialog dialog) {
