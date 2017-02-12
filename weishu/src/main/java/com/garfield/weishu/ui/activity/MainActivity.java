@@ -59,7 +59,9 @@ public class MainActivity extends AppBaseActivity {
     @Override
     protected void onInitViewAndData(Bundle savedInstanceState) {
         super.onInitViewAndData(savedInstanceState);
-        onParseIntent();
+        if (savedInstanceState == null) {
+            onParseIntent();
+        }
         /**
          * 用来规避全屏造成的闪动
          */
@@ -112,7 +114,13 @@ public class MainActivity extends AppBaseActivity {
                                     startFragment(SessionFragment.newInstance(message.getSessionId()));
                                 }
                             });
-                            //EventDispatcher.getFragmentJumpEvent().onShowSession(message.getSessionId());
+                            // workaround 通过状态栏进入，popFragment后，把动画状态恢复
+                            getHandler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    AppCache.setHasAnimation(SettingsPreferences.getAnimation());
+                                }
+                            }, 1000);
                         }
                     });
                     break;

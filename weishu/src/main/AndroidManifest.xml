@@ -1,7 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.garfield.weishu">
 
-
     <!-- 访问网络状态-->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -85,7 +84,6 @@
             android:name="com.netease.cosine.core.CosineService"
             android:process=":cosine">
         </service>
-
         <receiver
             android:name="com.netease.cosine.target.CosineReceiver"
             android:exported="true"
@@ -98,6 +96,18 @@
         <meta-data
             android:name="com.netease.cosine.target.receiver"
             android:value="com.netease.nimlib.service.NimReceiver"/>
+
+        <!--<receiver-->
+            <!--android:name=".app.MyBroadcast"-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.BOOT_COMPLETED"/>-->
+                <!--<action android:name="android.intent.action.SCREEN_OFF"/>-->
+                <!--<action android:name="android.intent.action.SCREEN_ON"/>-->
+                <!--<action android:name="android.intent.action.USER_PRESENT"/>-->
+                <!--<action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>-->
+                <!--<action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
 
         <!-- Glide配置 -->
         <meta-data

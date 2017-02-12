@@ -41,17 +41,17 @@ public class DiscoveryFragment extends AppBaseFragment {
 
     @OnClick(R.id.fragment_discovery_zhihu)
     void openZhihuDaily() {
-        EventDispatcher.startFragment(new ZhihuFragment());
+        EventDispatcher.startFragmentEvent(new ZhihuFragment());
     }
 
     @OnClick(R.id.fragment_discovery_browser)
     void openWebView() {
-        EventDispatcher.startFragment(BrowserFragment.newInstance(null, BrowserFragment.TYPE_BROWSER));
+        EventDispatcher.startFragmentEvent(BrowserFragment.newInstance(null, BrowserFragment.TYPE_BROWSER));
     }
 
     @OnClick(R.id.fragment_discovery_scan)
     void openScan() {
-        EventDispatcher.startFragment(new ScanFragment());
+        EventDispatcher.startFragmentEvent(new ScanFragment());
     }
 
     @OnClick(R.id.fragment_discovery_game)
@@ -66,7 +66,7 @@ public class DiscoveryFragment extends AppBaseFragment {
 
     @OnClick(R.id.fragment_discovery_developer)
     void openDeveloper() {
-        EventDispatcher.startFragment(new DeveloperFragment());
+        EventDispatcher.startFragmentEvent(new DeveloperFragment());
     }
 
 }

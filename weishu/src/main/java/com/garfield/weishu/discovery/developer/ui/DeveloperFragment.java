@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.garfield.baselib.adapter.DividerItemDecoration;
-import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.base.event.EventDispatcher;
@@ -58,16 +57,16 @@ public class DeveloperFragment extends AppBaseFragment implements TRecyclerAdapt
     public void onItemClick(String item, int position) {
         switch (position) {
             case 0:
-                EventDispatcher.startFragment(new DeveloperSpeedFragment());
+                EventDispatcher.startFragmentEvent(new DeveloperSpeedFragment());
                 break;
             case 1:
-                EventDispatcher.startFragment(new DeveloperSortFragment());
+                EventDispatcher.startFragmentEvent(new DeveloperSortFragment());
                 break;
             case 2:
-                EventDispatcher.startFragment(new DeveloperThreadFragment());
+                EventDispatcher.startFragmentEvent(new DeveloperThreadFragment());
                 break;
             case 3:
-                EventDispatcher.startFragment(new DeveloperSurfaceViewFragment());
+                EventDispatcher.startFragmentEvent(new DeveloperSurfaceViewFragment());
                 break;
         }
     }

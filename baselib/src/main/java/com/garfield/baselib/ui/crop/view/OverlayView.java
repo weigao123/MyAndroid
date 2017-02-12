@@ -157,6 +157,8 @@ public class OverlayView extends View {
 
         if (event.getActionMasked() == MotionEvent.ACTION_MOVE) {
             if (event.getPointerCount() == 1 && mCurrentTouchCornerIndex != -1) {
+                x = Math.min(Math.max(x, getPaddingLeft()), getWidth() - getPaddingRight());
+                y = Math.min(Math.max(y, getPaddingTop()), getHeight() - getPaddingBottom());
                 changeCropBounds(x, y);
                 mPreviousTouchX = x;
                 mPreviousTouchY = y;

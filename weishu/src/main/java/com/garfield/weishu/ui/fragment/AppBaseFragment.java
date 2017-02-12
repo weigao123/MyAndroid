@@ -194,7 +194,7 @@ public class AppBaseFragment extends SwipeBackFragment {
                     mPopupWindow.dismiss();
                     break;
                 case R.id.menu_item_scan:
-                    EventDispatcher.startFragment(new ScanFragment());
+                    EventDispatcher.startFragmentEvent(new ScanFragment());
                     mPopupWindow.dismiss();
                     break;
                 case R.id.menu_item_help:

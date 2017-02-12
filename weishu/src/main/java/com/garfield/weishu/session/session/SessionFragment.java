@@ -54,13 +54,6 @@ public class SessionFragment extends AppBaseFragment implements ModuleProxy {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        // workaround 通过状态栏进入,popFragment后，把动画状态恢复
-        AppCache.setHasAnimation(SettingsPreferences.getAnimation());
-    }
-
-    @Override
     protected String onGetToolbarTitleResource() {
         return UserInfoCache.getInstance().getUserDisplayName(mAccount);
     }

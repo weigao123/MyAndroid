@@ -174,7 +174,7 @@ public class SettingFragment extends AppBaseFragment {
 
     @OnClick(R.id.fragment_setting_about)
     void showAbout() {
-        EventDispatcher.startFragment(new AboutFragment());
+        EventDispatcher.startFragmentEvent(new AboutFragment());
     }
 
     @OnClick(R.id.fragment_setting_logout)

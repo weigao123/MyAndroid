@@ -40,6 +40,7 @@ public class MyApplication extends Application {
          * 多进程，会执行多遍onCreate
          */
         if (SystemUtil.inMainProcess()) {
+            L.d("MyApplication");
             Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
 
             ImageLoaderHelper.init();

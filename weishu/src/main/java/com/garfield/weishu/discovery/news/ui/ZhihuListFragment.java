@@ -78,7 +78,7 @@ public class ZhihuListFragment extends NewsListBaseFragment<ZhihuDaily> implemen
 
     @Override
     public void onItemClick(ZhihuDailyItem item, int position) {
-        EventDispatcher.startFragment(ZhihuDetailFragment.newInstance(item.getId(), false));
+        EventDispatcher.startFragmentEvent(ZhihuDetailFragment.newInstance(item.getId(), false));
     }
 
     @Override
@@ -92,7 +92,7 @@ public class ZhihuListFragment extends NewsListBaseFragment<ZhihuDaily> implemen
                     public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
                         switch (position) {
                             case 0:
-                                EventDispatcher.startFragment(ZhihuDetailFragment.newInstance(item.getId(), true));
+                                EventDispatcher.startFragmentEvent(ZhihuDetailFragment.newInstance(item.getId(), true));
                                 break;
                         }
                     }

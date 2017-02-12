@@ -30,60 +30,60 @@ public class EventDispatcher {
     private static MyEvent.FragmentJumpEvent mFragmentJumpEvent = new MyEvent.FragmentJumpEvent() {
         @Override
         public void onShowUserProfile(String account) {
-            startFragment(FriendProfileFragment.newInstance(account));
+            startFragmentEvent(FriendProfileFragment.newInstance(account));
         }
 
         @Override
         public void onShowSession(String account) {
-            startFragment(SessionFragment.newInstance(account));
+            startFragmentEvent(SessionFragment.newInstance(account));
         }
 
         @Override
         public void onShowSelfProfile() {
-            startFragment(new SelfProfileFragment());
+            startFragmentEvent(new SelfProfileFragment());
         }
 
         @Override
         public void onShowSearchUser() {
-            startFragment(new SearchUserFragment());
+            startFragmentEvent(new SearchUserFragment());
         }
 
         @Override
         public void onShowChangeInfo() {
-            startFragment(new ChangeInfoFragment());
+            startFragmentEvent(new ChangeInfoFragment());
         }
 
         @Override
         public void onShowTakePhoto() {
-            startFragment(new TakePhotoFragment());
+            startFragmentEvent(new TakePhotoFragment());
         }
 
         @Override
         public void onShowCropPhoto(String photoPath) {
-            startFragment(CropPhotoFragment.newInstance(photoPath));
+            startFragmentEvent(CropPhotoFragment.newInstance(photoPath));
         }
 
         @Override
         public void onShowFullscreenPhoto(String photoPath) {
-            startFragment(FullscreenPhoto.newInstance(photoPath));
+            startFragmentEvent(FullscreenPhoto.newInstance(photoPath));
         }
 
         @Override
         public void onShowNews() {
-            startFragment(new NewsFragment());
+            startFragmentEvent(new NewsFragment());
         }
 
         @Override
         public void onShowNewsDetail(String url) {
-            startFragment(NewsDetailFragment.newInstance(url));
+            startFragmentEvent(NewsDetailFragment.newInstance(url));
         }
     };
 
-    public static void startFragment(final SupportFragment fragment) {
-        startFragment(fragment, 100);
+    public static void startFragmentEvent(final SupportFragment fragment) {
+        startFragmentEvent(fragment, 100);
     }
 
-    public static void startFragment(final SupportFragment fragment, int delayTime) {
+    public static void startFragmentEvent(final SupportFragment fragment, int delayTime) {
         if (UiUtils.isFastDoubleClick(500)) return;
         mHandler.postDelayed(new Runnable() {
             @Override

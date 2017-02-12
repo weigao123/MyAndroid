@@ -152,7 +152,7 @@ public class NewsListFragment extends NewsListBaseFragment<NewsBean> implements
                         switch (position) {
                             case 0:
                                 if (!TextUtils.isEmpty(item.getUrl_3w())) {
-                                    EventDispatcher.startFragment(BrowserFragment.newInstance(item.getUrl_3w(), BrowserFragment.TYPE_URL));
+                                    EventDispatcher.startFragmentEvent(BrowserFragment.newInstance(item.getUrl_3w(), BrowserFragment.TYPE_URL));
                                 } else {
                                     Snackbar.make(mRootView, R.string.no_data, Snackbar.LENGTH_SHORT).show();
                                 }
