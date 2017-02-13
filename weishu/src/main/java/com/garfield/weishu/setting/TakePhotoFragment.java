@@ -268,11 +268,13 @@ public class TakePhotoFragment extends AppBaseFragment {
                     allPath.addAll(albumInfo.photoPaths);
                 }
 
-                PhotoUtil.AlbumInfo wholeAlbum = new PhotoUtil.AlbumInfo();
-                wholeAlbum.albumName = getResources().getString(R.string.all_albums);
-                wholeAlbum.photoPaths.addAll(allPath);
-                wholeAlbum.albumImage = allPath.get(0);
-                mAlbumItems.add(0, wholeAlbum);
+                if (allPath.size() != 0) {
+                    PhotoUtil.AlbumInfo wholeAlbum = new PhotoUtil.AlbumInfo();
+                    wholeAlbum.albumName = getResources().getString(R.string.all_albums);
+                    wholeAlbum.photoPaths.addAll(allPath);
+                    wholeAlbum.albumImage = allPath.get(0);
+                    mAlbumItems.add(0, wholeAlbum);
+                }
 
                 mPhotoItems.addAll(allPath);
                 mPhotoItems.add(0, "Camera");

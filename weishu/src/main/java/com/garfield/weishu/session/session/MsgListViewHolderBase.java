@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.garfield.baselib.utils.system.ScreenUtils;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.listview.TListViewHolder;
 import com.garfield.weishu.base.event.EventDispatcher;
@@ -172,8 +173,10 @@ public abstract class MsgListViewHolderBase extends TListViewHolder<IMMessage> {
         }
     }
 
+    /**
+     * 调整container的位置，左边还是右边
+     */
     private void setContent() {
-        // 调整container的位置
         int index = isReceivedMessage() ? 0 : 3;
         if (mBodyContainer.getChildAt(index) != mContentContainer) {
             mBodyContainer.removeView(mContentContainer);
@@ -181,10 +184,10 @@ public abstract class MsgListViewHolderBase extends TListViewHolder<IMMessage> {
         }
 
         if (isReceivedMessage()) {
-            setGravity(mBodyContainer, Gravity.LEFT);
+            setGravity(mBodyContainer, Gravity.START);
             mContentContainer.setBackgroundResource(leftBackground());
         } else {
-            setGravity(mBodyContainer, Gravity.RIGHT);
+            setGravity(mBodyContainer, Gravity.END);
             mContentContainer.setBackgroundResource(rightBackground());
         }
     }
@@ -209,6 +212,13 @@ public abstract class MsgListViewHolderBase extends TListViewHolder<IMMessage> {
     protected final void setGravity(View view, int gravity) {
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
         params.gravity = gravity;
+        if (gravity == Gravity.START) {
+            params.leftMargin = 0;
+            params.rightMargin = ScreenUtils.dp2px(40);
+        } else {
+            params.leftMargin = ScreenUtils.dp2px(40);
+            params.rightMargin = 0;
+        }
     }
 
     protected int leftBackground() {

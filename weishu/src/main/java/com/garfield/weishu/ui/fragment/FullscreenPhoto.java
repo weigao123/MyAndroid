@@ -5,9 +5,11 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.garfield.baselib.utils.http.image.ImageHelper;
+import com.garfield.baselib.utils.system.SystemUtil;
 import com.garfield.weishu.R;
 
 import butterknife.BindView;
+import uk.co.senab.photoview.PhotoView;
 
 import static com.garfield.weishu.setting.SelfProfileFragment.INFO_HEAD;
 
@@ -18,7 +20,7 @@ import static com.garfield.weishu.setting.SelfProfileFragment.INFO_HEAD;
 public class FullscreenPhoto extends AppBaseFragment {
 
     @BindView(R.id.fragment_fullscreen_photo)
-    ImageView mFullscreenPhoto;
+    PhotoView mFullscreenPhoto;
 
     private String mPhotoPath;
 
@@ -39,6 +41,7 @@ public class FullscreenPhoto extends AppBaseFragment {
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
         //mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        SystemUtil.setStatusBarColorK(mActivity, getResources().getColor(R.color.black));
 
         mPhotoPath = getArguments().getString(INFO_HEAD);
         ImageHelper.load(mRootView.getContext(), mPhotoPath, mFullscreenPhoto);
@@ -48,6 +51,7 @@ public class FullscreenPhoto extends AppBaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        SystemUtil.setStatusBarColorK(mActivity, getResources().getColor(R.color.colorPrimaryDark));
         //mActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 }

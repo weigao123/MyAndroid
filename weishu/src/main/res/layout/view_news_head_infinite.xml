@@ -23,6 +23,7 @@
             android:id="@+id/view_news_head_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:gravity="left"
             android:layout_gravity="center_vertical"
             android:includeFontPadding="false"
             android:layout_weight="1"

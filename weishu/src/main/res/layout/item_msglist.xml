@@ -60,11 +60,13 @@
                 android:id="@+id/item_msglist_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
                 android:layout_alignParentBottom="true"
                 android:layout_toRightOf="@id/item_msglist_state"
                 android:includeFontPadding="false"
                 android:textSize="14sp"
                 android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="@color/black_gray"
                 android:text="test2"/>
             <TextView

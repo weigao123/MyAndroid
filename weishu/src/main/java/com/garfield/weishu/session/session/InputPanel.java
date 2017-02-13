@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.R;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
@@ -85,5 +86,10 @@ public class InputPanel {
         InputMethodManager imm = (InputMethodManager) mRootView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(mInputText.getWindowToken(), 0);
         mInputText.clearFocus();
+    }
+
+    @OnClick({R.id.message_input_audio, R.id.message_input_smile})
+    void toast() {
+        //L.toast(R.string.function_has_not_developed);
     }
 }

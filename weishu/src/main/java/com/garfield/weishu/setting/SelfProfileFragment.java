@@ -21,6 +21,7 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.nos.NosService;
+import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 import com.netease.nimlib.sdk.uinfo.constant.UserInfoFieldEnum;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
@@ -51,6 +52,7 @@ public class SelfProfileFragment extends AppBaseFragment {
     @BindView(R.id.fragment_self_weishu_account)
     TextView mWeishuAccount;
 
+    private NimUserInfo mUserInfo;
     private AbortableFuture<String> uploadAvatarFuture;
     private Handler mHandler = new Handler();
 
@@ -76,16 +78,20 @@ public class SelfProfileFragment extends AppBaseFragment {
         EventDispatcher.getFragmentJumpEvent().onShowChangeInfo();
     }
 
-    @OnClick(R.id.fragment_self_container_head)
-    void changeHeadImage() {
-        EventDispatcher.getFragmentJumpEvent().onShowTakePhoto();
+    @OnClick({R.id.fragment_self_container_head, R.id.fragment_self_head_img})
+    void changeHeadImage(View view) {
+        if (view.getId() == R.id.fragment_self_container_head) {
+            EventDispatcher.getFragmentJumpEvent().onShowTakePhoto();
+        } else if (view.getId() == R.id.fragment_self_head_img) {
+            EventDispatcher.getFragmentJumpEvent().onShowFullscreenPhoto(mUserInfo.getAvatar());
+        }
     }
 
     private void refreshInfo() {
-        NimUserInfo userInfo = UserInfoCache.getInstance().getUserInfoByAccount(AppCache.getAccount());
-        mHeadImageView.loadBuddyAvatar(userInfo.getAccount());
-        mNickNameText.setText(userInfo.getName());
-        mWeishuAccount.setText(userInfo.getAccount());
+        mUserInfo = UserInfoCache.getInstance().getUserInfoByAccount(AppCache.getAccount());
+        mHeadImageView.loadBuddyAvatar(mUserInfo.getAccount());
+        mNickNameText.setText(mUserInfo.getName());
+        mWeishuAccount.setText(mUserInfo.getAccount());
     }
 
     private void registerObservers(boolean register) {

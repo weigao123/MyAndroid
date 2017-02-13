@@ -111,8 +111,8 @@ public class PullToRefreshView extends LinearLayout implements View.OnTouchListe
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         //refreshUpdatedAtValue();
 
-        mArrow.setColorFilter(getResources().getColor(R.color.colorPrimary));
-        mProgress.setColorFilter(getResources().getColor(R.color.colorPrimary));
+        //mArrow.setColorFilter(getResources().getColor(R.color.colorPrimary));
+        //mProgress.setColorFilter(getResources().getColor(R.color.colorPrimary));
     }
 
     @Override

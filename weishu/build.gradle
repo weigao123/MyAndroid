@@ -12,7 +12,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.3.1"
+        versionName "1.0"
     }
     signingConfigs {
         release {
@@ -27,7 +27,7 @@ android {
             signingConfig signingConfigs.release
         }
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
@@ -40,7 +40,12 @@ android {
     lintOptions {
         abortOnError false   //编译时屏蔽掉lint检查,即使有报错也不会停止打包
     }
-
+    defaultConfig {
+        ndk {
+            //设置支持的SO库架构
+            abiFilters 'armeabi', 'armeabi-v7a' //, 'x86', 'x86_64', 'arm64-v8a'
+        }
+    }
 }
 
 dependencies {
@@ -49,11 +54,11 @@ dependencies {
     compile project(':baselib')
     compile project(':material-dialogs')
 
-
     compile 'com.github.chrisbanes:PhotoView:1.3.0'
 
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'org.greenrobot:eventbus:3.0.0'
 
+    compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
 }

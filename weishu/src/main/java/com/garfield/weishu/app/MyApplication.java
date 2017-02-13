@@ -12,6 +12,7 @@ import com.garfield.weishu.nim.cache.LoginSyncHelper;
 import com.garfield.weishu.nim.NimConfig;
 import com.garfield.baselib.utils.system.SystemUtil;
 import com.garfield.weishu.setting.SettingFragment;
+import com.tencent.bugly.Bugly;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -32,6 +33,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
         AppCache.setContext(this);
 
         NimConfig.initSDK(this);
@@ -41,6 +43,8 @@ public class MyApplication extends Application {
          */
         if (SystemUtil.inMainProcess()) {
             L.d("MyApplication");
+
+            //Bugly.init(getApplicationContext(), "a04ac2698f", true);
             Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
 
             ImageLoaderHelper.init();

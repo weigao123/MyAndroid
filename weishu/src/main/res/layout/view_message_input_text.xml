@@ -10,6 +10,7 @@
     android:paddingBottom="6dp" >
 
     <ImageView
+        android:id="@+id/message_input_audio"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:src="@drawable/message_input_keyboard"
@@ -41,6 +42,7 @@
     </FrameLayout>
 
     <ImageView
+        android:id="@+id/message_input_smile"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_gravity="bottom"

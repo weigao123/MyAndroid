@@ -2,17 +2,22 @@
 
 <!-- 会有波纹效果
  android:foreground="?attr/selectableItemBackground"  -->
-<android.support.v7.widget.CardView
+<!--<android.support.v7.widget.CardView-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:card_view="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--card_view:cardBackgroundColor="@color/pure_trans"-->
+    <!--card_view:cardCornerRadius="3dp"-->
+    <!--card_view:cardElevation="1dp"-->
+    <!--card_view:cardUseCompatPadding="true" >-->
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardBackgroundColor="@color/pure_trans"
-    card_view:cardCornerRadius="3dp"
-    card_view:cardElevation="1dp"
-    card_view:cardUseCompatPadding="true" >
-
+    android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,6 +36,7 @@
             android:id="@+id/item_news_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="left"
             android:layout_marginLeft="6dp"
             android:layout_alignTop="@id/item_news_image"
             android:layout_toRightOf="@id/item_news_image"
@@ -63,7 +69,11 @@
             android:textColor="@color/black_gray2"
             android:textSize="14sp"
             tools:text="跟帖" />
-
     </RelativeLayout>
 
-</android.support.v7.widget.CardView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:background="@color/gray" />
+</LinearLayout>

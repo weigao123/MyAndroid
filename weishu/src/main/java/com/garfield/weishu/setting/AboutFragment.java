@@ -34,13 +34,13 @@ public class AboutFragment extends AppBaseFragment {
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
 
-        String versionName;
+        String version;
         try {
             PackageInfo pi = mActivity.getPackageManager().getPackageInfo(mActivity.getPackageName(), PackageManager.GET_META_DATA);
-            versionName = pi.versionName;
+            version = pi.versionName + "." +pi.versionCode;
         } catch (Exception e) {
-            versionName = "1.0";
+            version = "";
         }
-        mVersionText.setText(getString(R.string.weishu_version, versionName));
+        mVersionText.setText(getString(R.string.weishu_version, version));
     }
 }

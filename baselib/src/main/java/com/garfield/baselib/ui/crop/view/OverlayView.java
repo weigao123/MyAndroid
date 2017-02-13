@@ -38,6 +38,7 @@ public class OverlayView extends View {
     private boolean mCircleCrop = false;
 
     private boolean mHoldEnabled;
+    private float mCropRatio;
 
     // 绘图
     private int mCropGridRowCount = 2, mCropGridColumnCount = 2;
@@ -52,6 +53,7 @@ public class OverlayView extends View {
     // 拖动
     private int mCurrentTouchCornerIndex = -1;
     private float mPreviousTouchX = -1, mPreviousTouchY = -1;
+    private float mDownTouchX = -1, mDownTouchY = -1;
     private int mTouchPointThreshold = ScreenUtils.dp2px(30);
     private int mCropRectMinSize = ScreenUtils.dp2px(100);
 
@@ -112,6 +114,8 @@ public class OverlayView extends View {
      * 设置裁剪边界
      */
     void setCropBounds(float ratio, RectF imgRect) {
+        mCropRatio = ratio;
+
         float imgWidth = imgRect.width();
         float imgHeight = imgRect.height();
         // 以宽为标准
@@ -159,6 +163,40 @@ public class OverlayView extends View {
             if (event.getPointerCount() == 1 && mCurrentTouchCornerIndex != -1) {
                 x = Math.min(Math.max(x, getPaddingLeft()), getWidth() - getPaddingRight());
                 y = Math.min(Math.max(y, getPaddingTop()), getHeight() - getPaddingBottom());
+
+                if (mHoldEnabled && mCurrentTouchCornerIndex != 4) {
+                    float fixedAngleX = -1, fixedAngleY = -1;
+                    if (mCurrentTouchCornerIndex == 0) {
+                        fixedAngleX = mCropViewRect.right;
+                        fixedAngleY = mCropViewRect.bottom;
+                    } else if (mCurrentTouchCornerIndex == 1) {
+                        fixedAngleX = mCropViewRect.left;
+                        fixedAngleY = mCropViewRect.bottom;
+                    } else if (mCurrentTouchCornerIndex == 2) {
+                        fixedAngleX = mCropViewRect.left;
+                        fixedAngleY = mCropViewRect.top;
+                    } else if (mCurrentTouchCornerIndex == 3) {
+                        fixedAngleX = mCropViewRect.right;
+                        fixedAngleY = mCropViewRect.top;
+                    }
+                    double angleDistance = Math.sqrt((fixedAngleX - x) * (fixedAngleX - x) + (fixedAngleY - y) * (fixedAngleY - y));
+                    float lengthOfSideX = (float) (angleDistance / Math.sqrt(mCropRatio * mCropRatio + 1) * mCropRatio);
+                    float lengthOfSideY = (float) (angleDistance / Math.sqrt(mCropRatio * mCropRatio + 1));
+                    if (mCurrentTouchCornerIndex == 0) {
+                        x = fixedAngleX - lengthOfSideX;
+                        y = fixedAngleY - lengthOfSideY;
+                    } else if (mCurrentTouchCornerIndex == 1) {
+                        x = fixedAngleX + lengthOfSideX;
+                        y = fixedAngleY - lengthOfSideY;
+                    } else if (mCurrentTouchCornerIndex == 2) {
+                        x = fixedAngleX + lengthOfSideX;
+                        y = fixedAngleY + lengthOfSideY;
+                    } else if (mCurrentTouchCornerIndex == 3) {
+                        x = fixedAngleX - lengthOfSideX;
+                        y = fixedAngleY + lengthOfSideY;
+                    }
+                }
+
                 changeCropBounds(x, y);
                 mPreviousTouchX = x;
                 mPreviousTouchY = y;
@@ -216,7 +254,7 @@ public class OverlayView extends View {
                 }
                 return;
         }
-        boolean changeHeight = mTempRect.height() >= mCropRectMinSize;
+        boolean changeHeight = mTempRect.height() >= mCropRectMinSize / mCropRatio;
         boolean changeWidth = mTempRect.width() >= mCropRectMinSize;
         mCropViewRect.set(
                 changeWidth ? mTempRect.left : mCropViewRect.left,
@@ -227,6 +265,10 @@ public class OverlayView extends View {
         if (changeHeight || changeWidth) {
             invalidate();
         }
+    }
+
+    private void holdRatioCrop(float touchX, float touchY) {
+
     }
 
     @Override

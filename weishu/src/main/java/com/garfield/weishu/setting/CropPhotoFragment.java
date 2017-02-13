@@ -41,7 +41,7 @@ public class CropPhotoFragment extends AppBaseFragment implements View.OnClickLi
     MyCropView mMyCropView;
 
     public static CropPhotoFragment newInstance(String photoPath) {
-        return newInstance(photoPath, true, 1, true);
+        return newInstance(photoPath, true, 1f, true);
     }
 
     public static CropPhotoFragment newInstance(String photoPath,
@@ -77,7 +77,7 @@ public class CropPhotoFragment extends AppBaseFragment implements View.OnClickLi
             //cropParams.withCropEnable(true);
             cropParams.withScaleEnable(true);
             cropParams.withRotateEnable(true);
-            cropParams.withMaxResultSize(300, 0);
+            cropParams.withMaxResultSize(500, 0);
             //cropParams.withCropRatio(1);
             //cropParams.withHoldEnable(true);
             mMyCropView.setCropParams(cropParams);
