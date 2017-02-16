@@ -108,6 +108,7 @@ public class MainActivity extends AppBaseActivity {
                             popToFragment(MainFragment.class, false);
                             MainFragment topFragment = findFragment(MainFragment.class);
                             topFragment.switchToFirst();
+                            // 一次性弹出多个，需要把新的加入到主线程队列，否则页面栈错乱
                             getHandler().post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -120,7 +121,7 @@ public class MainActivity extends AppBaseActivity {
                                 public void run() {
                                     AppCache.setHasAnimation(SettingsPreferences.getAnimation());
                                 }
-                            }, 1000);
+                            }, 500);
                         }
                     });
                     break;

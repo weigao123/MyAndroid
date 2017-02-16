@@ -10,10 +10,13 @@ import com.garfield.baselib.utils.system.L;
 import com.garfield.baselib.utils.system.NetworkUtil;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
+import com.garfield.weishu.app.SettingsPreferences;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.nim.cache.FriendDataCache;
 import com.garfield.weishu.nim.cache.UserInfoCache;
+import com.garfield.weishu.session.session.SessionFragment;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
+import com.garfield.weishu.ui.fragment.MainFragment;
 import com.garfield.weishu.ui.view.HeadImageView;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -86,7 +89,6 @@ public class FriendProfileFragment extends AppBaseFragment {
         } else {
             mNickNameText.setText(userInfo.getName());
         }
-
     }
 
     @OnClick(R.id.fragment_friend_profile_add_or_remove)
@@ -100,7 +102,24 @@ public class FriendProfileFragment extends AppBaseFragment {
 
     @OnClick(R.id.fragment_friend_profile_chat)
     void onStartChat() {
-        EventDispatcher.getFragmentJumpEvent().onShowSession(mAccount);
+        AppCache.setHasAnimation(false);
+        mActivity.popToFragment(MainFragment.class, false);
+        MainFragment topFragment = findFragment(MainFragment.class);
+        topFragment.switchToFirst();
+        getHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                mActivity.startFragment(SessionFragment.newInstance(mAccount));
+            }
+        });
+
+        getHandler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                AppCache.setHasAnimation(SettingsPreferences.getAnimation());
+            }
+        }, 500);
+        //EventDispatcher.getFragmentJumpEvent().onShowSession(mAccount);
     }
 
     private void doAddFriend(String msg, boolean addDirectly) {

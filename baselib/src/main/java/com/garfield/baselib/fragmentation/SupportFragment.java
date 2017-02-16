@@ -208,8 +208,9 @@ public class SupportFragment extends BaseFragment implements ISupport {
 
     }
 
-    public SupportFragment findFragment(Class fragmentClass) {
-        return mFragmentHelper.findStackFragment(getChildFragmentManager(), fragmentClass);
+    @Override
+    public <T extends SupportFragment> T findFragment(Class<T> fragmentClass) {
+        return (T) mFragmentHelper.findStackFragment(getFragmentManager(), fragmentClass);
     }
 
     protected void setFragmentResult(Bundle bundle) {

@@ -1,5 +1,16 @@
 package com.garfield.weishu.session.session;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.NinePatchDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -188,7 +199,10 @@ public abstract class MsgListViewHolderBase extends TListViewHolder<IMMessage> {
             mContentContainer.setBackgroundResource(leftBackground());
         } else {
             setGravity(mBodyContainer, Gravity.END);
-            mContentContainer.setBackgroundResource(rightBackground());
+            //mContentContainer.setBackgroundResource(rightBackground());
+            // NinePatchDrawable造成和直接用xml的padding不一样
+            mContentContainer.setPadding(ScreenUtils.dp2px(2.5f), ScreenUtils.dp2px(2.5f), ScreenUtils.dp2px(6), ScreenUtils.dp2px(2.5f));
+            mContentContainer.setBackgroundDrawable(rightBackground());
         }
     }
 
@@ -225,8 +239,26 @@ public abstract class MsgListViewHolderBase extends TListViewHolder<IMMessage> {
         return R.drawable.message_item_bg_left_selector;
     }
 
-    protected int rightBackground() {
-        return R.drawable.message_item_bg_right_selector;
+//    protected int rightBackground() {
+//        return R.drawable.message_item_bg_right_selector;
+//    }
+
+    protected Drawable rightBackground() {
+        Resources resources = mRootView.getContext().getResources();
+        Bitmap bitmapRight = BitmapFactory.decodeResource(resources, R.drawable.message_right_blue_bg);
+        Bitmap bitmapRightPressed = BitmapFactory.decodeResource(resources, R.drawable.message_right_blue_bg_pressed);
+        //BitmapDrawable drawableRight = new BitmapDrawable(resources, bitmapRight);
+        //BitmapDrawable drawableRightPressed = new BitmapDrawable(resources, bitmapRightPressed);
+
+        NinePatchDrawable nineDrawableRight = new NinePatchDrawable(resources, bitmapRight, bitmapRight.getNinePatchChunk(), new Rect(), null);
+        NinePatchDrawable nineDrawableRightPressed = new NinePatchDrawable(resources, bitmapRightPressed, bitmapRightPressed.getNinePatchChunk(), new Rect(), null);
+        nineDrawableRight.setColorFilter(new PorterDuffColorFilter(resources.getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP));
+        nineDrawableRightPressed.setColorFilter(new PorterDuffColorFilter(resources.getColor(R.color.colorPrimaryDark), PorterDuff.Mode.SRC_ATOP));
+
+        StateListDrawable sld = new StateListDrawable();
+        sld.addState(new int[]{android.R.attr.state_pressed}, nineDrawableRightPressed);
+        sld.addState(new int[]{}, nineDrawableRight);
+        return sld;
     }
 
     protected boolean isMiddleItem() {

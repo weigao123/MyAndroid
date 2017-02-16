@@ -124,8 +124,32 @@
                     android:textColor="@color/black"/>
             </LinearLayout>
 
+            <!--<LinearLayout-->
+                <!--android:id="@+id/fragment_discovery_shopping"-->
+                <!--android:layout_marginTop="15dp"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="45dp"-->
+                <!--android:clickable="true"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:background="@drawable/bg_press_white_to_gray">-->
+                <!--<ImageView-->
+                    <!--android:layout_width="30dp"-->
+                    <!--android:layout_height="30dp"-->
+                    <!--android:layout_marginLeft="15dp"-->
+                    <!--android:src="@drawable/ic_shopping"/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_marginLeft="15dp"-->
+                    <!--android:text="@string/shopping"-->
+                    <!--android:gravity="center"-->
+                    <!--android:textSize="16sp"-->
+                    <!--android:textColor="@color/black"/>-->
+            <!--</LinearLayout>-->
+
             <LinearLayout
-                android:id="@+id/fragment_discovery_shopping"
+                android:id="@+id/fragment_discovery_music"
                 android:layout_marginTop="15dp"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -137,12 +161,13 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="15dp"
-                    android:src="@drawable/ic_shopping"/>
+                    android:padding="3dp"
+                    android:src="@drawable/ic_music"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="15dp"
-                    android:text="@string/shopping"
+                    android:text="@string/music"
                     android:gravity="center"
                     android:textSize="16sp"
                     android:textColor="@color/black"/>

@@ -146,6 +146,7 @@ public class BrowserFragment extends AppBaseFragment {
             url = "http://" + url;
         }
 
+        mUrlSet.setVisibility(View.GONE);
         if (mType == TYPE_STRING) {
             mWebView.loadData(url, "text/html; charset=UTF-8", null);
         } else {
@@ -290,19 +291,16 @@ public class BrowserFragment extends AppBaseFragment {
 
     @OnClick(R.id.include_url_set_netease)
     void startNetease() {
-        mUrlSet.setVisibility(View.GONE);
         checkAndLoadUrl("http://news.163.com/");
     }
 
     @OnClick(R.id.include_url_set_baidu)
     void startBaidu() {
-        mUrlSet.setVisibility(View.GONE);
         checkAndLoadUrl("http://www.baidu.com/");
     }
 
     @OnClick(R.id.include_url_set_tecent)
     void startTecent() {
-        mUrlSet.setVisibility(View.GONE);
         checkAndLoadUrl("http://news.qq.com/");
     }
 }

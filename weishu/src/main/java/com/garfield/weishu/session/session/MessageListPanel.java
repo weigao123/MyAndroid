@@ -102,6 +102,9 @@ public class MessageListPanel {
             sortMessages(items);
             adapter.notifyDataSetChanged();
         }
+
+        adapter.updateShowTimeItem(addedListItems, false, true);
+
         IMMessage lastMsg = messages.get(messages.size() - 1);
         if (isMyMessage(lastMsg)) {
             if (needScrollToBottom) {
@@ -306,7 +309,7 @@ public class MessageListPanel {
                 //sendReceipt(); // 发送已读回执
             }
 
-            //adapter.updateShowTimeItem(items, true, firstLoad);
+            adapter.updateShowTimeItem(items, true, firstLoad);
             //updateReceipt(items); // 更新已读回执标签
 
             // 必须先notify，才能使listView.getCount()同步
@@ -365,7 +368,8 @@ public class MessageListPanel {
         items.add(message);
         List<IMMessage> addedListItems = new ArrayList<>(1);
         addedListItems.add(message);
-        //adapter.updateShowTimeItem(addedListItems, false, true);
+
+        adapter.updateShowTimeItem(addedListItems, false, true);
 
         adapter.notifyDataSetChanged();
         ListViewUtil.scrollToBottom(messageListView);
@@ -387,7 +391,7 @@ public class MessageListPanel {
                                     ClipboardUtil.clipboardCopyText(rootView.getContext(), item.getContent());
                                     break;
                                 case 1:
-                                    deleteItem(item);
+                                    deleteItem(item, true);
                                     break;
                             }
                         }
@@ -433,9 +437,9 @@ public class MessageListPanel {
         NIMClient.getService(MsgService.class).sendMessage(message, true);
     }
 
-    private void deleteItem(IMMessage item) {
+    private void deleteItem(IMMessage item, boolean isRelocateTime) {
         NIMClient.getService(MsgService.class).deleteChattingHistory(item);
-        adapter.deleteItem(item);
+        adapter.deleteItem(item, isRelocateTime);
     }
 
     public void onDestoryView() {

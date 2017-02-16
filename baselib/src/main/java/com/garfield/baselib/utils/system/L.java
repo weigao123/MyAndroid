@@ -1,5 +1,6 @@
 package com.garfield.baselib.utils.system;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import com.garfield.baselib.Cache;
@@ -26,6 +27,7 @@ public class L {
     public static void d(Object content) {
         //Log.d(TAG, content);
         Logger.d(content);
+        //Log.i(TAG, content.toString());
     }
 
     public static void d(String TAG, Object content) {

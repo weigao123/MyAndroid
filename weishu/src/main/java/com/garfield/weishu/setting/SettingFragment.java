@@ -14,6 +14,7 @@ import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.app.SettingsPreferences;
+import com.garfield.weishu.nim.NimConfig;
 import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
@@ -70,11 +71,6 @@ public class SettingFragment extends AppBaseFragment {
         super.onInitViewAndData(rootView, savedInstanceState);
     }
 
-    public static void initSetting() {
-        NIMClient.toggleNotification(SettingsPreferences.getNotificationToggle());
-        AppCache.setHasAnimation(SettingsPreferences.getAnimation());
-    }
-
     @Override
     protected void onLazyLoad() {
         registerObservers(true);
@@ -125,7 +121,6 @@ public class SettingFragment extends AppBaseFragment {
         }
     };
 
-
     @OnClick(R.id.fragment_setting_notify)
     void switchNofity() {
         mNotifySwitch.setSwitchStatus(!mNotifySwitch.getSwitchStatus());
@@ -133,26 +128,27 @@ public class SettingFragment extends AppBaseFragment {
         int visible = mNotifySwitch.getSwitchStatus() ? View.VISIBLE : View.GONE;
         mRingContainer.setVisibility(visible);
         mVibrateContainer.setVisibility(visible);
-        initSetting();
+        NimConfig.toggleNotification(mNotifySwitch.getSwitchStatus());
     }
 
     @OnClick(R.id.fragment_setting_ring)
     void switchRing() {
         mRingSwitch.setSwitchStatus(!mRingSwitch.getSwitchStatus());
         SettingsPreferences.setRingToggle(mRingSwitch.getSwitchStatus());
+        NimConfig.setRingToggle(mRingSwitch.getSwitchStatus());
     }
 
     @OnClick(R.id.fragment_setting_vibrate)
     void switchVibrate() {
         mVibrateSwitch.setSwitchStatus(!mVibrateSwitch.getSwitchStatus());
-        SettingsPreferences.setVibrateToggle(mVibrateSwitch.getSwitchStatus());
+        NimConfig.setVibrateToggle(mVibrateSwitch.getSwitchStatus());
     }
 
     @OnClick(R.id.fragment_setting_animator)
     void switchAnimator() {
         mAnimatorSwitch.setSwitchStatus(!mAnimatorSwitch.getSwitchStatus());
         SettingsPreferences.setAnimation(mAnimatorSwitch.getSwitchStatus());
-        initSetting();
+        AppCache.setHasAnimation(mAnimatorSwitch.getSwitchStatus());
     }
 
     @OnClick(R.id.fragment_setting_clear_message)

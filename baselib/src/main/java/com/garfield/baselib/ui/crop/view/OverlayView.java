@@ -161,8 +161,9 @@ public class OverlayView extends View {
 
         if (event.getActionMasked() == MotionEvent.ACTION_MOVE) {
             if (event.getPointerCount() == 1 && mCurrentTouchCornerIndex != -1) {
-                x = Math.min(Math.max(x, getPaddingLeft()), getWidth() - getPaddingRight());
-                y = Math.min(Math.max(y, getPaddingTop()), getHeight() - getPaddingBottom());
+
+//                x = Math.min(Math.max(x, getPaddingLeft()), getWidth() - getPaddingRight());
+//                y = Math.min(Math.max(y, getPaddingTop()), getHeight() - getPaddingBottom());
 
                 if (mHoldEnabled && mCurrentTouchCornerIndex != 4) {
                     float fixedAngleX = -1, fixedAngleY = -1;
@@ -197,9 +198,11 @@ public class OverlayView extends View {
                     }
                 }
 
-                changeCropBounds(x, y);
-                mPreviousTouchX = x;
-                mPreviousTouchY = y;
+                if (new RectF(getPaddingLeft(), getPaddingTop(), getWidth() - getPaddingRight(), getHeight() - getPaddingBottom()).contains(x, y)) {
+                    changeCropBounds(x, y);
+                    mPreviousTouchX = x;
+                    mPreviousTouchY = y;
+                }
                 return true;
             }
         }
@@ -241,10 +244,10 @@ public class OverlayView extends View {
             case 4:
                 float dx = touchX - mPreviousTouchX;
                 float dy = touchY - mPreviousTouchY;
-                if (mTempRect.left + dx < 0 || mTempRect.right + dx > getWidth()) {
+                if (mTempRect.left + dx < getPaddingLeft() || mTempRect.right + dx > getWidth() - getPaddingRight()) {
                     dx = 0;
                 }
-                if (mTempRect.top + dy < 0 || mTempRect.bottom + dy > getHeight()) {
+                if (mTempRect.top + dy < getPaddingTop() || mTempRect.bottom + dy > getHeight() - getPaddingBottom()) {
                     dy = 0;
                 }
                 mTempRect.offset(dx, dy);     //位移
@@ -254,6 +257,7 @@ public class OverlayView extends View {
                 }
                 return;
         }
+        // 用来控制最小尺寸
         boolean changeHeight = mTempRect.height() >= mCropRectMinSize / mCropRatio;
         boolean changeWidth = mTempRect.width() >= mCropRectMinSize;
         mCropViewRect.set(
@@ -265,10 +269,6 @@ public class OverlayView extends View {
         if (changeHeight || changeWidth) {
             invalidate();
         }
-    }
-
-    private void holdRatioCrop(float touchX, float touchY) {
-
     }
 
     @Override

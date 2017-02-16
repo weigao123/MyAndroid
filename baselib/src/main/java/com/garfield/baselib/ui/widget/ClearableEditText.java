@@ -40,8 +40,8 @@ public class ClearableEditText extends EditText implements OnTouchListener, Text
     }
 
 	private void init() {
-		ClearableEditText.this.setOnTouchListener(this);
-		ClearableEditText.this.addTextChangedListener(this);
+		setOnTouchListener(this);
+		addTextChangedListener(this);
 		deleteImage.setBounds(0, 0, (int)getTextSize(), (int)getTextSize());
 		manageClearButton();
 	}
@@ -68,38 +68,37 @@ public class ClearableEditText extends EditText implements OnTouchListener, Text
     }
 
 	void manageClearButton() {
-		if (this.getText().toString().equals(""))
+		if (getText().toString().equals(""))
 			removeClearButton();
 		else
 			addClearButton();
 	}
 
 	void removeClearButton() {
-		this.setCompoundDrawables(this.headIcon, this.getCompoundDrawables()[1], null, this.getCompoundDrawables()[3]);
+		setCompoundDrawables(headIcon, getCompoundDrawables()[1], null, getCompoundDrawables()[3]);
 	}
 
 	void addClearButton() {
-		this.setCompoundDrawables(this.headIcon, this.getCompoundDrawables()[1], deleteImage, this.getCompoundDrawables()[3]);
+		setCompoundDrawables(headIcon, getCompoundDrawables()[1], deleteImage, getCompoundDrawables()[3]);
 	}
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
-		ClearableEditText et = ClearableEditText.this;
 
-		if (et.getCompoundDrawables()[2] == null)
+		if (getCompoundDrawables()[2] == null)
 			return false;
 		if (event.getAction() != MotionEvent.ACTION_UP)
 			return false;
-		if (event.getX() > et.getWidth() - et.getPaddingRight() - deleteImage.getBounds().width()) {
-			et.setText("");
-			ClearableEditText.this.removeClearButton();
+		if (event.getX() > getWidth() - getPaddingRight() - deleteImage.getBounds().width()) {
+			setText("");
+			removeClearButton();
 		}
 		return false;
 	}
 
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
-		ClearableEditText.this.manageClearButton();
+		manageClearButton();
 	}
 
 	@Override

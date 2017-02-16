@@ -144,7 +144,7 @@ public class BitmapCropTask extends AsyncTask<Void, Void, Throwable> {
         boolean shouldCrop = shouldCrop(mCroppedImageWidth, mCroppedImageHeight);
         Log.i(TAG, "Should crop: " + shouldCrop);
 
-        if (shouldCrop) {
+        if (true) {
             /**
              * resizeScale表示图像先被缩放一次，目的是缩小像素
              * left, top, mCroppedImageWidth, mCroppedImageHeight都要包含resizeScale的影响

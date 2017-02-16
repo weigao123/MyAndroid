@@ -105,6 +105,8 @@ public class RegisterAndLogin {
                                 return;
                             } else if ("already register".equals(result.getDesc())) {
                                 L.toast(R.string.account_registered);
+                            } else {
+                                L.toast(result.getDesc());
                             }
                             callback.onResult(REQUEST_FAILED);
                         }

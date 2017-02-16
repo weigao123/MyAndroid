@@ -24,27 +24,30 @@ import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
  */
 public class NimConfig {
 
+    private static StatusBarNotificationConfig mNotificationConfig;
+
     public static void initSDK(Context context) {
         NIMClient.init(context, getLoginInfo(), getOptions());
     }
 
     // 如果返回值为 null，则全部使用默认参数。
     public static SDKOptions getOptions() {
-        SDKOptions options = new SDKOptions();
 
         // 如果将新消息通知提醒托管给 SDK 完成，需要添加以下配置。否则无需设置。
-        StatusBarNotificationConfig config = new StatusBarNotificationConfig();
-        config.notificationEntrance = WelcomeActivity.class; // 点击通知栏跳转到该Activity
-        config.notificationSmallIconId = R.drawable.ic_launcher;
+        mNotificationConfig = new StatusBarNotificationConfig();
+        mNotificationConfig.notificationEntrance = WelcomeActivity.class; // 点击通知栏跳转到该Activity
+        mNotificationConfig.notificationSmallIconId = R.drawable.ic_launcher;
         // 呼吸灯配置
-        config.ledARGB = Color.GREEN;
-        config.ledOnMs = 1000;
-        config.ledOffMs = 1500;
+        mNotificationConfig.ledARGB = Color.GREEN;
+        mNotificationConfig.ledOnMs = 1000;
+        mNotificationConfig.ledOffMs = 1500;
         // 通知铃声的uri字符串
-        config.vibrate = SettingsPreferences.getVibrateToggle();
-        config.ring = SettingsPreferences.getRingToggle();
-        config.notificationSound = "android.resource://com.netease.nim.demo/raw/msg";
-        options.statusBarNotificationConfig = config;
+        mNotificationConfig.vibrate = SettingsPreferences.getVibrateToggle();
+        mNotificationConfig.ring = SettingsPreferences.getRingToggle();
+        mNotificationConfig.notificationSound = "android.resource://com.garfield.weishu/raw/msg";
+
+        SDKOptions options = new SDKOptions();
+        options.statusBarNotificationConfig = mNotificationConfig;
 
         // 配置保存图片，文件，log 等数据的目录
         // 如果 getOptions 中没有设置这个值，SDK 会使用下面代码示例中的位置作为 SDK 的数据目录。
@@ -117,4 +120,22 @@ public class NimConfig {
         NIMClient.getService(MsgService.class).setChattingAccount(MsgService.MSG_CHATTING_ACCOUNT_ALL, SessionTypeEnum.None);
     }
 
+    public static void toggleNotification(boolean enable) {
+        NIMClient.toggleNotification(enable);
+    }
+
+    public static void initSetting() {
+        toggleNotification(SettingsPreferences.getNotificationToggle());
+        AppCache.setHasAnimation(SettingsPreferences.getAnimation());
+    }
+
+    public static void setRingToggle(boolean on) {
+        mNotificationConfig.ring = on;
+        NIMClient.updateStatusBarNotificationConfig(mNotificationConfig);
+    }
+
+    public static void setVibrateToggle(boolean on) {
+        mNotificationConfig.vibrate = on;
+        NIMClient.updateStatusBarNotificationConfig(mNotificationConfig);
+    }
 }

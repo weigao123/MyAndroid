@@ -39,12 +39,14 @@
     <string name="has_no_account">没有账号?</string>
     <string name="please_input_account">请输入账号</string>
     <string name="please_input_password">请输入密码</string>
-    <string name="please_register_account_hint">请输入帐号，字母、数字</string>
+    <string name="please_register_account_hint">请输入帐号，限20位字母或者数字</string>
     <string name="account_format_wrong">帐号限20位字母或者数字</string>
-    <string name="please_register_nickname_hint">请输入昵称，汉字、字母、数字</string>
-    <string name="nickname_format_wrong">昵称限10位汉字、字母或者数字</string>
-    <string name="please_register_password_hint">请输入密码，6~20位字母、数字</string>
+    <string name="please_register_nickname_hint">请输入昵称，限10位汉字、字母或者数字</string>
+    <string name="nickname_format_wrong">昵称必须为1~10位汉字、字母或者数字</string>
+    <string name="please_register_password_hint">请输入密码，6~20位字母或者数字</string>
+    <string name="please_register_password_repeat_hint">请再次输入密码</string>
     <string name="password_format_wrong">密码必须为6~20位字母或者数字</string>
+    <string name="password_repeat_wrong">两次密码输入不同，请重新输入密码</string>
 
     <string name="status_network_is_not_available">当前网络不可用</string>
     <string name="status_unlogin">未登录</string>
@@ -118,13 +120,14 @@
     <string name="zhihu_daily">知乎日报</string>
     <string name="developer">开发者</string>
     <string name="shopping">购物</string>
+    <string name="music">音乐</string>
     <string name="browser">浏览器</string>
     <string name="game">游戏</string>
     <string name="about_weishu">关于微书</string>
 
     <string name="pull_to_refresh">下拉可以刷新</string>
     <string name="release_to_refresh">释放立即刷新</string>
-    <string name="refreshing">正在刷新…</string>
+    <string name="refreshing">正在刷新&#8230;</string>
     <string name="not_updated_yet">暂未更新过</string>
     <string name="updated_at">上次更新于%1$s前</string>
     <string name="updated_just_now">刚刚更新</string>
@@ -146,6 +149,7 @@
 
     <!-- 排序 -->
     <string name="function_has_not_developed">功能尚未开发</string>
+    <string name="system_not_support">您的操作系统不支持</string>
     <string name="origin_data_show">原始数据：</string>
     <string name="sort_result_show">排序结果：</string>
     <string name="origin_data">原始数据</string>
@@ -177,6 +181,12 @@
         这是我在业余时间开发的应用，后期会持续的进行维护和增加新功能。\n
         &#160;&#160;&#160;
         感谢我的女朋友一直以来的支持和体谅，她是微书的最大贡献者。</string>
-
+    <string name="weishu_brief2">
+        &#160;&#160;&#160;&#160;
+        这是我在工作之余开发的Android应用，主要用于学习和实践开发技能，后期会持续的进行维护和增加新功能，敬请期待。
+    </string>
+        <string name="weishu_me">
+        &#169;2017 微书 \n作者:高伟&#160;&#160;微书号:gwball
+    </string>
 
 </resources>

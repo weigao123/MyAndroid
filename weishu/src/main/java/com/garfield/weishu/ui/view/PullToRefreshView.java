@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.garfield.baselib.utils.system.L;
 import com.garfield.baselib.utils.system.ScreenUtils;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.recyclerview.RecyclerUtil;

@@ -48,7 +48,7 @@ public class MyApplication extends Application {
             Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
 
             ImageLoaderHelper.init();
-            SettingFragment.initSetting();
+            NimConfig.initSetting();
 
             PinYin.init(this);
             PinYin.validate();

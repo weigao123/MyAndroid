@@ -59,18 +59,9 @@ public class SettingsPreferences {
         return getBoolean(KEY_CROP_TOGGLE, false);
     }
 
-    public static void setStatusConfig(StatusBarNotificationConfig config) {
-        saveStatusBarNotificationConfig(KEY_STATUS_BAR_NOTIFICATION_CONFIG, config);
-    }
-
-    public static StatusBarNotificationConfig getStatusConfig() {
-        return getConfig(KEY_STATUS_BAR_NOTIFICATION_CONFIG);
-    }
-
-
-    private static StatusBarNotificationConfig getConfig(String key) {
+    private static StatusBarNotificationConfig getConfig() {
         StatusBarNotificationConfig config = new StatusBarNotificationConfig();
-        String jsonString = getSharedPreferences().getString(key, "");
+        String jsonString = getSharedPreferences().getString(KEY_STATUS_BAR_NOTIFICATION_CONFIG, "");
         try {
             JSONObject jsonObject = JSONObject.parseObject(jsonString);
             if (jsonObject == null) {
@@ -95,7 +86,7 @@ public class SettingsPreferences {
         return config;
     }
 
-    private static void saveStatusBarNotificationConfig(String key , StatusBarNotificationConfig config) {
+    private static void saveStatusBarNotificationConfig(StatusBarNotificationConfig config) {
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         JSONObject jsonObject = new JSONObject();
         try {
@@ -114,7 +105,7 @@ public class SettingsPreferences {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        editor.putString(key, jsonObject.toString());
+        editor.putString(KEY_STATUS_BAR_NOTIFICATION_CONFIG, jsonObject.toString());
         editor.commit();
     }
 
@@ -128,7 +119,7 @@ public class SettingsPreferences {
         editor.commit();
     }
 
-    static SharedPreferences getSharedPreferences() {
+    private static SharedPreferences getSharedPreferences() {
         return AppCache.getContext().getSharedPreferences("weishu." + AppCache.getAccount(), Context.MODE_PRIVATE);
     }
 }

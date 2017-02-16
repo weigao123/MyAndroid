@@ -109,7 +109,6 @@ public class CropPhotoFragment extends AppBaseFragment implements View.OnClickLi
     public void onClick(View v) {
 
         mMyCropView.getGestureCropImageView().cropAndSaveImage(Bitmap.CompressFormat.JPEG, 90, new BitmapCropCallback() {
-
             @Override
             public void onBitmapCropped(@NonNull Uri resultUri, int imageWidth, int imageHeight) {
 //                L.d(resultUri);

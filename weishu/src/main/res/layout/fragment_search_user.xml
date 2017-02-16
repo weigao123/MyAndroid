@@ -17,16 +17,26 @@
         android:paddingRight="20dp"
         android:paddingEnd="20dp">
 
-        <com.garfield.baselib.ui.widget.ClearableEditText
-            android:id="@+id/fragment_search_user_account"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="30dp"
-            android:drawablePadding="15dp"
-            android:maxLines="1"
-            android:hint="@string/please_input_account"
-            android:textCursorDrawable="@null"
-            android:textSize="15sp"/>
+            android:layout_height="wrap_content">
+            <com.garfield.baselib.ui.widget.ClearableEditText
+                android:id="@+id/fragment_search_user_account"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="30dp"
+                android:drawablePadding="15dp"
+                android:singleLine="true"
+                android:hint="@string/please_input_account"
+                android:textCursorDrawable="@null"
+                android:textSize="15sp"
+                android:background="@null"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_gravity="bottom"
+                android:background="@color/black_gray"/>
+        </FrameLayout>
 
         <TextView
             android:id="@+id/fragment_search_user_search"

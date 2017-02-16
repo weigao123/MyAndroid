@@ -6,7 +6,9 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.garfield.baselib.adapter.DividerItemDecoration;
+import com.garfield.baselib.utils.cache.ACache;
 import com.garfield.weishu.R;
+import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
 import com.garfield.weishu.base.viewpager.TPagerAdapter;
@@ -25,6 +27,8 @@ public class ZhihuListFragment extends NewsListBaseFragment<ZhihuDaily> implemen
 
     private List<ZhihuDailyItem> mItems = new ArrayList<>();
     private String mCurrentDate;
+    private ACache mACache;
+    private String mACacheTag;
 
     public static ZhihuListFragment newInstance(int type) {
         Bundle args = new Bundle();
@@ -37,6 +41,8 @@ public class ZhihuListFragment extends NewsListBaseFragment<ZhihuDaily> implemen
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
+        mACache = ACache.get(AppCache.getContext());
+        mACacheTag = "zhihu";
         mIsVisibleToUser = true;
     }
 

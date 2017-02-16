@@ -32,7 +32,7 @@
             android:id="@+id/fragment_browser_confirm"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:background="@color/gray_white"
+            android:background="@drawable/bg_press_gray_to_gray"
             android:gravity="center"
             android:textColor="@color/black_gray"
             android:textSize="16sp"

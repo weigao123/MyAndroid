@@ -34,23 +34,23 @@ public class MsgListViewHolderText extends MsgListViewHolderBase {
     // 点9图右下横线决定内容区域
     private void layoutDirection() {
         if (isReceivedMessage()) {
-            mText.setBackgroundResource(R.drawable.message_item_bg_left_selector);
+            //mText.setBackgroundResource(R.drawable.message_item_bg_left_selector);
             mText.setPadding(ScreenUtils.dp2px(8), ScreenUtils.dp2px(8), ScreenUtils.dp2px(8), ScreenUtils.dp2px(8));
         } else {
-            mText.setBackgroundResource(R.drawable.message_item_bg_right_selector);
+            //mText.setBackgroundResource(R.drawable.message_item_bg_right_selector);
             mText.setPadding(ScreenUtils.dp2px(8), ScreenUtils.dp2px(8), ScreenUtils.dp2px(8), ScreenUtils.dp2px(8));
         }
     }
 
-    @Override
-    protected int leftBackground() {
-        return 0;
-    }
-
-    @Override
-    protected int rightBackground() {
-        return 0;
-    }
+//    @Override
+//    protected int leftBackground() {
+//        return 0;
+//    }
+//
+//    @Override
+//    protected int rightBackground() {
+//        return 0;
+//    }
 
     protected String getDisplayText() {
         return mMessage.getContent();

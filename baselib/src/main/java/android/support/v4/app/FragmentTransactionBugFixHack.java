@@ -5,6 +5,8 @@ import java.util.Collections;
 
 /**
  * http://stackoverflow.com/questions/23504790/android-multiple-fragment-transaction-ordering
+ *
+ * http://www.jianshu.com/p/d9143a92ad94#
  */
 public class FragmentTransactionBugFixHack {
 

@@ -8,9 +8,11 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.baselib.ui.widget.ClearableEditText;
+import com.garfield.baselib.utils.system.L;
 import com.garfield.baselib.utils.system.SystemUtil;
 import com.garfield.weishu.R;
 import com.garfield.weishu.app.UserPreferences;
@@ -41,6 +43,8 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher {
     ClearableEditText mRegisterNickNameText;
     @BindView(R.id.activity_register_password)
     ClearableEditText mRegisterPasswordText;
+    @BindView(R.id.activity_register_password_repeat)
+    ClearableEditText mRegisterPasswordRepeatText;
 
     @BindView(R.id.login_register)
     TextView mLoginRegisterText;
@@ -69,8 +73,7 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher {
         mRegisterAccountText.addTextChangedListener(this);
         mRegisterNickNameText.addTextChangedListener(this);
         mRegisterPasswordText.addTextChangedListener(this);
-
-        //SystemUtil.setStatusBarColorK(this, getResources().getColor(R.color.colorPrimary));
+        mRegisterPasswordRepeatText.addTextChangedListener(this);
     }
 
     private void switchLoginAndRegister(boolean isLogin) {
@@ -78,10 +81,11 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher {
         mRegisterLayout.setVisibility(!isLogin? View.VISIBLE: View.GONE);
         mLoginRegisterText.setText(!isLogin? R.string.has_account: R.string.has_no_account);
         mLoginAccountText.setText(UserPreferences.getUserAccount());
-        mLoginPasswordText.setText("");
+        mLoginPasswordText.setText(mLoginPasswordText.getTag() == null ? "" : (String)mLoginPasswordText.getTag());
         mRegisterAccountText.setText("");
         mRegisterNickNameText.setText("");
         mRegisterPasswordText.setText("");
+        mRegisterPasswordRepeatText.setText("");
         checkBtnState();
     }
 
@@ -124,6 +128,14 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher {
 
     @OnClick(R.id.activity_login_register)
     void register() {
+        if (!checkRegisterContentValid()) {
+            return;
+        }
+
+        final String account = mRegisterAccountText.getText().toString().trim();
+        final String nickname = mRegisterNickNameText.getText().toString().trim();
+        final String password = mRegisterPasswordText.getText().toString().trim();
+
         DialogMaker.showProgressDialog(this, getString(R.string.registering), true, new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
@@ -134,20 +146,48 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher {
             }
         }).setCanceledOnTouchOutside(false);
 
-        final String account = mRegisterAccountText.getText().toString().toLowerCase();
-        final String nickname = mRegisterNickNameText.getText().toString().toLowerCase();
-        final String password = mRegisterPasswordText.getText().toString().toLowerCase();
+        mLoginPasswordText.setTag(null);
         mCancelableRequest = RegisterAndLogin.register(account, nickname, password, new RegisterAndLogin.RequestResult() {
             @Override
             public void onResult(int result) {
                 if (result == RegisterAndLogin.REQUEST_SUCCESS) {
                     saveLoginInfo(account, null);
-                    mLoginPasswordText.setText(password);
+                    mLoginPasswordText.setTag(password);
                     switchLoginAndRegister(true);
                 }
                 onRequestDone();
             }
         });
+    }
+
+    private boolean checkRegisterContentValid() {
+        // 帐号检查
+        String account = mRegisterAccountText.getText().toString().trim();
+        if (account.length() <= 0 || account.length() > 20) {
+            L.toast(R.string.account_format_wrong);
+            return false;
+        }
+
+        // 昵称检查
+        String nick = mRegisterNickNameText.getText().toString().trim();
+        if (nick.length() <= 0 || nick.length() > 10) {
+            L.toast(R.string.nickname_format_wrong);
+            return false;
+        }
+
+        // 密码检查
+        String password = mRegisterPasswordText.getText().toString().trim();
+        String passwordRepeat = mRegisterPasswordRepeatText.getText().toString().trim();
+        if (password.length() < 6 || password.length() > 20) {
+            L.toast(R.string.password_format_wrong);
+            return false;
+        }
+        if (!password.equals(passwordRepeat)) {
+            L.toast(R.string.password_repeat_wrong);
+            return false;
+        }
+
+        return true;
     }
 
     private void saveLoginInfo(String account, String token) {
@@ -173,7 +213,8 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher {
         }
         if (!mRegisterAccountText.getText().toString().isEmpty() &&
                 !mRegisterNickNameText.getText().toString().isEmpty() &&
-                !mRegisterPasswordText.getText().toString().isEmpty()) {
+                !mRegisterPasswordText.getText().toString().isEmpty() &&
+                !mRegisterPasswordRepeatText.getText().toString().isEmpty()) {
             mRegisterBtn.setSelected(false);
             mRegisterBtn.setClickable(true);
         } else {

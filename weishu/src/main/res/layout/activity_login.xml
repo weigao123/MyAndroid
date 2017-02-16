@@ -79,7 +79,7 @@
         android:paddingStart="20dp"
         android:paddingRight="20dp"
         android:paddingEnd="20dp"
-        android:visibility="gone">
+        android:visibility="visible">
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
@@ -128,6 +128,23 @@
             android:paddingRight="15dp"
             android:drawablePadding="15dp"
             android:hint="@string/please_register_password_hint"
+            android:inputType="textPassword"
+            android:textCursorDrawable="@null"
+            android:textSize="15sp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/gray" />
+        <com.garfield.baselib.ui.widget.ClearableEditText
+            android:id="@+id/activity_register_password_repeat"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@null"
+            android:singleLine="true"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:drawablePadding="15dp"
+            android:hint="@string/please_register_password_repeat_hint"
             android:inputType="textPassword"
             android:textCursorDrawable="@null"
             android:textSize="15sp"/>

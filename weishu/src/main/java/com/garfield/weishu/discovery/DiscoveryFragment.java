@@ -8,6 +8,7 @@ import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.discovery.browser.BrowserFragment;
 import com.garfield.weishu.discovery.developer.ui.DeveloperFragment;
+import com.garfield.weishu.discovery.developer.music.ui.MusicControlFragment;
 import com.garfield.weishu.discovery.news.ui.ZhihuFragment;
 import com.garfield.weishu.discovery.scan.ScanFragment;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
@@ -52,15 +53,16 @@ public class DiscoveryFragment extends AppBaseFragment {
     @OnClick(R.id.fragment_discovery_scan)
     void openScan() {
         EventDispatcher.startFragmentEvent(new ScanFragment());
+        L.toast(R.string.function_has_not_developed);
+    }
+
+    @OnClick(R.id.fragment_discovery_music)
+    void openMusic() {
+        L.toast(R.string.function_has_not_developed);
     }
 
     @OnClick(R.id.fragment_discovery_game)
     void openGame() {
-        L.toast(R.string.function_has_not_developed);
-    }
-
-    @OnClick(R.id.fragment_discovery_shopping)
-    void openShopping() {
         L.toast(R.string.function_has_not_developed);
     }
 

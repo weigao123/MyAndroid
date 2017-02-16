@@ -212,18 +212,22 @@ public class TakePhotoFragment extends AppBaseFragment {
     }
 
     private void cropPhoto(String photoPath) {
-        /**
-         * File不会增加前缀，Uri会增加file前缀
-         */
-        Uri sourceUri = PhotoUtil.pathToUri(photoPath);
-        File sourceFile = new File(photoPath);
-        String a = sourceFile.getName();    //文件名加后缀
-        String b = sourceFile.getAbsolutePath();
-        String c = sourceFile.getPath();
-        String name = FileUtils.removeFileSuffix(a);
-        File targetFile = new File(DirectoryUtils.getOwnImageCacheDirectory(), "crop_"+name+".jpg");
-        Uri targetUri = Uri.fromFile(targetFile);
-        PhotoUtil.cropImage(TakePhotoFragment.this, sourceUri, targetUri, 500, 500);
+        if (SettingsPreferences.getCropTool()) {
+            /**
+             * File不会增加前缀，Uri会增加file前缀
+             */
+            Uri sourceUri = PhotoUtil.pathToUri(photoPath);
+            File sourceFile = new File(photoPath);
+            String a = sourceFile.getName();    //文件名加后缀
+            String b = sourceFile.getAbsolutePath();
+            String c = sourceFile.getPath();
+            String name = FileUtils.removeFileSuffix(a);
+            File targetFile = new File(DirectoryUtils.getOwnImageCacheDirectory(), "crop_"+name+".jpg");
+            Uri targetUri = Uri.fromFile(targetFile);
+            PhotoUtil.cropImage(TakePhotoFragment.this, sourceUri, targetUri, 500, 500);
+        } else {
+            EventDispatcher.getFragmentJumpEvent().onShowCropPhoto(photoPath);
+        }
     }
 
     @Override

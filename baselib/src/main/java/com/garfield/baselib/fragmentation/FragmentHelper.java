@@ -139,13 +139,22 @@ public class FragmentHelper {
             flag = 0;
         }
         fragmentManager.popBackStackImmediate(fragmentClass.getName(), flag);
+        /**
+         * 需要在弹出多个时执行一次reorderIndices
+         */
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                FragmentTransactionBugFixHack.reorderIndices(fragmentManager);
+            }
+        });
         if (targetFragment != null && thisFragment != null && thisFragment.getFragmentResult() != null) {
             targetFragment.onFragmentResult(thisFragment.getFragmentResult());
         }
     }
 
     SupportFragment getTopFragment(FragmentManager fragmentManager) {
-        FragmentTransactionBugFixHack.reorderIndices(fragmentManager);
+        //FragmentTransactionBugFixHack.reorderIndices(fragmentManager);
         List<Fragment> fragmentList = fragmentManager.getFragments();
         if (fragmentList == null) return null;
         /**
