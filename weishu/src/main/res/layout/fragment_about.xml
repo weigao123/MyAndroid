@@ -41,6 +41,7 @@
             android:src="@drawable/family_photo"/>
     </LinearLayout>
     <TextView
+        android:id="@+id/fragment_about_me"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"

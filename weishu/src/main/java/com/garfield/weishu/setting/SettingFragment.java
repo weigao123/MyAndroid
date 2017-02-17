@@ -141,6 +141,7 @@ public class SettingFragment extends AppBaseFragment {
     @OnClick(R.id.fragment_setting_vibrate)
     void switchVibrate() {
         mVibrateSwitch.setSwitchStatus(!mVibrateSwitch.getSwitchStatus());
+        SettingsPreferences.setVibrateToggle(mVibrateSwitch.getSwitchStatus());
         NimConfig.setVibrateToggle(mVibrateSwitch.getSwitchStatus());
     }
 

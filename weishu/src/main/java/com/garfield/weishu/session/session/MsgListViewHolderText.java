@@ -28,6 +28,7 @@ public class MsgListViewHolderText extends MsgListViewHolderBase {
     protected void bindContentView() {
         layoutDirection();
         mText.setTextColor(isReceivedMessage() ? Color.BLACK : Color.WHITE);
+        mText.setLinkTextColor(isReceivedMessage() ? Color.BLACK : Color.WHITE);
         mText.setText(getDisplayText());
     }
 

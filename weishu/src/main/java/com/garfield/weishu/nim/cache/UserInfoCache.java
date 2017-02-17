@@ -41,7 +41,7 @@ public class UserInfoCache {
         List<NimUserInfo> users = NIMClient.getService(UserService.class).getAllUserInfo();
         for (NimUserInfo u : users) {
             mUserMap.put(u.getAccount(), u);
-            //L.d(TAG, "buildCache account: "+u.getAccount());
+            L.d(TAG, "buildCache account: "+u.getAccount());
         }
     }
 
@@ -197,7 +197,9 @@ public class UserInfoCache {
         List<String> accounts = FriendDataCache.getInstance().getAllFriendAccounts();
         List<NimUserInfo> users = new ArrayList<>();
         for (String account : accounts) {
+            L.d(TAG, "getUserInfoOfAllMyFriend: " + account);
             if (mUserMap.containsKey(account)) {
+                L.d(TAG, "add");
                 users.add(getUserInfoByAccount(account));
             }
         }

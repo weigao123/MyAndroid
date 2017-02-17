@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Environment;
 import android.text.TextUtils;
 
+import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.app.SettingsPreferences;
@@ -41,9 +42,10 @@ public class NimConfig {
         mNotificationConfig.ledARGB = Color.GREEN;
         mNotificationConfig.ledOnMs = 1000;
         mNotificationConfig.ledOffMs = 1500;
-        // 通知铃声的uri字符串
+        // 通知
         mNotificationConfig.vibrate = SettingsPreferences.getVibrateToggle();
         mNotificationConfig.ring = SettingsPreferences.getRingToggle();
+        // 通知铃声的uri字符串
         mNotificationConfig.notificationSound = "android.resource://com.garfield.weishu/raw/msg";
 
         SDKOptions options = new SDKOptions();

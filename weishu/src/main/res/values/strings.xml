@@ -185,8 +185,10 @@
         &#160;&#160;&#160;&#160;
         这是我在工作之余开发的Android应用，主要用于学习和实践开发技能，后期会持续的进行维护和增加新功能，敬请期待。
     </string>
-        <string name="weishu_me">
-        &#169;2017 微书 \n作者:高伟&#160;&#160;微书号:gwball
+    <string name="weishu_me">
+        &#169;2016 微书\n作者:高伟&#160;&#160;微书号<u>gwblue</u>
     </string>
+    <string name="add_author">添加作者为好友</string>
+    <string name="author_is_your_friend">作者已是您的好友</string>
 
 </resources>
