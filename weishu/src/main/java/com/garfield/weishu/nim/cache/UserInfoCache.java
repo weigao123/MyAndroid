@@ -1,5 +1,6 @@
 package com.garfield.weishu.nim.cache;
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.garfield.baselib.utils.system.L;
@@ -28,9 +29,10 @@ public class UserInfoCache {
     // 所有用户资料，只要fetch过就会有
     private Map<String, NimUserInfo> mUserMap = new ConcurrentHashMap<>();
 
+    // app层
     private List<UserInfoChangedObserver> userInfoObservers = new ArrayList<>();
 
-    // 多处同时获取时，都要有返回
+    // 回调列表，多处同时获取时，都要有返回
     private Map<String, List<RequestCallback<NimUserInfo>>> mFetchRequestMap = new ConcurrentHashMap<>(); // 重复请求处理
 
     /**
@@ -53,6 +55,9 @@ public class UserInfoCache {
         NIMClient.getService(UserServiceObserve.class).observeUserInfoUpdate(userInfoSDKUpdateObserver, register);
     }
 
+    /**
+     * 缓存层，监听SDK层变化，然后马上通知app层
+     */
     private Observer<List<NimUserInfo>> userInfoSDKUpdateObserver = new Observer<List<NimUserInfo>>() {
         @Override
         public void onEvent(List<NimUserInfo> users) {
@@ -61,9 +66,8 @@ public class UserInfoCache {
             }
             for (NimUserInfo u : users) {
                 mUserMap.put(u.getAccount(), u);
-                L.d(TAG, "userInfo update account: "+u.getAccount());
+                L.d(TAG, "userInfo updateUserInfo account: "+u.getAccount());
             }
-            // 通知变更
             List<String> accounts = getAccountsFromUserInfo(users);
             if (accounts != null && !accounts.isEmpty()) {
                 for (UserInfoChangedObserver o : userInfoObservers) {
@@ -85,7 +89,7 @@ public class UserInfoCache {
     }
 
     /**
-     * app层监听缓存层变化
+     * app层监听缓存层变化，fetch后也会回调的
      */
     public void registerUserInfoChangedObserver(UserInfoChangedObserver o, boolean register) {
         if (o == null) {
@@ -116,7 +120,7 @@ public class UserInfoCache {
             if (callback != null) {
                 mFetchRequestMap.get(account).add(callback);
             }
-            return; // 已经在请求中，不要重复请求
+            return; // 已经在请求中，只需要加入回调列表，不要重复请求
         } else {
             List<RequestCallback<NimUserInfo>> cbs = new ArrayList<>();
             if (callback != null) {
@@ -132,7 +136,7 @@ public class UserInfoCache {
 
             @Override
             public void onResult(int code, List<NimUserInfo> users, Throwable exception) {
-                if (exception != null) {
+                if (exception != null && callback != null) {
                     callback.onException(exception);
                     return;
                 }
@@ -141,7 +145,7 @@ public class UserInfoCache {
                 boolean hasCallback = mFetchRequestMap.get(account).size() > 0;
                 if (code == ResponseCode.RES_SUCCESS && users != null && !users.isEmpty()) {
                     user = users.get(0);
-                    // 这里不需要更新缓存，由监听SDK用户资料变更（添加）来更新缓存
+                    // 这里不需要更新缓存mUserMap，由监听SDK用户资料变更（添加）来更新缓存
                 }
 
                 // 处理回调
@@ -156,13 +160,14 @@ public class UserInfoCache {
                     }
                 }
 
+                // 处理完拿掉回调列表
                 mFetchRequestMap.remove(account);
             }
         });
     }
 
     /**
-     * 同时获取多个用户
+     * 同时获取多个用户，从云信服务器获取用户信息（重复请求处理）[异步]
      */
     public void getUsersInfoFromRemote(List<String> accounts, final RequestCallback<List<NimUserInfo>> callback) {
         NIMClient.getService(UserService.class).fetchUserInfo(accounts).setCallback(new RequestCallback<List<NimUserInfo>>() {
@@ -191,21 +196,21 @@ public class UserInfoCache {
     }
 
     /**
-     * 如果是好友，就默认会在UserInfo里吗？
+     * 如果是好友，就默认会在UserInfo里吗？不会，必须得fetch才有
+     * 如果直接添加好友，没有fetch，会造成mUserMap没有该账号
      */
     public List<NimUserInfo> getUserInfoOfAllMyFriend() {
         List<String> accounts = FriendDataCache.getInstance().getAllFriendAccounts();
         List<NimUserInfo> users = new ArrayList<>();
         for (String account : accounts) {
-            L.d(TAG, "getUserInfoOfAllMyFriend: " + account);
             if (mUserMap.containsKey(account)) {
-                L.d(TAG, "add");
                 users.add(getUserInfoByAccount(account));
             }
         }
         return users;
     }
 
+    // 可能是null
     public NimUserInfo getUserInfoByAccount(String account) {
         if (TextUtils.isEmpty(account) || mUserMap == null) {
             return null;
@@ -213,7 +218,7 @@ public class UserInfoCache {
         return mUserMap.get(account);
     }
 
-    public void getUserInfoSafe(String account, RequestCallback<NimUserInfo> callback) {
+    public void getUserInfoByAccountSafe(String account, RequestCallback<NimUserInfo> callback) {
         if (TextUtils.isEmpty(account)) {
             callback.onSuccess(null);
             return;

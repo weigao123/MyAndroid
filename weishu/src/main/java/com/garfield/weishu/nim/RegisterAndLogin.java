@@ -12,6 +12,7 @@ import com.garfield.weishu.app.UserPreferences;
 import com.garfield.weishu.helper.http.volley.BaseRequest;
 import com.garfield.weishu.helper.http.volley.RegisterRequest;
 import com.garfield.baselib.utils.http.http.VolleyHelper;
+import com.garfield.weishu.helper.http.volley.RegisterResultBean;
 import com.garfield.weishu.nim.cache.DataCacheManager;
 import com.garfield.weishu.nim.cache.LoginSyncHelper;
 import com.garfield.weishu.ui.activity.WelcomeActivity;
@@ -95,9 +96,9 @@ public class RegisterAndLogin {
         params.put("name", nickname);
         params.put("token", password);
         final RequestQueue queue = VolleyHelper.getInstance()
-                .addRequest(new RegisterRequest(params, new BaseRequest.RequestResult<RegisterRequest.RegisterResultBean>() {
+                .addRequest(new RegisterRequest(params, new BaseRequest.RequestResult<RegisterResultBean>() {
                     @Override
-                    public void onResult(RegisterRequest.RegisterResultBean result) {
+                    public void onResult(RegisterResultBean result) {
                         if (result != null) {
                             if (result.getCode() == 200) {
                                 L.toast(R.string.register_success);
@@ -106,7 +107,7 @@ public class RegisterAndLogin {
                             } else if ("already register".equals(result.getDesc())) {
                                 L.toast(R.string.account_registered);
                             } else {
-                                L.toast(result.getDesc());
+                                L.toast(AppCache.getContext().getResources().getString(R.string.register_failed, result.getCode()));
                             }
                             callback.onResult(REQUEST_FAILED);
                         }

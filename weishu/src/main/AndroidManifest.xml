@@ -100,18 +100,6 @@
             android:name="com.netease.cosine.target.receiver"
             android:value="com.netease.nimlib.service.NimReceiver"/>
 
-        <receiver
-            android:name=".app.MyBroadcast">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.SCREEN_OFF"/>
-                <action android:name="android.intent.action.SCREEN_ON"/>
-                <action android:name="android.intent.action.USER_PRESENT"/>
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
-            </intent-filter>
-        </receiver>
-
         <!-- Glide配置 -->
         <meta-data
             android:name="com.garfield.baselib.utils.http.image.GlideHelper$MyGlideModule"
@@ -131,13 +119,26 @@
                 android:resource="@xml/provider_paths"/>
         </provider>
 
-        <service
-            android:name=".discovery.developer.music.service.NotificationStateListener"
-            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
-            <intent-filter>
-                <action android:name="android.service.notification.NotificationListenerService" />
-            </intent-filter>
-        </service>
+
+        <!--<receiver-->
+            <!--android:name=".app.MyBroadcast">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.BOOT_COMPLETED"/>-->
+                <!--<action android:name="android.intent.action.SCREEN_OFF"/>-->
+                <!--<action android:name="android.intent.action.SCREEN_ON"/>-->
+                <!--<action android:name="android.intent.action.USER_PRESENT"/>-->
+                <!--<action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>-->
+                <!--<action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
+
+        <!--<service-->
+            <!--android:name=".discovery.developer.music.service.NotificationStateListener"-->
+            <!--android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.service.notification.NotificationListenerService" />-->
+            <!--</intent-filter>-->
+        <!--</service>-->
 
     </application>
 

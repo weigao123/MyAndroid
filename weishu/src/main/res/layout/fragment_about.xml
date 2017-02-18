@@ -36,15 +36,16 @@
             android:text="@string/weishu_brief2"/>
 
         <ImageView
-            android:layout_width="200dp"
+            android:layout_width="220dp"
             android:layout_height="match_parent"
-            android:src="@drawable/family_photo"/>
+            android:src="@drawable/me_photo"/>
     </LinearLayout>
     <TextView
         android:id="@+id/fragment_about_me"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
         android:text="@string/weishu_me"
         android:textColor="@color/black_gray"
         android:gravity="center"

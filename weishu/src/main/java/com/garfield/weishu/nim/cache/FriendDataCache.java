@@ -124,7 +124,7 @@ public class FriendDataCache {
     }
 
     /**
-     * 监听好友关系变化
+     * 缓存层，监听SDK层好友关系变化，然后马上通知app层
      */
     private Observer<FriendChangedNotify> friendChangedNotifyObserver = new Observer<FriendChangedNotify>() {
         @Override
@@ -142,7 +142,7 @@ public class FriendDataCache {
                 account = f.getAccount();
                 allFriendMap.put(account, f);
                 allFriendAccounts.add(account);
-                L.d(TAG, "friend update account: "+f.getAccount());
+                L.d(TAG, "friend updateUserInfo account: "+f.getAccount());
 
                 if (NIMClient.getService(FriendService.class).isInBlackList(account)) {
                     continue;
@@ -177,7 +177,7 @@ public class FriendDataCache {
     };
 
     /**
-     * 监听黑名单变化(决定是否加入或者移出好友列表)
+     * 缓存层，监听SDK层黑名单变化(决定是否加入或者移出好友列表)，然后马上通知app层
      */
     private Observer<BlackListChangedNotify> blackListChangedNotifyObserver = new Observer<BlackListChangedNotify>() {
         @Override

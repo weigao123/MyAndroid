@@ -8,9 +8,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.baselib.ui.widget.LetterIndexView;
 import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.R;
+import com.garfield.weishu.app.SettingsPreferences;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.contact.item.AbsContactItem;
 import com.garfield.weishu.contact.item.ContactItem;
@@ -19,9 +21,11 @@ import com.garfield.weishu.contact.model.ContactGroupStrategy;
 import com.garfield.weishu.contact.viewholder.ContactHolder;
 import com.garfield.weishu.contact.viewholder.FuncHolder;
 import com.garfield.weishu.contact.viewholder.LabelHolder;
+import com.garfield.weishu.nim.NimHelper;
 import com.garfield.weishu.nim.cache.FriendDataCache;
 import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
+import com.netease.nimlib.sdk.RequestCallbackWrapper;
 
 import java.util.List;
 
@@ -70,6 +74,17 @@ public class ContactFragment extends AppBaseFragment implements AdapterView.OnIt
         mListView.setOnLongClickListener(this);
         registerObserver(true);
         reload(false);
+
+        if (!FriendDataCache.getInstance().isMyFriend("gwblue") && !SettingsPreferences.getAddAuthor()) {
+            NimHelper.addUserAsFriend("gwblue", new RequestCallbackWrapper<Void>() {
+                @Override
+                public void onResult(int i, Void aVoid, Throwable throwable) {
+                    if (i == 200) {
+                        SettingsPreferences.setAddAuthor(true);
+                    }
+                }
+            });
+        }
     }
 
     private void initAdapter() {
@@ -127,7 +142,7 @@ public class ContactFragment extends AppBaseFragment implements AdapterView.OnIt
         FriendDataCache.getInstance().registerFriendDataChangedObserver(friendDataChangedObserver, register);
     }
 
-    UserInfoCache.UserInfoChangedObserver userInfoChangedObserver = new UserInfoCache.UserInfoChangedObserver() {
+    private UserInfoCache.UserInfoChangedObserver userInfoChangedObserver = new UserInfoCache.UserInfoChangedObserver() {
         @Override
         public void onUserInfoChanged(List<String> accounts) {
             reloadWhenDataChanged(accounts, "onUserInfoChanged", true, false);

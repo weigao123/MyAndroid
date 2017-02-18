@@ -44,8 +44,8 @@ public class MyApplication extends Application {
         if (SystemUtil.inMainProcess()) {
             L.d("MyApplication");
 
-            //Bugly.init(getApplicationContext(), "a04ac2698f", true);
-            Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
+            Bugly.init(getApplicationContext(), "a04ac2698f", true);
+            //Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
 
             ImageLoaderHelper.init();
             NimConfig.initSetting();

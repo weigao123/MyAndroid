@@ -14,11 +14,13 @@ import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
+import com.garfield.weishu.nim.NimHelper;
 import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.FriendDataCache;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.friend.FriendService;
 import com.netease.nimlib.sdk.friend.constant.VerifyType;
@@ -27,6 +29,7 @@ import com.netease.nimlib.sdk.friend.model.AddFriendData;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static android.app.Activity.RESULT_OK;
 import static android.text.Html.FROM_HTML_MODE_LEGACY;
 
 /**
@@ -88,26 +91,17 @@ public class AboutFragment extends AppBaseFragment {
             return;
         }
         DialogMaker.showProgressDialog(mActivity, null, true);
-        NIMClient.getService(FriendService.class).addFriend(new AddFriendData("gwblue", VerifyType.DIRECT_ADD, "")).setCallback(new RequestCallback<Void>() {
+        NimHelper.addUserAsFriend("gwblue", new RequestCallbackWrapper<Void>() {
             @Override
-            public void onSuccess(Void param) {
+            public void onResult(int code, Void result, Throwable exception) {
                 DialogMaker.dismissProgressDialog();
-                L.toast(R.string.add_friend_success);
-            }
-
-            @Override
-            public void onFailed(int code) {
-                DialogMaker.dismissProgressDialog();
-                if (code == 408) {
+                if (code == 200) {
+                    L.toast(R.string.add_friend_success);
+                } else if (code == 408) {
                     L.toast(R.string.status_network_is_not_available);
                 } else {
                     L.toast("on failed:" + code);
                 }
-            }
-
-            @Override
-            public void onException(Throwable exception) {
-                DialogMaker.dismissProgressDialog();
             }
         });
 

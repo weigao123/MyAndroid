@@ -13,7 +13,7 @@ import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.nim.cache.UserInfoCache;
-import com.garfield.weishu.nim.cache.UserUpdateHelper;
+import com.garfield.weishu.nim.NimHelper;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 import com.garfield.weishu.ui.view.HeadImageView;
 import com.netease.nimlib.sdk.AbortableFuture;
@@ -21,7 +21,6 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.nos.NosService;
-import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 import com.netease.nimlib.sdk.uinfo.constant.UserInfoFieldEnum;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
@@ -150,7 +149,7 @@ public class SelfProfileFragment extends AppBaseFragment {
     }
 
     private void updateUserInfo(UserInfoFieldEnum type, String data) {
-        UserUpdateHelper.update(type, data, new RequestCallbackWrapper<Void>() {
+        NimHelper.updateUserInfo(type, data, new RequestCallbackWrapper<Void>() {
             @Override
             public void onResult(int code, Void result, Throwable exception) {
                 if (code == ResponseCode.RES_SUCCESS) {

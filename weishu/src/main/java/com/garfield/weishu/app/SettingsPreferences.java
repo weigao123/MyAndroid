@@ -17,6 +17,7 @@ public class SettingsPreferences {
     private final static String KEY_VIBRATE_TOGGLE = "KEY_VIBRATE_TOGGLE";
     private final static String KEY_ANIMATION_TOGGLE = "key_animation_toggle";
     private final static String KEY_CROP_TOGGLE = "key_crop_toggle";
+    private final static String KEY_ADD_AUTHOR = "key_add_author";
 
 
     public static void setNotificationToggle(boolean on) {
@@ -57,6 +58,14 @@ public class SettingsPreferences {
 
     public static boolean getCropTool() {
         return getBoolean(KEY_CROP_TOGGLE, false);
+    }
+
+    public static void setAddAuthor(boolean on) {
+        saveBoolean(KEY_ADD_AUTHOR, on);
+    }
+
+    public static boolean getAddAuthor() {
+        return getBoolean(KEY_ADD_AUTHOR, false);
     }
 
     private static StatusBarNotificationConfig getConfig() {

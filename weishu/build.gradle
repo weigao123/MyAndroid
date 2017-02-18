@@ -1,5 +1,11 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
+apply plugin: 'bugly'
+
+bugly {
+    appId = 'a04ac2698f'
+    appKey = '813769b8-903a-402e-9394-9766ef8989be'
+}
 
 android {
     useLibrary 'org.apache.http.legacy'
@@ -27,8 +33,8 @@ android {
             signingConfig signingConfigs.release
         }
         release {
-            //minifyEnabled true
-            minifyEnabled false
+            minifyEnabled true
+            //minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }

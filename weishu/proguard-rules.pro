@@ -20,7 +20,7 @@
 
 
 -keep public class com.garfield.weishu.discovery.news.bean.**{*;}
-
+-keep public class com.garfield.weishu.helper.http.volley.RegisterResultBean{*;}
 
 
 
