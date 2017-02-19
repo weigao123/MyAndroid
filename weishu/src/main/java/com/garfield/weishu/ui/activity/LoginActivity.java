@@ -15,9 +15,14 @@ import com.garfield.baselib.ui.widget.ClearableEditText;
 import com.garfield.baselib.utils.system.L;
 import com.garfield.baselib.utils.system.SystemUtil;
 import com.garfield.weishu.R;
+import com.garfield.weishu.app.AppCache;
+import com.garfield.weishu.app.SettingsPreferences;
 import com.garfield.weishu.app.UserPreferences;
+import com.garfield.weishu.nim.NimHelper;
 import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.DataCacheManager;
+import com.garfield.weishu.nim.cache.FriendDataCache;
+import com.netease.nimlib.sdk.RequestCallbackWrapper;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -54,6 +59,7 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher {
     @BindView(R.id.activity_login_register)
     TextView mRegisterBtn;
 
+    private boolean mRegistered;
     private RegisterAndLogin.CancelableRequest mCancelableRequest;
 
     @Override
@@ -110,18 +116,21 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher {
             }
         }).setCanceledOnTouchOutside(false);
 
-        final String account = mLoginAccountText.getText().toString().toLowerCase();
-        final String password = mLoginPasswordText.getText().toString().toLowerCase();
+        String account = mLoginAccountText.getText().toString().trim();
+        String password = mLoginPasswordText.getText().toString().trim();
         mCancelableRequest = RegisterAndLogin.login(account, password, new RegisterAndLogin.RequestResult() {
             @Override
             public void onResult(int result) {
                 if (result == RegisterAndLogin.REQUEST_SUCCESS) {
-                    saveLoginInfo(account, password);
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    DataCacheManager.buildDataCacheAsync();
-                    finish();
+                    // 还在转圈
+                    if (mRegistered) {
+                        addAuthorAndStartMain();
+                    } else {
+                        startMain();
+                    }
+                } else {
+                    onRequestDone();
                 }
-                onRequestDone();
             }
         });
     }
@@ -150,12 +159,14 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher {
         mCancelableRequest = RegisterAndLogin.register(account, nickname, password, new RegisterAndLogin.RequestResult() {
             @Override
             public void onResult(int result) {
+                onRequestDone();
                 if (result == RegisterAndLogin.REQUEST_SUCCESS) {
+                    mRegistered = true;
                     saveLoginInfo(account, null);
                     mLoginPasswordText.setTag(password);
                     switchLoginAndRegister(true);
+                    login();
                 }
-                onRequestDone();
             }
         });
     }
@@ -221,6 +232,33 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher {
             mRegisterBtn.setSelected(true);
             mRegisterBtn.setClickable(false);
         }
+    }
+
+    private void addAuthorAndStartMain() {
+        if (!AppCache.getAccount().equals("gwblue") && !FriendDataCache.getInstance().isMyFriend("gwblue")) {
+            NimHelper.addUserAsFriend("gwblue", new RequestCallbackWrapper<Void>() {
+                @Override
+                public void onResult(int i, Void aVoid, Throwable throwable) {
+                    if (i == 200) {
+                        startMain();
+                    } else {
+                        onRequestDone();
+                    }
+                }
+            });
+        } else {
+            startMain();
+        }
+    }
+
+    private void startMain() {
+        onRequestDone();
+        String account = mLoginAccountText.getText().toString().trim();
+        String password = mLoginPasswordText.getText().toString().trim();
+        saveLoginInfo(account, password);
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        DataCacheManager.buildDataCacheAsync();
+        finish();
     }
 
     @Override

@@ -12,6 +12,7 @@ import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.baselib.ui.widget.LetterIndexView;
 import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.R;
+import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.app.SettingsPreferences;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.contact.item.AbsContactItem;
@@ -74,17 +75,6 @@ public class ContactFragment extends AppBaseFragment implements AdapterView.OnIt
         mListView.setOnLongClickListener(this);
         registerObserver(true);
         reload(false);
-
-        if (!FriendDataCache.getInstance().isMyFriend("gwblue") && !SettingsPreferences.getAddAuthor()) {
-            NimHelper.addUserAsFriend("gwblue", new RequestCallbackWrapper<Void>() {
-                @Override
-                public void onResult(int i, Void aVoid, Throwable throwable) {
-                    if (i == 200) {
-                        SettingsPreferences.setAddAuthor(true);
-                    }
-                }
-            });
-        }
     }
 
     private void initAdapter() {
