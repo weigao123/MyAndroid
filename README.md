@@ -18,24 +18,6 @@
 - 事件分发：`Eventbus`
 - 其他：`Butterknife`
 
-# 界面
-<img src="weishu/png/register.png" width = 200>　
-<img src="weishu/png/home1.png" width = 200>　
-<img src="weishu/png/message.png" width = 200>　
-<img src="weishu/png/home2.png" width = 200>
-
-
-<img src="weishu/png/home3.png" width = 200>　
-<img src="weishu/png/home4.png" width = 200>　
-<img src="weishu/png/netease_news.png" width = 200>　
-<img src="weishu/png/netease_detail.png" width = 200>
-
-
-<img src="weishu/png/developer.png" width = 200>　
-<img src="weishu/png/speed.png" width = 200>　
-<img src="weishu/png/browser.png" width = 200>　
-<img src="weishu/png/about.png" width = 200>
-
 # 作者
 - 微信：122525660
 - 微书：gwblue

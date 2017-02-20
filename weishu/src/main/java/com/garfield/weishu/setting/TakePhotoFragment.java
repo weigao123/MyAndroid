@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -17,6 +18,7 @@ import com.garfield.baselib.ui.widget.SwitchButton;
 import com.garfield.baselib.utils.file.DirectoryUtils;
 import com.garfield.baselib.utils.file.FileUtils;
 import com.garfield.baselib.utils.drawable.PhotoUtil;
+import com.garfield.baselib.utils.system.L;
 import com.garfield.baselib.utils.system.ScreenUtils;
 import com.garfield.baselib.utils.system.TaskUtils;
 import com.garfield.weishu.app.AppCache;
@@ -80,6 +82,7 @@ public class TakePhotoFragment extends AppBaseFragment {
     // 不带file://
     private File mPhotoOutputPath = new File(DirectoryUtils.getOwnImageCacheDirectory(), "take_photo.jpg");
 
+
     protected String onGetToolbarTitleResource() {
         return getString(R.string.photo_album);
     }
@@ -139,15 +142,17 @@ public class TakePhotoFragment extends AppBaseFragment {
             }
         });
 
-        mAlbumContainer.post(new Runnable() {
-            public void run() {
-                int containerHeight = mAlbumContainer.getMeasuredHeight();
-                ViewGroup.LayoutParams params = mAlbumListView.getLayoutParams();
-                params.height = containerHeight - ScreenUtils.dp2px(80);
-                mAlbumListView.setLayoutParams(params);   //设置高度
-                mAlbumListView.setY(containerHeight);   //下移
-            }
-        });
+        if (savedInstanceState == null) {
+            mAlbumContainer.post(new Runnable() {
+                public void run() {
+                    int containerHeight = mAlbumContainer.getMeasuredHeight();
+                    ViewGroup.LayoutParams params = mAlbumListView.getLayoutParams();
+                    params.height = containerHeight - ScreenUtils.dp2px(80);
+                    mAlbumListView.setLayoutParams(params);   //设置高度
+                    mAlbumListView.setY(containerHeight);   //下移
+                }
+            });
+        }
 
         mAlbumListView.animate().setListener(new Animator.AnimatorListener() {
             @Override
@@ -198,7 +203,25 @@ public class TakePhotoFragment extends AppBaseFragment {
         loadImage();
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        // 解决当前页再进入下一页，转屏后返回显示的问题
+        if (!hidden) {
+            mAlbumContainer.post(new Runnable() {
+                public void run() {
+                    int containerHeight = mAlbumContainer.getMeasuredHeight();
+                    ViewGroup.LayoutParams params = mAlbumListView.getLayoutParams();
+                    params.height = containerHeight - ScreenUtils.dp2px(80);
+                    mAlbumListView.setLayoutParams(params);   //设置高度
+                    mAlbumListView.setY(containerHeight);   //下移
+                }
+            });
+        }
+    }
+
     private void takePhoto() {
+        //mPhotoOutputPath = new File(getContext().getCacheDir(), "take_photo.jpg");
         if (mPhotoOutputPath.exists()) {
             mPhotoOutputPath.delete();
         }
@@ -242,13 +265,17 @@ public class TakePhotoFragment extends AppBaseFragment {
         }
         if (requestCode == PhotoUtil.PHOTO_CROP && resultCode == RESULT_OK) {
             Uri uri = data.getData();     //有file前缀，需要把前缀去掉
-            Bundle bundle = new Bundle();
-            String a = uri.getScheme();   //前缀
-            String b = uri.getSchemeSpecificPart();   //前缀以外的部分
-            String c = uri.getLastPathSegment();    //文件名和后缀
-            bundle.putString(INFO_HEAD, b);
-            setFragmentResult(bundle);
-            popToFragment(SelfProfileFragment.class, false);
+            if (uri != null) {
+                Bundle bundle = new Bundle();
+                String a = uri.getScheme();   //前缀
+                String b = uri.getSchemeSpecificPart();   //前缀以外的部分
+                String c = uri.getLastPathSegment();    //文件名和后缀
+                bundle.putString(INFO_HEAD, b);
+                setFragmentResult(bundle);
+                popToFragment(SelfProfileFragment.class, false);
+            } else {
+                L.toast(R.string.error);
+            }
         }
     }
 

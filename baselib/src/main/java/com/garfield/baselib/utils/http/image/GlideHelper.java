@@ -37,7 +37,7 @@ public class GlideHelper {
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .placeholder(holderRes)
-                .error(R.drawable.image_error)
+                //.error(R.drawable.image_error)
                 //.animate(R.anim.item_alpha_in)     //加载动画
                 .into(imageView);
     }

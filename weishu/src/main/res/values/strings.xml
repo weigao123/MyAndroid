@@ -39,9 +39,9 @@
     <string name="has_no_account">没有账号?</string>
     <string name="please_input_account">请输入账号</string>
     <string name="please_input_password">请输入密码</string>
-    <string name="please_register_account_hint">请输入帐号，限20位字母或者数字</string>
-    <string name="account_format_wrong">帐号限20位字母或者数字</string>
-    <string name="please_register_nickname_hint">请输入昵称，限10位汉字、字母或者数字</string>
+    <string name="please_register_account_hint">请输入帐号，最多20位字母或者数字</string>
+    <string name="account_format_wrong">帐号最多20位字母或者数字</string>
+    <string name="please_register_nickname_hint">请输入昵称，最多10位汉字、字母或者数字</string>
     <string name="nickname_format_wrong">昵称必须为1~10位汉字、字母或者数字</string>
     <string name="please_register_password_hint">请输入密码，6~20位字母或者数字</string>
     <string name="please_register_password_repeat_hint">请再次输入密码</string>
@@ -171,7 +171,7 @@
 
     <!-- SurfaceView -->
     <string name="rebroadcast">重播</string>
-    
+
     <!-- 关于 -->
     <string name="weishu_version">微书 %1$s</string>
     <string name="weishu_brief">

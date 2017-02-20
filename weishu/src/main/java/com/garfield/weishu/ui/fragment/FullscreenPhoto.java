@@ -1,6 +1,7 @@
 package com.garfield.weishu.ui.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -44,7 +45,11 @@ public class FullscreenPhoto extends AppBaseFragment {
         SystemUtil.setStatusBarColorK(mActivity, getResources().getColor(R.color.black));
 
         mPhotoPath = getArguments().getString(INFO_HEAD);
-        ImageHelper.load(mRootView.getContext(), mPhotoPath, mFullscreenPhoto);
+        if (TextUtils.isEmpty(mPhotoPath)) {
+            ImageHelper.load(mRootView.getContext(), mPhotoPath, mFullscreenPhoto, R.drawable.avatar_def);
+        } else {
+            ImageHelper.load(mRootView.getContext(), mPhotoPath, mFullscreenPhoto);
+        }
     }
 
 

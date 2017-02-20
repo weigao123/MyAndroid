@@ -23,7 +23,7 @@ public class ImageHelper {
     }
 
     public static void load(Context context, String url, ImageView imageView, int imageRes) {
-        // 必须得用Application的，否则会覆盖一个空白SupportRequestManagerFragment，导致很多问题
+        // 这里要用Application的，否则会覆盖一个空白SupportRequestManagerFragment，导致很多问题
         GlideHelper.load(context.getApplicationContext(), url, imageView, imageRes);
     }
 
