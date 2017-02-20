@@ -171,9 +171,7 @@
 
     <!-- SurfaceView -->
     <string name="rebroadcast">重播</string>
-
-
-
+    
     <!-- 关于 -->
     <string name="weishu_version">微书 %1$s</string>
     <string name="weishu_brief">
