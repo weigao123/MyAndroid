@@ -35,6 +35,7 @@ public class FragmentHelper {
         FragmentTransaction ft = fragmentManager.beginTransaction();
         // 根Fragment不要设置动画
         // ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        // ft.setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         String toClassName = to.getClass().getName();
         ft.add(containerId, to, toClassName);
         // 有可能也需要被弹出

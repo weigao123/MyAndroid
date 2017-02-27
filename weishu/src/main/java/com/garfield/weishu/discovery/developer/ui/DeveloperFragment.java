@@ -1,6 +1,7 @@
 package com.garfield.weishu.discovery.developer.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -49,6 +50,7 @@ public class DeveloperFragment extends AppBaseFragment implements TRecyclerAdapt
         mData.add("3、多线程");
         mData.add("4、SurfaceView");
         mData.add("5、音乐控制");
+        mData.add("6、fitsSystemWindows");
         DevelopAdapter adapter = new DevelopAdapter(getContext(), mData);
         adapter.setItemEventListener(this);
         mRecyclerView.setHasFixedSize(true);
@@ -78,6 +80,9 @@ public class DeveloperFragment extends AppBaseFragment implements TRecyclerAdapt
                 } else {
                     L.toast(R.string.system_not_support);
                 }
+                break;
+            case 5:
+                startActivity(new Intent(mActivity, DevelopActivity.class));
                 break;
         }
     }

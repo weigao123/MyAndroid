@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.swipeback.SwipeBackFragment;
+import com.garfield.baselib.utils.system.L;
 import com.garfield.baselib.utils.system.ScreenUtils;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
@@ -44,7 +45,7 @@ public class AppBaseFragment extends SwipeBackFragment {
     View mLoadingView;
 
     @Nullable @BindView(R.id.lazyload_content)
-    View mContentView;
+    View mLazyLoadContentView;
 
     private PopupWindow mPopupWindow;
     private Unbinder mUnbinder;
@@ -96,24 +97,32 @@ public class AppBaseFragment extends SwipeBackFragment {
          * lazy load
          */
         mIsPrepared = true;
-        if (mContentView != null) {
-            mContentView.setAlpha(0f);
+        if (mLazyLoadContentView != null) {
+            mLazyLoadContentView.setAlpha(0f);
             if (mIsVisibleToUser) {
                 lazyLoad();
             }
         }
+        L.d("onCreateView: "+getClass().getSimpleName());
         return mRootView;
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+        L.d("setUserVisibleHint: "+getClass().getSimpleName() + "  " + isVisibleToUser);
         if (isVisibleToUser) {
             mIsVisibleToUser = true;
             if (mIsPrepared && !mHasLoaded) {
                 lazyLoad();
             }
         }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        L.d("onHiddenChanged: "+getClass().getSimpleName() + "  " + hidden);
     }
 
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
@@ -130,11 +139,11 @@ public class AppBaseFragment extends SwipeBackFragment {
     }
 
     protected void showContent() {
-        if (mContentView != null) {
+        if (mLazyLoadContentView != null) {
             if (mLoadingView != null) {
                 mLoadingView.setVisibility(View.GONE);
             }
-            mContentView.animate().alpha(1f).setDuration(500).start();
+            mLazyLoadContentView.animate().alpha(1f).setDuration(500).start();
         }
     }
 

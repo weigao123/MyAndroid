@@ -142,17 +142,18 @@ public class TakePhotoFragment extends AppBaseFragment {
             }
         });
 
-        if (savedInstanceState == null) {
-            mAlbumContainer.post(new Runnable() {
-                public void run() {
-                    int containerHeight = mAlbumContainer.getMeasuredHeight();
+        mAlbumContainer.post(new Runnable() {
+            public void run() {
+                int containerHeight = mAlbumContainer.getMeasuredHeight();
+                // 前台正常，后台时旋转会是0
+                if (containerHeight != 0) {
                     ViewGroup.LayoutParams params = mAlbumListView.getLayoutParams();
                     params.height = containerHeight - ScreenUtils.dp2px(80);
                     mAlbumListView.setLayoutParams(params);   //设置高度
                     mAlbumListView.setY(containerHeight);   //下移
                 }
-            });
-        }
+            }
+        });
 
         mAlbumListView.animate().setListener(new Animator.AnimatorListener() {
             @Override

@@ -18,6 +18,8 @@ import com.garfield.weishu.nim.NimConfig;
 import com.garfield.weishu.session.sessionlist.SessionListFragment;
 import com.garfield.weishu.setting.SettingFragment;
 
+import java.util.List;
+
 import butterknife.BindView;
 
 /**
@@ -31,7 +33,9 @@ import butterknife.BindView;
 public class MainFragment extends AppBaseFragment implements BottomBarTransition.OnTabSelectedListener {
 
     private SupportFragment[] mFragments = new SupportFragment[4];
-    private BottomBarTransition mBottomBar;
+
+    @BindView(R.id.bottomBar)
+    BottomBarTransition mBottomBar;
 
     @BindView(R.id.main_fragment_container)
     ViewPager mViewPager;
@@ -43,23 +47,27 @@ public class MainFragment extends AppBaseFragment implements BottomBarTransition
 
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
-        mFragments[0] = new SessionListFragment();
-        mFragments[1] = new ContactFragment();
-        mFragments[2] = new DiscoveryFragment();
-        mFragments[3] = new SettingFragment();
+        if (savedInstanceState == null) {
+            mFragments[0] = new SessionListFragment();
+            mFragments[1] = new ContactFragment();
+            mFragments[2] = new DiscoveryFragment();
+            mFragments[3] = new SettingFragment();
+        } else {
+            List<Fragment> fragments = getChildFragmentManager().getFragments();
+            mFragments = fragments.toArray(mFragments);
+        }
         /**
-         * 转屏时，MainFragment先重建，在这里重新赋adapter，onCreateView执行完了后，所有的子View重建
-         * ViewPager这时可以拿到上次的InstanceState，就恢复原来的位置了
+         * 转屏时PagerAdapter里的FragmentManager会记住所有getItem打开过的实例，重建时自动显示所有的Fragment，所以不用管
+         * 而且只有未加载的Fragment才会调用getItem，因此即使mFragments是null也没事，只要打开过的就不再getItem获取
          *
-         * ViewPager/FragmentManager会记住所有getItem打开过的类名/实例，重建时直接去创建那个类了，反正不用管
-         * 所以即使mFragments那个是null也没事，只有打开过的不再getItem获取
+         * 转屏时Fragment下的所有的子View会重建，ViewPager这时恢复上次的savedInstanceState(只存了position)，进而恢复原来的位置
+         * 但是没保存PagerAdapter，所以还要重新创建
          */
         MyPagerAdapter pagerAdapter = new MyPagerAdapter(getChildFragmentManager(), mFragments);
         mViewPager.setOffscreenPageLimit(pagerAdapter.getCount());
         mViewPager.setAdapter(pagerAdapter);
         mViewPager.addOnPageChangeListener(mOnPageChangeListener);
 
-        mBottomBar = (BottomBarTransition) rootView.findViewById(R.id.bottomBar);
         mBottomBar.setColor(R.color.bottom_bar_unselected, R.color.colorPrimary)
                 .addItem(R.drawable.ic_bottom_message1, R.drawable.ic_bottom_message2, R.string.message)
                 .addItem(R.drawable.ic_bottom_contact1, R.drawable.ic_bottom_contact2, R.string.contact)
@@ -134,8 +142,8 @@ public class MainFragment extends AppBaseFragment implements BottomBarTransition
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             /**
-             * 阻止销毁，防止重建fragment，可以由setOffscreenPageLimit代替
-             * 发现不能去掉，否则转屏时有的页面无法显示
+             * 阻止销毁，防止重建fragment，发现不能去掉，否则转屏时有的页面无法显示
+             * 可以由setOffscreenPageLimit代替阻止销毁
              */
             super.destroyItem(container, position, object);
         }

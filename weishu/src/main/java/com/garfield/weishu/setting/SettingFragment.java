@@ -78,13 +78,6 @@ public class SettingFragment extends AppBaseFragment {
         loadConfig();
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-//        L.d("isVisibleToUser: "+ isVisibleToUser);
-//        L.d("isVisible: " + isVisible());
-    }
-
     private void loadConfig() {
         mNotifySwitch.setSwitchStatus(SettingsPreferences.getNotificationToggle());
         mRingSwitch.setSwitchStatus(SettingsPreferences.getRingToggle());
