@@ -83,7 +83,7 @@ public class MyImageLoader {
     };
 
     private MyImageLoader() {
-        int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+        int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);    //单位M
         int cacheSize = maxMemory / 8;
         mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
             @Override

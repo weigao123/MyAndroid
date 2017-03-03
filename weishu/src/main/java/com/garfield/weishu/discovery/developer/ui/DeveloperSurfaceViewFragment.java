@@ -52,8 +52,9 @@ public class DeveloperSurfaceViewFragment extends AppBaseFragment implements Sur
     private volatile boolean mIsChanged = true;
 
     /**
-     * 原理是x^2只有开始那一段(0~k)坡度较缓，同步放大即可
-     * k是SurfaceView的斜率，也是y=kx和y=x^2的交点
+     * 原理是把y=kx和y=x^2交汇的部分，放大到mReal宽高
+     * k是SurfaceView矩形的斜率
+     * 先求得y=kx和y=x^2的交点，即(k,k*k)，然后拉大到mReal宽高
      * multiple是k到Width被放大的倍数
      */
     private double k;
@@ -148,10 +149,10 @@ public class DeveloperSurfaceViewFragment extends AppBaseFragment implements Sur
 
         @Override
         public PointF evaluate(float fraction, PointF startValue, PointF endValue) {
-            float xLarge = startValue.x + (fraction * (endValue.x - startValue.x));
-            double xSmall = xLarge / multiple;
-            double ySmall = Math.pow(xSmall, 2);
-            float yLarge = (float) (ySmall * multiple);
+            float xLarge = startValue.x + (fraction * (endValue.x - startValue.x));    //x匀速即可
+            double xSmall = xLarge / multiple;    //先缩小，求得交点横坐标k
+            double ySmall = Math.pow(xSmall, 2);    //再求得交点纵坐标k*k
+            float yLarge = (float) (ySmall * multiple);    //再放大纵坐标
             return new PointF(xLarge, yLarge);
         }
     };
