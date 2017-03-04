@@ -103,14 +103,14 @@ public class AppBaseFragment extends SwipeBackFragment {
                 lazyLoad();
             }
         }
-        L.d("onCreateView: "+getClass().getSimpleName());
+        //L.d("onCreateView: "+getClass().getSimpleName());
         return mRootView;
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        L.d("setUserVisibleHint: "+getClass().getSimpleName() + "  " + isVisibleToUser);
+        //L.d("setUserVisibleHint: "+getClass().getSimpleName() + "  " + isVisibleToUser);
         if (isVisibleToUser) {
             mIsVisibleToUser = true;
             if (mIsPrepared && !mHasLoaded) {
@@ -122,7 +122,7 @@ public class AppBaseFragment extends SwipeBackFragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        L.d("onHiddenChanged: "+getClass().getSimpleName() + "  " + hidden);
+        //L.d("onHiddenChanged: "+getClass().getSimpleName() + "  " + hidden);
     }
 
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {

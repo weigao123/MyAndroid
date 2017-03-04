@@ -2,6 +2,7 @@ package com.garfield.weishu.ui.activity;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -90,5 +91,4 @@ public class AppBaseActivity extends SwipeBackActivity {
         L.toast("授权失败");
         finish();
     }
-
 }

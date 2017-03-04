@@ -160,6 +160,7 @@ public class MyImageLoader {
             e.printStackTrace();
         }
 
+        // 没有磁盘缓存，下载到内存
         if (bitmap == null && !mIsDiskLruCacheCreated) {
             bitmap = downloadBitmapFromUrl(uri);
         }
@@ -173,7 +174,7 @@ public class MyImageLoader {
     }
 
     /**
-     * 从磁盘加载特定尺寸的图，并放入内存
+     * 从磁盘加载特定尺寸的图，并加入到内存缓存
      */
     private Bitmap loadBitmapFromDiskCache(String url, int reqWidth, int reqHeight) throws IOException {
         if (Looper.myLooper() == Looper.getMainLooper()) {
@@ -212,6 +213,7 @@ public class MyImageLoader {
         DiskLruCache.Editor editor = mDiskLruCache.edit(key);
         if (editor != null) {
             OutputStream outputStream = editor.newOutputStream(DISK_CACHE_INDEX);
+            // 下载到磁盘缓存
             if (downloadUrlToStream(url, outputStream)) {
                 editor.commit();
             } else {
@@ -219,9 +221,11 @@ public class MyImageLoader {
             }
             mDiskLruCache.flush();
         }
+        // 从磁盘缓存加载
         return loadBitmapFromDiskCache(url, reqWidth, reqHeight);
     }
 
+    // 有磁盘缓存数据流，就下载到磁盘缓存的输出流
     private boolean downloadUrlToStream(String urlString, OutputStream outputStream) {
         HttpURLConnection urlConnection = null;
         BufferedOutputStream out = null;
@@ -250,6 +254,7 @@ public class MyImageLoader {
         return false;
     }
 
+    // 如果没有磁盘缓存，就下载到内存数据流
     private Bitmap downloadBitmapFromUrl(String urlString) {
         Bitmap bitmap = null;
         HttpURLConnection urlConnection = null;

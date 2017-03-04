@@ -3,11 +3,13 @@ package com.garfield.weishu.discovery.developer.ui;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.garfield.baselib.utils.array.ArrayUtils;
+import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 
@@ -68,9 +70,12 @@ public class DeveloperThreadFragment extends AppBaseFragment {
 
         @Override
         public void run() {
+            /**
+             * 用锁把这些封装起来，进行线程间的切换
+             */
             synchronized (mArray) {
                 /**
-                 * 由wait所以可以都执行到内部，由synchronized同时只能有一个线程在内部活动
+                 * 由wait可以同时都进入到锁内部，由synchronized同时只能有一个线程在内部活动
                  * 其实同时只有一个线程是在wait状态等待被唤醒，其他的都是唤醒状态
                  */
                 while (mArrayIndex < mArray.length && !mStop) {

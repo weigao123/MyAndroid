@@ -69,8 +69,8 @@
                 android:padding="10dp">
                 <com.garfield.baselib.ui.widget.SwitchButton
                     android:id="@+id/fragment_take_photo_use_native_crop_check"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
                     myView:switchOnImage="@drawable/ic_checked"
                     myView:switchOffImage="@drawable/ic_unchecked">
                 </com.garfield.baselib.ui.widget.SwitchButton>

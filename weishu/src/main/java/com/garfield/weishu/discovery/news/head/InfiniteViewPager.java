@@ -14,6 +14,7 @@ import android.util.AttributeSet;
  * 在pageCount非常大的时候，setCurrentItem方法如果页码切换跨度大于1时，就会引起明显的卡顿
  * setCurrentItem和getCount成正比耗费时间
  * setAdapter之后，第一次viewPager.setCurrentItem并不会引起ANR
+ * http://www.cnblogs.com/everhad/p/5599269.html
  */
 public class InfiniteViewPager extends ViewPager {
 

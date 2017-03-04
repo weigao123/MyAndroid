@@ -61,7 +61,7 @@ public abstract class TListAdapter<T> extends BaseAdapter {
     }
 
     // 先根据getItemViewType方法，然后在缓存里查找，找到后给convertView
-    public View getView(final int position, View convertView, ViewGroup parent, boolean needRefresh) {
+    private View getView(final int position, View convertView, ViewGroup parent, boolean needRefresh) {
         if (convertView == null) {
             convertView = createViewAtPosition(position);
         }
@@ -78,7 +78,7 @@ public abstract class TListAdapter<T> extends BaseAdapter {
         return convertView;
     }
 
-    public View createViewAtPosition(int position) {
+    private View createViewAtPosition(int position) {
         TListViewHolder holder = null;
         View view = null;
         try {

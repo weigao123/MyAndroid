@@ -73,8 +73,8 @@
                     android:textColor="@color/black"/>
                 <com.garfield.baselib.ui.widget.SwitchButton
                     android:id="@+id/fragment_setting_notify_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="33dp"
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="20dp">
@@ -101,8 +101,8 @@
                     android:textColor="@color/black"/>
                 <com.garfield.baselib.ui.widget.SwitchButton
                     android:id="@+id/fragment_setting_ring_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="33dp"
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="20dp">
@@ -128,8 +128,8 @@
                     android:textColor="@color/black"/>
                 <com.garfield.baselib.ui.widget.SwitchButton
                     android:id="@+id/fragment_setting_vibrate_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="33dp"
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="20dp">
@@ -156,8 +156,8 @@
                     android:textColor="@color/black"/>
                 <com.garfield.baselib.ui.widget.SwitchButton
                     android:id="@+id/fragment_setting_animator_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="33dp"
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="20dp">

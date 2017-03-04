@@ -44,9 +44,11 @@ public class SwitchButton extends FrameLayout {
         mOnImage = (ImageView) findViewById(R.id.switch_on);
         mOffImage = (ImageView) findViewById(R.id.switch_off);
         if (onDrawable != null) {
+            mOnImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
             mOnImage.setImageDrawable(onDrawable);
         }
         if (offDrawable != null) {
+            mOffImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
             mOffImage.setImageDrawable(offDrawable);
         }
         if (switchStatus == 1) {

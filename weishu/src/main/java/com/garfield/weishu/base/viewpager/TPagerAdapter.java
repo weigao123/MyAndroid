@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.garfield.baselib.utils.system.L;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +53,7 @@ public abstract class TPagerAdapter<T> extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         int viewType = getItemViewType(position);
         /**
-         * 这样可以获取到以前被回收的View
+         * 这样可以获取到以前被回收的View，PagerAdapter本身没有缓存机制
          */
         View convertView = mRecycleBin.getScrapView(position, viewType);
         if (convertView == null) {
@@ -60,8 +62,9 @@ public abstract class TPagerAdapter<T> extends PagerAdapter {
         }
         TPagerViewHolder holder = (TPagerViewHolder) convertView.getTag();
         holder.refresh(mItems.get(position), position);
+        L.d("instantiateItem:" + container.getChildCount());
         /**
-         * 主要是add这个view
+         * 功能就是add这个view
          */
         container.addView(convertView);
         return convertView;
@@ -85,8 +88,10 @@ public abstract class TPagerAdapter<T> extends PagerAdapter {
     public void destroyItem(ViewGroup container, int position, Object object) {
         View view = (View) object;
         /**
-         * 主要是remove掉这个view
+         * 功能就是remove掉这个view，保证同时应该是有3个View在container上
+         * 只有remove的才能加入到缓存
          */
+        L.d("destroyItem:" + container.getChildCount());
         container.removeView(view);
         int viewType = getItemViewType(position);
         mRecycleBin.addScrapView(view, position, viewType);
@@ -106,7 +111,7 @@ public abstract class TPagerAdapter<T> extends PagerAdapter {
         return mItems;
     }
 
-    protected int getItemViewType(int position) {
+    private int getItemViewType(int position) {
         Class<?> clazz = getViewHolderClassAtPosition(position);
         if (mViewTypes.containsKey(clazz)) {
             return mViewTypes.get(clazz);

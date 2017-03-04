@@ -43,6 +43,7 @@ public class InfinitePagerAdapter extends TPagerAdapter<NewsBean> {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
+        // 重定位到mItems里真实的数据
         int realPosition = getRealPosition(position);
         return super.instantiateItem(container, realPosition);
     }

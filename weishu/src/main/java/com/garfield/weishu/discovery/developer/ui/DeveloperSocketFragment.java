@@ -3,9 +3,11 @@ package com.garfield.weishu.discovery.developer.ui;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
+import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 
 import java.io.IOException;
@@ -50,15 +52,4 @@ public class DeveloperSocketFragment extends AppBaseFragment {
     }
 
 
-    private void onn(){}
-
-    private static class MyHandler extends Handler {
-        DeveloperSocketFragment mFragment;
-        MyHandler(DeveloperSocketFragment fragment) {
-            mFragment = fragment;
-
-            mFragment.onn();
-        }
-
-    }
 }

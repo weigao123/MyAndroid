@@ -53,7 +53,7 @@
             android:launchMode="singleTask"/>
 
         <activity
-            android:name=".discovery.developer.ui.DevelopActivity"/>
+            android:name=".discovery.developer.ui.DeveloperActivity"/>
 
         <!--网易云信-->
         <!-- APP key, 可以在这里设置，也可以在 SDKOptions 中提供。

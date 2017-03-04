@@ -151,7 +151,7 @@ public class SpeedProgressView extends View {
         mDottedArcPaint.setStyle(Paint.Style.STROKE);
         mDottedArcPaint.setStrokeWidth(DottedWidth);
         Shader dottedShader = new SweepGradient(dottedArcRect.centerX(), dottedArcRect.centerY(), new int[]{
-                Color.parseColor("#0c90cc"),   //BB是因为要暗一点
+                Color.parseColor("#0c90cc"),
                 Color.parseColor("#0b9fc2"),
                 Color.parseColor("#09abba"),
                 Color.parseColor("#08bbb0"),
@@ -163,7 +163,8 @@ public class SpeedProgressView extends View {
                 Color.parseColor("#ea0303")},
                 new float[]{0, 30/360f, 60/360f, 90/360f, 120/360f, 150/360f, 180/360f, 210/360f, 240/360f, 1});
         Matrix matrix = new Matrix();
-        matrix.setRotate(270-Angle/2, dottedArcRect.centerX(), dottedArcRect.centerY());   //把颜色起点旋转到speed起点
+        matrix.setRotate(270-Angle/2, dottedArcRect.centerX(), dottedArcRect.centerY());
+        //本来角度渐变起始点是0，现在把颜色起点旋转到speed起点
         dottedShader.setLocalMatrix(matrix);
         mDottedArcPaint.setShader(dottedShader);
         Path pointRect = new Path();
@@ -172,7 +173,7 @@ public class SpeedProgressView extends View {
         mDottedArcPath.reset();
         mDottedArcPath.arcTo(dottedArcRect, 270 - Angle / 2, Angle);
 
-        //轨道底座
+        //轨道纯色底座
         mTrackArcRect = new RectF(TrackMargin, TrackMargin, mWidth - TrackMargin, mWidth - TrackMargin);  //正方形，要比点点靠内
         mTrackArcPaint.setStyle(Paint.Style.STROKE);
         mTrackArcPaint.setStrokeWidth(TrackWidth);
@@ -188,12 +189,13 @@ public class SpeedProgressView extends View {
                 Color.parseColor("#ea0303"),
                 Color.parseColor("#ea0303")},
                 new float[]{0, 30/360f, 60/360f, 90/360f, 120/360f, 150/360f, 180/360f, 210/360f, 240/360f, 1});
+        //同样把底座起点旋转到speed起点
         trackShader.setLocalMatrix(matrix);     //颜色旋转
         mTrackArcPaint.setShader(trackShader);
         mTrackArcPath.reset();
         mTrackArcPath.arcTo(mTrackArcRect, 270 - Angle / 2, Angle);   //角度铺满
 
-        //轨道灰度遮罩
+        //轨道灰度半透明遮罩
         mTrackMaskArcRect = new RectF(-mTrackArcRect.width()/2, -mTrackArcRect.height()/2,
                 mTrackArcRect.width()/2, mTrackArcRect.height()/2);  //移动画布后原点变成了中心，较为特殊，因为要被旋转
         Shader trackMaskShader = new SweepGradient(0, 0, new int[]{     //这个地方必须是0,0，因为旋转！！！
@@ -203,6 +205,7 @@ public class SpeedProgressView extends View {
                 new float[]{0, 0.3f, 1});
         Matrix trackMaskMatrix = new Matrix();
         trackMaskMatrix.setRotate(270-Angle/2, 0, 0);   //必须是0,0
+        //同样把起点旋转到speed起点
         trackMaskShader.setLocalMatrix(trackMaskMatrix);
         mTrackMaskPaint.setStyle(Paint.Style.STROKE);
         mTrackMaskPaint.setStrokeWidth(TrackWidth+5);
@@ -272,6 +275,7 @@ public class SpeedProgressView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        // 绘制纯色底座
         canvas.drawPath(mDottedArcPath, mDottedArcPaint);
         canvas.drawPath(mTrackArcPath, mTrackArcPaint);
 

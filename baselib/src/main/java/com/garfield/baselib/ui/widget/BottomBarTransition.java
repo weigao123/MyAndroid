@@ -122,7 +122,9 @@ public class BottomBarTransition extends LinearLayout {
         // 要画图的区域，坐标是0
         private Rect mIconSize;
 
+        // 空心
         private Bitmap mBitmapOutSide;
+        // 实心
         private Bitmap mBitmapInner;
         private Canvas mCanvasOutSide;
         private Canvas mCanvasInner;
@@ -179,7 +181,7 @@ public class BottomBarTransition extends LinearLayout {
             bitmapPaint.setAntiAlias(true);
             bitmapPaint.setFilterBitmap(true);
             bitmapPaint.setDither(true);
-            // 从背景中砍去新图的区域，只保留背景中，新图有内容的区域
+            // 最后还是背景图，但是要从背景中砍去新图有像素的部分
             bitmapPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
 
             clearPaint = new Paint();
@@ -187,11 +189,9 @@ public class BottomBarTransition extends LinearLayout {
         }
 
         @Override
-        protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
+        protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+            super.onLayout(changed, left, top, right, bottom);
             initAfterMeasure();
-            drawImage(canvas);
-            drawText(canvas);
         }
 
         private void initAfterMeasure() {
@@ -215,18 +215,28 @@ public class BottomBarTransition extends LinearLayout {
             }
         }
 
+        @Override
+        protected void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            drawImage(canvas);
+            drawText(canvas);
+        }
+
+        /**
+         * 核心就是把两张原始图像有像素的部分分别渐变成目标蓝色
+         * 先绘制空心，再绘制实心，新闻按钮较为特殊
+         */
         private void drawImage(Canvas canvas) {
             /**
-             * 画底座，否则一开始都是空白
+             * 画原始空心底座
              */
             if (mShift <= 0.5f) {
                 canvas.drawBitmap(mBitmap1, null, mIconRect, null);
             }
             /**
-             * 描边，需要一直描
+             * 绘制空心边，从0~255，前后段都要绘制
              */
             mCanvasOutSide.drawPaint(clearPaint);
-            // 0~255
             colorPaint.setColor(mSelectedColor);
             // 0~0.5时透明度递增直到255，0.5~1不变
             colorPaint.setAlpha(mShift <= 0.5f ? (int)(255 * 2 * mShift) : 255);
@@ -236,21 +246,20 @@ public class BottomBarTransition extends LinearLayout {
             canvas.drawBitmap(mBitmapOutSide, null, mIconRect, null);
 
             /**
-             * 填充内部，只需要在后半段填充即可
+             * 绘制内部实心，从0~255，只需要在后半段绘制
              */
             if (mShift > 0.5f) {
                 /**
-                 * 新闻按钮，mBitmap1中间有内容，描边后导致最后是蓝色，为了中间是白色，所以画个白色
+                 * 新闻按钮mBitmap1中间有内容，描边后导致最后是蓝色，为了中间是白色，所以画个白色0~255
                  */
                 if (mTabPosition == 2) {
                     colorPaint.setColor(Color.WHITE);
-                    // 0~255
                     colorPaint.setAlpha((int) (255 * 2 * (mShift - 0.5f)));
                     canvas.drawRect(mIconRect, colorPaint);
                 }
 
                 /**
-                 * 新闻按钮，mBitmap2中间是空心，所以下面代码最后是透明的
+                 * 新闻按钮mBitmap2中间是空心，所以下面代码导致最后新闻中心也是透明的，需要白色底衬
                  */
                 mCanvasInner.drawPaint(clearPaint);
                 colorPaint.setColor(mSelectedColor);
