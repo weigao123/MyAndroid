@@ -3,32 +3,21 @@ package com.garfield.weishu.developer.view;
 /**
  * Created by gaowei3 on 2016/5/20.
  */
-/*
- * Copyright (C) 2015, 程序亦非猿
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
-import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.PointF;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -36,76 +25,64 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
+import com.garfield.weishu.R;
 
 import java.util.Random;
 
-public class PeriscopeLayout extends RelativeLayout {
+public class LikeFrameLayout extends FrameLayout {
 
-    private Interpolator line = new LinearInterpolator();//线性
-    private Interpolator acc = new AccelerateInterpolator();//加速
-    private Interpolator dce = new DecelerateInterpolator();//减速
-    private Interpolator accdec = new AccelerateDecelerateInterpolator();//先加速后减速
-    private Interpolator[] interpolators;
+    private Interpolator line = new LinearInterpolator();
+    private Interpolator acc = new AccelerateInterpolator();
+    private Interpolator dce = new DecelerateInterpolator();
+    private Interpolator accdec = new AccelerateDecelerateInterpolator();
+    private Interpolator[] interpolators = {line, acc, dce, accdec};
 
     private int mHeight;
     private int mWidth;
-    private LayoutParams lp;
-    private Drawable[] drawables;
+    private Drawable[] drawables = new Drawable[3];
     private Random random = new Random();
 
     private int dHeight;
     private int dWidth;
 
-    public PeriscopeLayout(Context context) {
+    public LikeFrameLayout(Context context) {
         super(context);
-        init();
     }
 
-    public PeriscopeLayout(Context context, AttributeSet attrs) {
+    public LikeFrameLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
     }
 
-    public PeriscopeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public LikeFrameLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public PeriscopeLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
         init();
     }
 
     private void init() {
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.like_fly);
 
-        //初始化显示的图片
-        drawables = new Drawable[3];
-        Drawable red = null;// = getResources().getDrawable(R.drawable.live_item_like_fly);
+        BitmapDrawable drawable0 = new BitmapDrawable(getResources(), bitmap);
+        BitmapDrawable drawable1 = new BitmapDrawable(getResources(), bitmap);
+        BitmapDrawable drawable2 = new BitmapDrawable(getResources(), bitmap);
+        drawable0.setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+        drawable1.setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
+        drawable2.setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
 
-        drawables[0] = red;
-        drawables[1] = red;
-        drawables[2] = red;
-        //获取图的宽高 用于后面的计算
-        //注意 我这里3张图片的大小都是一样的,所以我只取了一个
-        dHeight = red.getIntrinsicHeight();
-        dWidth = red.getIntrinsicWidth();
+        drawables[0] = drawable0;
+        drawables[1] = drawable1;
+        drawables[2] = drawable2;
 
-        //底部 并且 水平居中
-        //lp.addRule(CENTER_HORIZONTAL, TRUE);//这里的TRUE 要注意 不是true
-        //lp.addRule(ALIGN_PARENT_BOTTOM, TRUE);
-
-        // 初始化插补器
-        interpolators = new Interpolator[4];
-        interpolators[0] = line;
-        interpolators[1] = acc;
-        interpolators[2] = dce;
-        interpolators[3] = accdec;
+        dHeight = drawable0.getIntrinsicHeight();
+        dWidth = drawable0.getIntrinsicWidth();
     }
-
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -120,12 +97,11 @@ public class PeriscopeLayout extends RelativeLayout {
 
     public void addHeart(int left, int top) {
         ImageView imageView = new ImageView(getContext());
-        //随机选一个
         imageView.setImageDrawable(drawables[random.nextInt(3)]);
 
         left = left - dWidth / 2;
         top = top - dHeight / 2;
-        lp = new LayoutParams(dWidth, dHeight);
+        LayoutParams lp = new LayoutParams(dWidth, dHeight);
         lp.setMargins(left, top, 0, 0);
         imageView.setLayoutParams(lp);
         addView(imageView);
@@ -136,20 +112,19 @@ public class PeriscopeLayout extends RelativeLayout {
     }
 
     private Animator getAnimator(View target, int left, int top) {
-        AnimatorSet set = getEnterAnimtor(target);
-
-        ValueAnimator bezierValueAnimator = getBezierValueAnimator(target, left, top);
+        AnimatorSet enterAnimator = getEnterAnimator(target);
+        ValueAnimator exitAnimator = getBezierValueAnimator(target, left, top);
 
         AnimatorSet finalSet = new AnimatorSet();
-        finalSet.playSequentially(set);
-        finalSet.playSequentially(set, bezierValueAnimator);
+        finalSet.playSequentially(enterAnimator, exitAnimator);
         finalSet.setInterpolator(interpolators[random.nextInt(4)]);
-        finalSet.setTarget(target);
         return finalSet;
     }
 
-    private AnimatorSet getEnterAnimtor(final View target) {
-
+    /**
+     * 渐变出现
+     */
+    private AnimatorSet getEnterAnimator(final View target) {
         ObjectAnimator alpha = ObjectAnimator.ofFloat(target, View.ALPHA, 0.2f, 1f);
         ObjectAnimator scaleX = ObjectAnimator.ofFloat(target, View.SCALE_X, 0.2f, 1f);
         ObjectAnimator scaleY = ObjectAnimator.ofFloat(target, View.SCALE_Y, 0.2f, 1f);
@@ -157,30 +132,24 @@ public class PeriscopeLayout extends RelativeLayout {
         enter.setDuration(500);
         enter.setInterpolator(new LinearInterpolator());
         enter.playTogether(alpha, scaleX, scaleY);
-        enter.setTarget(target);
         return enter;
     }
 
+    /**
+     * 渐变飞
+     */
     private ValueAnimator getBezierValueAnimator(View target, int left, int top) {
-
-        //初始化一个贝塞尔计算器- - 传入
         BezierEvaluator evaluator = new BezierEvaluator(getPointF(2), getPointF(1));
-
-        //这里最好画个图 理解一下 传入了起点 和 终点
         ValueAnimator animator = ValueAnimator.ofObject(evaluator, new PointF(left, top), new PointF(random.nextInt(getWidth()), 0));
-        animator.addUpdateListener(new BezierListenr(target));
-        animator.setTarget(target);
+        animator.addUpdateListener(new BezierListener(target));
         animator.setDuration(3000);
         return animator;
     }
 
     /**
-     * 获取中间的两个 点
-     *
-     * @param scale
+     * 获取中间随机的两个点
      */
     private PointF getPointF(int scale) {
-
         PointF pointF = new PointF();
         pointF.x = random.nextInt((mWidth - 100));//减去100 是为了控制 x轴活动范围,看效果 随意~~
         //再Y轴上 为了确保第二个点 在第一个点之上,我把Y分成了上下两半 这样动画效果好一些  也可以用其他方法
@@ -188,38 +157,60 @@ public class PeriscopeLayout extends RelativeLayout {
         return pointF;
     }
 
-    private class BezierListenr implements ValueAnimator.AnimatorUpdateListener {
+    private class BezierListener implements ValueAnimator.AnimatorUpdateListener {
 
         private View target;
 
-        public BezierListenr(View target) {
+        BezierListener(View target) {
             this.target = target;
         }
 
         @Override
         public void onAnimationUpdate(ValueAnimator animation) {
-            //这里获取到贝塞尔曲线计算出来的的x y值 赋值给view 这样就能让爱心随着曲线走啦
             PointF pointF = (PointF) animation.getAnimatedValue();
             target.setX(pointF.x);
             target.setY(pointF.y);
-            // 这里顺便做一个alpha动画
             target.setAlpha(1 - animation.getAnimatedFraction());
         }
     }
 
-
     private class AnimEndListener extends AnimatorListenerAdapter {
         private View target;
 
-        public AnimEndListener(View target) {
+        AnimEndListener(View target) {
             this.target = target;
         }
 
         @Override
         public void onAnimationEnd(Animator animation) {
-            super.onAnimationEnd(animation);
-            //因为不停的add 导致子view数量只增不减,所以在view动画结束后remove掉
-            removeView((target));
+            removeViewInLayout(target);
+        }
+    }
+
+    public class BezierEvaluator implements TypeEvaluator<PointF> {
+        private PointF pointF1;
+        private PointF pointF2;
+
+        BezierEvaluator(PointF pointF1, PointF pointF2){
+            this.pointF1 = pointF1;
+            this.pointF2 = pointF2;
+        }
+        @Override
+        public PointF evaluate(float time, PointF startValue,
+                               PointF endValue) {
+            float timeLeft = 1.0f - time;
+            PointF point = new PointF();
+
+            point.x = timeLeft * timeLeft * timeLeft * (startValue.x)
+                    + 3 * timeLeft * timeLeft * time * (pointF1.x)
+                    + 3 * timeLeft * time * time * (pointF2.x)
+                    + time * time * time * (endValue.x);
+
+            point.y = timeLeft * timeLeft * timeLeft * (startValue.y)
+                    + 3 * timeLeft * timeLeft * time * (pointF1.y)
+                    + 3 * timeLeft * time * time * (pointF2.y)
+                    + time * time * time * (endValue.y);
+            return point;
         }
     }
 }
