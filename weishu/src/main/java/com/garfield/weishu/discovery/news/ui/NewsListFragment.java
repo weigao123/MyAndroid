@@ -52,7 +52,7 @@ public class NewsListFragment extends NewsListBaseFragment<NewsBean> implements
         mACache = ACache.get(AppCache.getContext());
         mACacheTag = "data_list_" + mType;
 
-        mRecyclerAdapter = new NewsListViewHolder.NewsListRecyclerAdapter(AppCache.getContext(), mItems);
+        mRecyclerAdapter = new NewsListViewHolder.NewsListRecyclerAdapter(mActivity, mItems);
         mNewsHeadView = new NewsHeadView(AppCache.getContext());
         mNewsHeadView.setItemEventListener(this);
         mRecyclerAdapter.setHeadView(mNewsHeadView);
