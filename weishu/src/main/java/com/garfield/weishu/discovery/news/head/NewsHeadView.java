@@ -33,10 +33,12 @@ public class NewsHeadView extends FrameLayout {
     @BindView(R.id.view_news_head_title)
     TextView mHeadTitle;
 
-    @BindView(R.id.view_news_head_point)
+    @BindView(R.id.view_news_head_bottom)
     LinearLayout mTitleContainer;
 
-    private LinearLayout mPointContainer;
+    @BindView(R.id.view_news_head_point)
+    LinearLayout mPointContainer;
+
     private InfinitePagerAdapter mAdapter;
 
     private List<NewsBean> mItems = new ArrayList<>();
@@ -119,20 +121,14 @@ public class NewsHeadView extends FrameLayout {
     }
 
     private void showPagerPoint() {
-        mTitleContainer.removeView(mPointContainer);
-        mPointContainer = new LinearLayout(getContext());
+        mPointContainer.removeAllViews();
         LinearLayout.LayoutParams pointParam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        pointParam.setMargins(8, 8, 8, 8);
-        pointParam.gravity = Gravity.CENTER_VERTICAL;
+        pointParam.setMargins(8, 0, 8, 0);
         for (int i = 0; i < mItems.size(); i ++) {
             ImageView point = new ImageView(getContext());
-            point.setLayoutParams(pointParam);
             point.setImageResource(R.drawable.page_point);
-            mPointContainer.addView(point);
+            mPointContainer.addView(point, pointParam);
         }
-        LinearLayout.LayoutParams containerParam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        containerParam.gravity = Gravity.CENTER_VERTICAL;
-        mTitleContainer.addView(mPointContainer, containerParam);
         switchPoint(0);
     }
 }

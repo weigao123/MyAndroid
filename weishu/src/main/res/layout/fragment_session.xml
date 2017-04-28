@@ -22,4 +22,10 @@
         android:background="@color/gray" />
 
     <include layout="@layout/view_message_input_text" />
+    
+    <com.garfield.weishu.session.session.emoji.EmoticonPickerView
+        android:id="@+id/emoticon_picker_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 </LinearLayout>

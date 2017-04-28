@@ -1,5 +1,7 @@
 package com.garfield.baselib.utils.array;
 
+import android.text.TextUtils;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -57,5 +59,27 @@ public class StringUtils {
         return result;
     }
 
+    /**
+     * counter ASCII character as one, otherwise two
+     *
+     * @param str
+     * @return count
+     */
+    public static int counterChars(String str) {
+        // return
+        if (TextUtils.isEmpty(str)) {
+            return 0;
+        }
+        int count = 0;
+        for (int i = 0; i < str.length(); i++) {
+            int tmp = (int) str.charAt(i);
+            if (tmp > 0 && tmp < 127) {
+                count += 1;
+            } else {
+                count += 2;
+            }
+        }
+        return count;
+    }
 
 }

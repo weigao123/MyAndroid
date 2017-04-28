@@ -10,11 +10,12 @@
         android:layout_height="match_parent"/>
 
     <LinearLayout
-        android:id="@+id/view_news_head_point"
+        android:id="@+id/view_news_head_bottom"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_gravity="bottom"
+        android:gravity="center_vertical"
         android:background="@drawable/pager_shadow"
         android:paddingLeft="12dp"
         android:paddingRight="12dp">
@@ -31,6 +32,13 @@
             android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="16sp"/>
+        
+        <LinearLayout
+            android:id="@+id/view_news_head_point"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </LinearLayout>
 
     </LinearLayout>
 
