@@ -1,11 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
-//apply plugin: 'bugly'
-//
-//bugly {
-//    appId = 'a04ac2698f'
-//    appKey = '813769b8-903a-402e-9394-9766ef8989be'
-//}
 
 android {
     useLibrary 'org.apache.http.legacy'
@@ -53,18 +47,18 @@ android {
         }
     }
     productFlavors {
+        gaowei {}
         xiaomi {
 //            applicationIdSuffix "xiaomi"
 //            resValue "string", "app_name", "xiaomi"
         }
-        tencent {}
     }
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith(".apk")) {
                 def fileName;
-                if (variant.buildType.name.equals("release")) {
+                if (variant.buildType.name == "release") {
                     fileName = "weishu_${variant.productFlavors[0].name}_" + getReleaseTime() + ".apk"
                 } else {
                     fileName = "weishu_debug_" + getReleaseTime() + ".apk"
@@ -73,7 +67,6 @@ android {
             }
         }
     }
-
 }
 
 dependencies {
@@ -92,6 +85,6 @@ dependencies {
     compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
 }
 
-def getReleaseTime() {
+static def getReleaseTime() {
     return new Date().format("yyyy_MM_dd", TimeZone.getTimeZone("UTC")).toString();
 }

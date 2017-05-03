@@ -1,23 +1,14 @@
 apply plugin: 'com.android.library'
 
-ext {
-    PUBLISH_GROUP_ID = 'com.afollestad.material-dialogs'
-    PUBLISH_ARTIFACT_ID = 'core'
-    PUBLISH_VERSION = '0.9.0.2'
-    SUPPORT_LIBRARY_VERSION = '23.4.0'
-    BUILD_TOOLS = "23.0.3"
-    TARGET_SDK = 23
-}
-
 android {
-    compileSdkVersion TARGET_SDK
-    buildToolsVersion BUILD_TOOLS
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion TARGET_SDK
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName PUBLISH_VERSION
+        versionName '0.9.0.2'
         consumerProguardFiles 'progress-proguard.txt'
     }
     lintOptions {
@@ -27,10 +18,10 @@ android {
 }
 
 dependencies {
-    compile "com.android.support:support-v4:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:support-v4:${rootProject.ext.supportVersion}"
+    compile "com.android.support:appcompat-v7:${rootProject.ext.supportVersion}"
+    compile "com.android.support:recyclerview-v7:${rootProject.ext.supportVersion}"
+    compile "com.android.support:support-annotations:${rootProject.ext.supportVersion}"
     compile "me.zhanghai.android.materialprogressbar:library:1.1.7"
 }
 

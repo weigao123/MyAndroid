@@ -19,6 +19,8 @@ import com.netease.nimlib.sdk.msg.model.MessageReceipt;
 
 import java.util.List;
 
+import butterknife.BindView;
+
 import static com.garfield.weishu.app.AppCache.USER_ACCOUNT;
 
 /**
@@ -29,6 +31,9 @@ public class SessionFragment extends AppBaseFragment implements ModuleProxy {
     private String mAccount;
     private InputPanel mInputPanel;
     protected MessageListPanel messageListPanel;
+
+    @BindView(R.id.session_root)
+    KeyboardLinearLayout mRootView;
 
     @Override
     protected int onGetFragmentLayout() {
@@ -42,6 +47,7 @@ public class SessionFragment extends AppBaseFragment implements ModuleProxy {
 
         messageListPanel = new MessageListPanel(rootView, mAccount, this);
         mInputPanel = new InputPanel(rootView, mAccount, this);
+        mRootView.registerMeasureListener(mInputPanel);
         registerObservers(true);
     }
 
@@ -104,12 +110,12 @@ public class SessionFragment extends AppBaseFragment implements ModuleProxy {
 
     @Override
     public void shouldCollapseInputPanel() {
-        mInputPanel.collapse(false);
+        mInputPanel.collapse();
     }
 
     @Override
-    public boolean isLongClickEnabled() {
-        return false;
+    protected boolean onBackPressed() {
+        return mInputPanel.collapse() || super.onBackPressed();
     }
 
     @Override

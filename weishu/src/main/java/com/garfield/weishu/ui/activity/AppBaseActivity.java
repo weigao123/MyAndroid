@@ -1,6 +1,7 @@
 package com.garfield.weishu.ui.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.garfield.baselib.swipeback.SwipeBackActivity;
+import com.garfield.baselib.utils.system.KeyboardUtils;
 import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.R;
 import com.garfield.baselib.utils.system.permission.MPermission;
@@ -35,6 +37,8 @@ public class AppBaseActivity extends SwipeBackActivity {
     @Nullable @BindView(R.id.toolbar_control_view)
     LinearLayout mToolbarControl;
 
+    private KeyboardUtils.KeyboardSizeMeasure mKeyboardSizeMeasure;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +54,7 @@ public class AppBaseActivity extends SwipeBackActivity {
             }
             onInitViewAndData(savedInstanceState);
         }
+        mKeyboardSizeMeasure = new KeyboardUtils.KeyboardSizeMeasure(this);
     }
 
     protected int onGetActivityLayout() {
@@ -90,5 +95,11 @@ public class AppBaseActivity extends SwipeBackActivity {
     public void onBasicPermissionFailed(){
         L.toast("授权失败");
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mKeyboardSizeMeasure.destroy();
     }
 }

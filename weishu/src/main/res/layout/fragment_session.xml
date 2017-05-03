@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.garfield.weishu.session.session.KeyboardLinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/session_root"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -24,8 +25,16 @@
     <include layout="@layout/view_message_input_text" />
     
     <com.garfield.weishu.session.session.emoji.EmoticonPickerView
-        android:id="@+id/emoticon_picker_view"
+        android:id="@+id/session_emoticon_picker_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"/>
-</LinearLayout>
+
+    <com.garfield.weishu.session.session.function.FunctionPickerView
+        android:id="@+id/session_function_picker_view"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:visibility="gone"/>
+
+
+</com.garfield.weishu.session.session.KeyboardLinearLayout>

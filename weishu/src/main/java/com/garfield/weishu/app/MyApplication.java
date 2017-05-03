@@ -44,7 +44,7 @@ public class MyApplication extends Application {
         if (SystemUtil.inMainProcess()) {
             L.d("MyApplication");
 
-            Bugly.init(getApplicationContext(), "a04ac2698f", true);
+            Bugly.init(getApplicationContext(), "cdced5fee1", true);
             //Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
 
             ImageLoaderHelper.init();

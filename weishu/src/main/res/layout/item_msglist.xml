@@ -26,15 +26,15 @@
                 tools:src="@drawable/default_avatar"/>
             <TextView
                 android:id="@+id/item_msglist_unread_number_tip"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:layout_gravity="top|right"
-                android:background="@drawable/ic_unread_badge"
+                android:background="@drawable/bg_red_circle"
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
-                android:visibility="gone" />
+                android:visibility="visible" />
         </FrameLayout>
 
 
@@ -52,8 +52,8 @@
                 android:text="test"/>
             <ImageView
                 android:id="@+id/item_msglist_state"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:layout_marginRight="8dp"
                 android:layout_alignParentBottom="true"/>
             <TextView

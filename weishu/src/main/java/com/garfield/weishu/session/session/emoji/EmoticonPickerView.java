@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 
 
 import com.garfield.baselib.utils.media.BitmapDecoder;
+import com.garfield.baselib.utils.system.KeyboardUtils;
 import com.garfield.baselib.utils.system.ScreenUtils;
 import com.garfield.weishu.R;
 
@@ -23,7 +24,7 @@ import java.io.InputStream;
 import java.util.List;
 
 
-public class EmoticonPickerView extends LinearLayout implements IEmoticonCategoryChanged {
+public class EmoticonPickerView extends FrameLayout implements IEmoticonCategoryChanged {
 
     private Context context;
 
@@ -68,10 +69,27 @@ public class EmoticonPickerView extends LinearLayout implements IEmoticonCategor
         LayoutInflater.from(context).inflate(R.layout.view_emoji_layout, this);
     }
 
+    private void refreshHeight() {
+        int height = KeyboardUtils.getKeyboardHeight();
+        View rootView = getChildAt(0);
+        if (rootView != null && rootView.getLayoutParams() != null && rootView.getLayoutParams().height != height) {
+            rootView.getLayoutParams().height = height;
+        }
+    }
+
     @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
         setupEmojView();
+        refreshHeight();
+    }
+
+    @Override
+    public void setVisibility(int visibility) {
+        super.setVisibility(visibility);
+        if (visibility == VISIBLE) {
+            refreshHeight();
+        }
     }
 
     protected void setupEmojView() {
@@ -243,4 +261,5 @@ public class EmoticonPickerView extends LinearLayout implements IEmoticonCategor
     public void setWithSticker(boolean withSticker) {
         this.withSticker = withSticker;
     }
+
 }

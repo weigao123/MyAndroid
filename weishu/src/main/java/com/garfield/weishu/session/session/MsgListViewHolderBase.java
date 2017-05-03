@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.garfield.baselib.utils.system.L;
 import com.garfield.baselib.utils.system.ScreenUtils;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.listview.TListViewHolder;
@@ -51,6 +52,10 @@ public abstract class MsgListViewHolderBase extends TListViewHolder<IMMessage> {
     abstract protected int getContentResId();
     abstract protected void inflateContentView();
     abstract protected void bindContentView();
+
+    {
+        mRegisterRootListener = false;
+    }
 
     @Override
     protected int getResId() {
@@ -199,7 +204,7 @@ public abstract class MsgListViewHolderBase extends TListViewHolder<IMMessage> {
             mContentContainer.setBackgroundResource(leftBackground());
         } else {
             setGravity(mBodyContainer, Gravity.END);
-            //mContentContainer.setBackgroundResource(rightBackground());
+            // mContentContainer.setBackgroundResource(rightBackground());
             // NinePatchDrawable造成和直接用xml的padding不一样
             mContentContainer.setPadding(ScreenUtils.dp2px(2.5f), ScreenUtils.dp2px(2.5f), ScreenUtils.dp2px(6), ScreenUtils.dp2px(2.5f));
             mContentContainer.setBackgroundDrawable(rightBackground());

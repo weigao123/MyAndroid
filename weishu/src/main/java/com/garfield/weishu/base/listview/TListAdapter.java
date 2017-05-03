@@ -123,7 +123,7 @@ public abstract class TListAdapter<T> extends BaseAdapter {
     public abstract int getViewHolderCount();
 
     /**
-     * 会屏蔽ListView的OnItemClickListener
+     * 这会屏蔽ListView的OnItemClickListener
      */
     public void setItemEventListener(ItemEventListener eventListener) {
         this.mItemEventListener = eventListener;

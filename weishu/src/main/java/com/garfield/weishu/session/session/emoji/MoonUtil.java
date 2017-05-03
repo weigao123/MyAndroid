@@ -52,6 +52,13 @@ public class MoonUtil {
 		viewSetText(textView, mSpannableString);
 	}
 
+	public static void identifyRecentVHFaceExpressionAndTags(Context context, View textView,
+															 String value, int align, float scale) {
+		SpannableString mSpannableString = makeSpannableStringTags(context, value, scale, align, false);
+		AitHelper.replaceAitForeground(value, mSpannableString);
+		viewSetText(textView, mSpannableString);
+	}
+
 	/**
 	 lstmsgviewholder类使用,只需显示a标签对应的文本
 	 */

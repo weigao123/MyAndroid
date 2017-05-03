@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.recyclerview.TRecyclerViewHolder;
 import com.garfield.weishu.nim.cache.UserInfoCache;
+import com.garfield.weishu.session.session.emoji.MoonUtil;
 import com.garfield.weishu.ui.view.HeadImageView;
 import com.garfield.baselib.utils.system.TimeUtil;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
@@ -64,7 +65,10 @@ public class SessionListViewHolder extends TRecyclerViewHolder<RecentContact> {
 
         mHeadImageView.loadBuddyAvatar(recent.getContactId());
         mNameTextView.setText(UserInfoCache.getInstance().getUserDisplayName(recent.getContactId()));
-        mContentTextView.setText(recent.getContent());
+
+        MoonUtil.identifyRecentVHFaceExpressionAndTags(mRootView.getContext(), mContentTextView, recent.getContent(), -1, 0.45f);
+        //mContentTextView.setText(recent.getContent());
+
         mTime.setText(TimeUtil.getTimeShowString(recent.getTime(), true));
         if (recent.getUnreadCount() > 0) {
             mUnReadNum.setText(String.format(Locale.getDefault(), "%d", recent.getUnreadCount()));

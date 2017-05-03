@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.garfield.baselib.Cache;
 
@@ -14,9 +16,9 @@ import com.garfield.baselib.Cache;
 public class ScreenUtils {
 
     public static int screenWidth;
-    public static int screenHeight;
-    public static int screenMin;// 宽高中，小的一边
-    public static int screenMax;// 宽高中，较大的值
+    public static int screenHeight;   //包括statusBar
+    public static int screenMin;      //宽高中，小的一边
+    public static int screenMax;      //宽高中，较大的值
     public static float screenScale;
 
     public static float density;
@@ -71,6 +73,17 @@ public class ScreenUtils {
 
     public static int px2sp(float pxValue) {
         return (int) (pxValue / scaleDensity + 0.5F);
+    }
+
+    /**
+     * 返回的是窗口的可视区域大小，并非某个View的可视区域大小，所以用窗口中的任意View来执行都是没有差别的
+     * http://blog.csdn.net/ccpat/article/details/55224475
+     * 不包括statusBar
+     */
+    public static int getDisplayFrameHeight(View contentView) {
+        Rect r = new Rect();
+        contentView.getWindowVisibleDisplayFrame(r);
+        return r.bottom - r.top;
     }
 
     public static int getStatusBarHeight() {

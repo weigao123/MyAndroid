@@ -6,10 +6,12 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.garfield.baselib.adapter.DividerItemDecoration;
+import com.garfield.baselib.utils.system.L;
 import com.garfield.baselib.utils.system.ScreenUtils;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
@@ -75,7 +77,6 @@ public class MessageListPanel {
         messageListView.setListViewEventListener(new MessageListView.OnListViewEventListener() {
             @Override
             public void onListViewStartScroll() {
-                moduleProxy.shouldCollapseInputPanel();
             }
 
             @Override
@@ -83,7 +84,12 @@ public class MessageListPanel {
                 ListViewUtil.scrollToBottom(messageListView);
             }
         });
-
+        messageListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                moduleProxy.shouldCollapseInputPanel();
+            }
+        });
         registerObservers(true);
     }
 

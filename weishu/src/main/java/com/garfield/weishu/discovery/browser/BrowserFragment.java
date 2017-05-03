@@ -14,7 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import com.garfield.baselib.utils.system.InputUtils;
+import com.garfield.baselib.utils.system.KeyboardUtils;
 import com.garfield.baselib.utils.system.L;
 import com.garfield.baselib.utils.system.SystemUtil;
 import com.garfield.weishu.R;
@@ -180,7 +180,7 @@ public class BrowserFragment extends AppBaseFragment {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
             if (!hasFocus) {
-                InputUtils.hideInputMethod(mRootView);
+                KeyboardUtils.hideKeyboard(mRootView);
                 mMask.setVisibility(View.GONE);
             } else {
                 mMask.setVisibility(View.VISIBLE);

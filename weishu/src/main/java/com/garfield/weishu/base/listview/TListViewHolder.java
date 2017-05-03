@@ -12,6 +12,7 @@ public abstract class TListViewHolder<T> {
     protected View mRootView;
     protected TListAdapter mAdapter;
     protected int mPosition;
+    protected boolean mRegisterRootListener = true;
 
     /**
      * 入口
@@ -26,6 +27,9 @@ public abstract class TListViewHolder<T> {
     }
 
     private void setEventListener() {
+        if (!mRegisterRootListener) {
+            return;
+        }
         mRootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

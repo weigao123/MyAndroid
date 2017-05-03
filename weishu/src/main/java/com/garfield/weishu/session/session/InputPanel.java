@@ -1,22 +1,24 @@
 package com.garfield.weishu.session.session;
 
-import android.content.Context;
-import android.os.Handler;
+import android.app.Activity;
+import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.garfield.baselib.utils.array.StringUtils;
+import com.garfield.baselib.utils.system.KeyboardUtils;
 import com.garfield.weishu.R;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.session.session.emoji.EmoticonPickerView;
 import com.garfield.weishu.session.session.emoji.IEmoticonSelectedListener;
 import com.garfield.weishu.session.session.emoji.MoonUtil;
+import com.garfield.weishu.session.session.function.FunctionPickerView;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
@@ -29,7 +31,7 @@ import butterknife.OnClick;
  * Created by gaowei3 on 2016/9/26.
  */
 
-public class InputPanel implements IEmoticonSelectedListener {
+class InputPanel implements IEmoticonSelectedListener, KeyboardLinearLayout.OnMeasureListener {
 
     @BindView(R.id.message_input_text)
     EditText mInputEtx;
@@ -40,39 +42,52 @@ public class InputPanel implements IEmoticonSelectedListener {
     @BindView(R.id.message_input_edit_line)
     View mEditTextLine;
 
-    @BindView(R.id.emoticon_picker_view)
+    @BindView(R.id.session_emoticon_picker_view)
     EmoticonPickerView mEmoticonPickerView;
+
+    @BindView(R.id.session_function_picker_view)
+    FunctionPickerView mFunctionPickerView;
+
+    @BindView(R.id.message_input_plus)
+    ImageView mPlusBtn;
 
     private View mRootView;
     private String mAccount;
     private ModuleProxy mModuleProxy;
-    private Handler mHandler;
+    private Activity mActivity;
+    private State mState = State.NONE;
 
-    public InputPanel(View rootView, String account, ModuleProxy moduleProxy) {
+    private enum State {
+        NONE,
+        KEYBOARD,
+        EMOTION,
+        FUNCTION
+    }
+
+    InputPanel(View rootView, String account, ModuleProxy moduleProxy) {
         mRootView = rootView;
         mAccount = account;
         mModuleProxy = moduleProxy;
+        mActivity = ((Fragment) moduleProxy).getActivity();
         ButterKnife.bind(this, rootView);
         init();
     }
 
     private void init() {
-        mHandler = new Handler();
+        mInputEtx.requestFocus();
 
         mInputEtx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hideEmojiLayout();
+                mState = State.KEYBOARD;
             }
         });
+
         mInputEtx.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    hideEmojiLayout();
-                    mEditTextLine.setBackgroundColor(mRootView.getContext().getResources().getColor(R.color.colorPrimaryDark));
-                } else {
-                    mEditTextLine.setBackgroundColor(mRootView.getContext().getResources().getColor(R.color.gray));
+                    mState = State.KEYBOARD;
                 }
             }
         });
@@ -93,18 +108,48 @@ public class InputPanel implements IEmoticonSelectedListener {
 
             @Override
             public void afterTextChanged(Editable s) {
-                //checkSendButtonEnable(messageEditText);
+                checkSendButtonEnable(mInputEtx);
                 MoonUtil.replaceEmoticons(AppCache.getContext(), s, start, count);
                 int editEnd = mInputEtx.getSelectionEnd();
-                //mInputEtx.removeTextChangedListener(this);
+                mInputEtx.removeTextChangedListener(this);
                 while (StringUtils.counterChars(s.toString()) > 5000 && editEnd > 0) {
                     s.delete(editEnd - 1, editEnd);
                     editEnd--;
                 }
                 mInputEtx.setSelection(editEnd);
-                //mInputEtx.addTextChangedListener(this);
+                mInputEtx.addTextChangedListener(this);
             }
         });
+    }
+
+    /**
+     * contentView的尺寸
+     * 只要尺寸改变就会调用，包括点击返回键和输入法的隐藏键
+     */
+    @Override
+    public void onMeasure(int nowHeight) {
+        // 点击返回键或者输入法的隐藏键触发toggle，只能在这里修改状态
+        if (mState == State.KEYBOARD && !KeyboardUtils.isKeyboardShowing(mRootView)) {
+            mState = State.NONE;
+        }
+        switch (mState) {
+            case NONE:
+                setInputLine(false);
+                break;
+            case KEYBOARD:
+                hideEmotionPanel();
+                hideFunctionPanel();
+                setInputLine(true);
+                break;
+            case EMOTION:
+                showEmotionPanel();
+                setInputLine(true);
+                break;
+            case FUNCTION:
+                showFunctionPanel();
+                setInputLine(false);
+                break;
+        }
     }
 
     @OnClick(R.id.message_input_send)
@@ -118,52 +163,88 @@ public class InputPanel implements IEmoticonSelectedListener {
         mModuleProxy.sendMessage(textMessage);
     }
 
-    @OnClick(R.id.message_input_smile)
-    void toggleEmoji() {
-        if (mEmoticonPickerView.getVisibility() == View.GONE) {
-            showEmojiLayout();
-        } else {
-            hideEmojiLayout();
+    @OnClick({R.id.message_input_smile, R.id.message_input_plus})
+    void togglePanel(View view) {
+        switch (view.getId()) {
+            case R.id.message_input_smile:
+                if (mEmoticonPickerView.getVisibility() == View.GONE) {
+                    toggleToEmotion();
+                } else {
+                    toggleToKeyboard();
+                }
+                break;
+            case R.id.message_input_plus:
+                if (mFunctionPickerView.getVisibility() == View.GONE) {
+                    toggleToFunction();
+                } else {
+                    toggleToKeyboard();
+                }
+                break;
         }
     }
 
-    private void showEmojiLayout() {
-        hideInputMethod();
-        mInputEtx.clearFocus();
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mEmoticonPickerView.setVisibility(View.VISIBLE);
-                mEmoticonPickerView.show(InputPanel.this);
-            }
-        }, 100);
+    private void toggleToEmotion() {
+        hideFunctionPanel();
+        if (KeyboardUtils.isKeyboardShowing(mRootView)) {
+            KeyboardUtils.hideKeyboard(mActivity.getCurrentFocus());
+        } else {
+            // onMeasure不会回调
+            showEmotionPanel();
+        }
+        mState = State.EMOTION;
     }
 
-    private void hideEmojiLayout() {
+    private void toggleToKeyboard() {
+        KeyboardUtils.showKeyboard(mInputEtx);
+        mState = State.KEYBOARD;
+    }
+
+    private void toggleToFunction() {
+        hideEmotionPanel();
+        if (KeyboardUtils.isKeyboardShowing(mRootView)) {
+            KeyboardUtils.hideKeyboard(mActivity.getCurrentFocus());
+        } else {
+            // onMeasure不会回调
+            showFunctionPanel();
+        }
+        mState = State.FUNCTION;
+    }
+
+    private void showEmotionPanel() {
+        mEmoticonPickerView.show(InputPanel.this);
+        mEmoticonPickerView.setVisibility(View.VISIBLE);
+    }
+
+    private void hideEmotionPanel() {
         mEmoticonPickerView.setVisibility(View.GONE);
     }
 
-    private void hideInputMethod() {
-        InputMethodManager imm = (InputMethodManager) mRootView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(mInputEtx.getWindowToken(), 0);
-        mInputEtx.clearFocus();
+    private void showFunctionPanel() {
+        mFunctionPickerView.setVisibility(View.VISIBLE);
     }
 
-    public boolean collapse(boolean immediately) {
-        hideAllInputLayout();
-        return false;
+    private void hideFunctionPanel() {
+        mFunctionPickerView.setVisibility(View.GONE);
     }
 
-    private void hideAllInputLayout() {
-        hideInputMethod();
-        hideEmojiLayout();
+    private void setInputLine(boolean focus) {
+        if (focus) {
+            mEditTextLine.setBackgroundColor(mRootView.getContext().getResources().getColor(R.color.colorPrimaryDark));
+        } else {
+            mEditTextLine.setBackgroundColor(mRootView.getContext().getResources().getColor(R.color.gray));
+        }
     }
 
-
-
-    @OnClick({R.id.message_input_audio, R.id.message_input_smile})
-    void toast() {
-        //L.toast(R.string.function_has_not_developed);
+    boolean collapse() {
+        if (mState == State.NONE) {
+            return false;
+        } else {
+            mState = State.NONE;
+            KeyboardUtils.hideKeyboard(mInputEtx);
+            hideEmotionPanel();
+            hideFunctionPanel();
+            return true;
+        }
     }
 
     @Override
@@ -184,4 +265,17 @@ public class InputPanel implements IEmoticonSelectedListener {
     public void onStickerSelected(String categoryName, String stickerName) {
 
     }
+
+    private void checkSendButtonEnable(EditText editText) {
+        String textMessage = editText.getText().toString();
+        if (!TextUtils.isEmpty(StringUtils.removeBlanks(textMessage)) && editText.hasFocus()) {
+            mPlusBtn.setVisibility(View.GONE);
+            mSendBtn.setVisibility(View.VISIBLE);
+        } else {
+            mSendBtn.setVisibility(View.GONE);
+            mPlusBtn.setVisibility(View.VISIBLE);
+        }
+    }
+
+
 }

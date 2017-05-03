@@ -82,4 +82,23 @@ public class StringUtils {
         return count;
     }
 
+
+    /**
+     * 删除字符串中的空白符
+     */
+    public static String removeBlanks(String content) {
+        if (content == null) {
+            return null;
+        }
+        StringBuilder buff = new StringBuilder();
+        buff.append(content);
+        for (int i = buff.length() - 1; i >= 0; i--) {
+            if (' ' == buff.charAt(i) || ('\n' == buff.charAt(i)) || ('\t' == buff.charAt(i))
+                    || ('\r' == buff.charAt(i))) {
+                buff.deleteCharAt(i);
+            }
+        }
+        return buff.toString();
+    }
+
 }

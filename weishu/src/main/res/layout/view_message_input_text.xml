@@ -4,16 +4,15 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
     android:background="@color/white"
-    android:paddingTop="6dp"
+    android:minHeight="46dp"
     android:paddingBottom="6dp" >
 
     <ImageView
         android:id="@+id/message_input_audio"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:src="@drawable/message_input_keyboard"
+        android:src="@drawable/message_input_keyboard_selector"
         android:layout_gravity="bottom"
         android:layout_marginBottom="1.5dp"
         android:layout_marginLeft="8dp"
@@ -21,13 +20,17 @@
 
     <FrameLayout
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_weight="1">
         <EditText
             android:id="@+id/message_input_text"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:layout_marginBottom="1.5dp"
+            android:minHeight="32dp"
+            android:padding="5dp"
             android:gravity="center_vertical"
             android:textCursorDrawable="@null"
             android:textSize="18sp"
@@ -49,18 +52,32 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="1.5dp"
-        android:src="@drawable/message_input_emotion"/>
+        android:src="@drawable/message_input_emotion_selector"/>
 
-    <TextView
-        android:id="@+id/message_input_send"
-        android:layout_width="50dp"
-        android:layout_height="35dp"
+    <FrameLayout
+        android:layout_width="45dp"
+        android:layout_height="32dp"
         android:layout_gravity="bottom"
         android:layout_marginRight="8dp"
-        android:gravity="center"
-        android:text="@string/send"
-        android:textSize="@dimen/textSmallSize"
-        android:textColor="@color/white"
-        android:background="@drawable/bg_primary_selector_round" />
+        android:layout_marginBottom="1.5dp">
 
+        <ImageView
+            android:id="@+id/message_input_plus"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/message_input_plus_selector"/>
+
+        <TextView
+            android:id="@+id/message_input_send"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/send"
+            android:textSize="@dimen/textSmallSize"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_primary_selector_round"
+            android:visibility="gone"/>
+    </FrameLayout>
 </LinearLayout>

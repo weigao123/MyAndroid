@@ -1,6 +1,5 @@
 package com.garfield.baselib.fragmentation;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,7 +12,7 @@ import com.garfield.baselib.R;
 import com.garfield.baselib.base.BaseFragment;
 import com.garfield.baselib.fragmentation.anim.DefaultNoAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
-import com.garfield.baselib.utils.system.InputUtils;
+import com.garfield.baselib.utils.system.KeyboardUtils;
 
 /**
  * Created by gaowei3 on 2016/7/22.
@@ -189,13 +188,13 @@ public class SupportFragment extends BaseFragment implements ISupport {
 
     @Override
     public void popFragment() {
-        InputUtils.hideInputMethod(getView());
+        KeyboardUtils.hideKeyboard(getView());
         mFragmentHelper.popBack(getFragmentManager());
     }
 
     @Override
     public void popChildFragment() {
-        InputUtils.hideInputMethod(getView());
+        KeyboardUtils.hideKeyboard(getView());
         mFragmentHelper.popBack(getChildFragmentManager());
     }
 
