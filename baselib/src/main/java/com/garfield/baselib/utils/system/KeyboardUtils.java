@@ -18,7 +18,6 @@ public class KeyboardUtils {
         if (focusView == null) {
             return;
         }
-        focusView.requestFocus();
         InputMethodManager imm = (InputMethodManager) focusView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(focusView, 0);
     }
@@ -64,8 +63,6 @@ public class KeyboardUtils {
     }
 
     /**
-     * 原理 http://www.w2bc.com/Article/83935
-     *
      * 一个Activity一个
      */
     public static class KeyboardSizeMeasure {

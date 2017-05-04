@@ -4,6 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:background="@drawable/dialog_toast_bg"
+    android:minHeight="160dp"
+    android:minWidth="160dp"
     android:gravity="center" >
 
     <RelativeLayout

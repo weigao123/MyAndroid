@@ -5,8 +5,6 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
-import com.garfield.baselib.utils.system.L;
-
 /**
  * Created by gaowei on 2017/5/3.
  */
@@ -14,6 +12,7 @@ import com.garfield.baselib.utils.system.L;
 public class KeyboardLinearLayout extends LinearLayout {
 
     private OnMeasureListener mListener;
+    private int mOldHeight;
 
     public KeyboardLinearLayout(Context context) {
         super(context);
@@ -31,8 +30,9 @@ public class KeyboardLinearLayout extends LinearLayout {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int height = MeasureSpec.getSize(heightMeasureSpec);
         if (mListener != null) {
-            mListener.onMeasure(height);
+            mListener.onMeasureBefore(mOldHeight, height);
         }
+        mOldHeight = height;
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
@@ -41,6 +41,6 @@ public class KeyboardLinearLayout extends LinearLayout {
     }
 
     public interface OnMeasureListener {
-        void onMeasure(int nowHeight);
+        void onMeasureBefore(int oldHeight, int newHeight);
     }
 }

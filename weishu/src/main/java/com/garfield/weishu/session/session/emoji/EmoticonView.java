@@ -183,11 +183,11 @@ public class EmoticonView {
             if (listener != null) {
                 int count = EmojiManager.getDisplayCount();
                 if (arg2 == EMOJI_PER_PAGE || index >= count) {
-                    listener.onEmojiSelected("/DEL");
+                    listener.onEmotionSelected("/DEL");
                 } else {
                     String text = EmojiManager.getDisplayText((int) arg3);
                     if (!TextUtils.isEmpty(text)) {
-                        listener.onEmojiSelected(text);
+                        listener.onEmotionSelected(text);
                     }
                 }
             }

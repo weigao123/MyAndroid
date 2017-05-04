@@ -6,7 +6,7 @@
     android:layout_height="220dp"
     android:background="@android:color/white">
 
-    <View style="@style/horizontal_light_thin_divider"/>
+    <View style="@style/horizontal_gray_divider"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/emoji_viewpager"
@@ -31,7 +31,7 @@
             android:orientation="horizontal">
         </LinearLayout>
 
-        <View style="@style/horizontal_light_thin_divider"/>
+        <View style="@style/horizontal_gray_divider"/>
 
         <HorizontalScrollView
             android:id="@+id/emoji_tab_view_container"

@@ -17,10 +17,7 @@
         android:listSelector="#00000000"
         android:background="#e9ecf0"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:background="@color/gray" />
+    <View style="@style/horizontal_gray_divider" />
 
     <include layout="@layout/view_message_input_text" />
     

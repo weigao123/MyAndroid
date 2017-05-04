@@ -80,9 +80,9 @@ public class ScreenUtils {
      * http://blog.csdn.net/ccpat/article/details/55224475
      * 不包括statusBar
      */
-    public static int getDisplayFrameHeight(View contentView) {
+    public static int getDisplayFrameHeight(View view) {
         Rect r = new Rect();
-        contentView.getWindowVisibleDisplayFrame(r);
+        view.getWindowVisibleDisplayFrame(r);
         return r.bottom - r.top;
     }
 

@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -84,10 +85,13 @@ public class MessageListPanel {
                 ListViewUtil.scrollToBottom(messageListView);
             }
         });
-        messageListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        messageListView.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                moduleProxy.shouldCollapseInputPanel();
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    moduleProxy.shouldCollapseInputPanel();
+                }
+                return false;
             }
         });
         registerObservers(true);

@@ -26,9 +26,7 @@ public class StickerManager {
     private final String TAG = "StickerManager";
 
     private static StickerManager instance;
-    private static final String CATEGORY_AJMD = "ajmd";
     private static final String CATEGORY_XXY = "xxy";
-    private static final String CATEGORY_LT = "lt";
 
     /**
      * 数据源
@@ -61,15 +59,11 @@ public class StickerManager {
 
     private void initStickerOrder() {
         // 默认贴图顺序
-        stickerOrder.put(CATEGORY_AJMD, 1);
-        stickerOrder.put(CATEGORY_XXY, 2);
-        stickerOrder.put(CATEGORY_LT, 3);
+        stickerOrder.put(CATEGORY_XXY, 1);
     }
 
     private boolean isSystemSticker(String category) {
-        return CATEGORY_XXY.equals(category) ||
-                CATEGORY_AJMD.equals(category) ||
-                CATEGORY_LT.equals(category);
+        return CATEGORY_XXY.equals(category);
     }
 
     private int getStickerOrder(String categoryName) {

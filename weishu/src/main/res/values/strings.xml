@@ -123,6 +123,7 @@
     <string name="music">音乐</string>
     <string name="browser">浏览器</string>
     <string name="game">游戏</string>
+    <string name="press_to_voice">按住说话</string>
     <string name="about_weishu">关于微书</string>
 
     <string name="pull_to_refresh">下拉可以刷新</string>

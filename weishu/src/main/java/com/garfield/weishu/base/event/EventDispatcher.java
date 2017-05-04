@@ -30,51 +30,61 @@ public class EventDispatcher {
     private static MyEvent.FragmentJumpEvent mFragmentJumpEvent = new MyEvent.FragmentJumpEvent() {
         @Override
         public void onShowUserProfile(String account) {
+            if (UiUtils.isFastDoubleClick(500)) return;
             startFragmentEvent(FriendProfileFragment.newInstance(account));
         }
 
         @Override
         public void onShowSession(String account) {
+            if (UiUtils.isFastDoubleClick(500)) return;
             startFragmentEvent(SessionFragment.newInstance(account));
         }
 
         @Override
         public void onShowSelfProfile() {
+            if (UiUtils.isFastDoubleClick(500)) return;
             startFragmentEvent(new SelfProfileFragment());
         }
 
         @Override
         public void onShowSearchUser() {
+            if (UiUtils.isFastDoubleClick(500)) return;
             startFragmentEvent(new SearchUserFragment());
         }
 
         @Override
         public void onShowChangeInfo() {
+            if (UiUtils.isFastDoubleClick(500)) return;
             startFragmentEvent(new ChangeInfoFragment());
         }
 
         @Override
         public void onShowTakePhoto() {
+            if (UiUtils.isFastDoubleClick(500)) return;
             startFragmentEvent(new TakePhotoFragment());
         }
 
         @Override
         public void onShowCropPhoto(String photoPath) {
+            if (UiUtils.isFastDoubleClick(500)) return;
             startFragmentEvent(CropPhotoFragment.newInstance(photoPath));
         }
 
         @Override
         public void onShowFullscreenPhoto(String photoPath) {
+            if (UiUtils.isFastDoubleClick(500)) return;
             startFragmentEvent(FullscreenPhoto.newInstance(photoPath));
         }
 
         @Override
         public void onShowNews() {
+            if (UiUtils.isFastDoubleClick(500)) return;
             startFragmentEvent(new NewsFragment());
         }
 
         @Override
         public void onShowNewsDetail(String url) {
+            if (UiUtils.isFastDoubleClick(500)) return;
             startFragmentEvent(NewsDetailFragment.newInstance(url));
         }
     };
@@ -84,7 +94,6 @@ public class EventDispatcher {
     }
 
     public static void startFragmentEvent(final SupportFragment fragment, int delayTime) {
-        if (UiUtils.isFastDoubleClick(500)) return;
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
