@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.garfield.baselib.swipeback.SwipeBackActivity;
 import com.garfield.baselib.utils.system.KeyboardUtils;
 import com.garfield.baselib.utils.system.L;
+import com.garfield.baselib.utils.system.ThemeManager;
 import com.garfield.weishu.R;
 import com.garfield.baselib.utils.system.permission.MPermission;
 import com.garfield.baselib.utils.system.permission.annotation.OnMPermissionDenied;
@@ -28,7 +29,7 @@ import butterknife.ButterKnife;
 /**
  * 要使用ButterKnife，就要重写一些方法
  */
-public class AppBaseActivity extends SwipeBackActivity {
+public class AppBaseActivity extends SwipeBackActivity implements ThemeManager.OnThemeChangeListener {
 
     private final int BASIC_PERMISSION_REQUEST_CODE = 110;
 
@@ -42,7 +43,6 @@ public class AppBaseActivity extends SwipeBackActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.AppThemeDay);
         if (onGetActivityLayout() != 0) {
             setContentView(onGetActivityLayout());
             ButterKnife.bind(this);
@@ -56,6 +56,7 @@ public class AppBaseActivity extends SwipeBackActivity {
             onInitViewAndData(savedInstanceState);
         }
         mKeyboardSizeMeasure = new KeyboardUtils.KeyboardSizeMeasure(this);
+        ThemeManager.registerThemeChangeListener(this);
     }
 
     protected int onGetActivityLayout() {
@@ -88,19 +89,25 @@ public class AppBaseActivity extends SwipeBackActivity {
     }
 
     @OnMPermissionGranted(BASIC_PERMISSION_REQUEST_CODE)
-    public void onBasicPermissionSuccess(){
+    public void onBasicPermissionSuccess() {
         L.toast("授权成功");
     }
 
     @OnMPermissionDenied(BASIC_PERMISSION_REQUEST_CODE)
-    public void onBasicPermissionFailed(){
+    public void onBasicPermissionFailed() {
         L.toast("授权失败");
         finish();
+    }
+
+    @Override
+    public void onThemeChanged() {
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mKeyboardSizeMeasure.destroy();
+        ThemeManager.unregisterThemeChangeListener(this);
     }
 }

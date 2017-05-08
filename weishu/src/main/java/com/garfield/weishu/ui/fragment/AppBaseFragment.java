@@ -18,6 +18,7 @@ import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.swipeback.SwipeBackFragment;
 import com.garfield.baselib.utils.system.L;
 import com.garfield.baselib.utils.system.ScreenUtils;
+import com.garfield.baselib.utils.system.ThemeManager;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
@@ -36,7 +37,7 @@ import butterknife.Unbinder;
 /**
  * Created by gaowei3 on 2016/8/4.
  */
-public class AppBaseFragment extends SwipeBackFragment {
+public class AppBaseFragment extends SwipeBackFragment implements ThemeManager.OnThemeChangeListener {
 
     @Nullable @BindView(R.id.toolbar)
     protected Toolbar mToolbar;
@@ -92,6 +93,7 @@ public class AppBaseFragment extends SwipeBackFragment {
                     mToolbar.findViewById(R.id.toolbar_control_view).setVisibility(View.VISIBLE);
                 }
             }
+            ThemeManager.registerThemeChangeListener(this);
         }
         /**
          * lazy load
@@ -241,7 +243,13 @@ public class AppBaseFragment extends SwipeBackFragment {
         mIsPrepared = false;
         mHasLoaded = false;
         mIsVisibleToUser = false;
+        ThemeManager.unregisterThemeChangeListener(this);
         //L.d("onDestroyView");
+    }
+
+    @Override
+    public void onThemeChanged() {
+
     }
 
     @Override

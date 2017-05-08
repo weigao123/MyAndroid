@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FF3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#414141</color>
-    <color name="blue_596ac6">#4255b8</color>
+    <color name="colorPrimary">@color/blue_3f51b5</color>
+    <color name="colorPrimary_night">@color/gray_333436</color>
 
-    <color name="colorPrimaryTrans">#c83F51B5</color>
+    <color name="colorPrimaryDark">@color/blue_303f9f</color>
+    <color name="colorPrimaryDark_night">@color/blue_303f9f</color>
 
-    <color name="blue_3a9efb">#3a9efb</color>
-    <color name="blue_0888ff">#0888ff</color>
-    <color name="network_state_bg">#f5667a</color>
+    <color name="colorAccent">@color/black_414141</color>
+    <color name="colorAccent_night">@color/black_414141</color>
 
-    <color name="blue1">#8191ea</color>
+    <color name="colorPrimaryTrans">@color/blue_3f51b5_trans</color>
 
+    <color name="network_state_bg">@color/red_f5667a</color>
 
-    <color name="color_gray_d9d9d9">#d9d9d9</color>
+    <color name="color_bg_home">@color/gray_white</color>
+    <color name="color_bg_home_night">@color/black_gray</color>
 
+    <color name="button_pressed">@color/blue_303f9f</color>
 
 </resources>

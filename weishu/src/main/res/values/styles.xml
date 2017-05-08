@@ -4,7 +4,8 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/white</item>
     </style>
-    <style name="AppThemeDay" parent="BaseTheme">
+
+    <style name="AppTheme" parent="BaseTheme">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -15,15 +16,15 @@
     </style>
 
     <style name="AppThemeNight" parent="BaseTheme">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimary_night</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_night</item>
+        <item name="colorAccent">@color/colorAccent_night</item>
 
         <item name="android:colorBackground">@color/black_gray</item>
         <item name="android:textColor">@color/gray</item>
     </style>
 
-    <style name="TranslucentBar" parent="AppThemeDay">
+    <style name="TranslucentBar" parent="AppTheme">
         <!--在Android 4.4之前的版本上运行，直接跟随系统主题-->
     </style>
 
@@ -32,7 +33,7 @@
         <item name="android:windowBackground">@drawable/welcome_bg</item>
     </style>
 
-    <style name="Fullscreen" parent="AppThemeDay">
+    <style name="Fullscreen" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <!-- 会造成下一个Activity闪动

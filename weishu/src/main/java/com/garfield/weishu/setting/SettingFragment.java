@@ -10,6 +10,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.garfield.baselib.ui.widget.SwitchButton;
 import com.garfield.baselib.utils.system.L;
+import com.garfield.baselib.utils.system.ThemeManager;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
@@ -148,8 +149,13 @@ public class SettingFragment extends AppBaseFragment {
                 AppCache.setHasAnimation(mAnimatorSwitch.getSwitchStatus());
                 break;
             case R.id.fragment_setting_night:
-                mActivity.setTheme(R.style.AppThemeNight);
-                mActivity.recreate();
+                //mActivity.setTheme(R.style.AppThemeNight);
+                //mActivity.recreate();
+                if (ThemeManager.getThemeMode() == ThemeManager.ThemeMode.DAY) {
+                    ThemeManager.setThemeMode(ThemeManager.ThemeMode.NIGHT);
+                } else {
+                    ThemeManager.setThemeMode(ThemeManager.ThemeMode.DAY);
+                }
 
                 break;
             case R.id.fragment_setting_clear_message:
@@ -187,6 +193,12 @@ public class SettingFragment extends AppBaseFragment {
                 EventDispatcher.startDialog(dialog);
                 break;
         }
+    }
+
+    @Override
+    public void onThemeChanged() {
+        super.onThemeChanged();
+        getView().setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(getContext(), R.color.color_bg_home)));
     }
 
     @Override
