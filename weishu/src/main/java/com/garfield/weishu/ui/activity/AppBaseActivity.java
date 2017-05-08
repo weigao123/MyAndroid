@@ -42,6 +42,7 @@ public class AppBaseActivity extends SwipeBackActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppThemeDay);
         if (onGetActivityLayout() != 0) {
             setContentView(onGetActivityLayout());
             ButterKnife.bind(this);

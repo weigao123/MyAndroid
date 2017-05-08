@@ -114,75 +114,79 @@ public class SettingFragment extends AppBaseFragment {
         }
     };
 
-    @OnClick(R.id.fragment_setting_notify)
-    void switchNofity() {
-        mNotifySwitch.setSwitchStatus(!mNotifySwitch.getSwitchStatus());
-        SettingsPreferences.setNotificationToggle(mNotifySwitch.getSwitchStatus());
-        int visible = mNotifySwitch.getSwitchStatus() ? View.VISIBLE : View.GONE;
-        mRingContainer.setVisibility(visible);
-        mVibrateContainer.setVisibility(visible);
-        NimConfig.toggleNotification(mNotifySwitch.getSwitchStatus());
-    }
+    @OnClick({R.id.fragment_setting_notify,
+              R.id.fragment_setting_ring,
+              R.id.fragment_setting_vibrate,
+              R.id.fragment_setting_animator,
+              R.id.fragment_setting_night,
+              R.id.fragment_setting_clear_message,
+              R.id.fragment_setting_about,
+              R.id.fragment_setting_logout})
+    void switchSetting(View view) {
+        switch(view.getId()) {
+            case R.id.fragment_setting_notify:
+                mNotifySwitch.setSwitchStatus(!mNotifySwitch.getSwitchStatus());
+                SettingsPreferences.setNotificationToggle(mNotifySwitch.getSwitchStatus());
+                int visible = mNotifySwitch.getSwitchStatus() ? View.VISIBLE : View.GONE;
+                mRingContainer.setVisibility(visible);
+                mVibrateContainer.setVisibility(visible);
+                NimConfig.toggleNotification(mNotifySwitch.getSwitchStatus());
+                break;
+            case R.id.fragment_setting_ring:
+                mRingSwitch.setSwitchStatus(!mRingSwitch.getSwitchStatus());
+                SettingsPreferences.setRingToggle(mRingSwitch.getSwitchStatus());
+                NimConfig.setRingToggle(mRingSwitch.getSwitchStatus());
+                break;
+            case R.id.fragment_setting_vibrate:
+                mVibrateSwitch.setSwitchStatus(!mVibrateSwitch.getSwitchStatus());
+                SettingsPreferences.setVibrateToggle(mVibrateSwitch.getSwitchStatus());
+                NimConfig.setVibrateToggle(mVibrateSwitch.getSwitchStatus());
+                break;
+            case R.id.fragment_setting_animator:
+                mAnimatorSwitch.setSwitchStatus(!mAnimatorSwitch.getSwitchStatus());
+                SettingsPreferences.setAnimation(mAnimatorSwitch.getSwitchStatus());
+                AppCache.setHasAnimation(mAnimatorSwitch.getSwitchStatus());
+                break;
+            case R.id.fragment_setting_night:
+                mActivity.setTheme(R.style.AppThemeNight);
+                mActivity.recreate();
 
-    @OnClick(R.id.fragment_setting_ring)
-    void switchRing() {
-        mRingSwitch.setSwitchStatus(!mRingSwitch.getSwitchStatus());
-        SettingsPreferences.setRingToggle(mRingSwitch.getSwitchStatus());
-        NimConfig.setRingToggle(mRingSwitch.getSwitchStatus());
-    }
-
-    @OnClick(R.id.fragment_setting_vibrate)
-    void switchVibrate() {
-        mVibrateSwitch.setSwitchStatus(!mVibrateSwitch.getSwitchStatus());
-        SettingsPreferences.setVibrateToggle(mVibrateSwitch.getSwitchStatus());
-        NimConfig.setVibrateToggle(mVibrateSwitch.getSwitchStatus());
-    }
-
-    @OnClick(R.id.fragment_setting_animator)
-    void switchAnimator() {
-        mAnimatorSwitch.setSwitchStatus(!mAnimatorSwitch.getSwitchStatus());
-        SettingsPreferences.setAnimation(mAnimatorSwitch.getSwitchStatus());
-        AppCache.setHasAnimation(mAnimatorSwitch.getSwitchStatus());
-    }
-
-    @OnClick(R.id.fragment_setting_clear_message)
-    void clearMessage() {
-        MaterialDialog dialog = new MaterialDialog.Builder(getContext())
-                .title(R.string.is_clear_message_record)
-                .positiveText(R.string.confirm)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        NIMClient.getService(MsgService.class).clearMsgDatabase(true);
-                        L.toast(R.string.clear_message_record_done);
-                    }
-                })
-                .negativeText(R.string.cancel)
-                .build();
-        EventDispatcher.startDialog(dialog);
-    }
-
-    @OnClick(R.id.fragment_setting_about)
-    void showAbout() {
-        EventDispatcher.startFragmentEvent(new AboutFragment());
-    }
-
-    @OnClick(R.id.fragment_setting_logout)
-    void logout() {
-        MaterialDialog dialog = new MaterialDialog.Builder(getContext())
-                .title(R.string.logout_confirm)
-                .positiveText(R.string.confirm)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        // 只有手动退出时调用
-                        NIMClient.getService(AuthService.class).logout();
-                        RegisterAndLogin.logout(mActivity);
-                    }
-                })
-                .negativeText(R.string.cancel)
-                .build();
-        EventDispatcher.startDialog(dialog);
+                break;
+            case R.id.fragment_setting_clear_message:
+                MaterialDialog dialog = new MaterialDialog.Builder(getContext())
+                        .title(R.string.is_clear_message_record)
+                        .positiveText(R.string.confirm)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                NIMClient.getService(MsgService.class).clearMsgDatabase(true);
+                                L.toast(R.string.clear_message_record_done);
+                            }
+                        })
+                        .negativeText(R.string.cancel)
+                        .build();
+                EventDispatcher.startDialog(dialog);
+                break;
+            case R.id.fragment_setting_about:
+                EventDispatcher.startFragmentEvent(new AboutFragment());
+                break;
+            case R.id.fragment_setting_logout:
+                dialog = new MaterialDialog.Builder(getContext())
+                        .title(R.string.logout_confirm)
+                        .positiveText(R.string.confirm)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                // 只有手动退出时调用
+                                NIMClient.getService(AuthService.class).logout();
+                                RegisterAndLogin.logout(mActivity);
+                            }
+                        })
+                        .negativeText(R.string.cancel)
+                        .build();
+                EventDispatcher.startDialog(dialog);
+                break;
+        }
     }
 
     @Override

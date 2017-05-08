@@ -54,6 +54,7 @@ public class MainActivity extends AppBaseActivity {
     @Override
     protected void onInitViewAndData(Bundle savedInstanceState) {
         super.onInitViewAndData(savedInstanceState);
+
         if (savedInstanceState == null) {
             onParseIntent();
         }

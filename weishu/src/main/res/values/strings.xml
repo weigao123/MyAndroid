@@ -112,6 +112,7 @@
     <string name="ring">声音</string>
     <string name="vibrate">震动</string>
     <string name="transfer_animation">转场动画</string>
+    <string name="night_mode">夜间模式</string>
     <string name="use_native_crop">系统裁剪</string>
     <string name="clear_message_record">清空聊天记录</string>
     <string name="is_clear_message_record">是否清空所有聊天记录</string>
