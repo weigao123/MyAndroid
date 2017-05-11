@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/back">
+    android:background="@color/bg_itemFragment">
 
     <include layout="@layout/include_loading"/>
 
@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
                 android:clickable="true"
-                android:background="@drawable/bg_press_white_to_gray">
+                android:background="@drawable/bg_press_item_normal">
                 <com.garfield.weishu.ui.view.HeadImageView
                     android:id="@+id/fragment_setting_head"
                     android:layout_width="65dp"
@@ -40,7 +40,6 @@
                     android:layout_toRightOf="@id/fragment_setting_head"
                     android:layout_alignTop="@id/fragment_setting_head"
                     android:layout_marginLeft="15dp"
-                    android:textColor="@color/black"
                     android:textSize="16sp"
                     android:text="test"/>
                 <TextView
@@ -51,7 +50,7 @@
                     android:layout_below="@id/fragment_setting_nickname"
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="15dp"
-                    android:textColor="@color/black_gray"
+                    android:textColor="@color/mainTextColorGray"
                     android:textSize="14sp"
                     android:text="test"/>
             </RelativeLayout>
@@ -62,15 +61,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:clickable="true"
-                android:background="@drawable/bg_press_white_to_gray">
+                android:background="@drawable/bg_press_item_normal">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
                     android:text="@string/message_notify"
                     android:gravity="center"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"/>
+                    android:textSize="16sp"/>
                 <com.garfield.baselib.ui.widget.SwitchButton
                     android:id="@+id/fragment_setting_notify_switch"
                     android:layout_width="50dp"
@@ -85,20 +83,17 @@
                 android:id="@+id/fragment_setting_ring"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:background="@drawable/bg_press_white_to_gray">
+                android:background="@drawable/bg_press_item_normal">
                 <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
                     android:layout_alignParentTop="true"
-                    android:background="@color/gray"/>
+                    style="@style/horizontal_divider"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
                     android:text="@string/ring"
                     android:textSize="16sp"
-                    android:gravity="center"
-                    android:textColor="@color/black"/>
+                    android:gravity="center"/>
                 <com.garfield.baselib.ui.widget.SwitchButton
                     android:id="@+id/fragment_setting_ring_switch"
                     android:layout_width="50dp"
@@ -112,20 +107,17 @@
                 android:id="@+id/fragment_setting_vibrate"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:background="@drawable/bg_press_white_to_gray">
+                android:background="@drawable/bg_press_item_normal">
                 <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
                     android:layout_alignParentTop="true"
-                    android:background="@color/gray"/>
+                    style="@style/horizontal_divider"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
                     android:text="@string/vibrate"
                     android:textSize="16sp"
-                    android:gravity="center"
-                    android:textColor="@color/black"/>
+                    android:gravity="center"/>
                 <com.garfield.baselib.ui.widget.SwitchButton
                     android:id="@+id/fragment_setting_vibrate_switch"
                     android:layout_width="50dp"
@@ -140,20 +132,17 @@
                 android:id="@+id/fragment_setting_animator"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:background="@drawable/bg_press_white_to_gray">
+                android:background="@drawable/bg_press_item_normal">
                 <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
                     android:layout_alignParentTop="true"
-                    android:background="@color/gray"/>
+                    style="@style/horizontal_divider"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
                     android:text="@string/transfer_animation"
                     android:textSize="16sp"
-                    android:gravity="center"
-                    android:textColor="@color/black"/>
+                    android:gravity="center"/>
                 <com.garfield.baselib.ui.widget.SwitchButton
                     android:id="@+id/fragment_setting_animator_switch"
                     android:layout_width="50dp"
@@ -168,20 +157,17 @@
                 android:id="@+id/fragment_setting_night"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:background="@drawable/bg_press_white_to_gray">
+                android:background="@drawable/bg_press_item_normal">
                 <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
                     android:layout_alignParentTop="true"
-                    android:background="@color/gray"/>
+                    style="@style/horizontal_divider"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
                     android:text="@string/night_mode"
                     android:textSize="16sp"
-                    android:gravity="center"
-                    android:textColor="@color/black"/>
+                    android:gravity="center"/>
                 <com.garfield.baselib.ui.widget.SwitchButton
                     android:id="@+id/fragment_setting_night_switch"
                     android:layout_width="50dp"
@@ -197,35 +183,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="15dp"
-                android:background="@drawable/bg_press_white_to_gray">
+                android:background="@drawable/bg_press_item_normal">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="19dp"
                     android:text="@string/clear_message_record"
                     android:textSize="16sp"
-                    android:gravity="center"
-                    android:textColor="@color/black"/>
+                    android:gravity="center"/>
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/fragment_setting_about"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:background="@drawable/bg_press_white_to_gray">
+                android:background="@drawable/bg_press_item_normal">
                 <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
                     android:layout_alignParentTop="true"
-                    android:background="@color/gray"/>
+                    style="@style/horizontal_divider"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
                     android:text="@string/about_weishu"
                     android:textSize="16sp"
-                    android:gravity="center"
-                    android:textColor="@color/black"/>
+                    android:gravity="center"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -233,16 +215,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginBottom="25dp"
-                android:background="@drawable/bg_press_white_to_gray">
+                android:layout_marginBottom="60dp"
+                android:background="@drawable/bg_press_item_normal">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
                     android:text="@string/logout"
                     android:textSize="16sp"
-                    android:gravity="center"
-                    android:textColor="@color/black"/>
+                    android:gravity="center"/>
             </RelativeLayout>
 
         </LinearLayout>

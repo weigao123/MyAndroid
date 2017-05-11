@@ -22,7 +22,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_press_gray"
+        android:background="@drawable/bg_press_item_to"
         android:padding="8dp">
 
         <ImageView
@@ -44,14 +44,11 @@
             android:ellipsize="end"
             android:minLines="2"
             android:maxLines="2"
-            android:textColor="@color/black"
             android:textSize="16sp"
             tools:text="标题" />
     </RelativeLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_alignParentBottom="true"
-        android:background="@color/gray" />
+        style="@style/horizontal_divider_light"
+        android:layout_alignParentBottom="true"/>
 </LinearLayout>

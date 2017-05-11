@@ -7,12 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.garfield.baselib.adapter.DividerItemDecoration;
-import com.garfield.baselib.utils.system.L;
 import com.garfield.baselib.utils.system.ScreenUtils;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
@@ -390,9 +388,10 @@ public class MessageListPanel {
         @Override
         public boolean onViewHolderLongClick(final IMMessage item) {
             MaterialDialog dialog = new MaterialDialog.Builder(rootView.getContext())
+                    .backgroundColorRes(R.color.bg_itemFragment)
                     .items(R.array.message_menu)
-                    .listSelector(R.drawable.bg_press_gray)
-                    .itemsColorRes(R.color.black)
+                    .listSelector(R.drawable.bg_press_item_to)
+                    .itemsColorRes(R.color.mainTextColor)
                     .itemsCallback(new MaterialDialog.ListCallback() {
                         @Override
                         public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
@@ -418,9 +417,9 @@ public class MessageListPanel {
             MaterialDialog dialog = new MaterialDialog.Builder(rootView.getContext())
                     .title(R.string.is_resent)
                     .positiveText(R.string.confirm)
-                    .positiveColorRes(R.color.colorPrimary)
+                    .positiveColor(rootView.getContext().getResources().getColor(R.color.mainTextColor))
                     .negativeText(R.string.cancel)
-                    .negativeColorRes(R.color.colorPrimary)
+                    .negativeColor(rootView.getContext().getResources().getColor(R.color.mainTextColor))
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {

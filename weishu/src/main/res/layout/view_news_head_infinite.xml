@@ -24,13 +24,13 @@
             android:id="@+id/view_news_head_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="left"
+            android:gravity="start"
             android:layout_gravity="center_vertical"
             android:includeFontPadding="false"
             android:layout_weight="1"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/white"
+            android:textColor="@color/mainTextColorWhite"
             android:textSize="16sp"/>
         
         <LinearLayout

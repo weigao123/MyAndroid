@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="blue_3f51b5">#3f51b5</color>
-    <color name="gray_333436">#333436</color>
 
-    <color name="blue_303f9f">#303f9f</color>
-    <color name="black_26272a">#26272a</color>
-
-    <color name="black_414141">#414141</color>
-
-    <color name="blue_3f51b5_trans">#c83f51b5</color>
-
-    <color name="red_f5667a">#f5667a</color>
-
-    <color name="blue_8191ea">#8191ea</color>
-
-
-    <color name="gray_d9d9d9">#d9d9d9</color>
-
+    <color name="color_26272A">#26272A</color>
+    <color name="color_414141">#414141</color>
+    <color name="color_333436">#333436</color>
+    <color name="color_9EA6A9">#9EA6A9</color>
+    <color name="color_D9D9D9">#D9D9D9</color>
+    <color name="color_3F51B5">#3F51B5</color>
+    <color name="color_303F9F">#303F9F</color>
+    <color name="color_3F51B5_trans">#C83F51B5</color>
+    <color name="color_8191EA">#8191EA</color>
+    <color name="color_F5667A">#F5667A</color>
+    <!--PrimaryDark-->
+    <color name="color_212B30">#212B30</color>
+    <!--Primary-->
+    <color name="color_263238">#263238</color>
+    <!--MainBgColor-->
+    <color name="color_2B3940">#2B3940</color>
+    <color name="color_37474F">#37474F</color>
+    <color name="color_4B5960">#4B5960</color>
+    <color name="color_496876">#496876</color>
+    <color name="color_6B7073">#757b7e</color>
+    <color name="color_0F88EB">#0F88EB</color>
+    <color name="color_E9ECF0">#E9ECF0</color>
 </resources>

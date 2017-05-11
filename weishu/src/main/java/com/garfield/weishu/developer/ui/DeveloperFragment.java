@@ -49,13 +49,13 @@ public class DeveloperFragment extends AppBaseFragment implements TRecyclerAdapt
         mData.add("2、排序算法");
         mData.add("3、多线程");
         mData.add("4、SurfaceView");
-        mData.add("5、音乐控制");
+        //mData.add("5、音乐控制");
         //mData.add("6、fitsSystemWindows");
         DevelopAdapter adapter = new DevelopAdapter(getContext(), mData);
         adapter.setItemEventListener(this);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(AppCache.getContext()));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(rootView.getContext(), DividerItemDecoration.VERTICAL_LIST, true));
+        //mRecyclerView.addItemDecoration(new DividerItemDecoration(rootView.getContext(), DividerItemDecoration.VERTICAL_LIST, true));
         mRecyclerView.setAdapter(adapter);
     }
 

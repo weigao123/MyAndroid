@@ -181,7 +181,7 @@ public class TakePhotoFragment extends AppBaseFragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    mAlbumButton.setTextColor(getResources().getColor(R.color.blue1));
+                    mAlbumButton.setTextColor(getResources().getColor(R.color.button_pressed));
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     mAlbumButton.setTextColor(getResources().getColor(R.color.white));
                 }

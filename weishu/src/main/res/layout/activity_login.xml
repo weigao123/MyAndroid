@@ -20,10 +20,9 @@
         android:paddingEnd="20dp" >
 
         <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/gray"
+            style="@style/horizontal_divider_2"
             android:layout_marginTop="30dp"/>
+
         <com.garfield.baselib.ui.widget.ClearableEditText
             android:id="@+id/activity_login_account"
             android:layout_width="match_parent"
@@ -36,10 +35,9 @@
             android:hint="@string/please_input_account"
             android:textCursorDrawable="@null"
             android:textSize="15sp"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/gray" />
+
+        <View style="@style/horizontal_divider_2"/>
+
         <com.garfield.baselib.ui.widget.ClearableEditText
             android:id="@+id/activity_login_password"
             android:layout_width="match_parent"
@@ -53,10 +51,9 @@
             android:inputType="textPassword"
             android:textCursorDrawable="@null"
             android:textSize="15sp"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/gray" />
+
+        <View style="@style/horizontal_divider_2"/>
+
         <TextView
             android:id="@+id/activity_login_login"
             android:layout_width="match_parent"
@@ -65,13 +62,13 @@
             android:text="@string/login"
             android:gravity="center"
             android:textSize="20sp"
-            android:textColor="@color/white"
-            android:background="@drawable/bg_primary_button" />
+            android:textColor="@color/mainTextColorWhite"
+            android:background="@drawable/bg_primary_button"
+            android:clickable="true"/>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/activity_register_layout"
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -80,11 +77,11 @@
         android:paddingRight="20dp"
         android:paddingEnd="20dp"
         android:visibility="visible">
+
         <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/gray"
+            style="@style/horizontal_divider_2"
             android:layout_marginTop="30dp"/>
+
         <com.garfield.baselib.ui.widget.ClearableEditText
             android:id="@+id/activity_register_account"
             android:layout_width="match_parent"
@@ -98,10 +95,9 @@
             android:hint="@string/please_register_account_hint"
             android:textCursorDrawable="@null"
             android:textSize="15sp"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/gray" />
+
+        <View style="@style/horizontal_divider_2"/>
+
         <com.garfield.baselib.ui.widget.ClearableEditText
             android:id="@+id/activity_register_nickname"
             android:layout_width="match_parent"
@@ -114,10 +110,9 @@
             android:hint="@string/please_register_nickname_hint"
             android:textCursorDrawable="@null"
             android:textSize="15sp"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/gray" />
+
+        <View style="@style/horizontal_divider_2"/>
+
         <com.garfield.baselib.ui.widget.ClearableEditText
             android:id="@+id/activity_register_password"
             android:layout_width="match_parent"
@@ -131,10 +126,9 @@
             android:inputType="textPassword"
             android:textCursorDrawable="@null"
             android:textSize="15sp"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/gray" />
+
+        <View style="@style/horizontal_divider_2"/>
+
         <com.garfield.baselib.ui.widget.ClearableEditText
             android:id="@+id/activity_register_password_repeat"
             android:layout_width="match_parent"
@@ -148,10 +142,9 @@
             android:inputType="textPassword"
             android:textCursorDrawable="@null"
             android:textSize="15sp"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/gray" />
+
+        <View style="@style/horizontal_divider_2"/>
+
         <TextView
             android:id="@+id/activity_login_register"
             android:layout_width="match_parent"
@@ -160,8 +153,9 @@
             android:text="@string/register"
             android:gravity="center"
             android:textSize="20sp"
-            android:textColor="@color/white"
-            android:background="@drawable/bg_primary_button" />
+            android:textColor="@color/mainTextColorWhite"
+            android:background="@drawable/bg_primary_button"
+            android:clickable="true"/>
 
     </LinearLayout>
 </LinearLayout>

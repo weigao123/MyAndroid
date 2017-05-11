@@ -2,8 +2,8 @@ package com.garfield.weishu.app;
 
 import android.app.Application;
 import android.text.TextUtils;
+import android.util.Log;
 
-import com.garfield.baselib.utils.file.DirectoryUtils;
 import com.garfield.baselib.utils.http.image.ImageLoaderHelper;
 import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.contact.query.PinYin;
@@ -11,16 +11,7 @@ import com.garfield.weishu.nim.cache.DataCacheManager;
 import com.garfield.weishu.nim.cache.LoginSyncHelper;
 import com.garfield.weishu.nim.NimConfig;
 import com.garfield.baselib.utils.system.SystemUtil;
-import com.garfield.weishu.setting.SettingFragment;
 import com.tencent.bugly.Bugly;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
 
 
 /**
@@ -44,8 +35,8 @@ public class MyApplication extends Application {
         if (SystemUtil.inMainProcess()) {
             L.d("MyApplication");
 
+            Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
             Bugly.init(getApplicationContext(), "cdced5fee1", true);
-            //Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
 
             ImageLoaderHelper.init();
             NimConfig.initSetting();
@@ -67,47 +58,12 @@ public class MyApplication extends Application {
     public class CrashHandler implements Thread.UncaughtExceptionHandler {
         @Override
         public void uncaughtException(Thread thread, Throwable ex) {
-            ex.printStackTrace();
-
-            final Writer result = new StringWriter();
-            final PrintWriter printWriter = new PrintWriter(result);
-            ex.printStackTrace(printWriter);
-            L.d("崩溃：\n " + result.toString());
-
-            put(result.toString());
-            System.exit(0);
-            try {
-                throw ex;
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-            }
+            L.d(Log.getStackTraceString(ex));
+            //android.os.Process.killProcess(android.os.Process.myPid());
         }
     }
 
 
-    public void put(String value) {
-        BufferedWriter out = null;
-        try {
-            File file;
-            for (int i = 0; ; i++) {
-                file = new File(DirectoryUtils.getOwnCacheDirectory("crash/"), "bug_" + i + ".txt");
-                if (!file.exists()) {
-                    break;
-                }
-            }
-            out = new BufferedWriter(new FileWriter(file), 2048);
-            out.write(value);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (out != null) {
-                try {
-                    out.flush();
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
+
+
 }

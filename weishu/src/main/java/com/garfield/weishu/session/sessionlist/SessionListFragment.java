@@ -3,6 +3,7 @@ package com.garfield.weishu.session.sessionlist;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -74,7 +75,7 @@ public class SessionListFragment extends AppBaseFragment {
 
         if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
             View activityView = ((ViewGroup) getActivity().getWindow().getDecorView().findViewById(android.R.id.content)).getChildAt(0);
-            activityView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            activityView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
             rootView.setBackgroundColor(Color.WHITE);
         }
 
@@ -96,9 +97,10 @@ public class SessionListFragment extends AppBaseFragment {
             @Override
             public void onItemLongPressed(final RecentContact recent, int position) {
                 MaterialDialog dialog = new MaterialDialog.Builder(getContext())
+                        .backgroundColorRes(R.color.bg_itemFragment)
                         .items(isTagSet(recent, RECENT_TAG_STICKY)? R.array.session_menu2 : R.array.session_menu1)
-                        .listSelector(R.drawable.bg_press_gray)
-                        .itemsColorRes(R.color.black)
+                        .listSelector(R.drawable.bg_press_item_to)
+                        .itemsColorRes(R.color.mainTextColor)
                         .itemsCallback(new MaterialDialog.ListCallback() {
                             @Override
                             public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {

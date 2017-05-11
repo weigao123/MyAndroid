@@ -5,7 +5,10 @@ import android.animation.ValueAnimator;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.graphics.PointF;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -72,8 +75,10 @@ public class DeveloperSurfaceViewFragment extends AppBaseFragment implements Sur
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
+        mSurfaceView.setZOrderOnTop(true);
         mSurfaceHolder = mSurfaceView.getHolder();
         mSurfaceHolder.addCallback(this);
+        mSurfaceHolder.setFormat(PixelFormat.TRANSLUCENT);
         mSurfaceView.post(new Runnable() {
             public void run() {
                 mRealWidth = mSurfaceView.getWidth();
@@ -95,8 +100,7 @@ public class DeveloperSurfaceViewFragment extends AppBaseFragment implements Sur
         linePaint.setAntiAlias(true);
         linePaint.setDither(true);
         clearPaint = new Paint();
-        clearPaint.setColor(Color.WHITE);
-        //clearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        clearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
     }
 
     @Override
@@ -137,6 +141,7 @@ public class DeveloperSurfaceViewFragment extends AppBaseFragment implements Sur
      */
     private void draw(Canvas canvas) {
         canvas.drawPaint(clearPaint);
+        //canvas.drawColor(getResources().getColor(R.color.mainBackground));
         //canvas.drawLine(0, 0, mSurfaceView.getWidth(), mSurfaceView.getHeight(), linePaint);
         for (int i = 0; i + 1 < mPointFs.size(); i ++) {
             canvas.drawLine(mPointFs.get(i).x, mPointFs.get(i).y, mPointFs.get(i + 1).x, mPointFs.get(i + 1).y, ballPaint);

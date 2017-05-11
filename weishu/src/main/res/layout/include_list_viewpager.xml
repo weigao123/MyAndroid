@@ -34,10 +34,11 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             app:tabMode="scrollable"
-            app:tabSelectedTextColor="@color/colorPrimary"
-            app:tabTextColor="@color/black_gray"
+            app:tabSelectedTextColor="@color/mainTextColor"
+            app:tabTextColor="@color/mainTextColorGray"
+            app:tabBackground="@color/mainBackground"
             app:tabMaxWidth="60dp"
-            app:tabIndicatorColor="@color/colorPrimary" />
+            app:tabIndicatorColor="@color/mainTextColorGray" />
 
     </android.support.design.widget.AppBarLayout>
 

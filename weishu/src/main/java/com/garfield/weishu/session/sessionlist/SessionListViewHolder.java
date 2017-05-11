@@ -58,7 +58,7 @@ public class SessionListViewHolder extends TRecyclerViewHolder<RecentContact> {
 //        mContext.getTheme().resolveAttribute(R.attr.selectableItemBackground, typedValue, true);
 //        mRootView.setBackgroundResource(typedValue.resourceId);
         if ((mRecentContact.getTag() & RECENT_TAG_STICKY) == 0) {
-            mRootView.setBackgroundResource(R.drawable.bg_press_gray);
+            mRootView.setBackgroundResource(R.drawable.bg_press_item_to);
         } else {
             mRootView.setBackgroundResource(R.drawable.bg_session_sticky);
         }

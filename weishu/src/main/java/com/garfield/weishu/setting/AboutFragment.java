@@ -71,8 +71,10 @@ public class AboutFragment extends AppBaseFragment {
     @OnClick(R.id.fragment_about_me)
     void addFriend() {
         MaterialDialog dialog = new MaterialDialog.Builder(getContext())
+                .backgroundColorRes(R.color.bg_itemFragment)
                 .title(R.string.add_author)
                 .positiveText(R.string.confirm)
+                .positiveColor(getResources().getColor(R.color.mainTextColor))
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -81,6 +83,7 @@ public class AboutFragment extends AppBaseFragment {
                     }
                 })
                 .negativeText(R.string.cancel)
+                .negativeColor(getResources().getColor(R.color.mainTextColor))
                 .build();
         EventDispatcher.startDialog(dialog);
     }

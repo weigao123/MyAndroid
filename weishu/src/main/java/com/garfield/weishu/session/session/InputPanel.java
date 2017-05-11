@@ -206,8 +206,8 @@ class InputPanel implements IEmoticonSelectedListener, KeyboardLinearLayout.OnMe
             // 其他的情况都是通过点击Btn，通过正常流程可控
             refreshBtnUi(mState = State.NONE);
         }
-        L.d("State: " + mState + "  oldHeight: " + oldHeight + "  newHeight: " + newHeight);
-        L.d("isKeyboardShowing: " + KeyboardUtils.isKeyboardShowing(mRootView));
+        //L.d("State: " + mState + "  oldHeight: " + oldHeight + "  newHeight: " + newHeight);
+        //L.d("isKeyboardShowing: " + KeyboardUtils.isKeyboardShowing(mRootView));
         switch (mState) {
             case NONE:
                 break;

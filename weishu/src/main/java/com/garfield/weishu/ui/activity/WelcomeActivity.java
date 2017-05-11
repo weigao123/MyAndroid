@@ -7,6 +7,7 @@ import android.text.TextUtils;
 
 import com.garfield.baselib.BuildConfig;
 import com.garfield.baselib.utils.system.L;
+import com.garfield.weishu.R;
 import com.garfield.weishu.app.UserPreferences;
 import com.netease.nimlib.sdk.NimIntent;
 import com.netease.nimlib.sdk.msg.model.IMMessage;

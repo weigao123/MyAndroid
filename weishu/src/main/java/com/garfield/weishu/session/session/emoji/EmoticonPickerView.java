@@ -81,7 +81,6 @@ public class EmoticonPickerView extends FrameLayout implements IEmoticonCategory
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         setupEmojView();
-        refreshHeight();
     }
 
     @Override

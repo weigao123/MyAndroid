@@ -29,12 +29,6 @@ public class FunctionPickerView extends FrameLayout {
     }
 
     @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        refreshHeight();
-    }
-
-    @Override
     public void setVisibility(int visibility) {
         super.setVisibility(visibility);
         if (visibility == VISIBLE) {

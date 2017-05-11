@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item android:width="1px">
+    <item>
         <shape android:shape="rectangle" >
-            <solid android:color="@color/gray_d9d9d9" />
+            <solid android:color="@color/horizontal_divider" />
         </shape>
     </item>
     <item android:left="1px">
         <shape android:shape="rectangle" >
-            <solid android:color="@color/gray_d9d9d9" />
+            <solid android:color="@color/bg_item_pressed" />
         </shape>
     </item>
 

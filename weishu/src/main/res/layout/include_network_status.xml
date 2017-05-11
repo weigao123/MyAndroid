@@ -6,6 +6,6 @@
     android:layout_height="100dp"
     android:gravity="center"
     android:background="@color/network_state_bg"
-    android:textColor="@color/white"
+    android:textColor="@color/mainTextColorWhite"
     android:textSize="14sp"/>
 

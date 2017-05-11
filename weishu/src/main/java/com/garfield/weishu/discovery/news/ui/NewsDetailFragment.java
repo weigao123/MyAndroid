@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.garfield.weishu.R;
+import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.discovery.browser.BrowserFragment;
 import com.garfield.weishu.discovery.news.bean.netease.NewsDetailBean;
 import com.garfield.weishu.discovery.news.presenter.NewsPresenter;
@@ -69,8 +70,8 @@ public class NewsDetailFragment extends AppBaseFragment implements NewsView<News
         handleString(data.get(0));
         NewsDetailBean bean = data.get(0);
         if (bean != null) {
-            String titleString = "<font size=\"4.2\"><b>" + bean.getTitle() + "</b></font><br/>";
-            String sourceString = "<font size=\"1\" color=\"gray\"><b>" + bean.getSource() + "&nbsp;&nbsp;&nbsp;&nbsp;" + bean.getPtime() + "</b></font><br/>";
+            String titleString = "<tit><font size=\"4.2\"><b>" + bean.getTitle() + "</b></font><br/></tit>";
+            String sourceString = "<sour><font size=\"1\"><b>" + bean.getSource() + "&nbsp;&nbsp;&nbsp;&nbsp;" + bean.getPtime() + "</b></font><br/></sour>";
             String content = titleString + sourceString + bean.getBody();
             if (isAdded()) {
                 loadRootFragment(R.id.fragment_detail_browser, BrowserFragment.newInstance(content, BrowserFragment.TYPE_STRING, 120));

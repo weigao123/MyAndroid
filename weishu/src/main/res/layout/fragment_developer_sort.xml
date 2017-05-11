@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white" >
+    android:background="@color/mainBackground" >
 
     <include layout="@layout/include_toolbar" />
 
@@ -76,8 +76,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
-        android:textSize="16sp"
-        android:textColor="@color/black"/>
+        android:textSize="16sp"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -95,8 +94,8 @@
                 android:id="@+id/fragment_developer_sort_origin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/mainTextColorGray"
+                android:textSize="16sp"/>
         </LinearLayout>
     </ScrollView>
 
@@ -106,8 +105,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
         android:text="@string/sort_result_show"
-        android:textSize="16sp"
-        android:textColor="@color/black"/>
+        android:textSize="16sp"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -124,8 +122,8 @@
                 android:id="@+id/fragment_developer_sort_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/mainTextColorGray"
+                android:textSize="16sp"/>
         </LinearLayout>
 
     </ScrollView>
@@ -138,7 +136,6 @@
         android:layout_marginRight="10dp"
         android:layout_marginEnd="10dp"
         android:text=""
-        android:textColor="@color/black"
         android:textSize="16sp" />
 
     <LinearLayout
@@ -154,7 +151,7 @@
             android:text="@string/origin_data"
             android:textSize="15sp"
             android:gravity="center"
-            android:textColor="@color/white"
+            android:textColor="@color/mainTextColorWhite"
             android:background="@drawable/bg_primary_button" />
 
         <TextView
@@ -166,7 +163,7 @@
             android:text="@string/sort_start"
             android:textSize="15sp"
             android:gravity="center"
-            android:textColor="@color/white"
+            android:textColor="@color/mainTextColorWhite"
             android:background="@drawable/bg_primary_button" />
     </LinearLayout>
 

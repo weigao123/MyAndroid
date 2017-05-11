@@ -27,7 +27,7 @@ public class ContactHolder extends AbsContactViewHolder<ContactItem> {
         View view = inflater.inflate(R.layout.item_contact, null);
         headImage = (HeadImageView) view.findViewById(R.id.item_contact_image);
         name = (TextView) view.findViewById(R.id.item_contact_name);
-        view.setBackgroundResource(R.drawable.bg_press_white_to_gray);
+        view.setBackgroundResource(R.drawable.bg_press_item_normal);
         return view;
     }
 }

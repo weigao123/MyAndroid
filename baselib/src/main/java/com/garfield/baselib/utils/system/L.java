@@ -26,8 +26,11 @@ public class L {
 
     public static void d(Object content) {
         //Log.d(TAG, content);
-        Logger.d(content);
-        //Log.i(TAG, content.toString());
+        if (content instanceof Throwable) {
+            Logger.d(Log.getStackTraceString((Throwable)content));
+        } else {
+            Logger.d(content);
+        }
     }
 
     public static void d(String TAG, Object content) {

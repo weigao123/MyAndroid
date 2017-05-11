@@ -2,9 +2,12 @@ package com.garfield.weishu.ui.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -13,7 +16,10 @@ import android.widget.TextView;
 import com.garfield.baselib.swipeback.SwipeBackActivity;
 import com.garfield.baselib.utils.system.KeyboardUtils;
 import com.garfield.baselib.utils.system.L;
+import com.garfield.baselib.utils.system.SharedPreferencesUtil;
+import com.garfield.baselib.utils.system.SystemUtil;
 import com.garfield.baselib.utils.system.ThemeManager;
+import com.garfield.baselib.utils.system.ThemeUtil;
 import com.garfield.weishu.R;
 import com.garfield.baselib.utils.system.permission.MPermission;
 import com.garfield.baselib.utils.system.permission.annotation.OnMPermissionDenied;
@@ -31,7 +37,7 @@ import butterknife.ButterKnife;
  */
 public class AppBaseActivity extends SwipeBackActivity implements ThemeManager.OnThemeChangeListener {
 
-    private final int BASIC_PERMISSION_REQUEST_CODE = 110;
+    private final static int BASIC_PERMISSION_REQUEST_CODE = 110;
 
     @Nullable @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -42,6 +48,8 @@ public class AppBaseActivity extends SwipeBackActivity implements ThemeManager.O
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeUtil.setRightTheme();
+
         super.onCreate(savedInstanceState);
         if (onGetActivityLayout() != 0) {
             setContentView(onGetActivityLayout());
@@ -54,9 +62,11 @@ public class AppBaseActivity extends SwipeBackActivity implements ThemeManager.O
                 title1View.setVisibility(View.VISIBLE);
             }
             onInitViewAndData(savedInstanceState);
+            // 用来规避全屏造成的闪动
+            SystemUtil.setStatusBarColorK(this, ThemeUtil.getThemeResId(this, R.attr.colorPrimaryDark));
         }
+        // 键盘监控器
         mKeyboardSizeMeasure = new KeyboardUtils.KeyboardSizeMeasure(this);
-        ThemeManager.registerThemeChangeListener(this);
     }
 
     protected int onGetActivityLayout() {

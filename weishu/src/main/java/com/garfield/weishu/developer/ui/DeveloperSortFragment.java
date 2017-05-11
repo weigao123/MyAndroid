@@ -88,9 +88,10 @@ public class DeveloperSortFragment extends AppBaseFragment {
             case R.id.menu:
                 if (mAlgoDialog == null) {
                     mAlgoDialog = new MaterialDialog.Builder(getContext())
+                            .backgroundColorRes(R.color.bg_itemFragment)
                             .title(R.string.algorithm)
                             .items(R.array.sort_algorithm)
-                            .itemsColorRes(R.color.black)
+                            .itemsColorRes(R.color.mainTextColor)
                             .itemsCallbackSingleChoice(3, new MaterialDialog.ListCallbackSingleChoice() {
                                 @Override
                                 public boolean onSelection(MaterialDialog dialog, View itemView, final int which, final CharSequence text) {
@@ -163,10 +164,8 @@ public class DeveloperSortFragment extends AppBaseFragment {
             public void onAfter(boolean b) {
                 mTimeView.setText("");
                 if (TextUtils.isEmpty(originString)) {
-                    mOriginArrayView.setTextColor(getResources().getColor(R.color.black_gray));
                     mOriginArrayView.setText(R.string.data_is_too_large_to_show);
                 } else {
-                    mOriginArrayView.setTextColor(getResources().getColor(R.color.black));
                     mOriginArrayView.setText(originString);
                 }
                 mResultArrayView.setText("");
@@ -210,10 +209,8 @@ public class DeveloperSortFragment extends AppBaseFragment {
             public void onAfter(boolean b) {
                 mTimeView.setText(getString(R.string.time_consuming, time));
                 if (TextUtils.isEmpty(resultString)) {
-                    mResultArrayView.setTextColor(getResources().getColor(R.color.black_gray));
                     mResultArrayView.setText(R.string.data_is_too_large_to_show);
                 } else {
-                    mResultArrayView.setTextColor(getResources().getColor(R.color.black));
                     mResultArrayView.setText(resultString);
                 }
                 dialog.dismiss();

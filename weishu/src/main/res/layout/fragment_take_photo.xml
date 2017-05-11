@@ -11,7 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/mainTextColorWhite">
         <GridView
             android:id="@+id/fragment_take_photo_gridview"
             android:layout_width="match_parent"
@@ -79,7 +79,8 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="@string/use_native_crop"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp"
+                    android:textColor="@color/mainTextColorWhite"/>
             </LinearLayout>
         </FrameLayout>
 
@@ -93,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="5dp"
-                android:background="@color/white"
+                android:background="@color/mainBackground"
                 android:divider="@null">
             </ListView>
         </FrameLayout>

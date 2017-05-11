@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.garfield.baselib.R;
 import com.garfield.baselib.utils.drawable.ColorUtils;
 import com.garfield.baselib.utils.system.ScreenUtils;
 
@@ -26,6 +25,7 @@ public class BottomBarTransition extends LinearLayout {
 
     private int mUnSelectedColor;
     private int mSelectedColor;
+    private int mBackgroundColor;
 
     private LinearLayout mTabLayout;
     private LayoutParams mTabParams;
@@ -48,13 +48,12 @@ public class BottomBarTransition extends LinearLayout {
 
     private void init(Context context) {
         setOrientation(VERTICAL);
-        View lineView = new View(context);
-        lineView.setBackgroundColor(getResources().getColor(R.color.gray));
-        addView(lineView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
+        View dividerView = new View(context);
+        addView(dividerView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
 
         mTabLayout = new LinearLayout(context);
-        //会造成有阴影，当把连着的另外的view也设置成白色，就看不出来阴影了
-        mTabLayout.setBackgroundColor(Color.WHITE);
+        //会造成有阴影，但当把连着的另外的view也设置成白色，就看不出来阴影了
+        // mTabLayout.setBackgroundColor(Color.WHITE);
         mTabLayout.setOrientation(HORIZONTAL);
         addView(mTabLayout, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
@@ -62,9 +61,12 @@ public class BottomBarTransition extends LinearLayout {
         mTabParams.weight = 1;
     }
 
-    public BottomBarTransition setColor(int colorUnSelected, int colorSelected) {
+    public BottomBarTransition setColor(int colorUnSelected, int colorSelected, int dividerColor, int backgroundColor) {
         mUnSelectedColor = getResources().getColor(colorUnSelected);
         mSelectedColor = getResources().getColor(colorSelected);
+        mBackgroundColor = getResources().getColor(backgroundColor);
+        getChildAt(0).setBackgroundColor(getResources().getColor(dividerColor));
+        mTabLayout.setBackgroundColor(getResources().getColor(backgroundColor));
         return this;
     }
 
@@ -115,18 +117,18 @@ public class BottomBarTransition extends LinearLayout {
     private class Tab extends View {
         // 只有边的图
         private Bitmap mBitmap1;
-        // 被填充的图
+        // 实心图
         private Bitmap mBitmap2;
-        // 要画图的区域在整个Tab的位置
-        private Rect mIconRect;
-        // 要画图的区域，坐标是0
-        private Rect mIconSize;
+        // 要画图的区域在整个父Tab的位置
+        private Rect mRectIcon;
+        // 要画图的区域，以自身为坐标的位置，坐标是0开始，尺寸同上
+        private Rect mRectIconSelf;
 
-        // 空心
-        private Bitmap mBitmapOutSide;
+        // 新建用于画空心渐变图，先整个画纯色，然后再只保留mBitmap1的区域
+        private Bitmap mBitmapOutLine;
         // 实心
         private Bitmap mBitmapInner;
-        private Canvas mCanvasOutSide;
+        private Canvas mCanvasOutLine;
         private Canvas mCanvasInner;
 
         // 专门用来画颜色的paint
@@ -156,7 +158,8 @@ public class BottomBarTransition extends LinearLayout {
 
             mText = getResources().getString(title);
             BitmapDrawable drawable1 = (BitmapDrawable) getResources().getDrawable(icon1);
-            mBitmap1 = drawable1.getBitmap();
+            //drawable1.setColorFilter(mUnSelectedColor, PorterDuff.Mode.SRC_ATOP);   //对Bitmap无效
+            mBitmap1 = drawable1.getBitmap().copy(Bitmap.Config.ARGB_8888, true);   //可编辑
             BitmapDrawable drawable2 = (BitmapDrawable) getResources().getDrawable(icon2);
             mBitmap2 = drawable2.getBitmap();
 
@@ -181,7 +184,7 @@ public class BottomBarTransition extends LinearLayout {
             bitmapPaint.setAntiAlias(true);
             bitmapPaint.setFilterBitmap(true);
             bitmapPaint.setDither(true);
-            // 最后还是背景图，但是要从背景中砍去新图有像素的部分
+            // 最后还是背景图的样子，但是要从背景中砍去新图有像素的部分
             bitmapPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
 
             clearPaint = new Paint();
@@ -200,16 +203,20 @@ public class BottomBarTransition extends LinearLayout {
                 int iconWidth = (int) ((float) mBitmap1.getWidth() / mBitmap1.getHeight() * iconHeight);
                 int left = getMeasuredWidth() / 2 - iconWidth / 2;
                 int top = getMeasuredHeight() - mTextBound.height() - getPaddingTop() * 2 - iconHeight;
-                mIconRect = new Rect(left, top, left + iconWidth, top + iconHeight);
-                mIconSize = new Rect(0, 0, iconWidth, iconHeight);
+                mRectIcon = new Rect(left, top, left + iconWidth, top + iconHeight);
+                mRectIconSelf = new Rect(0, 0, iconWidth, iconHeight);
 
-                mBitmapOutSide = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
-                mCanvasOutSide = new Canvas(mBitmapOutSide);
+                mBitmapOutLine = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
+                mCanvasOutLine = new Canvas(mBitmapOutLine);
                 mBitmapInner = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
                 mCanvasInner = new Canvas(mBitmapInner);
 
+                // 修改边框的颜色
+                Canvas canvas = new Canvas(mBitmap1);
+                canvas.drawColor(mUnSelectedColor, PorterDuff.Mode.SRC_IN);
+
                 mTextX = getMeasuredWidth() / 2;
-                mTextY = (getMeasuredHeight() + mIconRect.bottom) / 2 - (mTextBound.top + mTextBound.bottom) / 2 - ScreenUtils.dp2px(2);
+                mTextY = (getMeasuredHeight() + mRectIcon.bottom) / 2 - (mTextBound.top + mTextBound.bottom) / 2 - ScreenUtils.dp2px(2);
 
                 hasMeasured = true;
             }
@@ -228,34 +235,36 @@ public class BottomBarTransition extends LinearLayout {
          */
         private void drawImage(Canvas canvas) {
             /**
-             * 画原始空心底座
+             * 画原始空心底座，因为渐变空心边有画全透明色的部分，导致边框消失
              */
             if (mShift <= 0.5f) {
-                canvas.drawBitmap(mBitmap1, null, mIconRect, null);
+                canvas.drawBitmap(mBitmap1, null, mRectIcon, null);
             }
             /**
-             * 绘制空心边，从0~255，前后段都要绘制
+             * 绘制渐变空心边，从0~255，前后段都要绘制
              */
-            mCanvasOutSide.drawPaint(clearPaint);
+            //全局变量，被上了colorPaint色，得恢复颜色
+            mCanvasOutLine.drawPaint(clearPaint);
             colorPaint.setColor(mSelectedColor);
             // 0~0.5时透明度递增直到255，0.5~1不变
             colorPaint.setAlpha(mShift <= 0.5f ? (int)(255 * 2 * mShift) : 255);
-            mCanvasOutSide.drawPaint(colorPaint);
-            // 整个颜色区域，只保留mBitmap1的边框
-            mCanvasOutSide.drawBitmap(mBitmap1, null, mIconSize, bitmapPaint);
-            canvas.drawBitmap(mBitmapOutSide, null, mIconRect, null);
+            // 整个矩形全上色
+            mCanvasOutLine.drawPaint(colorPaint);
+            // 整个矩形纯色区域，只保留mBitmap1的边框的区域
+            mCanvasOutLine.drawBitmap(mBitmap1, null, mRectIconSelf, bitmapPaint);
+            canvas.drawBitmap(mBitmapOutLine, null, mRectIcon, null);
 
             /**
-             * 绘制内部实心，从0~255，只需要在后半段绘制
+             * 绘制渐变内部实心，从0~255，只需要在后半段绘制
              */
             if (mShift > 0.5f) {
                 /**
                  * 新闻按钮mBitmap1中间有内容，描边后导致最后是蓝色，为了中间是白色，所以画个白色0~255
                  */
                 if (mTabPosition == 2) {
-                    colorPaint.setColor(Color.WHITE);
+                    colorPaint.setColor(mBackgroundColor);
                     colorPaint.setAlpha((int) (255 * 2 * (mShift - 0.5f)));
-                    canvas.drawRect(mIconRect, colorPaint);
+                    canvas.drawRect(mRectIcon, colorPaint);
                 }
 
                 /**
@@ -266,8 +275,8 @@ public class BottomBarTransition extends LinearLayout {
                 // 0~0.5时透明度0，0.5~1透明度递增到255
                 colorPaint.setAlpha((int)(255 * 2 * (mShift - 0.5f)));
                 mCanvasInner.drawPaint(colorPaint);
-                mCanvasInner.drawBitmap(mBitmap2, null, mIconSize, bitmapPaint);
-                canvas.drawBitmap(mBitmapInner, null, mIconRect, null);
+                mCanvasInner.drawBitmap(mBitmap2, null, mRectIconSelf, bitmapPaint);
+                canvas.drawBitmap(mBitmapInner, null, mRectIcon, null);
             }
         }
 

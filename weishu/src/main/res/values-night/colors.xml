@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimary">@color/color_263238</color>
+
+    <color name="colorPrimaryDark">@color/color_212B30</color>
+
+    <color name="colorAccent">@color/color_9EA6A9</color>
+
+    <color name="colorPrimaryTrans">@color/color_3F51B5_trans</color>
+
+    <color name="network_state_bg">@color/color_496876</color>
+
+    <color name="mainBackground">@color/color_2B3940</color>
+
+    <color name="mainTextColor">@color/color_9EA6A9</color>
+
+    <color name="mainTextColorWhite">@color/color_9EA6A9</color>
+
+    <color name="mainTextColorGray">@color/color_6B7073</color>
+
+    <color name="bg_itemFragment">@color/color_212B30</color>
+
+    <color name="bg_item">@color/color_37474F</color>
+
+    <color name="bg_item_pressed">@color/color_4B5960</color>
+
+    <color name="button_pressed">@color/color_303F9F</color>
+
+    <color name="horizontal_divider">@color/color_263238</color>
+
+    <color name="horizontal_divider_light">@color/color_37474F</color>
+
+    <color name="bottom_bar_bg">@color/color_263238</color>
+
+    <color name="bottom_bar_unselected">@color/color_496876</color>
+
+    <color name="bottom_bar_selected">@color/color_0F88EB</color>
+
+    <color name="bg_session">@color/color_2B3940</color>
+
+    <color name="bg_session_input">@color/color_263238</color>
+
+    <color name="bg_web_view">@color/color_37474F</color>
+
+</resources>

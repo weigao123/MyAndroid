@@ -18,6 +18,7 @@ import com.garfield.baselib.utils.system.KeyboardUtils;
 import com.garfield.baselib.utils.system.L;
 import com.garfield.baselib.utils.system.SystemUtil;
 import com.garfield.weishu.R;
+import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 
 import butterknife.BindView;
@@ -38,6 +39,16 @@ public class BrowserFragment extends AppBaseFragment {
     public static final int TYPE_BROWSER = 0;
     public static final int TYPE_URL = 1;
     public static final int TYPE_STRING = 2;
+
+    public String CSS_STYLE;
+
+    {
+        if (AppCache.isNightMode()) {
+            CSS_STYLE = "<style>p,tit,sour{color:#9EA6A9;}</style>";
+        } else {
+            CSS_STYLE = "<style>p,tit{color:#000000;} sour{color:#636262;}</style>";
+        }
+    }
 
     @BindView(R.id.fragment_browser_webview_container)
     FrameLayout mWebViewContainer;
@@ -138,24 +149,25 @@ public class BrowserFragment extends AppBaseFragment {
         checkAndLoadUrl(mUrl);
     }
 
-    private void checkAndLoadUrl(String url) {
-        if (TextUtils.isEmpty(url)) {
+    private void checkAndLoadUrl(String content) {
+        if (TextUtils.isEmpty(content)) {
             return;
         }
-        if (url.startsWith("www.")) {
-            url = "http://" + url;
+        if (content.startsWith("www.")) {
+            content = "http://" + content;
         }
 
         mUrlSet.setVisibility(View.GONE);
         if (mType == TYPE_STRING) {
-            mWebView.loadData(url, "text/html; charset=UTF-8", null);
+            mWebView.loadData(CSS_STYLE + content, "text/html; charset=UTF-8", null);
         } else {
-            mWebView.loadUrl(url);
+            mWebView.loadUrl(content);
         }
     }
 
     @SuppressLint("setJavaScriptEnabled")
     private void initWebView() {
+        mWebView.setBackgroundColor(0);
         mWebView.setWebViewClient(mWebViewClient);
         mWebView.setWebChromeClient(mWebChromeClient);
         webSettings = mWebView.getSettings();

@@ -1,21 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/blue_3f51b5</color>
-    <color name="colorPrimary_night">@color/gray_333436</color>
 
-    <color name="colorPrimaryDark">@color/blue_303f9f</color>
-    <color name="colorPrimaryDark_night">@color/blue_303f9f</color>
+    <color name="colorPrimary">@color/color_3F51B5</color>
 
-    <color name="colorAccent">@color/black_414141</color>
-    <color name="colorAccent_night">@color/black_414141</color>
+    <color name="colorPrimaryDark">@color/color_303F9F</color>
 
-    <color name="colorPrimaryTrans">@color/blue_3f51b5_trans</color>
+    <color name="colorAccent">@color/color_414141</color>
 
-    <color name="network_state_bg">@color/red_f5667a</color>
+    <color name="colorPrimaryTrans">@color/color_3F51B5_trans</color>
 
-    <color name="color_bg_home">@color/gray_white</color>
-    <color name="color_bg_home_night">@color/black_gray</color>
+    <color name="network_state_bg">@color/color_F5667A</color>
 
-    <color name="button_pressed">@color/blue_303f9f</color>
+    <color name="mainBackground">@color/white</color>
+
+    <color name="mainTextColor">@color/black</color>
+
+    <color name="mainTextColorWhite">@color/white</color>
+
+    <color name="mainTextColorGray">@color/black_gray</color>
+
+    <color name="bg_itemFragment">@color/gray_white</color>
+
+    <color name="bg_item">@color/white</color>
+
+    <color name="bg_item_pressed">@color/gray</color>
+
+    <color name="button_pressed">@color/color_303F9F</color>
+
+    <color name="horizontal_divider">@color/gray</color>
+
+    <color name="horizontal_divider_light">@color/gray</color>
+
+    <color name="bottom_bar_bg">@color/white</color>
+
+    <color name="bottom_bar_unselected">#a1a1a1</color>
+
+    <color name="bottom_bar_selected">@color/colorPrimary</color>
+
+    <color name="bg_session">@color/color_E9ECF0</color>
+
+    <color name="bg_session_input">@color/white</color>
+
+    <color name="bg_web_view">@color/white</color>
 
 </resources>

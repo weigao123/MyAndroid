@@ -90,9 +90,10 @@ public class ZhihuListFragment extends NewsListBaseFragment<ZhihuDaily> implemen
     @Override
     public void onItemLongPressed(final ZhihuDailyItem item, int position) {
         MaterialDialog dialog = new MaterialDialog.Builder(getContext())
+                .backgroundColorRes(R.color.bg_itemFragment)
                 .items(R.array.news_menu)
-                .listSelector(R.drawable.bg_press_gray)
-                .itemsColorRes(R.color.black)
+                .listSelector(R.drawable.bg_press_item_to)
+                .itemsColorRes(R.color.mainTextColor)
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {

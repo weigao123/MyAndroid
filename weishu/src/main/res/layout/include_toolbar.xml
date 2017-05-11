@@ -8,7 +8,7 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/toolbar_height"
-    android:background="?attr/colorPrimary"
+    android:background="@color/colorPrimary"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
     app:layout_scrollFlags="scroll|enterAlways|snap">
@@ -108,6 +108,7 @@
             android:gravity="center"
             android:text="@string/has_no_account"
             android:textSize="16sp"
+            android:textColor="@color/mainTextColorWhite"
             android:visibility="gone"/>
 
         <TextView
@@ -123,6 +124,7 @@
             android:gravity="center"
             android:text="@string/confirm"
             android:textSize="16sp"
+            android:textColor="@color/mainTextColorWhite"
             android:visibility="gone"/>
 
         <ImageView

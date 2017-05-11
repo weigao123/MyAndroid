@@ -3,10 +3,9 @@
     android:id="@+id/emoji_root_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="220dp"
-    android:background="@android:color/white">
+    android:layout_height="220dp">
 
-    <View style="@style/horizontal_gray_divider"/>
+    <View style="@style/horizontal_divider"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/emoji_viewpager"
@@ -31,13 +30,12 @@
             android:orientation="horizontal">
         </LinearLayout>
 
-        <View style="@style/horizontal_gray_divider"/>
+        <View style="@style/horizontal_divider"/>
 
         <HorizontalScrollView
             android:id="@+id/emoji_tab_view_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
             android:scrollbars="none">
 
             <LinearLayout

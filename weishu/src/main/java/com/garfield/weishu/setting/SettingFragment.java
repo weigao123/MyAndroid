@@ -1,7 +1,11 @@
 package com.garfield.weishu.setting;
 
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -10,6 +14,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.garfield.baselib.ui.widget.SwitchButton;
 import com.garfield.baselib.utils.system.L;
+import com.garfield.baselib.utils.system.SharedPreferencesUtil;
 import com.garfield.baselib.utils.system.ThemeManager;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
@@ -18,6 +23,7 @@ import com.garfield.weishu.app.SettingsPreferences;
 import com.garfield.weishu.nim.NimConfig;
 import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.UserInfoCache;
+import com.garfield.weishu.ui.activity.ThemeMaskActivity;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 import com.garfield.weishu.ui.view.HeadImageView;
 import com.netease.nimlib.sdk.NIMClient;
@@ -56,6 +62,9 @@ public class SettingFragment extends AppBaseFragment {
     @BindView(R.id.fragment_setting_animator_switch)
     SwitchButton mAnimatorSwitch;
 
+    @BindView(R.id.fragment_setting_night_switch)
+    SwitchButton mNightSwitch;
+
     @BindView(R.id.fragment_setting_ring)
     RelativeLayout mRingContainer;
 
@@ -84,6 +93,7 @@ public class SettingFragment extends AppBaseFragment {
         mRingSwitch.setSwitchStatus(SettingsPreferences.getRingToggle());
         mVibrateSwitch.setSwitchStatus(SettingsPreferences.getVibrateToggle());
         mAnimatorSwitch.setSwitchStatus(SettingsPreferences.getAnimation());
+        mNightSwitch.setSwitchStatus(SharedPreferencesUtil.getBoolean("night_mode"));
 
         int visible = mNotifySwitch.getSwitchStatus() ? View.VISIBLE : View.GONE;
         mRingContainer.setVisibility(visible);
@@ -149,19 +159,24 @@ public class SettingFragment extends AppBaseFragment {
                 AppCache.setHasAnimation(mAnimatorSwitch.getSwitchStatus());
                 break;
             case R.id.fragment_setting_night:
-                //mActivity.setTheme(R.style.AppThemeNight);
-                //mActivity.recreate();
-                if (ThemeManager.getThemeMode() == ThemeManager.ThemeMode.DAY) {
-                    ThemeManager.setThemeMode(ThemeManager.ThemeMode.NIGHT);
+                if (mNightSwitch.getSwitchStatus()) {
+                    AppCache.setNightMode(false);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    SharedPreferencesUtil.saveBoolean("night_mode", false);
+                    ThemeMaskActivity.start(mActivity, false);
                 } else {
-                    ThemeManager.setThemeMode(ThemeManager.ThemeMode.DAY);
+                    AppCache.setNightMode(true);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    SharedPreferencesUtil.saveBoolean("night_mode", true);
+                    ThemeMaskActivity.start(mActivity, true);
                 }
-
                 break;
             case R.id.fragment_setting_clear_message:
                 MaterialDialog dialog = new MaterialDialog.Builder(getContext())
+                        .backgroundColorRes(R.color.bg_itemFragment)
                         .title(R.string.is_clear_message_record)
                         .positiveText(R.string.confirm)
+                        .positiveColor(getResources().getColor(R.color.mainTextColor))
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -170,6 +185,7 @@ public class SettingFragment extends AppBaseFragment {
                             }
                         })
                         .negativeText(R.string.cancel)
+                        .negativeColor(getResources().getColor(R.color.mainTextColor))
                         .build();
                 EventDispatcher.startDialog(dialog);
                 break;
@@ -178,8 +194,10 @@ public class SettingFragment extends AppBaseFragment {
                 break;
             case R.id.fragment_setting_logout:
                 dialog = new MaterialDialog.Builder(getContext())
+                        .backgroundColorRes(R.color.bg_itemFragment)
                         .title(R.string.logout_confirm)
                         .positiveText(R.string.confirm)
+                        .positiveColor(getResources().getColor(R.color.mainTextColor))
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -189,6 +207,7 @@ public class SettingFragment extends AppBaseFragment {
                             }
                         })
                         .negativeText(R.string.cancel)
+                        .negativeColor(getResources().getColor(R.color.mainTextColor))
                         .build();
                 EventDispatcher.startDialog(dialog);
                 break;
@@ -196,15 +215,8 @@ public class SettingFragment extends AppBaseFragment {
     }
 
     @Override
-    public void onThemeChanged() {
-        super.onThemeChanged();
-        getView().setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(getContext(), R.color.color_bg_home)));
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
         registerObservers(false);
     }
-
 }

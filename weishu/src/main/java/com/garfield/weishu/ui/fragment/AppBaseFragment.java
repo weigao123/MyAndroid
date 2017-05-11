@@ -16,9 +16,7 @@ import android.widget.TextView;
 import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.swipeback.SwipeBackFragment;
-import com.garfield.baselib.utils.system.L;
 import com.garfield.baselib.utils.system.ScreenUtils;
-import com.garfield.baselib.utils.system.ThemeManager;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
@@ -37,7 +35,7 @@ import butterknife.Unbinder;
 /**
  * Created by gaowei3 on 2016/8/4.
  */
-public class AppBaseFragment extends SwipeBackFragment implements ThemeManager.OnThemeChangeListener {
+public class AppBaseFragment extends SwipeBackFragment {
 
     @Nullable @BindView(R.id.toolbar)
     protected Toolbar mToolbar;
@@ -84,16 +82,17 @@ public class AppBaseFragment extends SwipeBackFragment implements ThemeManager.O
                     mToolbar.findViewById(R.id.toolbar_back_container).setVisibility(View.VISIBLE);
                     TextView title2View = (TextView) mToolbar.findViewById(R.id.toolbar_title2);
                     title2View.setText(onGetToolbarTitleResource());
+                    title2View.setTextColor(getResources().getColor(R.color.mainTextColorWhite));
                 } else {
                     TextView title1View = (TextView) mToolbar.findViewById(R.id.toolbar_title1);
                     title1View.setText(onGetToolbarTitleResource());
+                    title1View.setTextColor(getResources().getColor(R.color.mainTextColorWhite));
                     title1View.setVisibility(View.VISIBLE);
                     //mToolbar.setTitle(onGetToolbarTitleResource());
                     //mToolbar.setTitleTextAppearance(mActivity, R.style.toolbar_text);
                     mToolbar.findViewById(R.id.toolbar_control_view).setVisibility(View.VISIBLE);
                 }
             }
-            ThemeManager.registerThemeChangeListener(this);
         }
         /**
          * lazy load
@@ -243,18 +242,15 @@ public class AppBaseFragment extends SwipeBackFragment implements ThemeManager.O
         mIsPrepared = false;
         mHasLoaded = false;
         mIsVisibleToUser = false;
-        ThemeManager.unregisterThemeChangeListener(this);
         //L.d("onDestroyView");
     }
 
-    @Override
-    public void onThemeChanged() {
-
+    protected View $(int resId) {
+        return getView() == null ? null : getView().findViewById(resId);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //L.d("onDestroy");
     }
 }

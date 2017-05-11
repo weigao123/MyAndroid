@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.text.TextUtils;
 
 import com.garfield.baselib.utils.system.L;
+import com.garfield.baselib.utils.system.SharedPreferencesUtil;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.app.SettingsPreferences;
@@ -129,6 +130,7 @@ public class NimConfig {
     public static void initSetting() {
         toggleNotification(SettingsPreferences.getNotificationToggle());
         AppCache.setHasAnimation(SettingsPreferences.getAnimation());
+        AppCache.setNightMode(SharedPreferencesUtil.getBoolean("night_mode"));
     }
 
     public static void setRingToggle(boolean on) {

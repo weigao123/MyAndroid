@@ -18,6 +18,7 @@ public class SettingsPreferences {
     private final static String KEY_ANIMATION_TOGGLE = "key_animation_toggle";
     private final static String KEY_CROP_TOGGLE = "key_crop_toggle";
     private final static String KEY_ADD_AUTHOR = "key_add_author";
+    private final static String KEY_NIGHT_MODE = "key_night_mode";
 
 
     public static void setNotificationToggle(boolean on) {

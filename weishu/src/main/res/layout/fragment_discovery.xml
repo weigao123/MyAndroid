@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_white">
+    android:background="@color/bg_itemFragment">
 
     <include layout="@layout/include_loading"/>
 
@@ -26,7 +26,7 @@
                 android:layout_height="45dp"
                 android:clickable="true"
                 android:gravity="center_vertical"
-                android:background="@drawable/bg_press_white_to_gray">
+                android:background="@drawable/bg_press_item_normal">
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
@@ -38,14 +38,10 @@
                     android:layout_marginLeft="15dp"
                     android:text="@string/netease_news"
                     android:gravity="center"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"/>
+                    android:textSize="16sp"/>
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/gray" />
+            <View style="@style/horizontal_divider"/>
 
             <LinearLayout
                 android:id="@+id/fragment_discovery_zhihu"
@@ -54,7 +50,7 @@
                 android:layout_height="45dp"
                 android:clickable="true"
                 android:gravity="center_vertical"
-                android:background="@drawable/bg_press_white_to_gray">
+                android:background="@drawable/bg_press_item_normal">
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
@@ -67,8 +63,7 @@
                     android:layout_marginLeft="15dp"
                     android:text="@string/zhihu_daily"
                     android:gravity="center"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"/>
+                    android:textSize="16sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -79,7 +74,7 @@
                 android:layout_height="45dp"
                 android:clickable="true"
                 android:gravity="center_vertical"
-                android:background="@drawable/bg_press_white_to_gray">
+                android:background="@drawable/bg_press_item_normal">
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
@@ -92,14 +87,10 @@
                     android:layout_marginLeft="15dp"
                     android:text="@string/browser"
                     android:gravity="center"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"/>
+                    android:textSize="16sp"/>
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/gray" />
+            <View style="@style/horizontal_divider"/>
 
             <LinearLayout
                 android:id="@+id/fragment_discovery_scan"
@@ -108,7 +99,7 @@
                 android:layout_height="45dp"
                 android:clickable="true"
                 android:gravity="center_vertical"
-                android:background="@drawable/bg_press_white_to_gray">
+                android:background="@drawable/bg_press_item_normal">
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
@@ -120,8 +111,7 @@
                     android:layout_marginLeft="15dp"
                     android:text="@string/scan_one"
                     android:gravity="center"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"/>
+                    android:textSize="16sp"/>
             </LinearLayout>
 
             <!--<LinearLayout-->
@@ -132,7 +122,7 @@
                 <!--android:layout_height="45dp"-->
                 <!--android:clickable="true"-->
                 <!--android:gravity="center_vertical"-->
-                <!--android:background="@drawable/bg_press_white_to_gray">-->
+                <!--android:background="@drawable/bg_press_item_normal">-->
                 <!--<ImageView-->
                     <!--android:layout_width="30dp"-->
                     <!--android:layout_height="30dp"-->
@@ -156,7 +146,7 @@
                 android:layout_height="45dp"
                 android:clickable="true"
                 android:gravity="center_vertical"
-                android:background="@drawable/bg_press_white_to_gray">
+                android:background="@drawable/bg_press_item_normal">
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
@@ -169,14 +159,10 @@
                     android:layout_marginLeft="15dp"
                     android:text="@string/music"
                     android:gravity="center"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"/>
+                    android:textSize="16sp"/>
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/gray" />
+            <View style="@style/horizontal_divider"/>
 
             <LinearLayout
                 android:id="@+id/fragment_discovery_game"
@@ -185,7 +171,7 @@
                 android:layout_height="45dp"
                 android:clickable="true"
                 android:gravity="center_vertical"
-                android:background="@drawable/bg_press_white_to_gray">
+                android:background="@drawable/bg_press_item_normal">
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
@@ -197,8 +183,7 @@
                     android:layout_marginLeft="15dp"
                     android:text="@string/game"
                     android:gravity="center"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"/>
+                    android:textSize="16sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -209,7 +194,7 @@
                 android:layout_height="45dp"
                 android:clickable="true"
                 android:gravity="center_vertical"
-                android:background="@drawable/bg_press_white_to_gray">
+                android:background="@drawable/bg_press_item_normal">
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
@@ -221,8 +206,7 @@
                     android:layout_marginLeft="15dp"
                     android:text="@string/developer"
                     android:gravity="center"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"/>
+                    android:textSize="16sp"/>
             </LinearLayout>
 
         </LinearLayout>

@@ -55,6 +55,7 @@ public class ThemeManager {
             return dayResId;
         }
         // 资源名
+        String name = context.getResources().getResourceName(dayResId);
         String entryName = context.getResources().getResourceEntryName(dayResId);
         // 资源类型
         String typeName = context.getResources().getResourceTypeName(dayResId);

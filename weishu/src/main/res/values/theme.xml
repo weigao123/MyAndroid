@@ -1,0 +1,19 @@
+<resources>
+
+    <style name="BaseTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="AppTheme" parent="BaseTheme">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <!-- windowBackground只会影响主窗口的背景，colorBackground包含windowBackground，而且还控制其他元素的颜色 -->
+        <item name="android:colorBackground">@color/mainBackground</item>
+        <item name="android:windowBackground">@color/mainBackground</item>
+        <item name="android:textColor">@color/mainTextColor</item>
+    </style>
+
+</resources>

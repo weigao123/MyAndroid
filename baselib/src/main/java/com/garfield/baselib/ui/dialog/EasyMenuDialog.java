@@ -58,7 +58,7 @@ public class EasyMenuDialog extends DialogFragment {
             TextView textView = new TextView(getActivity());
             textView.setText(string);
             textView.setTextColor(getResources().getColor(R.color.black));
-            textView.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_press_gray));
+            //textView.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_press_gray));
             textView.setTextSize(TEXT_SIZE);
             textView.setGravity(Gravity.CENTER_VERTICAL);
             textView.setPadding(ScreenUtils.dp2px(TEXT_LEFT_MARGIN), 0, 0, 0);

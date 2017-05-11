@@ -1,7 +1,6 @@
 <resources>
 
-    <style name="TranslucentBar" parent="AppTheme">
-        <!-- 界面会侵入状态栏 -->
+    <style name="TranslucentBarActivity" parent="AppTheme">
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 

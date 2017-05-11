@@ -25,14 +25,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="13dp"
             android:textSize="16sp"
-            android:textColor="@color/black"
             tools:text="word"/>
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/gray" />
+    <View style="@style/horizontal_divider" />
     <!--  layout_marginBottom 用于workaround，background被父LinearLayout的颜色给覆盖了，
           最后在代码里setBackgroundResource -->
 </LinearLayout>

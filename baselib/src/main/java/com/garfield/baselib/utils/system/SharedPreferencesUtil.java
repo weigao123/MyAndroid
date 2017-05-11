@@ -15,12 +15,6 @@ public class SharedPreferencesUtil {
 
     private static ArrayMap<String, SharedPreferences> mArrayMap = new ArrayMap<>();
 
-    public static boolean saveInt(String key, int value) {
-        return with(Cache.getContext()).edit()
-                .putInt(key, value)
-                .commit();
-    }
-
     public static SharedPreferences with(Context context) {
         String fileName = context.getPackageName();
         if (mArrayMap.get(fileName) == null) {
@@ -33,7 +27,27 @@ public class SharedPreferencesUtil {
         return mArrayMap.get(fileName);
     }
 
+    public static boolean saveInt(String key, int value) {
+        return with(Cache.getContext()).edit().putInt(key, value).commit();
+    }
+
     public static int getInt(String key) {
-        return with(Cache.getContext()).getInt(key, 0);
+        return getInt(key, 0);
+    }
+
+    public static int getInt(String key, int def) {
+        return with(Cache.getContext()).getInt(key, def);
+    }
+
+    public static boolean saveBoolean(String key, boolean value) {
+        return with(Cache.getContext()).edit().putBoolean(key, value).commit();
+    }
+
+    public static boolean getBoolean(String key) {
+        return getBoolean(key, false);
+    }
+
+    public static boolean getBoolean(String key, boolean def) {
+        return with(Cache.getContext()).getBoolean(key, def);
     }
 }

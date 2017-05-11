@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
-
-    <style name="horizontal_gray_divider">
+    <style name="horizontal_divider">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">2px</item>
-        <item name="android:background">@color/gray</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">@color/horizontal_divider</item>
     </style>
+
+    <style name="horizontal_divider_2" parent="horizontal_divider">
+        <item name="android:layout_height">2px</item>
+    </style>
+
+    <style name="horizontal_divider_light">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">@color/horizontal_divider_light</item>
+    </style>
+
 </resources>

@@ -49,28 +49,27 @@
             android:id="@+id/msg_item_body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
             android:orientation="horizontal" >
             <ProgressBar
                 android:id="@+id/msg_item_progress"
                 android:layout_width="20dip"
                 android:layout_height="20dip"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
                 android:indeterminate="true"
                 android:indeterminateDrawable="@drawable/progress_small_white"
                 android:visibility="visible" />
 
             <ImageView
                 android:id="@+id/msg_item_alert"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:src="@drawable/ic_failed_big"
-                android:visibility="gone" />
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/ic_failed"
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/msg_item_already_read"
@@ -87,8 +86,7 @@
                 android:id="@+id/msg_item_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@android:color/transparent" />
+                android:layout_gravity="center" />
         </LinearLayout>
     </FrameLayout>
 

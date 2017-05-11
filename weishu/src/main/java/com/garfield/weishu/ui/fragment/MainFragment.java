@@ -69,7 +69,7 @@ public class MainFragment extends AppBaseFragment implements BottomBarTransition
         mViewPager.setAdapter(pagerAdapter);
         mViewPager.addOnPageChangeListener(mOnPageChangeListener);
 
-        mBottomBar.setColor(R.color.bottom_bar_unselected, R.color.colorPrimary)
+        mBottomBar.setColor(R.color.bottom_bar_unselected, R.color.bottom_bar_selected, R.color.horizontal_divider, R.color.bottom_bar_bg)
                 .addItem(R.drawable.ic_bottom_message1, R.drawable.ic_bottom_message2, R.string.message)
                 .addItem(R.drawable.ic_bottom_contact1, R.drawable.ic_bottom_contact2, R.string.contact)
                 .addItem(R.drawable.ic_bottom_news1, R.drawable.ic_bottom_news2, R.string.discovery)

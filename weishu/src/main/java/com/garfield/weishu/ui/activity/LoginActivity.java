@@ -87,6 +87,7 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher {
         mRegisterLayout.setVisibility(!isLogin? View.VISIBLE: View.GONE);
         mLoginRegisterText.setText(!isLogin? R.string.has_account: R.string.has_no_account);
         mLoginAccountText.setText(UserPreferences.getUserAccount());
+        mLoginAccountText.setSelection(mLoginAccountText.getText().length());
         mLoginPasswordText.setText(mLoginPasswordText.getTag() == null ? "" : (String)mLoginPasswordText.getTag());
         mRegisterAccountText.setText("");
         mRegisterNickNameText.setText("");
@@ -216,20 +217,16 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher {
     private void checkBtnState() {
         if (!mLoginAccountText.getText().toString().isEmpty() &&
                 !mLoginPasswordText.getText().toString().isEmpty()) {
-            mLoginBtn.setSelected(false);
             mLoginBtn.setClickable(true);
         } else {
-            mLoginBtn.setSelected(true);
             mLoginBtn.setClickable(false);
         }
         if (!mRegisterAccountText.getText().toString().isEmpty() &&
                 !mRegisterNickNameText.getText().toString().isEmpty() &&
                 !mRegisterPasswordText.getText().toString().isEmpty() &&
                 !mRegisterPasswordRepeatText.getText().toString().isEmpty()) {
-            mRegisterBtn.setSelected(false);
             mRegisterBtn.setClickable(true);
         } else {
-            mRegisterBtn.setSelected(true);
             mRegisterBtn.setClickable(false);
         }
     }

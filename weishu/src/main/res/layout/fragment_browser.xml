@@ -27,14 +27,15 @@
             android:paddingLeft="5dp"
             android:textCursorDrawable="@drawable/edit_text_cursor"
             android:background="@color/white"
+            android:textColor="@color/black"
             android:singleLine="true"/>
         <TextView
             android:id="@+id/fragment_browser_confirm"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_press_gray_to_gray"
+            android:background="@drawable/bg_press_item_normal"
             android:gravity="center"
-            android:textColor="@color/black_gray"
+            android:textColor="@color/mainTextColorGray"
             android:textSize="16sp"
             android:text="@string/open"/>
     </LinearLayout>
@@ -43,7 +44,7 @@
         android:id="@+id/fragment_browser_webview_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/bg_web_view">
 
         <ImageView
             android:id="@+id/fragment_browser_retry"

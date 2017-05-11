@@ -43,9 +43,6 @@ public class KeyboardUtils {
     }
 
     public static int getKeyboardHeight() {
-        if (LAST_SAVE_KEYBOARD_HEIGHT == MIN_KEYBOARD_HEIGHT) {
-            LAST_SAVE_KEYBOARD_HEIGHT = SharedPreferencesUtil.getInt(KEY_KEYBOARD_HEIGHT);
-        }
         return LAST_SAVE_KEYBOARD_HEIGHT;
     }
 
@@ -59,7 +56,7 @@ public class KeyboardUtils {
      */
     public static boolean isKeyboardShowing(View view) {
         int contentHeight = ScreenUtils.getDisplayFrameHeight(view);
-        return ScreenUtils.screenHeight - ScreenUtils.getStatusBarHeight() > contentHeight;
+        return ScreenUtils.screenHeight - ScreenUtils.statusBarHeight > contentHeight;
     }
 
     /**
@@ -81,13 +78,15 @@ public class KeyboardUtils {
             @Override
             public void onGlobalLayout() {
                 int contentHeight = ScreenUtils.getDisplayFrameHeight(mContentView);
-                if (contentHeight < ScreenUtils.screenHeight - ScreenUtils.getStatusBarHeight()) {
+                if (contentHeight < ScreenUtils.screenHeight - ScreenUtils.statusBarHeight) {
+                    // 键盘显示
                     int inputHeight = mNormalContentHeight - contentHeight;
                     if (mKeyboardHeight != inputHeight) {
                         mKeyboardHeight = inputHeight;
                         saveKeyboardHeight(mKeyboardHeight);
                     }
                 } else {
+                    // 键盘隐藏
                     mNormalContentHeight = contentHeight;
                 }
 

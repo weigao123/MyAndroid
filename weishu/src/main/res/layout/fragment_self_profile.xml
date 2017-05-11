@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_white">
+    android:background="@color/bg_itemFragment">
 
     <include layout="@layout/include_toolbar" />
 
@@ -15,13 +15,12 @@
         android:layout_marginTop="20dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:background="@drawable/bg_press_white_to_gray">
+        android:background="@drawable/bg_press_item_normal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="@string/head_image"
-            android:textColor="@color/black"
             android:textSize="15sp"/>
 
         <com.garfield.weishu.ui.view.HeadImageView
@@ -30,11 +29,10 @@
             android:layout_height="60dp"
             android:layout_gravity="center_vertical|end"
             android:scaleType="centerCrop" />
+
         <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_gravity="bottom"
-            android:background="@color/gray" />
+            style="@style/horizontal_divider"
+            android:layout_gravity="bottom"/>
     </FrameLayout>
 
     <FrameLayout
@@ -43,26 +41,23 @@
         android:layout_height="50dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:background="@drawable/bg_press_white_to_gray">
+        android:background="@drawable/bg_press_item_normal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="@string/nickname"
-            android:textColor="@color/black"
             android:textSize="15sp"/>
         <TextView
             android:id="@+id/fragment_self_nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
-            android:textColor="@color/black_gray"
+            android:textColor="@color/mainTextColorGray"
             android:textSize="15sp"/>
         <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_gravity="bottom"
-            android:background="@color/gray" />
+            style="@style/horizontal_divider"
+            android:layout_gravity="bottom"/>
     </FrameLayout>
 
     <FrameLayout
@@ -72,26 +67,23 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:clickable="true"
-        android:background="@drawable/bg_press_white_to_gray">
+        android:background="@drawable/bg_press_item_normal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="@string/weishu_account"
-            android:textColor="@color/black"
             android:textSize="15sp"/>
         <TextView
             android:id="@+id/fragment_self_weishu_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
-            android:textColor="@color/black_gray"
+            android:textColor="@color/mainTextColorGray"
             android:textSize="15sp"/>
         <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_gravity="bottom"
-            android:background="@color/gray" />
+            style="@style/horizontal_divider"
+            android:layout_gravity="bottom" />
     </FrameLayout>
 
 </LinearLayout>

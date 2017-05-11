@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:paddingLeft="5dp"
     android:paddingRight="5dp"
-    android:background="@drawable/bg_press_gray"
+    android:background="@drawable/bg_press_item_normal"
     android:minHeight="90dp" >
 
     <ImageView
@@ -23,8 +23,7 @@
         android:layout_marginLeft="20sp"
         android:layout_marginTop="20dp"
         android:text="name"
-        android:textSize="16sp"
-        android:textColor="@color/black" />
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/item_album_count"
@@ -36,7 +35,7 @@
         android:layout_marginTop="3sp"
         android:text="name"
         android:textSize="12sp"
-        android:textColor="@color/black_gray" />
+        android:textColor="@color/mainTextColorGray" />
 
     <ImageView
         android:id="@+id/item_album_choose"
@@ -49,8 +48,6 @@
         android:visibility="gone"/>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_alignParentBottom="true"
-        android:background="@color/gray" />
+        style="@style/horizontal_divider"
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>

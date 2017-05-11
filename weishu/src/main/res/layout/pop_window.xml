@@ -28,6 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/start_group_chat"
+                android:textColor="@color/mainTextColorWhite"
                 android:textSize="@dimen/textSmallSize"/>
         </LinearLayout>
         <View
@@ -51,6 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/add_friend"
+                android:textColor="@color/mainTextColorWhite"
                 android:textSize="@dimen/textSmallSize"/>
         </LinearLayout>
         <View
@@ -74,12 +76,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/scan_one"
+                android:textColor="@color/mainTextColorWhite"
                 android:textSize="@dimen/textSmallSize"/>
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/colorPrimaryDark" />
+
         <LinearLayout
             android:id="@+id/menu_item_help"
             android:layout_width="@dimen/pop_menu_width"
@@ -97,6 +102,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/help_and_feedback"
+                android:textColor="@color/mainTextColorWhite"
                 android:textSize="@dimen/textSmallSize"/>
         </LinearLayout>
 

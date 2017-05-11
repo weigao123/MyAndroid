@@ -1,10 +1,19 @@
 package com.garfield.baselib.utils.drawable;
 
+import android.support.annotation.ColorRes;
+import android.support.v4.content.ContextCompat;
+
+import com.garfield.baselib.Cache;
+
 /**
  * Created by gaowei3 on 2016/11/18.
  */
 
 public class ColorUtils {
+
+    public static int getColor(@ColorRes int res) {
+        return ContextCompat.getColor(Cache.getContext(), res);
+    }
 
     /**
      * 颜色必须是ARGB

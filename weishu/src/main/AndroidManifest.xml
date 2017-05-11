@@ -38,6 +38,7 @@
         android:hardwareAccelerated="true"
         android:theme="@style/AppTheme"
         android:icon="@drawable/ic_launcher">
+
         <activity
             android:name=".ui.activity.WelcomeActivity"
             android:theme="@style/welcomeTheme">
@@ -46,14 +47,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.activity.LoginActivity"/>
+
         <activity
             android:name=".ui.activity.MainActivity"
             android:launchMode="singleTask"/>
 
         <activity
             android:name=".developer.ui.DeveloperActivity"/>
+
+        <activity
+            android:theme="@style/TransparentActivity"
+            android:name=".ui.activity.ThemeMaskActivity"/>
 
         <!--网易云信-->
         <!-- APP key, 可以在这里设置，也可以在 SDKOptions 中提供。
