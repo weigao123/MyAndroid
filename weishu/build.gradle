@@ -27,6 +27,7 @@ android {
             signingConfig signingConfigs.release
         }
         release {
+            debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
@@ -80,6 +81,8 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.netease.nimlib:basesdk:3.4.0'
     compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 }
 
 static def getReleaseTime() {

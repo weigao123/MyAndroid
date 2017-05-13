@@ -83,7 +83,7 @@ public class TakePhotoFragment extends AppBaseFragment {
     private File mPhotoOutputPath = new File(DirectoryUtils.getOwnImageCacheDirectory(), "take_photo.jpg");
 
 
-    protected String onGetToolbarTitleResource() {
+    protected String onGetToolbarTitle() {
         return getString(R.string.photo_album);
     }
 

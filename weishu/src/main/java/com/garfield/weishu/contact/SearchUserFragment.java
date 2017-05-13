@@ -37,7 +37,7 @@ public class SearchUserFragment extends AppBaseFragment {
     }
 
     @Override
-    protected String onGetToolbarTitleResource() {
+    protected String onGetToolbarTitle() {
         return getString(R.string.add_new_friend);
     }
 

@@ -63,7 +63,7 @@ public class DeveloperSurfaceViewFragment extends AppBaseFragment implements Sur
     private double multiple;
 
     @Override
-    protected String onGetToolbarTitleResource() {
+    protected String onGetToolbarTitle() {
         return "SurfaceView";
     }
 

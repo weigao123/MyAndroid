@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.garfield.baselib.utils.system.KeyboardUtils;
+import com.garfield.baselib.utils.system.ScreenUtils;
 
 /**
  * Created by gaowei on 2017/5/2.
@@ -37,7 +38,7 @@ public class FunctionPickerView extends FrameLayout {
     }
 
     private void refreshHeight() {
-        int height = KeyboardUtils.getKeyboardHeight();
+        int height = ScreenUtils.isPortrait() ? KeyboardUtils.getKeyboardHeight() : KeyboardUtils.MIN_KEYBOARD_HEIGHT_LANDSCAPE;
         if (getLayoutParams() != null && getLayoutParams().height != height) {
             getLayoutParams().height = height;
         }

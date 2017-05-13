@@ -81,14 +81,14 @@ public class AppBaseFragment extends SwipeBackFragment {
                 if (onEnableBack()) {
                     mToolbar.findViewById(R.id.toolbar_back_container).setVisibility(View.VISIBLE);
                     TextView title2View = (TextView) mToolbar.findViewById(R.id.toolbar_title2);
-                    title2View.setText(onGetToolbarTitleResource());
+                    title2View.setText(onGetToolbarTitle());
                     title2View.setTextColor(getResources().getColor(R.color.mainTextColorWhite));
                 } else {
                     TextView title1View = (TextView) mToolbar.findViewById(R.id.toolbar_title1);
-                    title1View.setText(onGetToolbarTitleResource());
+                    title1View.setText(onGetToolbarTitle());
                     title1View.setTextColor(getResources().getColor(R.color.mainTextColorWhite));
                     title1View.setVisibility(View.VISIBLE);
-                    //mToolbar.setTitle(onGetToolbarTitleResource());
+                    //mToolbar.setTitle(onGetToolbarTitle());
                     //mToolbar.setTitleTextAppearance(mActivity, R.style.toolbar_text);
                     mToolbar.findViewById(R.id.toolbar_control_view).setVisibility(View.VISIBLE);
                 }
@@ -176,7 +176,7 @@ public class AppBaseFragment extends SwipeBackFragment {
         contentView.findViewById(R.id.menu_item_help).setOnClickListener(mOnClickListener);
     }
 
-    protected String onGetToolbarTitleResource() {
+    protected String onGetToolbarTitle() {
         return getString(R.string.app_name);
     }
 

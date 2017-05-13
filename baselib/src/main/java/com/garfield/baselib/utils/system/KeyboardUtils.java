@@ -14,6 +14,12 @@ import com.garfield.baselib.Cache;
 
 public class KeyboardUtils {
 
+    public static final int MIN_KEYBOARD_HEIGHT = ScreenUtils.dp2px(220);
+    public static final int MIN_KEYBOARD_HEIGHT_LANDSCAPE = ScreenUtils.dp2px(150);
+    
+    private static int LAST_SAVE_KEYBOARD_HEIGHT = MIN_KEYBOARD_HEIGHT;
+    private static final String KEY_KEYBOARD_HEIGHT = "keyboard_height";
+
     public static void showKeyboard(View focusView) {
         if (focusView == null) {
             return;
@@ -30,19 +36,10 @@ public class KeyboardUtils {
         inputMethodManager.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
     }
 
-    private static int MIN_KEYBOARD_HEIGHT = ScreenUtils.dp2px(220);
-    private static int LAST_SAVE_KEYBOARD_HEIGHT = MIN_KEYBOARD_HEIGHT;
-    private static String KEY_KEYBOARD_HEIGHT = "keyboard_height";
-
-    private static boolean saveKeyboardHeight(int keyboardHeight) {
-        if (LAST_SAVE_KEYBOARD_HEIGHT == keyboardHeight) {
-            return false;
-        }
-        LAST_SAVE_KEYBOARD_HEIGHT = keyboardHeight;
-        return SharedPreferencesUtil.saveInt(KEY_KEYBOARD_HEIGHT, keyboardHeight);
-    }
-
     public static int getKeyboardHeight() {
+        if (LAST_SAVE_KEYBOARD_HEIGHT == MIN_KEYBOARD_HEIGHT) {
+            LAST_SAVE_KEYBOARD_HEIGHT = SharedPreferencesUtil.getInt(KEY_KEYBOARD_HEIGHT, MIN_KEYBOARD_HEIGHT);
+        }
         return LAST_SAVE_KEYBOARD_HEIGHT;
     }
 
@@ -52,11 +49,19 @@ public class KeyboardUtils {
     }
 
     /**
-     * 通过检查当前的contentView是否小于去掉状态栏的屏幕的高来判断，随时可用
+     * 通过检查当前的contentView是否小于去掉状态栏的屏幕的高来判断，随时可用，仅适用于竖屏
      */
     public static boolean isKeyboardShowing(View view) {
         int contentHeight = ScreenUtils.getDisplayFrameHeight(view);
         return ScreenUtils.screenHeight - ScreenUtils.statusBarHeight > contentHeight;
+    }
+
+    private static boolean saveKeyboardHeight(int keyboardHeight) {
+        if (LAST_SAVE_KEYBOARD_HEIGHT == keyboardHeight) {
+            return false;
+        }
+        LAST_SAVE_KEYBOARD_HEIGHT = keyboardHeight;
+        return SharedPreferencesUtil.saveInt(KEY_KEYBOARD_HEIGHT, keyboardHeight);
     }
 
     /**
@@ -65,7 +70,6 @@ public class KeyboardUtils {
     public static class KeyboardSizeMeasure {
 
         private View mContentView;
-        private int mNormalContentHeight;
         private static int mKeyboardHeight;
 
         public KeyboardSizeMeasure(Activity activity) {
@@ -77,23 +81,22 @@ public class KeyboardUtils {
 
             @Override
             public void onGlobalLayout() {
+                if (!ScreenUtils.isPortrait()) {
+                    return;
+                }
                 int contentHeight = ScreenUtils.getDisplayFrameHeight(mContentView);
-                if (contentHeight < ScreenUtils.screenHeight - ScreenUtils.statusBarHeight) {
-                    // 键盘显示
-                    int inputHeight = mNormalContentHeight - contentHeight;
+                // 键盘出现
+                if (contentHeight < ScreenUtils.contentHeight) {
+                    int inputHeight = ScreenUtils.contentHeight - contentHeight;
                     if (mKeyboardHeight != inputHeight) {
                         mKeyboardHeight = inputHeight;
                         saveKeyboardHeight(mKeyboardHeight);
                     }
-                } else {
-                    // 键盘隐藏
-                    mNormalContentHeight = contentHeight;
                 }
-
             }
         };
 
-        public void destroy() {
+        public void finish() {
             // noinspection deprecation
             mContentView.getViewTreeObserver().removeGlobalOnLayoutListener(mOnGlobalLayoutListener);
         }

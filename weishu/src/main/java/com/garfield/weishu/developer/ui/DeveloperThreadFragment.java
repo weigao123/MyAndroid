@@ -41,7 +41,7 @@ public class DeveloperThreadFragment extends AppBaseFragment {
     private Handler mHandler = new MyHandler(this);
 
     @Override
-    protected String onGetToolbarTitleResource() {
+    protected String onGetToolbarTitle() {
         return "多线程";
     }
 

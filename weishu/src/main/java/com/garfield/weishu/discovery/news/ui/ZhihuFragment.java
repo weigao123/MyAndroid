@@ -23,7 +23,7 @@ public class ZhihuFragment extends AppBaseFragment {
     }
 
     @Override
-    protected String onGetToolbarTitleResource() {
+    protected String onGetToolbarTitle() {
         return getString(R.string.zhihu_daily);
     }
 

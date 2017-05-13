@@ -11,6 +11,7 @@ import com.garfield.weishu.nim.cache.DataCacheManager;
 import com.garfield.weishu.nim.cache.LoginSyncHelper;
 import com.garfield.weishu.nim.NimConfig;
 import com.garfield.baselib.utils.system.SystemUtil;
+import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.Bugly;
 
 
@@ -37,6 +38,7 @@ public class MyApplication extends Application {
 
             Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
             Bugly.init(getApplicationContext(), "cdced5fee1", true);
+            LeakCanary.install(this);
 
             ImageLoaderHelper.init();
             NimConfig.initSetting();
@@ -59,7 +61,7 @@ public class MyApplication extends Application {
         @Override
         public void uncaughtException(Thread thread, Throwable ex) {
             L.d(Log.getStackTraceString(ex));
-            //android.os.Process.killProcess(android.os.Process.myPid());
+            android.os.Process.killProcess(android.os.Process.myPid());
         }
     }
 

@@ -50,7 +50,7 @@ public class AboutFragment extends AppBaseFragment {
     }
 
     @Override
-    protected String onGetToolbarTitleResource() {
+    protected String onGetToolbarTitle() {
         return getString(R.string.about_weishu);
     }
 

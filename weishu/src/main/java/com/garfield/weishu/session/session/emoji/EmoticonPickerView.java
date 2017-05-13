@@ -70,7 +70,7 @@ public class EmoticonPickerView extends FrameLayout implements IEmoticonCategory
     }
 
     private void refreshHeight() {
-        int height = KeyboardUtils.getKeyboardHeight();
+        int height = ScreenUtils.isPortrait() ? KeyboardUtils.getKeyboardHeight() : KeyboardUtils.MIN_KEYBOARD_HEIGHT_LANDSCAPE;
         View rootView = getChildAt(0);
         if (rootView != null && rootView.getLayoutParams() != null && rootView.getLayoutParams().height != height) {
             rootView.getLayoutParams().height = height;

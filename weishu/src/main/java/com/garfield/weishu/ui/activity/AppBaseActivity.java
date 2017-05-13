@@ -1,13 +1,8 @@
 package com.garfield.weishu.ui.activity;
 
 import android.Manifest;
-import android.app.Activity;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -16,7 +11,6 @@ import android.widget.TextView;
 import com.garfield.baselib.swipeback.SwipeBackActivity;
 import com.garfield.baselib.utils.system.KeyboardUtils;
 import com.garfield.baselib.utils.system.L;
-import com.garfield.baselib.utils.system.SharedPreferencesUtil;
 import com.garfield.baselib.utils.system.SystemUtil;
 import com.garfield.baselib.utils.system.ThemeManager;
 import com.garfield.baselib.utils.system.ThemeUtil;
@@ -116,8 +110,7 @@ public class AppBaseActivity extends SwipeBackActivity implements ThemeManager.O
 
     @Override
     protected void onDestroy() {
+        mKeyboardSizeMeasure.finish();
         super.onDestroy();
-        mKeyboardSizeMeasure.destroy();
-        ThemeManager.unregisterThemeChangeListener(this);
     }
 }

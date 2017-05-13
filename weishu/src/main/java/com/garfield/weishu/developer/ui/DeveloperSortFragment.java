@@ -62,7 +62,7 @@ public class DeveloperSortFragment extends AppBaseFragment {
     }
 
     @Override
-    protected String onGetToolbarTitleResource() {
+    protected String onGetToolbarTitle() {
         return getString(R.string.sort);
     }
 

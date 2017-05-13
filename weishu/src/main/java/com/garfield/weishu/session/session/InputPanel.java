@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.garfield.baselib.utils.array.StringUtils;
 import com.garfield.baselib.utils.system.KeyboardUtils;
 import com.garfield.baselib.utils.system.L;
+import com.garfield.baselib.utils.system.ScreenUtils;
 import com.garfield.weishu.R;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.session.session.emoji.EmoticonPickerView;
@@ -162,14 +163,14 @@ class InputPanel implements IEmoticonSelectedListener, KeyboardLinearLayout.OnMe
     }
 
     private void toggleToVoice() {
-        if (KeyboardUtils.isKeyboardShowing(mRootView)) {
+        if (ScreenUtils.isPortrait() && KeyboardUtils.isKeyboardShowing(mRootView)) {
             KeyboardUtils.hideKeyboard(mActivity.getCurrentFocus());
         }
         refreshBtnUi(mState = State.VOICE);
     }
 
     private void toggleToEmotion() {
-        if (KeyboardUtils.isKeyboardShowing(mRootView)) {
+        if (ScreenUtils.isPortrait() && KeyboardUtils.isKeyboardShowing(mRootView)) {
             // 显示面板要延迟到onMeasure
             KeyboardUtils.hideKeyboard(mActivity.getCurrentFocus());
         } else {
@@ -179,7 +180,7 @@ class InputPanel implements IEmoticonSelectedListener, KeyboardLinearLayout.OnMe
     }
 
     private void toggleToFunction() {
-        if (KeyboardUtils.isKeyboardShowing(mRootView)) {
+        if (ScreenUtils.isPortrait() && KeyboardUtils.isKeyboardShowing(mRootView)) {
             // 显示面板要延迟到onMeasure
             KeyboardUtils.hideKeyboard(mActivity.getCurrentFocus());
         } else {

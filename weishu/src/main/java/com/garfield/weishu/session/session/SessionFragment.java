@@ -60,7 +60,7 @@ public class SessionFragment extends AppBaseFragment implements ModuleProxy {
     }
 
     @Override
-    protected String onGetToolbarTitleResource() {
+    protected String onGetToolbarTitle() {
         return UserInfoCache.getInstance().getUserDisplayName(mAccount);
     }
 

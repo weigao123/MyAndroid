@@ -39,7 +39,7 @@ public class DeveloperFragment extends AppBaseFragment implements TRecyclerAdapt
     }
 
     @Override
-    protected String onGetToolbarTitleResource() {
+    protected String onGetToolbarTitle() {
         return getString(R.string.developer);
     }
 
@@ -49,6 +49,7 @@ public class DeveloperFragment extends AppBaseFragment implements TRecyclerAdapt
         mData.add("2、排序算法");
         mData.add("3、多线程");
         mData.add("4、SurfaceView");
+        mData.add("5、FastBlur");
         //mData.add("5、音乐控制");
         //mData.add("6、fitsSystemWindows");
         DevelopAdapter adapter = new DevelopAdapter(getContext(), mData);
@@ -75,13 +76,18 @@ public class DeveloperFragment extends AppBaseFragment implements TRecyclerAdapt
                 EventDispatcher.startFragmentEvent(new DeveloperSurfaceViewFragment());
                 break;
             case 4:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                EventDispatcher.startFragmentEvent(new DeveloperBlurFragment());
+                break;
+
+
+            case 14:
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     EventDispatcher.startFragmentEvent(new MusicControlFragment());
                 } else {
                     L.toast(R.string.system_not_support);
                 }
-                break;
-            case 5:
+            break;
+            case 15:
                 startActivity(new Intent(mActivity, DeveloperActivity.class));
                 break;
         }

@@ -2,6 +2,7 @@ package com.garfield.baselib.utils.system;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
@@ -17,6 +18,7 @@ public class ScreenUtils {
 
     public static int screenWidth;
     public static int screenHeight;   //包括statusBar
+    public static int contentHeight;  //不包括statusBar
     public static int screenMin;      //宽高中，小的一边
     public static int screenMax;      //宽高中，较大的值
     public static float screenScale;
@@ -52,6 +54,7 @@ public class ScreenUtils {
         densityDpi = dm.densityDpi;
         statusBarHeight = getStatusBarHeight();
         navBarHeight = getNavBarHeight();
+        contentHeight = screenHeight - statusBarHeight;
     }
 
     public static int dp2px(float dpValue) {
@@ -115,6 +118,12 @@ public class ScreenUtils {
     public static double getScreenPhysicalSize(Activity ctx) {
         double diagonalPixels = Math.sqrt(Math.pow(screenWidth, 2) + Math.pow(screenHeight, 2));
         return diagonalPixels / (160 * density);
+    }
+
+    // 竖屏
+    public static boolean isPortrait() {
+        return Cache.getContext().getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_PORTRAIT;
     }
 
 }
