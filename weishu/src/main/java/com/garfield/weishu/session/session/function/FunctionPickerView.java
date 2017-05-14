@@ -6,10 +6,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
-import com.garfield.baselib.utils.system.KeyboardUtils;
-import com.garfield.baselib.utils.system.ScreenUtils;
+import com.garfield.baselib.utils.system.KeyboardUtil;
+import com.garfield.baselib.utils.system.ScreenUtil;
 
 /**
  * Created by gaowei on 2017/5/2.
@@ -38,7 +37,7 @@ public class FunctionPickerView extends FrameLayout {
     }
 
     private void refreshHeight() {
-        int height = ScreenUtils.isPortrait() ? KeyboardUtils.getKeyboardHeight() : KeyboardUtils.MIN_KEYBOARD_HEIGHT_LANDSCAPE;
+        int height = ScreenUtil.isPortrait() ? KeyboardUtil.getKeyboardHeight() : KeyboardUtil.MIN_KEYBOARD_HEIGHT_LANDSCAPE;
         if (getLayoutParams() != null && getLayoutParams().height != height) {
             getLayoutParams().height = height;
         }

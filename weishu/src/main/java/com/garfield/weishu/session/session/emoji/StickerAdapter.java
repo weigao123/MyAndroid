@@ -7,7 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.garfield.baselib.utils.system.ScreenUtils;
+import com.garfield.baselib.utils.system.ScreenUtil;
 import com.garfield.weishu.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -66,7 +66,7 @@ public class StickerAdapter extends BaseAdapter {
         }
 
         ImageLoader.getInstance().displayImage(StickerManager.getInstance().getStickerBitmapUri(sticker.getCategory()
-                , sticker.getName()), viewHolder.imageView, StickerManager.getInstance().getStickerImageOptions(ScreenUtils.dp2px(64)));
+                , sticker.getName()), viewHolder.imageView, StickerManager.getInstance().getStickerImageOptions(ScreenUtil.dp2px(64)));
 
         viewHolder.descLabel.setVisibility(View.GONE);
 

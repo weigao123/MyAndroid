@@ -11,7 +11,7 @@ import android.view.View;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.garfield.baselib.adapter.DividerItemDecoration;
-import com.garfield.baselib.utils.system.ScreenUtils;
+import com.garfield.baselib.utils.system.ScreenUtil;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.base.listview.AutoRefreshListView;
@@ -356,7 +356,7 @@ public class MessageListPanel {
             uiHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    ListViewUtil.scrollToPosition(messageListView, jumpTo, jumpTo == 0 ? 0 : ScreenUtils.dp2px(30));
+                    ListViewUtil.scrollToPosition(messageListView, jumpTo, jumpTo == 0 ? 0 : ScreenUtil.dp2px(30));
                 }
             }, 30);
         }

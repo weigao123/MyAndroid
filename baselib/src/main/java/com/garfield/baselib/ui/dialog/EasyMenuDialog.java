@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.garfield.baselib.R;
-import com.garfield.baselib.utils.system.ScreenUtils;
+import com.garfield.baselib.utils.system.ScreenUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public class EasyMenuDialog extends DialogFragment {
         LinearLayout linearLayout = new LinearLayout(getActivity());
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         linearLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_round_corner_white));
-        int width = ScreenUtils.screenWidth - ScreenUtils.dp2px(ITEM_MARGIN);
+        int width = ScreenUtil.screenWidth - ScreenUtil.dp2px(ITEM_MARGIN);
         // 无效
         //linearLayout.setLayoutParams(new ViewGroup.LayoutParams(width, -2));
 
@@ -61,8 +61,8 @@ public class EasyMenuDialog extends DialogFragment {
             //textView.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_press_gray));
             textView.setTextSize(TEXT_SIZE);
             textView.setGravity(Gravity.CENTER_VERTICAL);
-            textView.setPadding(ScreenUtils.dp2px(TEXT_LEFT_MARGIN), 0, 0, 0);
-            textView.setLayoutParams(new LinearLayout.LayoutParams(width, ScreenUtils.dp2px(ITEM_HEIGHT)));
+            textView.setPadding(ScreenUtil.dp2px(TEXT_LEFT_MARGIN), 0, 0, 0);
+            textView.setLayoutParams(new LinearLayout.LayoutParams(width, ScreenUtil.dp2px(ITEM_HEIGHT)));
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

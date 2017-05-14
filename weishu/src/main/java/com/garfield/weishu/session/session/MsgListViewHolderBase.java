@@ -3,11 +3,9 @@ package com.garfield.weishu.session.session;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.graphics.drawable.StateListDrawable;
@@ -21,8 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.garfield.baselib.utils.system.L;
-import com.garfield.baselib.utils.system.ScreenUtils;
+import com.garfield.baselib.utils.system.ScreenUtil;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.listview.TListViewHolder;
 import com.garfield.weishu.base.event.EventDispatcher;
@@ -206,7 +203,7 @@ public abstract class MsgListViewHolderBase extends TListViewHolder<IMMessage> {
             setGravity(mBodyContainer, Gravity.END);
             // mContentContainer.setBackgroundResource(rightBackground());
             // NinePatchDrawable造成和直接用xml的padding不一样
-            mContentContainer.setPadding(ScreenUtils.dp2px(2.5f), ScreenUtils.dp2px(2.5f), ScreenUtils.dp2px(6), ScreenUtils.dp2px(2.5f));
+            mContentContainer.setPadding(ScreenUtil.dp2px(2.5f), ScreenUtil.dp2px(2.5f), ScreenUtil.dp2px(6), ScreenUtil.dp2px(2.5f));
             mContentContainer.setBackgroundDrawable(rightBackground());
         }
     }
@@ -233,9 +230,9 @@ public abstract class MsgListViewHolderBase extends TListViewHolder<IMMessage> {
         params.gravity = gravity;
         if (gravity == Gravity.START) {
             params.leftMargin = 0;
-            params.rightMargin = ScreenUtils.dp2px(40);
+            params.rightMargin = ScreenUtil.dp2px(40);
         } else {
-            params.leftMargin = ScreenUtils.dp2px(40);
+            params.leftMargin = ScreenUtil.dp2px(40);
             params.rightMargin = 0;
         }
     }

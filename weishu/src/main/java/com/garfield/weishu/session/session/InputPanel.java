@@ -12,9 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.garfield.baselib.utils.array.StringUtils;
-import com.garfield.baselib.utils.system.KeyboardUtils;
-import com.garfield.baselib.utils.system.L;
-import com.garfield.baselib.utils.system.ScreenUtils;
+import com.garfield.baselib.utils.system.KeyboardUtil;
+import com.garfield.baselib.utils.system.ScreenUtil;
 import com.garfield.weishu.R;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.session.session.emoji.EmoticonPickerView;
@@ -28,7 +27,6 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.internal.ListenerClass;
 
 /**
  * Created by gaowei3 on 2016/9/26.
@@ -158,21 +156,21 @@ class InputPanel implements IEmoticonSelectedListener, KeyboardLinearLayout.OnMe
     }
 
     private void toggleToKeyboard() {
-        KeyboardUtils.showKeyboard(mActivity.getCurrentFocus());
+        KeyboardUtil.showKeyboard(mActivity.getCurrentFocus());
         refreshBtnUi(mState = State.KEYBOARD);
     }
 
     private void toggleToVoice() {
-        if (ScreenUtils.isPortrait() && KeyboardUtils.isKeyboardShowing(mRootView)) {
-            KeyboardUtils.hideKeyboard(mActivity.getCurrentFocus());
+        if (ScreenUtil.isPortrait() && KeyboardUtil.isKeyboardShowing(mRootView)) {
+            KeyboardUtil.hideKeyboard(mActivity.getCurrentFocus());
         }
         refreshBtnUi(mState = State.VOICE);
     }
 
     private void toggleToEmotion() {
-        if (ScreenUtils.isPortrait() && KeyboardUtils.isKeyboardShowing(mRootView)) {
+        if (ScreenUtil.isPortrait() && KeyboardUtil.isKeyboardShowing(mRootView)) {
             // 显示面板要延迟到onMeasure
-            KeyboardUtils.hideKeyboard(mActivity.getCurrentFocus());
+            KeyboardUtil.hideKeyboard(mActivity.getCurrentFocus());
         } else {
             showEmotionPanel();
         }
@@ -180,9 +178,9 @@ class InputPanel implements IEmoticonSelectedListener, KeyboardLinearLayout.OnMe
     }
 
     private void toggleToFunction() {
-        if (ScreenUtils.isPortrait() && KeyboardUtils.isKeyboardShowing(mRootView)) {
+        if (ScreenUtil.isPortrait() && KeyboardUtil.isKeyboardShowing(mRootView)) {
             // 显示面板要延迟到onMeasure
-            KeyboardUtils.hideKeyboard(mActivity.getCurrentFocus());
+            KeyboardUtil.hideKeyboard(mActivity.getCurrentFocus());
         } else {
             showFunctionPanel();
         }
@@ -208,7 +206,7 @@ class InputPanel implements IEmoticonSelectedListener, KeyboardLinearLayout.OnMe
             refreshBtnUi(mState = State.NONE);
         }
         //L.d("State: " + mState + "  oldHeight: " + oldHeight + "  newHeight: " + newHeight);
-        //L.d("isKeyboardShowing: " + KeyboardUtils.isKeyboardShowing(mRootView));
+        //L.d("isKeyboardShowing: " + KeyboardUtil.isKeyboardShowing(mRootView));
         switch (mState) {
             case NONE:
                 break;
@@ -307,7 +305,7 @@ class InputPanel implements IEmoticonSelectedListener, KeyboardLinearLayout.OnMe
             return false;
         } else {
             refreshBtnUi(mState = State.NONE);
-            KeyboardUtils.hideKeyboard(mInputEtx);
+            KeyboardUtil.hideKeyboard(mInputEtx);
             hideEmotionPanel();
             hideFunctionPanel();
             return true;

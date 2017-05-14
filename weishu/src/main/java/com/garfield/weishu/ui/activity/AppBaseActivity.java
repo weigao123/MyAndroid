@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.garfield.baselib.swipeback.SwipeBackActivity;
-import com.garfield.baselib.utils.system.KeyboardUtils;
+import com.garfield.baselib.utils.system.KeyboardUtil;
 import com.garfield.baselib.utils.system.L;
 import com.garfield.baselib.utils.system.SystemUtil;
 import com.garfield.baselib.utils.system.ThemeManager;
@@ -38,11 +38,11 @@ public class AppBaseActivity extends SwipeBackActivity implements ThemeManager.O
     @Nullable @BindView(R.id.toolbar_control_view)
     LinearLayout mToolbarControl;
 
-    private KeyboardUtils.KeyboardSizeMeasure mKeyboardSizeMeasure;
+    private KeyboardUtil.KeyboardSizeMeasure mKeyboardSizeMeasure;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeUtil.setRightTheme();
+        ThemeUtil.setThemeMode();
 
         super.onCreate(savedInstanceState);
         if (onGetActivityLayout() != 0) {
@@ -60,7 +60,7 @@ public class AppBaseActivity extends SwipeBackActivity implements ThemeManager.O
             SystemUtil.setStatusBarColorK(this, ThemeUtil.getThemeResId(this, R.attr.colorPrimaryDark));
         }
         // 键盘监控器
-        mKeyboardSizeMeasure = new KeyboardUtils.KeyboardSizeMeasure(this);
+        mKeyboardSizeMeasure = new KeyboardUtil.KeyboardSizeMeasure(this);
     }
 
     protected int onGetActivityLayout() {

@@ -15,7 +15,7 @@ import android.view.View;
 
 import com.garfield.baselib.ui.crop.callback.ModuleProxy;
 import com.garfield.baselib.ui.crop.utils.RectUtils;
-import com.garfield.baselib.utils.system.ScreenUtils;
+import com.garfield.baselib.utils.system.ScreenUtil;
 
 /**
  * Created by gaowei3 on 2017/1/20.
@@ -47,15 +47,15 @@ public class OverlayView extends View {
     private Paint mCropBorderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);   //外边框
     protected float[] mCropBorderCorners;    //4个角
     private Paint mCropBorderCornersPaint = new Paint(Paint.ANTI_ALIAS_FLAG);    //外边框4个角
-    private int mCropBorderCornerLength = ScreenUtils.dp2px(10);   //4个角的长度
+    private int mCropBorderCornerLength = ScreenUtil.dp2px(10);   //4个角的长度
     private Path mCircularPath = new Path();
 
     // 拖动
     private int mCurrentTouchCornerIndex = -1;
     private float mPreviousTouchX = -1, mPreviousTouchY = -1;
     private float mDownTouchX = -1, mDownTouchY = -1;
-    private int mTouchPointThreshold = ScreenUtils.dp2px(30);
-    private int mCropRectMinSize = ScreenUtils.dp2px(100);
+    private int mTouchPointThreshold = ScreenUtil.dp2px(30);
+    private int mCropRectMinSize = ScreenUtil.dp2px(100);
 
     public OverlayView(Context context) {
         this(context, null);
@@ -77,11 +77,11 @@ public class OverlayView extends View {
             setLayerType(LAYER_TYPE_SOFTWARE, null);
         }
         mCropGridPaint.setColor(Color.parseColor("#80FFFFFF"));
-        mCropGridPaint.setStrokeWidth(ScreenUtils.dp2px(1));
+        mCropGridPaint.setStrokeWidth(ScreenUtil.dp2px(1));
         mCropBorderPaint.setColor(Color.WHITE);
-        mCropBorderPaint.setStrokeWidth(ScreenUtils.dp2px(1));
+        mCropBorderPaint.setStrokeWidth(ScreenUtil.dp2px(1));
         mCropBorderPaint.setStyle(Paint.Style.STROKE);
-        mCropBorderCornersPaint.setStrokeWidth(ScreenUtils.dp2px(3));
+        mCropBorderCornersPaint.setStrokeWidth(ScreenUtil.dp2px(3));
         mCropBorderCornersPaint.setColor(Color.WHITE);
         mCropBorderCornersPaint.setStyle(Paint.Style.STROKE);
         setVisibility(INVISIBLE);

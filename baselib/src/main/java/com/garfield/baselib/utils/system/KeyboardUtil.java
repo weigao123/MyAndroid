@@ -12,11 +12,11 @@ import com.garfield.baselib.Cache;
  * Created by gaowei3 on 2016/9/21.
  */
 
-public class KeyboardUtils {
+public class KeyboardUtil {
 
-    public static final int MIN_KEYBOARD_HEIGHT = ScreenUtils.dp2px(220);
-    public static final int MIN_KEYBOARD_HEIGHT_LANDSCAPE = ScreenUtils.dp2px(150);
-    
+    public static final int MIN_KEYBOARD_HEIGHT = ScreenUtil.dp2px(220);
+    public static final int MIN_KEYBOARD_HEIGHT_LANDSCAPE = ScreenUtil.dp2px(150);
+
     private static int LAST_SAVE_KEYBOARD_HEIGHT = MIN_KEYBOARD_HEIGHT;
     private static final String KEY_KEYBOARD_HEIGHT = "keyboard_height";
 
@@ -52,8 +52,8 @@ public class KeyboardUtils {
      * 通过检查当前的contentView是否小于去掉状态栏的屏幕的高来判断，随时可用，仅适用于竖屏
      */
     public static boolean isKeyboardShowing(View view) {
-        int contentHeight = ScreenUtils.getDisplayFrameHeight(view);
-        return ScreenUtils.screenHeight - ScreenUtils.statusBarHeight > contentHeight;
+        int contentHeight = ScreenUtil.getDisplayFrameHeight(view);
+        return ScreenUtil.screenHeight - ScreenUtil.statusBarHeight > contentHeight;
     }
 
     private static boolean saveKeyboardHeight(int keyboardHeight) {
@@ -81,13 +81,13 @@ public class KeyboardUtils {
 
             @Override
             public void onGlobalLayout() {
-                if (!ScreenUtils.isPortrait()) {
+                if (!ScreenUtil.isPortrait()) {
                     return;
                 }
-                int contentHeight = ScreenUtils.getDisplayFrameHeight(mContentView);
+                int contentHeight = ScreenUtil.getDisplayFrameHeight(mContentView);
                 // 键盘出现
-                if (contentHeight < ScreenUtils.contentHeight) {
-                    int inputHeight = ScreenUtils.contentHeight - contentHeight;
+                if (contentHeight < ScreenUtil.contentHeight) {
+                    int inputHeight = ScreenUtil.contentHeight - contentHeight;
                     if (mKeyboardHeight != inputHeight) {
                         mKeyboardHeight = inputHeight;
                         saveKeyboardHeight(mKeyboardHeight);

@@ -9,7 +9,7 @@
     </item>
     <item android:left="1px">
         <shape android:shape="rectangle" >
-            <solid android:color="@color/mainBackground" />
+            <solid android:color="@color/bg_session_input" />
         </shape>
     </item>
 

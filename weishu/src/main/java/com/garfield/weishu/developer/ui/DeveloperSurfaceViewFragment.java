@@ -15,7 +15,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
-import com.garfield.baselib.utils.system.ScreenUtils;
+import com.garfield.baselib.utils.system.ScreenUtil;
 import com.garfield.weishu.R;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 
@@ -31,7 +31,7 @@ import butterknife.OnClick;
 
 public class DeveloperSurfaceViewFragment extends AppBaseFragment implements SurfaceHolder.Callback {
 
-    private static final int BALL_RADIUS = ScreenUtils.dp2px(10);
+    private static final int BALL_RADIUS = ScreenUtil.dp2px(10);
 
     @BindView(R.id.fragment_developer_surfaceview)
     SurfaceView mSurfaceView;

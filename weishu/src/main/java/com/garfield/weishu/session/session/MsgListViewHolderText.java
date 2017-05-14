@@ -4,7 +4,7 @@ import android.graphics.Color;
 import android.text.style.ImageSpan;
 import android.widget.TextView;
 
-import com.garfield.baselib.utils.system.ScreenUtils;
+import com.garfield.baselib.utils.system.ScreenUtil;
 import com.garfield.weishu.R;
 import com.garfield.weishu.session.session.emoji.MoonUtil;
 
@@ -38,10 +38,10 @@ public class MsgListViewHolderText extends MsgListViewHolderBase {
     private void layoutDirection() {
         if (isReceivedMessage()) {
             //mText.setBackgroundResource(R.drawable.message_item_bg_left_selector);
-            mText.setPadding(ScreenUtils.dp2px(8), ScreenUtils.dp2px(8), ScreenUtils.dp2px(8), ScreenUtils.dp2px(8));
+            mText.setPadding(ScreenUtil.dp2px(8), ScreenUtil.dp2px(8), ScreenUtil.dp2px(8), ScreenUtil.dp2px(8));
         } else {
             //mText.setBackgroundResource(R.drawable.message_item_bg_right_selector);
-            mText.setPadding(ScreenUtils.dp2px(8), ScreenUtils.dp2px(8), ScreenUtils.dp2px(8), ScreenUtils.dp2px(8));
+            mText.setPadding(ScreenUtil.dp2px(8), ScreenUtil.dp2px(8), ScreenUtil.dp2px(8), ScreenUtil.dp2px(8));
         }
     }
 

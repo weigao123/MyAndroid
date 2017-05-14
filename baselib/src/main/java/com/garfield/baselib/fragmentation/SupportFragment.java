@@ -12,7 +12,7 @@ import com.garfield.baselib.R;
 import com.garfield.baselib.base.BaseFragment;
 import com.garfield.baselib.fragmentation.anim.DefaultNoAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
-import com.garfield.baselib.utils.system.KeyboardUtils;
+import com.garfield.baselib.utils.system.KeyboardUtil;
 
 /**
  * Created by gaowei3 on 2016/7/22.
@@ -188,13 +188,13 @@ public class SupportFragment extends BaseFragment implements ISupport {
 
     @Override
     public void popFragment() {
-        KeyboardUtils.hideKeyboard(getView());
+        KeyboardUtil.hideKeyboard(getView());
         mFragmentHelper.popBack(getFragmentManager());
     }
 
     @Override
     public void popChildFragment() {
-        KeyboardUtils.hideKeyboard(getView());
+        KeyboardUtil.hideKeyboard(getView());
         mFragmentHelper.popBack(getChildFragmentManager());
     }
 

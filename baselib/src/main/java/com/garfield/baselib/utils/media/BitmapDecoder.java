@@ -9,7 +9,7 @@ import android.os.Build;
 import android.provider.MediaStore;
 
 import com.garfield.baselib.utils.file.AttachmentStore;
-import com.garfield.baselib.utils.system.ScreenUtils;
+import com.garfield.baselib.utils.system.ScreenUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -51,9 +51,9 @@ public class BitmapDecoder {
     public static Bitmap decodeSampledForDisplay(String pathName, boolean withTextureLimit) {
         float ratio = 5f;
         int[][] reqBounds = new int[][]{
-                new int[]{ScreenUtils.screenWidth * 2, ScreenUtils.screenHeight},
-                new int[]{ScreenUtils.screenWidth, ScreenUtils.screenHeight * 2},
-                new int[]{(int) (ScreenUtils.screenWidth * 1.414), (int) (ScreenUtils.screenHeight * 1.414)},
+                new int[]{ScreenUtil.screenWidth * 2, ScreenUtil.screenHeight},
+                new int[]{ScreenUtil.screenWidth, ScreenUtil.screenHeight * 2},
+                new int[]{(int) (ScreenUtil.screenWidth * 1.414), (int) (ScreenUtil.screenHeight * 1.414)},
         };
 
         // decode bound

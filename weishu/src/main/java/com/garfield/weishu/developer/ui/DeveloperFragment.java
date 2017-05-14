@@ -14,6 +14,7 @@ import com.garfield.weishu.R;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
+import com.garfield.weishu.developer.JavaTest;
 import com.garfield.weishu.developer.music.ui.MusicControlFragment;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 
@@ -45,38 +46,47 @@ public class DeveloperFragment extends AppBaseFragment implements TRecyclerAdapt
 
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
-        mData.add("1、速度码表");
-        mData.add("2、排序算法");
-        mData.add("3、多线程");
+        mData.add("1、SpeedView");
+        mData.add("2、Sort Arithmetic");
+        mData.add("3、Multi Thread");
         mData.add("4、SurfaceView");
         mData.add("5、FastBlur");
-        //mData.add("5、音乐控制");
-        //mData.add("6、fitsSystemWindows");
+        mData.add("6、LayoutManager");
+        mData.add("7、Plugin");
+
+        //mData.add("15、音乐控制");
+        //mData.add("16、fitsSystemWindows");
+        if (JavaTest.on) {
+            mData.add("100、Test Java");
+        }
+
         DevelopAdapter adapter = new DevelopAdapter(getContext(), mData);
         adapter.setItemEventListener(this);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(AppCache.getContext()));
-        //mRecyclerView.addItemDecoration(new DividerItemDecoration(rootView.getContext(), DividerItemDecoration.VERTICAL_LIST, true));
         mRecyclerView.setAdapter(adapter);
     }
 
     @Override
     public void onItemClick(String item, int position) {
-        switch (position) {
-            case 0:
+        switch (position + 1) {
+            case 1:
                 EventDispatcher.startFragmentEvent(new DeveloperSpeedFragment());
                 break;
-            case 1:
+            case 2:
                 EventDispatcher.startFragmentEvent(new DeveloperSortFragment());
                 break;
-            case 2:
+            case 3:
                 EventDispatcher.startFragmentEvent(new DeveloperThreadFragment());
                 break;
-            case 3:
+            case 4:
                 EventDispatcher.startFragmentEvent(new DeveloperSurfaceViewFragment());
                 break;
-            case 4:
+            case 5:
                 EventDispatcher.startFragmentEvent(new DeveloperBlurFragment());
+                break;
+            case 7:
+                EventDispatcher.startFragmentEvent(new DeveloperPluginFragment());
                 break;
 
 
@@ -89,6 +99,10 @@ public class DeveloperFragment extends AppBaseFragment implements TRecyclerAdapt
             break;
             case 15:
                 startActivity(new Intent(mActivity, DeveloperActivity.class));
+                break;
+
+            case 100:
+                new JavaTest().doTest();
                 break;
         }
     }

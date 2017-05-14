@@ -1,9 +1,10 @@
 package com.garfield.baselib.utils.system;
 
+import android.content.ClipboardManager;
 import android.content.Context;
-import android.text.ClipboardManager;
 
 public class ClipboardUtil {
+
 	public static final void clipboardCopyText(Context context, CharSequence text) {
 		ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
 		if (cm != null) {

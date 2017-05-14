@@ -3,7 +3,6 @@ package com.garfield.baselib.ui.widget;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
@@ -15,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.garfield.baselib.utils.drawable.ColorUtils;
-import com.garfield.baselib.utils.system.ScreenUtils;
+import com.garfield.baselib.utils.system.ScreenUtil;
 
 /**
  * Created by gaowei3 on 2016/11/21.
@@ -164,7 +163,7 @@ public class BottomBarTransition extends LinearLayout {
             mBitmap2 = drawable2.getBitmap();
 
             mTextBound = new Rect();
-            mTextSize = ScreenUtils.dp2px(11);
+            mTextSize = ScreenUtil.dp2px(11);
             mTextPaint = new Paint();
             mTextPaint.setTextSize(mTextSize);
             mTextPaint.setTextAlign(Paint.Align.CENTER);
@@ -172,7 +171,7 @@ public class BottomBarTransition extends LinearLayout {
             mTextPaint.setDither(true);
             mTextPaint.getTextBounds(mText, 0, mText.length(), mTextBound);
 
-            int padding = ScreenUtils.dp2px(5.5f);
+            int padding = ScreenUtil.dp2px(5.5f);
             setPadding(padding, padding, padding, padding);
 
             colorPaint = new Paint();
@@ -216,7 +215,7 @@ public class BottomBarTransition extends LinearLayout {
                 canvas.drawColor(mUnSelectedColor, PorterDuff.Mode.SRC_IN);
 
                 mTextX = getMeasuredWidth() / 2;
-                mTextY = (getMeasuredHeight() + mRectIcon.bottom) / 2 - (mTextBound.top + mTextBound.bottom) / 2 - ScreenUtils.dp2px(2);
+                mTextY = (getMeasuredHeight() + mRectIcon.bottom) / 2 - (mTextBound.top + mTextBound.bottom) / 2 - ScreenUtil.dp2px(2);
 
                 hasMeasured = true;
             }

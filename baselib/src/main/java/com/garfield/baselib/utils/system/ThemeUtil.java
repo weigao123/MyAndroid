@@ -19,7 +19,7 @@ public class ThemeUtil {
         return typedValue.data;
     }
 
-    public static void setRightTheme() {
+    public static void setThemeMode() {
         if (SharedPreferencesUtil.getBoolean("night_mode")) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {

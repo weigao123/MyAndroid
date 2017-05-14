@@ -1,35 +1,26 @@
 package com.garfield.weishu.ui.activity;
 
 import android.animation.Animator;
-import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
-import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.widget.ImageView;
 
 import com.garfield.baselib.utils.drawable.ColorUtils;
-import com.garfield.baselib.utils.system.L;
-import com.garfield.baselib.utils.system.ScreenUtils;
+import com.garfield.baselib.utils.system.ScreenUtil;
 import com.garfield.baselib.utils.system.SystemUtil;
 import com.garfield.weishu.R;
 
@@ -128,7 +119,7 @@ public class ThemeMaskActivity extends AppCompatActivity implements Animator.Ani
 
     private static Bitmap cropBitmap(Bitmap source) {
         int scaleFactor = 1;
-        float statusBarHeight = ScreenUtils.statusBarHeight;
+        float statusBarHeight = ScreenUtil.statusBarHeight;
         Bitmap resizeBmp = Bitmap.createBitmap(
                 source.getWidth() / scaleFactor,
                 (int) (source.getHeight() - statusBarHeight) / scaleFactor,

@@ -6,7 +6,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
-import com.garfield.baselib.utils.system.ScreenUtils;
+import com.garfield.baselib.utils.system.ScreenUtil;
 import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
@@ -60,7 +60,7 @@ public class ScanFragment extends AppBaseFragment implements SurfaceHolder.Callb
                 Camera.Size size_tmp = supportedPreviewSizes.get(i);
                 //L.d("scale: " + (float)size_tmp.width / size_tmp.height);
                 //L.d("size: width " + size_tmp.width + ", height " + size_tmp.height);
-                if (Math.abs((float)size_tmp.width / size_tmp.height - ScreenUtils.screenScale) < 0.01f) {
+                if (Math.abs((float)size_tmp.width / size_tmp.height - ScreenUtil.screenScale) < 0.01f) {
                     L.d("size: width " + size_tmp.width + ", height " + size_tmp.height);
                     size = size_tmp;
                     break;

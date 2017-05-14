@@ -64,7 +64,7 @@ public class SystemUtil {
                 activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
                 statusBarView = new View(activity);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ScreenUtils.statusBarHeight);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ScreenUtil.statusBarHeight);
                 statusBarView.setLayoutParams(params);
                 ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
                 decorView.addView(statusBarView);

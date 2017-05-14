@@ -15,8 +15,8 @@ import android.widget.LinearLayout;
 
 
 import com.garfield.baselib.utils.media.BitmapDecoder;
-import com.garfield.baselib.utils.system.KeyboardUtils;
-import com.garfield.baselib.utils.system.ScreenUtils;
+import com.garfield.baselib.utils.system.KeyboardUtil;
+import com.garfield.baselib.utils.system.ScreenUtil;
 import com.garfield.weishu.R;
 
 import java.io.IOException;
@@ -70,7 +70,7 @@ public class EmoticonPickerView extends FrameLayout implements IEmoticonCategory
     }
 
     private void refreshHeight() {
-        int height = ScreenUtils.isPortrait() ? KeyboardUtils.getKeyboardHeight() : KeyboardUtils.MIN_KEYBOARD_HEIGHT_LANDSCAPE;
+        int height = ScreenUtil.isPortrait() ? KeyboardUtil.getKeyboardHeight() : KeyboardUtil.MIN_KEYBOARD_HEIGHT_LANDSCAPE;
         View rootView = getChildAt(0);
         if (rootView != null && rootView.getLayoutParams() != null && rootView.getLayoutParams().height != height) {
             rootView.getLayoutParams().height = height;
@@ -150,8 +150,8 @@ public class EmoticonPickerView extends FrameLayout implements IEmoticonCategory
         emotBtn.setId(index);
         emotBtn.setOnClickListener(listener);
         emotBtn.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        emotBtn.setPaddingValue(ScreenUtils.dp2px(7));
-        ViewGroup.LayoutParams emojBtnLayoutParams = new ViewGroup.LayoutParams(ScreenUtils.dp2px(50), ViewGroup.LayoutParams.MATCH_PARENT);
+        emotBtn.setPaddingValue(ScreenUtil.dp2px(7));
+        ViewGroup.LayoutParams emojBtnLayoutParams = new ViewGroup.LayoutParams(ScreenUtil.dp2px(50), ViewGroup.LayoutParams.MATCH_PARENT);
         emotBtn.setLayoutParams(emojBtnLayoutParams);
         tabView.addView(emotBtn, emojBtnLayoutParams);
         return emotBtn;
