@@ -130,7 +130,6 @@ public class NimConfig {
     public static void initSetting() {
         toggleNotification(SettingsPreferences.getNotificationToggle());
         AppCache.setHasAnimation(SettingsPreferences.getAnimation());
-        AppCache.setNightMode(SharedPreferencesUtil.getBoolean("night_mode"));
     }
 
     public static void setRingToggle(boolean on) {

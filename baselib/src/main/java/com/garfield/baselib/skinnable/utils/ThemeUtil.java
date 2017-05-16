@@ -1,11 +1,12 @@
-package com.garfield.baselib.utils.system;
+package com.garfield.baselib.skinnable.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.TypedValue;
+
+import com.garfield.baselib.utils.system.SharedPreferencesUtil;
 
 /**
  * Created by gaowei on 2017/5/9.
@@ -13,18 +14,49 @@ import android.util.TypedValue;
 
 public class ThemeUtil {
 
+    private static final int DAY_MODE = 1;
+    private static final int NIGHT_MODE = 2;
+    private static int mMode = 0;
+
+    /**
+     * 要在-night文件夹下放入资源
+     *
+     * 否则就在layout文件里多定义一套资源
+     */
+    private static boolean mIsNativeNightModeEnable = false;
+
+    public static void setNativeNightModeEnable(boolean enable) {
+        mIsNativeNightModeEnable = enable;
+    }
+
+    public static boolean isNativeNightModeEnable() {
+        return mIsNativeNightModeEnable;
+    }
+
+
     public static int getThemeResId(Activity activity, int attrId) {
         TypedValue typedValue = new TypedValue();
         activity.getTheme().resolveAttribute(attrId, typedValue, true);
         return typedValue.data;
     }
 
-    public static void setThemeMode() {
-        if (SharedPreferencesUtil.getBoolean("night_mode")) {
+    public static void setNativeNightMode() {
+        if (isNightMode()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
+    }
+
+    public static void saveNightMode(boolean nightMode) {
+        SharedPreferencesUtil.saveInt("night_mode", nightMode ? NIGHT_MODE : DAY_MODE);
+    }
+
+    public static boolean isNightMode() {
+        if (mMode == 0) {
+            mMode = SharedPreferencesUtil.getInt("night_mode", DAY_MODE);
+        }
+        return mMode == NIGHT_MODE;
     }
 
     public static int getColorFromAttrRes(int attr, Context context) {

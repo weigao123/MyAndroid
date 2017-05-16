@@ -12,8 +12,6 @@ public class AppCache extends Cache {
 
     private static boolean hasAnimation;
 
-    private static boolean nightMode;
-
     public static void clear() {
         account = null;
     }
@@ -34,11 +32,4 @@ public class AppCache extends Cache {
         AppCache.hasAnimation = hasAnimation;
     }
 
-    public static boolean isNightMode() {
-        return nightMode;
-    }
-
-    public static void setNightMode(boolean nightMode) {
-        AppCache.nightMode = nightMode;
-    }
 }

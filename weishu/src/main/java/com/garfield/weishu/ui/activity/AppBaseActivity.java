@@ -8,12 +8,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.garfield.baselib.swipeback.SwipeBackActivity;
+import com.garfield.baselib.skinnable.activity.SkinnableActivity;
 import com.garfield.baselib.utils.system.KeyboardUtil;
 import com.garfield.baselib.utils.system.L;
 import com.garfield.baselib.utils.system.SystemUtil;
 import com.garfield.baselib.utils.system.ThemeManager;
-import com.garfield.baselib.utils.system.ThemeUtil;
+import com.garfield.baselib.skinnable.utils.ThemeUtil;
 import com.garfield.weishu.R;
 import com.garfield.baselib.utils.system.permission.MPermission;
 import com.garfield.baselib.utils.system.permission.annotation.OnMPermissionDenied;
@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 /**
  * 要使用ButterKnife，就要重写一些方法
  */
-public class AppBaseActivity extends SwipeBackActivity implements ThemeManager.OnThemeChangeListener {
+public class AppBaseActivity extends SkinnableActivity implements ThemeManager.OnThemeChangeListener {
 
     private final static int BASIC_PERMISSION_REQUEST_CODE = 110;
 
@@ -42,8 +42,6 @@ public class AppBaseActivity extends SwipeBackActivity implements ThemeManager.O
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeUtil.setThemeMode();
-
         super.onCreate(savedInstanceState);
         if (onGetActivityLayout() != 0) {
             setContentView(onGetActivityLayout());

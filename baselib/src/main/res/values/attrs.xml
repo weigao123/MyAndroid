@@ -37,4 +37,21 @@
             <enum name="off" value="0"/>
         </attr>
     </declare-styleable>
+
+
+
+
+    <declare-styleable name="SkinnableBgAttr">
+        <attr name="android:background" />
+        <attr name="backgroundTint" />
+        <attr name="backgroundNight" format="reference" />
+        <attr name="backgroundTintNight" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="SkinnableTextAttr">
+        <attr name="android:textColor" />
+        <attr name="textColorNight" format="color" />
+    </declare-styleable>
+
+
 </resources>

@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.garfield.baselib.skinnable.utils.ThemeUtil;
 import com.garfield.baselib.utils.html.WebUtil;
 import com.garfield.weishu.R;
 import com.garfield.weishu.app.AppCache;
@@ -78,7 +79,7 @@ public class ZhihuDetailFragment extends AppBaseFragment implements NewsView<Zhi
         if (bean != null) {
             if (isAdded()) {
                 if (!TextUtils.isEmpty(bean.getBody()) && !mIs3w) {
-                    String content = WebUtil.buildHtmlWithCss(bean.getBody(), bean.getCss(), AppCache.isNightMode());
+                    String content = WebUtil.buildHtmlWithCss(bean.getBody(), bean.getCss(), ThemeUtil.isNightMode());
                     loadRootFragment(R.id.fragment_detail_browser, BrowserFragment.newInstance(content, BrowserFragment.TYPE_STRING));
                 } else {
                     loadRootFragment(R.id.fragment_detail_browser, BrowserFragment.newInstance(bean.getShareUrl(), BrowserFragment.TYPE_URL));

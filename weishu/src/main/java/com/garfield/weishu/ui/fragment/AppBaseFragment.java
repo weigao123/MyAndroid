@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
+import com.garfield.baselib.skinnable.activity.SkinnableActivity;
+import com.garfield.baselib.skinnable.view.Skinnable;
 import com.garfield.baselib.swipeback.SwipeBackFragment;
 import com.garfield.baselib.utils.system.ScreenUtil;
 import com.garfield.weishu.app.AppCache;
@@ -230,6 +232,12 @@ public class AppBaseFragment extends SwipeBackFragment {
             return AnimationUtils.loadAnimation(mActivity, com.garfield.baselib.R.anim.no_anim);
         }
         return super.onCreateAnimation(transit, enter, nextAnim);
+    }
+
+    protected void setDayNightMode(boolean nightMode) {
+        if (mActivity instanceof SkinnableActivity) {
+            ((SkinnableActivity) mActivity).setDayNightMode(nightMode);
+        }
     }
 
     @Override

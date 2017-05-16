@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.garfield.baselib.skinnable.utils.ThemeUtil;
 import com.garfield.baselib.utils.system.KeyboardUtil;
 import com.garfield.baselib.utils.system.L;
 import com.garfield.baselib.utils.system.SystemUtil;
@@ -43,7 +44,7 @@ public class BrowserFragment extends AppBaseFragment {
     public String CSS_STYLE;
 
     {
-        if (AppCache.isNightMode()) {
+        if (ThemeUtil.isNightMode()) {
             CSS_STYLE = "<style>p,tit,sour{color:#9EA6A9;}</style>";
         } else {
             CSS_STYLE = "<style>p,tit{color:#000000;} sour{color:#636262;}</style>";

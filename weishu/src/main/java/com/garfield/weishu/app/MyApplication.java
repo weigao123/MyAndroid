@@ -4,6 +4,7 @@ import android.app.Application;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.garfield.baselib.skinnable.utils.ThemeUtil;
 import com.garfield.baselib.utils.http.image.ImageLoaderHelper;
 import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.contact.query.PinYin;
@@ -54,6 +55,8 @@ public class MyApplication extends Application {
             if (!TextUtils.isEmpty(UserPreferences.getUserAccount()) && !TextUtils.isEmpty(UserPreferences.getUserToken())) {
                 DataCacheManager.buildDataCache();
             }
+
+            ThemeUtil.setNativeNightModeEnable(true);
         }
     }
 
