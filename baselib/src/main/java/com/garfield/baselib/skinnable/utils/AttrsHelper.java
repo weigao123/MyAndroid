@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.garfield.baselib.R;
 import com.garfield.baselib.skinnable.view.Skinnable;
+import com.garfield.baselib.utils.system.L;
 
 
 public class AttrsHelper {
@@ -28,22 +29,10 @@ public class AttrsHelper {
         this.mResourceMap = new SparseIntArray();
     }
 
-    public void storeAttributeResource(TypedArray a, int[] styleable) {
-        int size = a.getIndexCount();
-        for (int index = 0; index < size; index ++) {
-            int resourceId = a.getResourceId(index, VALUE_NOT_FOUND);
-            int key = styleable[index];
-            if (resourceId != VALUE_NOT_FOUND) {
-                mResourceMap.put(key, resourceId);
-            }
-        }
-    }
-
-    public int getAttributeResource(int attr) {
-        return mResourceMap.get(attr, VALUE_NOT_FOUND);
-    }
-
     public void obtain(Context context, AttributeSet attrs, int defStyleAttr) {
+        /**
+         * 会自动遍历嵌套的资源，直到拿到真正的资源。。。
+         */
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.SkinnableBgAttr,
                 defStyleAttr, 0);
@@ -55,19 +44,40 @@ public class AttrsHelper {
                 defStyleAttr, 0);
         storeAttributeResource(a, R.styleable.SkinnableTextAttr);
         a.recycle();
+    }
 
+    public void storeAttributeResource(TypedArray a, int[] styleable) {
+        int size = a.getIndexCount();
+
+        for (int index = 0; index < size; index ++) {
+            int resourceId = a.getResourceId(a.getIndex(index), VALUE_NOT_FOUND);
+            int key = styleable[a.getIndex(index)];
+            if (resourceId != VALUE_NOT_FOUND) {
+                mResourceMap.put(key, resourceId);
+            }
+        }
+        int key2 = R.styleable.SkinnableBgAttr[R.styleable.SkinnableBgAttr_backgroundTintNight];
+        int backgroundResource = getAttributeResource(key2);
+        if (backgroundResource > 0) {
+            L.d(size);
+
+        }
+    }
+
+    public int getAttributeResource(int attr) {
+        return mResourceMap.get(attr, VALUE_NOT_FOUND);
     }
 
     public void applySkin(Context context, View view) {
 
-        int key;
+        int key, key2;
 
-        key = R.styleable.SkinnableBgAttr[true ?
-                R.styleable.SkinnableBgAttr_android_background :
-                R.styleable.SkinnableBgAttr_backgroundNight];
-        int backgroundResource = getAttributeResource(key);
+        key = R.styleable.SkinnableBgAttr[R.styleable.SkinnableBgAttr_android_background];
+        key2 = R.styleable.SkinnableBgAttr[R.styleable.SkinnableBgAttr_backgroundNight];
+        int backgroundResource = getAttributeResource(key2);
         if (backgroundResource > 0) {
-            Drawable background = ContextCompat.getDrawable(context, backgroundResource);
+            L.d(getAttributeResource(key));
+            Drawable background = ContextCompat.getDrawable(context, 0x7f0a0001);
             //noinspection deprecation
             view.setBackgroundDrawable(background);
         }

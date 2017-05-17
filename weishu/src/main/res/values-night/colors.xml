@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="test">#000000</color>
+
     <color name="colorPrimary">@color/color_263238</color>
 
     <color name="colorPrimaryDark">@color/color_212B30</color>

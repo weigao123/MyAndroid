@@ -3,7 +3,6 @@ package com.garfield.weishu.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 
 import com.garfield.baselib.fragmentation.SupportFragment;
@@ -30,7 +29,7 @@ import static com.garfield.weishu.app.AppCache.USER_ACCOUNT;
  */
 public class MainActivity extends AppBaseActivity {
 
-    private static final boolean isToBack = true;
+    private static final boolean isToBack = false;
 
     public static void start(Context context) {
         start(context, null);
