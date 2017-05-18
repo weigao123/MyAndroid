@@ -22,7 +22,7 @@ public class SkinnableButton extends AppCompatButton implements Skinnable {
     public SkinnableButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mAttrsHelper = new AttrsHelper();
-        mAttrsHelper.obtain(context, attrs, defStyleAttr);
+        mAttrsHelper.obtainAttrs(context, attrs, defStyleAttr);
 
         applyDayNight();
     }

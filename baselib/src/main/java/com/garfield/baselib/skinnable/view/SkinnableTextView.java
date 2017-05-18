@@ -21,7 +21,7 @@ public class SkinnableTextView extends AppCompatTextView implements Skinnable {
     public SkinnableTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mAttrsHelper = new AttrsHelper();
-        mAttrsHelper.obtain(context, attrs, defStyleAttr);
+        mAttrsHelper.obtainAttrs(context, attrs, defStyleAttr);
         applyDayNight();
     }
 

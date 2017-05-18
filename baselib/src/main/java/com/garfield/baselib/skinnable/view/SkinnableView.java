@@ -2,34 +2,34 @@ package com.garfield.baselib.skinnable.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.FrameLayout;
+import android.view.View;
 
 import com.garfield.baselib.skinnable.utils.AttrsHelper;
 
+/**
+ * Created by gaowei on 2017/5/18.
+ */
 
-public class SkinnableFrameLayout extends FrameLayout implements Skinnable {
+public class SkinnableView extends View implements Skinnable {
 
     private AttrsHelper mAttrsHelper;
 
-    public SkinnableFrameLayout(Context context) {
-        this(context, null);
+    public SkinnableView(Context context) {
+        super(context);
     }
 
-    public SkinnableFrameLayout(Context context, AttributeSet attrs) {
+    public SkinnableView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public SkinnableFrameLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SkinnableView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mAttrsHelper = new AttrsHelper();
         mAttrsHelper.obtainAttrs(context, attrs, defStyleAttr);
-
-        applyDayNight();
     }
 
     @Override
     public void applyDayNight() {
         mAttrsHelper.applySkin(getContext(), this);
     }
-
 }

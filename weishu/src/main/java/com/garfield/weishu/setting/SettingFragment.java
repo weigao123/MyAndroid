@@ -1,11 +1,7 @@
 package com.garfield.weishu.setting;
 
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -13,15 +9,12 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.garfield.baselib.skinnable.utils.ThemeUtil;
-import com.garfield.baselib.skinnable.view.Skinnable;
 import com.garfield.baselib.ui.widget.SwitchButton;
 import com.garfield.baselib.utils.system.L;
-import com.garfield.baselib.utils.system.SharedPreferencesUtil;
-import com.garfield.baselib.utils.system.ThemeManager;
-import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.event.EventDispatcher;
+import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.app.SettingsPreferences;
+import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.nim.NimConfig;
 import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.UserInfoCache;
@@ -162,15 +155,12 @@ public class SettingFragment extends AppBaseFragment {
                 break;
             case R.id.fragment_setting_night:
                 if (mNightSwitch.getSwitchStatus()) {
-                    setDayNightMode(false);
                     //mActivity.getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    //ThemeMaskActivity.start(mActivity, false);
+                    ThemeMaskActivity.start(mActivity, false);
                 } else {
-                    setDayNightMode(true);
                     //mActivity.getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    //ThemeMaskActivity.start(mActivity, true);
+                    ThemeMaskActivity.start(mActivity, true);
                 }
-                mNightSwitch.setSwitchStatus(!mNightSwitch.getSwitchStatus());
                 break;
             case R.id.fragment_setting_clear_message:
                 MaterialDialog dialog = new MaterialDialog.Builder(getContext())

@@ -21,7 +21,7 @@ public class SkinnableRelativeLayout extends RelativeLayout implements Skinnable
     public SkinnableRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mAttrsHelper = new AttrsHelper();
-        mAttrsHelper.obtain(context, attrs, defStyleAttr);
+        mAttrsHelper.obtainAttrs(context, attrs, defStyleAttr);
 
         applyDayNight();
 

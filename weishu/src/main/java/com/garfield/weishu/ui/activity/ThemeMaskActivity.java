@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
 
+import com.garfield.baselib.skinnable.utils.ThemeUtil;
 import com.garfield.baselib.utils.drawable.ColorUtils;
 import com.garfield.baselib.utils.system.ScreenUtil;
 import com.garfield.baselib.utils.system.SystemUtil;
@@ -42,6 +43,7 @@ public class ThemeMaskActivity extends AppCompatActivity implements Animator.Ani
     public static void start(final Activity activity, final boolean isNight) {
         mActivity = new WeakReference<>(activity);
         mIsNightMode = isNight;
+        ThemeUtil.saveNightMode(mIsNightMode);
 
         final ViewGroup rootView = (ViewGroup) activity.getWindow().getDecorView().findViewById(android.R.id.content);
         final View transView = new View(activity);

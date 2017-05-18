@@ -23,7 +23,7 @@ public class ThemeUtil {
      *
      * 否则就在layout文件里多定义一套资源
      */
-    private static boolean mIsNativeNightModeEnable = false;
+    private static boolean mIsNativeNightModeEnable = true;
 
     public static void setNativeNightModeEnable(boolean enable) {
         mIsNativeNightModeEnable = enable;
@@ -40,7 +40,7 @@ public class ThemeUtil {
         return typedValue.data;
     }
 
-    public static void setNativeNightMode() {
+    public static void setLastNativeNightMode() {
         if (isNightMode()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
@@ -49,7 +49,8 @@ public class ThemeUtil {
     }
 
     public static void saveNightMode(boolean nightMode) {
-        SharedPreferencesUtil.saveInt("night_mode", nightMode ? NIGHT_MODE : DAY_MODE);
+        mMode = nightMode ? NIGHT_MODE : DAY_MODE;
+        SharedPreferencesUtil.saveInt("night_mode", mMode);
     }
 
     public static boolean isNightMode() {

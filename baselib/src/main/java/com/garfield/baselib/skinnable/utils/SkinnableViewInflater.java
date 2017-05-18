@@ -32,6 +32,7 @@ import com.garfield.baselib.skinnable.view.SkinnableLinearLayout;
 import com.garfield.baselib.skinnable.view.SkinnableRelativeLayout;
 import com.garfield.baselib.skinnable.view.SkinnableTextView;
 import com.garfield.baselib.skinnable.view.SkinnableToolbar;
+import com.garfield.baselib.skinnable.view.SkinnableView;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -80,6 +81,9 @@ public class SkinnableViewInflater {
 
         // We need to 'inject' our tint aware Views in place of the standard framework versions
         switch (name) {
+            case "View":
+                view = new SkinnableView(context, attrs);
+                break;
             case "TextView":
                 view = new SkinnableTextView(context, attrs);
                 break;

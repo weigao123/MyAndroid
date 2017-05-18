@@ -73,9 +73,8 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile project(':baselib')
-    //compile project(':material-dialogs')
-    compile(name:'material-dialogs-release', ext:'aar')
-    //compile 'com.afollestad.material-dialogs:commons:0.9.4.4'
+    compile project(':material-dialogs')
+    //compile(name:'material-dialogs-release', ext:'aar')
     compile 'com.github.chrisbanes:PhotoView:1.3.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.jakewharton:butterknife:8.4.0'

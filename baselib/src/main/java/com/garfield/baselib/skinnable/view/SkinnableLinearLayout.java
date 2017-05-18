@@ -20,7 +20,7 @@ public class SkinnableLinearLayout extends LinearLayout implements Skinnable {
     public SkinnableLinearLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mAttrsHelper = new AttrsHelper();
-        mAttrsHelper.obtain(context, attrs, defStyleAttr);
+        mAttrsHelper.obtainAttrs(context, attrs, defStyleAttr);
 
         applyDayNight();
     }

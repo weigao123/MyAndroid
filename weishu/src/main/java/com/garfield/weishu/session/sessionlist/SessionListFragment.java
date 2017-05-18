@@ -1,14 +1,10 @@
 package com.garfield.weishu.session.sessionlist;
 
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,9 +17,9 @@ import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.base.recyclerview.RecyclerViewHolder;
 import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
 import com.garfield.weishu.nim.NimConfig;
-import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.FriendDataCache;
+import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
@@ -73,11 +69,11 @@ public class SessionListFragment extends AppBaseFragment {
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         super.onInitViewAndData(rootView, savedInstanceState);
 
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
-            View activityView = ((ViewGroup) getActivity().getWindow().getDecorView().findViewById(android.R.id.content)).getChildAt(0);
-            activityView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-            rootView.setBackgroundColor(Color.WHITE);
-        }
+//        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+//            View activityView = ((ViewGroup) getActivity().getWindow().getDecorView().findViewById(android.R.id.content)).getChildAt(0);
+//            activityView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+//            rootView.setBackgroundColor(Color.WHITE);
+//        }
 
         recyclerView = (RecyclerView) mRootView.findViewById(R.id.session_list_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));

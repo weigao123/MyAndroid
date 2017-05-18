@@ -12,7 +12,6 @@ import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.view.LayoutInflaterFactory;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.VectorEnabledTintResources;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -21,9 +20,9 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import com.garfield.baselib.skinnable.utils.SkinnableViewInflater;
+import com.garfield.baselib.skinnable.utils.ThemeUtil;
 import com.garfield.baselib.skinnable.view.Skinnable;
 import com.garfield.baselib.swipeback.SwipeBackActivity;
-import com.garfield.baselib.skinnable.utils.ThemeUtil;
 
 import static android.support.v7.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static android.support.v7.app.AppCompatDelegate.MODE_NIGHT_YES;
@@ -34,17 +33,16 @@ public class SkinnableActivity extends SwipeBackActivity implements LayoutInflat
     private SkinnableViewInflater mSkinnableViewInflater;
     private SkinnableCallback mSkinnableCallback;
 
-    public boolean mSkinnableEnable = true;
-
+    public boolean mSkinnableInjectEnable = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        if (mSkinnableEnable) {
+        if (mSkinnableInjectEnable) {
             LayoutInflater layoutInflater = LayoutInflater.from(this);
             LayoutInflaterCompat.setFactory(layoutInflater, this);
         }
         if (ThemeUtil.isNativeNightModeEnable()) {
-            //ThemeUtil.setNativeNightMode();
+            ThemeUtil.setLastNativeNightMode();
         }
         super.onCreate(savedInstanceState);
     }
@@ -167,7 +165,6 @@ public class SkinnableActivity extends SwipeBackActivity implements LayoutInflat
             actionBar.setBackgroundDrawable(new ColorDrawable(color));
         }
     }
-
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {

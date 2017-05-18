@@ -4,14 +4,13 @@ import android.app.Application;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.garfield.baselib.skinnable.utils.ThemeUtil;
 import com.garfield.baselib.utils.http.image.ImageLoaderHelper;
 import com.garfield.baselib.utils.system.L;
+import com.garfield.baselib.utils.system.SystemUtil;
 import com.garfield.weishu.contact.query.PinYin;
+import com.garfield.weishu.nim.NimConfig;
 import com.garfield.weishu.nim.cache.DataCacheManager;
 import com.garfield.weishu.nim.cache.LoginSyncHelper;
-import com.garfield.weishu.nim.NimConfig;
-import com.garfield.baselib.utils.system.SystemUtil;
 import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.Bugly;
 
@@ -56,7 +55,6 @@ public class MyApplication extends Application {
                 DataCacheManager.buildDataCache();
             }
 
-            ThemeUtil.setNativeNightModeEnable(true);
         }
     }
 

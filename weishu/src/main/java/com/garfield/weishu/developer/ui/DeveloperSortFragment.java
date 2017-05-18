@@ -142,8 +142,9 @@ public class DeveloperSortFragment extends AppBaseFragment {
             @Override
             public void onBefore() {
                 dialog = new MaterialDialog.Builder(getContext())
+                        .backgroundColorRes(R.color.bg_itemFragment)
                         .content(R.string.initializing)
-                        .contentColorRes(R.color.black)
+                        .contentColorRes(R.color.mainTextColor)
                         .progress(true, 0)
                         .cancelable(false)
                         .show();
@@ -186,8 +187,9 @@ public class DeveloperSortFragment extends AppBaseFragment {
             @Override
             public void onBefore() {
                 dialog = new MaterialDialog.Builder(getContext())
+                        .backgroundColorRes(R.color.bg_itemFragment)
                         .content(R.string.sorting)
-                        .contentColorRes(R.color.black)
+                        .contentColorRes(R.color.mainTextColor)
                         .progress(true, 0)
                         .cancelable(false)
                         .show();

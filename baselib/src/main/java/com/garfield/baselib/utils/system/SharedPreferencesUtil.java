@@ -28,7 +28,11 @@ public class SharedPreferencesUtil {
     }
 
     public static boolean saveInt(String key, int value) {
-        return with(Cache.getContext()).edit().putInt(key, value).commit();
+        boolean result = with(Cache.getContext()).edit().putInt(key, value).commit();
+        if (!result) {
+            throw new RuntimeException("save error");
+        }
+        return true;
     }
 
     public static int getInt(String key) {
