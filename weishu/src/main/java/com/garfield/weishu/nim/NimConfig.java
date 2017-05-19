@@ -6,12 +6,9 @@ import android.graphics.Color;
 import android.os.Environment;
 import android.text.TextUtils;
 
-import com.garfield.baselib.utils.system.L;
-import com.garfield.baselib.utils.system.SharedPreferencesUtil;
-import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
+import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.app.SettingsPreferences;
-import com.garfield.weishu.app.UserPreferences;
 import com.garfield.weishu.ui.activity.WelcomeActivity;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
@@ -98,8 +95,8 @@ public class NimConfig {
     }
 
     private static LoginInfo getLoginInfo() {
-        String account = UserPreferences.getUserAccount();
-        String token = UserPreferences.getUserToken();
+        String account = SettingsPreferences.getUserAccount();
+        String token = SettingsPreferences.getUserToken();
         if (!TextUtils.isEmpty(account) && !TextUtils.isEmpty(token)) {
             AppCache.setAccount(account);
             return new LoginInfo(account, token);
@@ -130,6 +127,7 @@ public class NimConfig {
     public static void initSetting() {
         toggleNotification(SettingsPreferences.getNotificationToggle());
         AppCache.setHasAnimation(SettingsPreferences.getAnimation());
+        AppCache.setCloseToBg(SettingsPreferences.getCloseBg());
     }
 
     public static void setRingToggle(boolean on) {

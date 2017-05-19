@@ -27,28 +27,24 @@ public class SharedPreferencesUtil {
         return mArrayMap.get(fileName);
     }
 
-    public static boolean saveInt(String key, int value) {
-        boolean result = with(Cache.getContext()).edit().putInt(key, value).commit();
-        if (!result) {
-            throw new RuntimeException("save error");
-        }
-        return true;
-    }
-
-    public static int getInt(String key) {
-        return getInt(key, 0);
+    public static void saveInt(String key, int value) {
+        with(Cache.getContext()).edit().putInt(key, value).apply();
     }
 
     public static int getInt(String key, int def) {
         return with(Cache.getContext()).getInt(key, def);
     }
 
-    public static boolean saveBoolean(String key, boolean value) {
-        return with(Cache.getContext()).edit().putBoolean(key, value).commit();
+    public static void saveString(String key, String value) {
+        with(Cache.getContext()).edit().putString(key, value).apply();
     }
 
-    public static boolean getBoolean(String key) {
-        return getBoolean(key, false);
+    public static String getString(String key, String def) {
+        return with(Cache.getContext()).getString(key, def);
+    }
+
+    public static void saveBoolean(String key, boolean value) {
+        with(Cache.getContext()).edit().putBoolean(key, value).apply();
     }
 
     public static boolean getBoolean(String key, boolean def) {

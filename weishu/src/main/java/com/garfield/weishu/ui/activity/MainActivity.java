@@ -29,8 +29,6 @@ import static com.garfield.weishu.app.AppCache.USER_ACCOUNT;
  */
 public class MainActivity extends AppBaseActivity {
 
-    private static final boolean isToBack = false;
-
     public static void start(Context context) {
         start(context, null);
     }
@@ -77,7 +75,6 @@ public class MainActivity extends AppBaseActivity {
                 DialogMaker.showProgressDialog(MainActivity.this, getString(R.string.prepare_data)).setCanceledOnTouchOutside(false);
             }
         }
-        setIsToBack(isToBack);
     }
 
     @Override
@@ -167,6 +164,12 @@ public class MainActivity extends AppBaseActivity {
 //            ((MainFragment) topFragment).switchToFirst();
 //        }
         updateNotification(topFragment);
+    }
+
+    @Override
+    public void onBackPressed() {
+        setIsToBack(AppCache.isCloseToBg());
+        super.onBackPressed();
     }
 
     @Override

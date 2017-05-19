@@ -1,7 +1,5 @@
 package com.garfield.weishu.app;
 
-import android.content.Context;
-
 import com.garfield.baselib.Cache;
 
 
@@ -11,6 +9,8 @@ public class AppCache extends Cache {
     private static String account;
 
     private static boolean hasAnimation;
+
+    private static boolean closeToBg;
 
     public static void clear() {
         account = null;
@@ -30,6 +30,14 @@ public class AppCache extends Cache {
 
     public static void setHasAnimation(boolean hasAnimation) {
         AppCache.hasAnimation = hasAnimation;
+    }
+
+    public static boolean isCloseToBg() {
+        return closeToBg;
+    }
+
+    public static void setCloseToBg(boolean closeToBg) {
+        AppCache.closeToBg = closeToBg;
     }
 
 }

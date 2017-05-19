@@ -128,6 +128,7 @@
     <string name="game">游戏</string>
     <string name="press_to_voice">按住说话</string>
     <string name="about_weishu">关于微书</string>
+    <string name="setting">设置</string>
 
     <string name="pull_to_refresh">下拉可以刷新</string>
     <string name="release_to_refresh">释放立即刷新</string>
@@ -150,6 +151,8 @@
     <string name="no_data">无数据</string>
     <string name="data_updated">已更新</string>
     <string name="open">打开</string>
+
+    <string name="close_background">退出到后台</string>
 
     <!-- 排序 -->
     <string name="function_has_not_developed">功能尚未开发</string>

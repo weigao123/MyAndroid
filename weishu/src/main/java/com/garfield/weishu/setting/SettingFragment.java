@@ -16,13 +16,11 @@ import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.app.SettingsPreferences;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.nim.NimConfig;
-import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.garfield.weishu.ui.activity.ThemeMaskActivity;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 import com.garfield.weishu.ui.view.HeadImageView;
 import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
@@ -54,9 +52,6 @@ public class SettingFragment extends AppBaseFragment {
     @BindView(R.id.fragment_setting_vibrate_switch)
     SwitchButton mVibrateSwitch;
 
-    @BindView(R.id.fragment_setting_animator_switch)
-    SwitchButton mAnimatorSwitch;
-
     @BindView(R.id.fragment_setting_night_switch)
     SwitchButton mNightSwitch;
 
@@ -87,7 +82,6 @@ public class SettingFragment extends AppBaseFragment {
         mNotifySwitch.setSwitchStatus(SettingsPreferences.getNotificationToggle());
         mRingSwitch.setSwitchStatus(SettingsPreferences.getRingToggle());
         mVibrateSwitch.setSwitchStatus(SettingsPreferences.getVibrateToggle());
-        mAnimatorSwitch.setSwitchStatus(SettingsPreferences.getAnimation());
         mNightSwitch.setSwitchStatus(ThemeUtil.isNightMode());
 
         int visible = mNotifySwitch.getSwitchStatus() ? View.VISIBLE : View.GONE;
@@ -123,11 +117,10 @@ public class SettingFragment extends AppBaseFragment {
     @OnClick({R.id.fragment_setting_notify,
               R.id.fragment_setting_ring,
               R.id.fragment_setting_vibrate,
-              R.id.fragment_setting_animator,
               R.id.fragment_setting_night,
               R.id.fragment_setting_clear_message,
               R.id.fragment_setting_about,
-              R.id.fragment_setting_logout})
+              R.id.fragment_setting_setting})
     void switchSetting(View view) {
         switch(view.getId()) {
             case R.id.fragment_setting_notify:
@@ -147,11 +140,6 @@ public class SettingFragment extends AppBaseFragment {
                 mVibrateSwitch.setSwitchStatus(!mVibrateSwitch.getSwitchStatus());
                 SettingsPreferences.setVibrateToggle(mVibrateSwitch.getSwitchStatus());
                 NimConfig.setVibrateToggle(mVibrateSwitch.getSwitchStatus());
-                break;
-            case R.id.fragment_setting_animator:
-                mAnimatorSwitch.setSwitchStatus(!mAnimatorSwitch.getSwitchStatus());
-                SettingsPreferences.setAnimation(mAnimatorSwitch.getSwitchStatus());
-                AppCache.setHasAnimation(mAnimatorSwitch.getSwitchStatus());
                 break;
             case R.id.fragment_setting_night:
                 if (mNightSwitch.getSwitchStatus()) {
@@ -183,25 +171,10 @@ public class SettingFragment extends AppBaseFragment {
             case R.id.fragment_setting_about:
                 EventDispatcher.startFragmentEvent(new AboutFragment());
                 break;
-            case R.id.fragment_setting_logout:
-                dialog = new MaterialDialog.Builder(getContext())
-                        .backgroundColorRes(R.color.bg_itemFragment)
-                        .title(R.string.logout_confirm)
-                        .positiveText(R.string.confirm)
-                        .positiveColor(getResources().getColor(R.color.mainTextColor))
-                        .onPositive(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                // 只有手动退出时调用
-                                NIMClient.getService(AuthService.class).logout();
-                                RegisterAndLogin.logout(mActivity);
-                            }
-                        })
-                        .negativeText(R.string.cancel)
-                        .negativeColor(getResources().getColor(R.color.mainTextColor))
-                        .build();
-                EventDispatcher.startDialog(dialog);
+            case R.id.fragment_setting_setting:
+                EventDispatcher.startFragmentEvent(new MoreSettingFragment());
                 break;
+
         }
     }
 

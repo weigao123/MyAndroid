@@ -130,31 +130,6 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/fragment_setting_animator"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:background="@drawable/bg_press_item_normal">
-                <View
-                    android:layout_alignParentTop="true"
-                    style="@style/horizontal_divider"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="20dp"
-                    android:text="@string/transfer_animation"
-                    android:textSize="16sp"
-                    android:gravity="center"/>
-                <com.garfield.baselib.ui.widget.SwitchButton
-                    android:id="@+id/fragment_setting_animator_switch"
-                    android:layout_width="50dp"
-                    android:layout_height="33dp"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="20dp">
-                </com.garfield.baselib.ui.widget.SwitchButton>
-            </RelativeLayout>
-
-            <RelativeLayout
                 android:id="@+id/fragment_setting_night"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
@@ -212,17 +187,17 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/fragment_setting_logout"
+                android:id="@+id/fragment_setting_setting"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginBottom="60dp"
+                android:layout_marginBottom="15dp"
                 android:background="@drawable/bg_press_item_normal">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
-                    android:text="@string/logout"
+                    android:text="@string/setting"
                     android:textSize="16sp"
                     android:gravity="center"/>
             </RelativeLayout>

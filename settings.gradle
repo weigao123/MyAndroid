@@ -1,1 +1,1 @@
-include ':baselib', ':study', ':weishu', ':material-dialogs'
+include ':baselib', ':study', ':weishu'

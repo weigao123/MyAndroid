@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_itemFragment">
+
+    <include layout="@layout/include_toolbar" />
+
+    <RelativeLayout
+        android:id="@+id/more_setting_animator"
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/bg_press_item_normal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:text="@string/transfer_animation"
+            android:textSize="16sp"
+            android:gravity="center"/>
+        <com.garfield.baselib.ui.widget.SwitchButton
+            android:id="@+id/more_setting_animator_switch"
+            android:layout_width="50dp"
+            android:layout_height="33dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp">
+        </com.garfield.baselib.ui.widget.SwitchButton>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/more_setting_close_background"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/bg_press_item_normal">
+        <View
+            android:layout_alignParentTop="true"
+            style="@style/horizontal_divider"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:text="@string/close_background"
+            android:textSize="16sp"
+            android:gravity="center"/>
+        <com.garfield.baselib.ui.widget.SwitchButton
+            android:id="@+id/more_setting_close_background_switch"
+            android:layout_width="50dp"
+            android:layout_height="33dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp">
+        </com.garfield.baselib.ui.widget.SwitchButton>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/more_setting_logout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/bg_press_item_normal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:text="@string/logout"
+            android:textSize="16sp"
+            android:gravity="center"/>
+    </RelativeLayout>
+
+</LinearLayout>

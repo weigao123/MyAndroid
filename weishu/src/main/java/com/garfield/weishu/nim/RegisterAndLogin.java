@@ -8,7 +8,7 @@ import com.garfield.baselib.base.BaseActivity;
 import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
-import com.garfield.weishu.app.UserPreferences;
+import com.garfield.weishu.app.SettingsPreferences;
 import com.garfield.weishu.helper.http.volley.BaseRequest;
 import com.garfield.weishu.helper.http.volley.RegisterRequest;
 import com.garfield.baselib.utils.http.http.VolleyHelper;
@@ -124,7 +124,7 @@ public class RegisterAndLogin {
 
 
     public static void logout(BaseActivity context) {
-        UserPreferences.saveUserToken("");
+        SettingsPreferences.saveUserToken("");
         AppCache.clear();
         DataCacheManager.clearDataCache();
         LoginSyncHelper.getInstance().reset();

@@ -56,12 +56,12 @@ public class KeyboardUtil {
         return ScreenUtil.screenHeight - ScreenUtil.statusBarHeight > contentHeight;
     }
 
-    private static boolean saveKeyboardHeight(int keyboardHeight) {
+    private static void saveKeyboardHeight(int keyboardHeight) {
         if (LAST_SAVE_KEYBOARD_HEIGHT == keyboardHeight) {
-            return false;
+            return;
         }
         LAST_SAVE_KEYBOARD_HEIGHT = keyboardHeight;
-        return SharedPreferencesUtil.saveInt(KEY_KEYBOARD_HEIGHT, keyboardHeight);
+        SharedPreferencesUtil.saveInt(KEY_KEYBOARD_HEIGHT, keyboardHeight);
     }
 
     /**

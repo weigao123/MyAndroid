@@ -8,16 +8,13 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.garfield.baselib.ui.dialog.DialogMaker;
 import com.garfield.baselib.ui.widget.ClearableEditText;
 import com.garfield.baselib.utils.system.L;
-import com.garfield.baselib.utils.system.SystemUtil;
 import com.garfield.weishu.R;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.app.SettingsPreferences;
-import com.garfield.weishu.app.UserPreferences;
 import com.garfield.weishu.nim.NimHelper;
 import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.DataCacheManager;
@@ -86,7 +83,7 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher {
         mLoginLayout.setVisibility(isLogin? View.VISIBLE: View.GONE);
         mRegisterLayout.setVisibility(!isLogin? View.VISIBLE: View.GONE);
         mLoginRegisterText.setText(!isLogin? R.string.has_account: R.string.has_no_account);
-        mLoginAccountText.setText(UserPreferences.getUserAccount());
+        mLoginAccountText.setText(SettingsPreferences.getUserAccount());
         mLoginAccountText.setSelection(mLoginAccountText.getText().length());
         mLoginPasswordText.setText(mLoginPasswordText.getTag() == null ? "" : (String)mLoginPasswordText.getTag());
         mRegisterAccountText.setText("");
@@ -203,9 +200,9 @@ public class LoginActivity extends AppBaseActivity implements TextWatcher {
     }
 
     private void saveLoginInfo(String account, String token) {
-        UserPreferences.saveUserAccount(account);
+        SettingsPreferences.saveUserAccount(account);
         if (token != null) {
-            UserPreferences.saveUserToken(token);
+            SettingsPreferences.saveUserToken(token);
         }
     }
 

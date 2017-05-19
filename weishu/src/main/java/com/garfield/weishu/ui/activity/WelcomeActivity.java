@@ -6,9 +6,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 
 import com.garfield.baselib.BuildConfig;
-import com.garfield.baselib.utils.system.L;
-import com.garfield.weishu.R;
-import com.garfield.weishu.app.UserPreferences;
+import com.garfield.weishu.app.SettingsPreferences;
 import com.netease.nimlib.sdk.NimIntent;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
@@ -78,8 +76,8 @@ public class WelcomeActivity extends AppBaseActivity {
      * 已经登陆过，自动登陆
      */
     private boolean canAutoLogin() {
-        String account = UserPreferences.getUserAccount();
-        String token = UserPreferences.getUserToken();
+        String account = SettingsPreferences.getUserAccount();
+        String token = SettingsPreferences.getUserToken();
         return !TextUtils.isEmpty(account) && !TextUtils.isEmpty(token);
     }
 

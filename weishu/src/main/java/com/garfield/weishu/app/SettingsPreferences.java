@@ -1,14 +1,13 @@
 package com.garfield.weishu.app;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
 import com.alibaba.fastjson.JSONObject;
 import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 
-/**
- * Created by hzxuwen on 2015/4/13.
- */
+import static com.garfield.baselib.utils.system.SharedPreferencesUtil.getBoolean;
+import static com.garfield.baselib.utils.system.SharedPreferencesUtil.getString;
+import static com.garfield.baselib.utils.system.SharedPreferencesUtil.saveBoolean;
+import static com.garfield.baselib.utils.system.SharedPreferencesUtil.saveString;
+
 public class SettingsPreferences {
     private final static String KEY_STATUS_BAR_NOTIFICATION_CONFIG = "KEY_STATUS_BAR_NOTIFICATION_CONFIG";
 
@@ -17,9 +16,27 @@ public class SettingsPreferences {
     private final static String KEY_VIBRATE_TOGGLE = "KEY_VIBRATE_TOGGLE";
     private final static String KEY_ANIMATION_TOGGLE = "key_animation_toggle";
     private final static String KEY_CROP_TOGGLE = "key_crop_toggle";
-    private final static String KEY_ADD_AUTHOR = "key_add_author";
-    private final static String KEY_NIGHT_MODE = "key_night_mode";
+    private final static String KEY_CLOSE_BG = "key_close_to_bg";
 
+    private static final String KEY_USER_ACCOUNT = "account";
+    private static final String KEY_USER_TOKEN = "token";
+
+    public static void saveUserAccount(String account) {
+        AppCache.setAccount(account.toLowerCase());
+        saveString(KEY_USER_ACCOUNT, account.toLowerCase());
+    }
+
+    public static String getUserAccount() {
+        return getString(KEY_USER_ACCOUNT, null);
+    }
+
+    public static void saveUserToken(String token) {
+        saveString(KEY_USER_TOKEN, token);
+    }
+
+    public static String getUserToken() {
+        return getString(KEY_USER_TOKEN, null);
+    }
 
     public static void setNotificationToggle(boolean on) {
         saveBoolean(KEY_NOTIFY_TOGGLE, on);
@@ -61,17 +78,18 @@ public class SettingsPreferences {
         return getBoolean(KEY_CROP_TOGGLE, false);
     }
 
-    public static void setAddAuthor(boolean on) {
-        saveBoolean(KEY_ADD_AUTHOR, on);
+    public static void setCloseBg(boolean on) {
+        saveBoolean(KEY_CLOSE_BG, on);
     }
 
-    public static boolean getAddAuthor() {
-        return getBoolean(KEY_ADD_AUTHOR, false);
+    public static boolean getCloseBg() {
+        return getBoolean(KEY_CLOSE_BG, true);
     }
+
 
     private static StatusBarNotificationConfig getConfig() {
         StatusBarNotificationConfig config = new StatusBarNotificationConfig();
-        String jsonString = getSharedPreferences().getString(KEY_STATUS_BAR_NOTIFICATION_CONFIG, "");
+        String jsonString = getString(KEY_STATUS_BAR_NOTIFICATION_CONFIG, "");
         try {
             JSONObject jsonObject = JSONObject.parseObject(jsonString);
             if (jsonObject == null) {
@@ -97,7 +115,6 @@ public class SettingsPreferences {
     }
 
     private static void saveStatusBarNotificationConfig(StatusBarNotificationConfig config) {
-        SharedPreferences.Editor editor = getSharedPreferences().edit();
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("downTimeBegin", config.downTimeBegin);
@@ -115,21 +132,7 @@ public class SettingsPreferences {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        editor.putString(KEY_STATUS_BAR_NOTIFICATION_CONFIG, jsonObject.toString());
-        editor.commit();
+        saveString(KEY_STATUS_BAR_NOTIFICATION_CONFIG, jsonObject.toString());
     }
 
-    private static boolean getBoolean(String key, boolean value) {
-        return getSharedPreferences().getBoolean(key, value);
-    }
-
-    private static void saveBoolean(String key, boolean value) {
-        SharedPreferences.Editor editor = getSharedPreferences().edit();
-        editor.putBoolean(key, value);
-        editor.commit();
-    }
-
-    private static SharedPreferences getSharedPreferences() {
-        return AppCache.getContext().getSharedPreferences("weishu." + AppCache.getAccount(), Context.MODE_PRIVATE);
-    }
 }

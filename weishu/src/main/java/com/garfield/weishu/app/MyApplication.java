@@ -51,7 +51,7 @@ public class MyApplication extends Application {
             // 同步时，SDK的数据更新到缓存
             DataCacheManager.observeSDKDataChanged();
             // 获取SDK数据到缓存
-            if (!TextUtils.isEmpty(UserPreferences.getUserAccount()) && !TextUtils.isEmpty(UserPreferences.getUserToken())) {
+            if (!TextUtils.isEmpty(SettingsPreferences.getUserAccount()) && !TextUtils.isEmpty(SettingsPreferences.getUserToken())) {
                 DataCacheManager.buildDataCache();
             }
 
