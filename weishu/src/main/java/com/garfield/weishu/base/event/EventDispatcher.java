@@ -84,7 +84,7 @@ public class EventDispatcher {
     }
 
     public static void startFragmentEvent(final SupportFragment fragment, int delayTime) {
-        if (UiUtils.isFastDoubleClick(500)) return;
+        if (UiUtils.isFastDoubleClick()) return;
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -94,7 +94,7 @@ public class EventDispatcher {
     }
 
     public static void startDialog(final Dialog dialog) {
-        if (UiUtils.isFastDoubleClick(500)) return;
+        if (UiUtils.isFastDoubleClick()) return;
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {

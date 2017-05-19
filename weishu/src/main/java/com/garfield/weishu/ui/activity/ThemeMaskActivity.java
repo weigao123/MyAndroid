@@ -21,6 +21,7 @@ import android.view.ViewPropertyAnimator;
 
 import com.garfield.baselib.skinnable.utils.ThemeUtil;
 import com.garfield.baselib.utils.drawable.ColorUtils;
+import com.garfield.baselib.utils.drawable.UiUtils;
 import com.garfield.baselib.utils.system.ScreenUtil;
 import com.garfield.baselib.utils.system.SystemUtil;
 import com.garfield.weishu.R;
@@ -41,6 +42,8 @@ public class ThemeMaskActivity extends AppCompatActivity implements Animator.Ani
     private static int mColorNight = ColorUtils.getColor(R.color.color_212B30);
 
     public static void start(final Activity activity, final boolean isNight) {
+        if (UiUtils.isFastDoubleClick()) return;
+
         mActivity = new WeakReference<>(activity);
         mIsNightMode = isNight;
         ThemeUtil.saveNightMode(mIsNightMode);

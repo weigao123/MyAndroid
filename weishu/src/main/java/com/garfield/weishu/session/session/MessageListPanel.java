@@ -116,7 +116,7 @@ public class MessageListPanel {
         IMMessage lastMsg = messages.get(messages.size() - 1);
         if (isMyMessage(lastMsg)) {
             if (needScrollToBottom) {
-                ListViewUtil.scrollToBottom(messageListView);
+                //ListViewUtil.scrollToBottom(messageListView);
             }
         }
     }

@@ -8,6 +8,12 @@ public class UiUtils {
 
     private static long lastClickTime;
 
+    private static final int DEFAULT = 500;
+
+    public static boolean isFastDoubleClick() {
+        return isFastDoubleClick(DEFAULT);
+    }
+
     public static boolean isFastDoubleClick(int diff) {
         long time = System.currentTimeMillis();
         if (time - lastClickTime < diff) {

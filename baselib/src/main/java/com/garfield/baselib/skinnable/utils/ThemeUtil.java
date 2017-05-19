@@ -50,12 +50,12 @@ public class ThemeUtil {
 
     public static void saveNightMode(boolean nightMode) {
         mMode = nightMode ? NIGHT_MODE : DAY_MODE;
-        SharedPreferencesUtil.saveInt("night_mode", mMode);
+        SharedPreferencesUtil.saveInt("night_mode_", mMode);
     }
 
     public static boolean isNightMode() {
         if (mMode == 0) {
-            mMode = SharedPreferencesUtil.getInt("night_mode", DAY_MODE);
+            mMode = SharedPreferencesUtil.getInt("night_mode_", DAY_MODE);
         }
         return mMode == NIGHT_MODE;
     }

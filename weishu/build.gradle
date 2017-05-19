@@ -11,7 +11,7 @@ android {
         applicationId "com.garfield.weishu"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 6
+        versionCode 8
         versionName "1.0"
     }
     signingConfigs {

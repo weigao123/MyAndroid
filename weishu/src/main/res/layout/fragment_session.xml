@@ -15,6 +15,7 @@
         android:layout_weight="1"
         android:divider="@null"
         android:listSelector="#00000000"
+        android:transcriptMode="normal"
         android:background="@color/bg_session"/>
 
     <View style="@style/horizontal_divider" />
