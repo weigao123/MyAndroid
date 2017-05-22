@@ -176,6 +176,12 @@
     <string name="merging_sort">归并排序</string>
     <string name="data_is_too_large_to_show">已完成，但数据量太大，不做显示</string>
 
+    <!--遍历-->
+    <string name="traverse">遍历</string>
+    <string name="pre_traverse">前序遍历</string>
+    <string name="in_traverse">中序遍历</string>
+    <string name="post_traverse">后序遍历</string>
+
     <!-- SurfaceView -->
     <string name="rebroadcast">重播</string>
 

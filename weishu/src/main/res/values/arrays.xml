@@ -32,4 +32,10 @@
         <item>@string/merging_sort</item>
     </string-array>
 
+    <string-array name="traverse_algorithm">
+        <item>@string/pre_traverse</item>
+        <item>@string/in_traverse</item>
+        <item>@string/post_traverse</item>
+    </string-array>
+
 </resources>

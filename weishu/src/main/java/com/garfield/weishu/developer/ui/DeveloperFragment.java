@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.garfield.baselib.adapter.DividerItemDecoration;
 import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.app.AppCache;
@@ -47,12 +46,13 @@ public class DeveloperFragment extends AppBaseFragment implements TRecyclerAdapt
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
         mData.add("1、SpeedView");
-        mData.add("2、Sort Arithmetic");
-        mData.add("3、Multi Thread");
-        mData.add("4、SurfaceView");
-        mData.add("5、FastBlur");
-        mData.add("6、LayoutManager");
-        mData.add("7、Plugin");
+        mData.add("2、排序算法");
+        mData.add("3、二叉树");
+        mData.add("4、多线程");
+        mData.add("5、SurfaceView");
+        mData.add("6、图像模糊");
+        mData.add("7、LayoutManager");
+        mData.add("8、Plugin");
 
         //mData.add("15、音乐控制");
         //mData.add("16、fitsSystemWindows");
@@ -77,15 +77,18 @@ public class DeveloperFragment extends AppBaseFragment implements TRecyclerAdapt
                 EventDispatcher.startFragmentEvent(new DeveloperSortFragment());
                 break;
             case 3:
-                EventDispatcher.startFragmentEvent(new DeveloperThreadFragment());
+                EventDispatcher.startFragmentEvent(new DeveloperTreeTraverseFragment());
                 break;
             case 4:
-                EventDispatcher.startFragmentEvent(new DeveloperSurfaceViewFragment());
+                EventDispatcher.startFragmentEvent(new DeveloperThreadFragment());
                 break;
             case 5:
+                EventDispatcher.startFragmentEvent(new DeveloperSurfaceViewFragment());
+                break;
+            case 6:
                 EventDispatcher.startFragmentEvent(new DeveloperBlurFragment());
                 break;
-            case 7:
+            case 8:
                 EventDispatcher.startFragmentEvent(new DeveloperPluginFragment());
                 break;
 
