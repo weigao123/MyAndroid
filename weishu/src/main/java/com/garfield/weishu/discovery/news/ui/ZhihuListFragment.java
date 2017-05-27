@@ -10,8 +10,8 @@ import com.garfield.baselib.utils.cache.ACache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.base.event.EventDispatcher;
-import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
-import com.garfield.weishu.base.viewpager.TPagerAdapter;
+import com.garfield.weishu.base.recyclerview.BaseRecyclerAdapter;
+import com.garfield.weishu.base.viewpager.view.BasePagerAdapter;
 import com.garfield.weishu.discovery.news.bean.zhihu.ZhihuDaily;
 import com.garfield.weishu.discovery.news.bean.zhihu.ZhihuDailyItem;
 
@@ -23,7 +23,7 @@ import java.util.List;
  */
 
 public class ZhihuListFragment extends NewsListBaseFragment<ZhihuDaily> implements
-        TRecyclerAdapter.ItemEventListener<ZhihuDailyItem>, TPagerAdapter.ItemEventListener<ZhihuDailyItem> {
+        BaseRecyclerAdapter.ItemEventListener<ZhihuDailyItem>, BasePagerAdapter.ItemEventListener<ZhihuDailyItem> {
 
     private List<ZhihuDailyItem> mItems = new ArrayList<>();
     private String mCurrentDate;

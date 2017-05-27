@@ -12,8 +12,8 @@ import com.garfield.baselib.utils.cache.ACache;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
-import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
-import com.garfield.weishu.base.viewpager.TPagerAdapter;
+import com.garfield.weishu.base.recyclerview.BaseRecyclerAdapter;
+import com.garfield.weishu.base.viewpager.view.BasePagerAdapter;
 import com.garfield.weishu.discovery.browser.BrowserFragment;
 import com.garfield.weishu.discovery.news.bean.netease.NewsBean;
 import com.garfield.weishu.discovery.news.head.NewsHeadView;
@@ -31,7 +31,7 @@ import java.util.List;
  */
 
 public class NewsListFragment extends NewsListBaseFragment<NewsBean> implements
-        TRecyclerAdapter.ItemEventListener<NewsBean>, TPagerAdapter.ItemEventListener<NewsBean> {
+        BaseRecyclerAdapter.ItemEventListener<NewsBean>, BasePagerAdapter.ItemEventListener<NewsBean> {
 
     private NewsHeadView mNewsHeadView;
     private String mACacheTag;

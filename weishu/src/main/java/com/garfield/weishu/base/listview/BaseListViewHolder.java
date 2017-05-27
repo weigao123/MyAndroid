@@ -1,26 +1,35 @@
-package com.garfield.weishu.base.recyclerview;
+package com.garfield.weishu.base.listview;
 
+import android.view.LayoutInflater;
 import android.view.View;
 
 /**
- * Adapter的所有item必须实现的接口
- * 不能作为内部类，否则newInstance不能用
+ * Created by gwball on 2016/9/27.
  */
-public abstract class TRecyclerViewHolder<T> {
+
+public abstract class BaseListViewHolder<T> {
 
     protected View mRootView;
+    protected BaseListAdapter mAdapter;
     protected int mPosition;
-    protected TRecyclerAdapter mAdapter;
+    protected boolean mRegisterRootListener = true;
 
-    void bindViews(View rootView, TRecyclerAdapter adapter) {
-        mRootView = rootView;
+    /**
+     * 入口
+     */
+    View bindViews(LayoutInflater inflater, BaseListAdapter adapter) {
+        mRootView = inflater.inflate(getResId(), null);
         mAdapter = adapter;
         inflateView();
         setView();
         setEventListener();
+        return mRootView;
     }
 
     private void setEventListener() {
+        if (!mRegisterRootListener) {
+            return;
+        }
         mRootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,31 +49,32 @@ public abstract class TRecyclerViewHolder<T> {
         });
     }
 
-    /**
-     * 内部调用
-     */
-    void refresh(int position) {
+    void refresh(T item, int position) {
         mPosition = position;
-        refresh((T)mAdapter.getItems().get(position));
+        refresh(item);
     }
 
-    protected abstract int getLayoutResId();
+    protected abstract int getResId();
 
     protected abstract void inflateView();
 
-    protected abstract void setView();
+    protected void setView() {
 
-    protected abstract void refresh(T t);
+    }
 
-    /**
-     * 外部调用，刷新当前Holder
-     */
-    protected abstract void refresh();
+    protected abstract void refresh(T item);
 
-    protected abstract TRecyclerAdapter getAdapter();
+    protected abstract BaseListAdapter getAdapter();
 
     protected <M extends View> M findView(int resId) {
         return (M) (mRootView.findViewById(resId));
     }
 
-}  
+    public boolean isFirstItem() {
+        return mPosition == 0;
+    }
+
+    public boolean isLastItem() {
+        return mPosition == mAdapter.getCount() - 1;
+    }
+}

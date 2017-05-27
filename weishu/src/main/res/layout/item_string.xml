@@ -9,7 +9,6 @@
         android:id="@+id/item_string_text"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:paddingLeft="20dp"
         android:gravity="center_vertical"
         android:textColor="@color/mainTextColor"
         android:background="@drawable/bg_press_item_to"

@@ -6,8 +6,8 @@ import android.widget.TextView;
 
 import com.garfield.baselib.utils.http.image.ImageHelper;
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
-import com.garfield.weishu.base.recyclerview.TRecyclerViewHolder;
+import com.garfield.weishu.base.recyclerview.BaseRecyclerAdapter;
+import com.garfield.weishu.base.recyclerview.BaseRecyclerViewHolder;
 import com.garfield.weishu.discovery.news.bean.zhihu.ZhihuDailyItem;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
  * Created by gaowei3 on 2016/12/5.
  */
 
-public class ZhihuListViewHolder extends TRecyclerViewHolder<ZhihuDailyItem> {
+public class ZhihuListViewHolder extends BaseRecyclerViewHolder<ZhihuDailyItem> {
 
     private ImageView zhihuImage;
     private TextView zhihuTitle;
@@ -55,7 +55,7 @@ public class ZhihuListViewHolder extends TRecyclerViewHolder<ZhihuDailyItem> {
     }
 
 
-    public static class ZhihuRecyclerAdapter extends TRecyclerAdapter<ZhihuDailyItem> {
+    public static class ZhihuRecyclerAdapter extends BaseRecyclerAdapter<ZhihuDailyItem> {
         public ZhihuRecyclerAdapter(Context context, List<ZhihuDailyItem> items) {
             super(context, items);
         }

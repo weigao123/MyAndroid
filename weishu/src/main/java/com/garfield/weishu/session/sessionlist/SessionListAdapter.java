@@ -2,8 +2,7 @@ package com.garfield.weishu.session.sessionlist;
 
 import android.content.Context;
 
-import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
-import com.garfield.weishu.base.recyclerview.TRecyclerViewHolder;
+import com.garfield.weishu.base.recyclerview.BaseRecyclerAdapter;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
 /**
  * Created by gwball on 2016/8/3.
  */
-public class SessionListAdapter extends TRecyclerAdapter<RecentContact> {
+public class SessionListAdapter extends BaseRecyclerAdapter<RecentContact> {
 
 //    private SessionListEventListener mEventListener;
 

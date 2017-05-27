@@ -3,7 +3,7 @@ package com.garfield.weishu.discovery.news.head;
 import android.content.Context;
 import android.view.ViewGroup;
 
-import com.garfield.weishu.base.viewpager.TPagerAdapter;
+import com.garfield.weishu.base.viewpager.view.BasePagerAdapter;
 import com.garfield.weishu.discovery.news.bean.netease.NewsBean;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  * Created by gaowei3 on 2016/10/31.
  */
 
-public class InfinitePagerAdapter extends TPagerAdapter<NewsBean> {
+public class InfinitePagerAdapter extends BasePagerAdapter<NewsBean> {
 
     public InfinitePagerAdapter(Context context, List<NewsBean> items) {
         super(context, items);
@@ -58,6 +58,11 @@ public class InfinitePagerAdapter extends TPagerAdapter<NewsBean> {
         return position % getItems().size();
     }
 
+    /**
+     * 如果为 POSITION_UNCHANGED，则什么都不做；
+     * 如果为 POSITION_NONE，则调用 PagerAdapter.destroyItem() 来去掉该对象，
+     * 并设置为需要刷新 (needPopulate = true) 以便触发 PagerAdapter.instantiateItem() 来生成新的对象
+     */
     @Override
     public int getItemPosition(Object object) {
         return POSITION_NONE;

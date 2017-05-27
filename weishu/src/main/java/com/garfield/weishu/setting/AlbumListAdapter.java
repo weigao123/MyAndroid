@@ -3,7 +3,7 @@ package com.garfield.weishu.setting;
 import android.content.Context;
 
 import com.garfield.baselib.utils.drawable.PhotoUtil;
-import com.garfield.weishu.base.listview.TListAdapter;
+import com.garfield.weishu.base.listview.BaseListAdapter;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
  * Created by gaowei3 on 2016/10/21.
  */
 
-public class AlbumListAdapter extends TListAdapter<PhotoUtil.AlbumInfo> {
+public class AlbumListAdapter extends BaseListAdapter<PhotoUtil.AlbumInfo> {
 
     private int albumSelect;
 

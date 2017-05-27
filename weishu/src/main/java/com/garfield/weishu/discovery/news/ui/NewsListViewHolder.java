@@ -6,8 +6,8 @@ import android.widget.TextView;
 
 import com.garfield.baselib.utils.http.image.ImageHelper;
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
-import com.garfield.weishu.base.recyclerview.TRecyclerViewHolder;
+import com.garfield.weishu.base.recyclerview.BaseRecyclerAdapter;
+import com.garfield.weishu.base.recyclerview.BaseRecyclerViewHolder;
 import com.garfield.weishu.discovery.news.bean.netease.NewsBean;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
  * Created by gaowei3 on 2016/11/4.
  */
 
-public class NewsListViewHolder extends TRecyclerViewHolder<NewsBean> {
+public class NewsListViewHolder extends BaseRecyclerViewHolder<NewsBean> {
 
     private ImageView newsImage;
     private TextView newsTitle;
@@ -72,7 +72,7 @@ public class NewsListViewHolder extends TRecyclerViewHolder<NewsBean> {
         return (NewsListRecyclerAdapter) mAdapter;
     }
 
-    public static class NewsListRecyclerAdapter extends TRecyclerAdapter<NewsBean> {
+    public static class NewsListRecyclerAdapter extends BaseRecyclerAdapter<NewsBean> {
         public NewsListRecyclerAdapter(Context context, List<NewsBean> items) {
             super(context, items);
         }

@@ -15,7 +15,7 @@ import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.base.recyclerview.RecyclerViewHolder;
-import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
+import com.garfield.weishu.base.recyclerview.BaseRecyclerAdapter;
 import com.garfield.weishu.nim.NimConfig;
 import com.garfield.weishu.nim.RegisterAndLogin;
 import com.garfield.weishu.nim.cache.FriendDataCache;
@@ -84,7 +84,7 @@ public class SessionListFragment extends AppBaseFragment {
 
         adapter = new SessionListAdapter(mActivity, items);
         recyclerView.setAdapter(adapter);
-        adapter.setItemEventListener(new TRecyclerAdapter.ItemEventListener<RecentContact>() {
+        adapter.setItemEventListener(new BaseRecyclerAdapter.ItemEventListener<RecentContact>() {
             @Override
             public void onItemClick(final RecentContact recentContact, int position) {
                 EventDispatcher.getFragmentJumpEvent().onShowSession(recentContact.getContactId());

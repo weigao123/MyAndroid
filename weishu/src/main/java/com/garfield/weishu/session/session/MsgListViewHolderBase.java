@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.garfield.baselib.utils.system.ScreenUtil;
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.listview.TListViewHolder;
+import com.garfield.weishu.base.listview.BaseListViewHolder;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.ui.view.HeadImageView;
 import com.garfield.baselib.utils.system.TimeUtil;
@@ -33,7 +33,7 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
  * Created by gwball on 2016/9/27.
  */
 
-public abstract class MsgListViewHolderBase extends TListViewHolder<IMMessage> {
+public abstract class MsgListViewHolderBase extends BaseListViewHolder<IMMessage> {
     protected IMMessage mMessage;
 
     protected RelativeLayout mHolderBase;

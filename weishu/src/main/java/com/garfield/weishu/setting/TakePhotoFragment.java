@@ -23,7 +23,7 @@ import com.garfield.baselib.utils.system.TaskUtils;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;
-import com.garfield.weishu.base.listview.TListAdapter;
+import com.garfield.weishu.base.listview.BaseListAdapter;
 import com.garfield.weishu.app.SettingsPreferences;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 
@@ -96,7 +96,7 @@ public class TakePhotoFragment extends AppBaseFragment {
         super.onInitViewAndData(rootView, savedInstanceState);
         mUseCropCheck.setSwitchStatus(SettingsPreferences.getCropTool());
         mPhotoAdapter = new PhotoListAdapter(AppCache.getContext(), mPhotoItems);
-        mPhotoAdapter.setItemEventListener(new TListAdapter.ItemEventListener<String>() {
+        mPhotoAdapter.setItemEventListener(new BaseListAdapter.ItemEventListener<String>() {
             @Override
             public void onItemClick(String item, int position) {
                 if (isAnimatorRunning) return;
@@ -119,7 +119,7 @@ public class TakePhotoFragment extends AppBaseFragment {
         mGridView.setAdapter(mPhotoAdapter);
 
         mAlbumAdapter = new AlbumListAdapter(AppCache.getContext(), mAlbumItems);
-        mAlbumAdapter.setItemEventListener(new TListAdapter.ItemEventListener<PhotoUtil.AlbumInfo>() {
+        mAlbumAdapter.setItemEventListener(new BaseListAdapter.ItemEventListener<PhotoUtil.AlbumInfo>() {
 
             @Override
             public void onItemClick(PhotoUtil.AlbumInfo item, int position) {

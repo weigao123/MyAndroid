@@ -4,13 +4,13 @@ import android.widget.ImageView;
 
 import com.garfield.baselib.utils.http.image.ImageHelper;
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.listview.TListViewHolder;
+import com.garfield.weishu.base.listview.BaseListViewHolder;
 
 /**
  * Created by gaowei3 on 2016/10/19.
  */
 
-public class PhotoListViewHolder extends TListViewHolder<String> {
+public class PhotoListViewHolder extends BaseListViewHolder<String> {
 
     private ImageView mImageView;
 

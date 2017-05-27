@@ -2,7 +2,7 @@ package com.garfield.weishu.session.session;
 
 import android.content.Context;
 
-import com.garfield.weishu.base.listview.TListAdapter;
+import com.garfield.weishu.base.listview.BaseListAdapter;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
@@ -14,7 +14,7 @@ import java.util.Set;
  * Created by gwball on 2016/9/28.
  */
 
-public class MsgListAdapter extends TListAdapter<IMMessage> {
+public class MsgListAdapter extends BaseListAdapter<IMMessage> {
 
     private String messageId;
 

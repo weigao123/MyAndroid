@@ -6,8 +6,6 @@ package com.garfield.weishu.developer;
 
 public class JavaTest {
 
-    public static boolean on = false;
-
     public void doTest() {
 
     }

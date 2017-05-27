@@ -1,4 +1,4 @@
-package com.garfield.weishu.base.viewpager;
+package com.garfield.weishu.base.viewpager.view;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class TPagerAdapter<T> extends PagerAdapter {
+public abstract class BasePagerAdapter<T> extends PagerAdapter {
     private final Context mContext;
     private final List<T> mItems;
     private final RecycleBin mRecycleBin;
@@ -23,7 +23,7 @@ public abstract class TPagerAdapter<T> extends PagerAdapter {
     private ViewPager mViewPager;
     private ItemEventListener mItemEventListener;
 
-    public TPagerAdapter(Context context, List<T> items) {
+    public BasePagerAdapter(Context context, List<T> items) {
         mContext = context;
         mItems = items;
         mViewTypes = new HashMap<>();
@@ -60,7 +60,7 @@ public abstract class TPagerAdapter<T> extends PagerAdapter {
             //L.d("instantiateItem position: " + position + "  null");
             convertView = createViewAtPosition(position);
         }
-        TPagerViewHolder holder = (TPagerViewHolder) convertView.getTag();
+        BasePagerViewHolder holder = (BasePagerViewHolder) convertView.getTag();
         holder.refresh(mItems.get(position), position);
         L.d("instantiateItem:" + container.getChildCount());
         /**
@@ -71,10 +71,10 @@ public abstract class TPagerAdapter<T> extends PagerAdapter {
     }
 
     private View createViewAtPosition(int position) {
-        TPagerViewHolder holder = null;
+        BasePagerViewHolder holder = null;
         try {
             Class<?> viewHolder = getViewHolderClassAtPosition(position);
-            holder = (TPagerViewHolder) viewHolder.newInstance();
+            holder = (BasePagerViewHolder) viewHolder.newInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }

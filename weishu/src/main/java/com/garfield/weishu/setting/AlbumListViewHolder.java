@@ -7,13 +7,13 @@ import android.widget.TextView;
 import com.garfield.baselib.utils.drawable.PhotoUtil;
 import com.garfield.baselib.utils.http.image.ImageHelper;
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.listview.TListViewHolder;
+import com.garfield.weishu.base.listview.BaseListViewHolder;
 
 /**
  * Created by gaowei3 on 2016/10/21.
  */
 
-public class AlbumListViewHolder extends TListViewHolder<PhotoUtil.AlbumInfo> {
+public class AlbumListViewHolder extends BaseListViewHolder<PhotoUtil.AlbumInfo> {
 
     private ImageView mAlbumImage;
     private TextView mAlbumName;

@@ -7,14 +7,19 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.garfield.baselib.utils.system.L;
+import com.garfield.baselib.utils.system.ScreenUtil;
+import com.garfield.weishu.BuildConfig;
 import com.garfield.weishu.R;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.base.event.EventDispatcher;
-import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
+import com.garfield.weishu.base.recyclerview.BaseRecyclerAdapter;
+import com.garfield.weishu.base.recyclerview.BaseRecyclerViewHolder;
 import com.garfield.weishu.developer.JavaTest;
 import com.garfield.weishu.developer.music.ui.MusicControlFragment;
+import com.garfield.weishu.developer.test.DeveloperTestFragment;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 
 import java.util.ArrayList;
@@ -26,7 +31,7 @@ import butterknife.BindView;
  * Created by gaowei3 on 2016/11/23.
  */
 
-public class DeveloperFragment extends AppBaseFragment implements TRecyclerAdapter.ItemEventListener<String> {
+public class DeveloperFragment extends AppBaseFragment implements BaseRecyclerAdapter.ItemEventListener<String> {
 
     @BindView(R.id.fragment_developer_recycler)
     RecyclerView mRecyclerView;
@@ -56,8 +61,9 @@ public class DeveloperFragment extends AppBaseFragment implements TRecyclerAdapt
 
         //mData.add("15、音乐控制");
         //mData.add("16、fitsSystemWindows");
-        if (JavaTest.on) {
+        if (BuildConfig.DEBUG) {
             mData.add("100、Test Java");
+            mData.add("101、UI");
         }
 
         DevelopAdapter adapter = new DevelopAdapter(getContext(), mData);
@@ -69,7 +75,9 @@ public class DeveloperFragment extends AppBaseFragment implements TRecyclerAdapt
 
     @Override
     public void onItemClick(String item, int position) {
-        switch (position + 1) {
+        String numStr = item.substring(0, item.indexOf('、'));
+        int num = Integer.parseInt(numStr);
+        switch (num) {
             case 1:
                 EventDispatcher.startFragmentEvent(new DeveloperSpeedFragment());
                 break;
@@ -94,18 +102,22 @@ public class DeveloperFragment extends AppBaseFragment implements TRecyclerAdapt
 
 
             case 14:
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     EventDispatcher.startFragmentEvent(new MusicControlFragment());
                 } else {
                     L.toast(R.string.system_not_support);
                 }
-            break;
+                break;
             case 15:
                 startActivity(new Intent(mActivity, DeveloperActivity.class));
                 break;
 
+
             case 100:
                 new JavaTest().doTest();
+                break;
+            case 101:
+                EventDispatcher.startFragmentEvent(new DeveloperTestFragment());
                 break;
         }
     }
@@ -115,8 +127,7 @@ public class DeveloperFragment extends AppBaseFragment implements TRecyclerAdapt
 
     }
 
-
-    private class DevelopAdapter extends TRecyclerAdapter<String> {
+    private class DevelopAdapter extends BaseRecyclerAdapter<String> {
 
         private DevelopAdapter(Context context, List<String> items) {
             super(context, items);
@@ -124,7 +135,28 @@ public class DeveloperFragment extends AppBaseFragment implements TRecyclerAdapt
 
         @Override
         public Class getViewHolderClassAtPosition(int position) {
-            return DeveloperListViewHolder.class;
+            return RecyclerViewHolder.class;
+        }
+    }
+
+    public static class RecyclerViewHolder extends BaseRecyclerViewHolder<String> {
+
+        private TextView mTextView;
+
+        @Override
+        protected int getLayoutResId() {
+            return R.layout.item_string;
+        }
+
+        @Override
+        protected void inflateView() {
+            mTextView = findView(R.id.item_string_text);
+            mTextView.setPadding(ScreenUtil.dp2px(20), 0, 0, 0);
+        }
+
+        @Override
+        protected void refresh(String s) {
+            mTextView.setText(s);
         }
     }
 }

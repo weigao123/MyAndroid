@@ -2,7 +2,7 @@ package com.garfield.weishu.setting;
 
 import android.content.Context;
 
-import com.garfield.weishu.base.listview.TListAdapter;
+import com.garfield.weishu.base.listview.BaseListAdapter;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  * Created by gaowei3 on 2016/10/19.
  */
 
-public class PhotoListAdapter extends TListAdapter<String> {
+public class PhotoListAdapter extends BaseListAdapter<String> {
 
 
     public PhotoListAdapter(Context context, List<String> items) {

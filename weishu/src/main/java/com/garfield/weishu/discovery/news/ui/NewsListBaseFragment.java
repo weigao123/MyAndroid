@@ -13,7 +13,7 @@ import com.garfield.weishu.ui.view.PullToRefreshView;
 import com.garfield.weishu.R;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.base.recyclerview.RecyclerUtil;
-import com.garfield.weishu.base.recyclerview.TRecyclerAdapter;
+import com.garfield.weishu.base.recyclerview.BaseRecyclerAdapter;
 import com.garfield.weishu.discovery.news.presenter.NewsPresenter;
 import com.garfield.weishu.discovery.news.presenter.NewsPresenterImpl;
 import com.garfield.weishu.discovery.news.presenter.NewsView;
@@ -42,7 +42,7 @@ public abstract class NewsListBaseFragment<T> extends AppBaseFragment implements
 
     private View footRefreshing;
     private View footRefreshFailed;
-    protected TRecyclerAdapter mRecyclerAdapter;
+    protected BaseRecyclerAdapter mRecyclerAdapter;
 
     protected int mType;
     protected NewsPresenter mNewsPresenter;

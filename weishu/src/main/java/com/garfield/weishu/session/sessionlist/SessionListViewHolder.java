@@ -5,7 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.recyclerview.TRecyclerViewHolder;
+import com.garfield.weishu.base.recyclerview.BaseRecyclerViewHolder;
 import com.garfield.weishu.nim.cache.UserInfoCache;
 import com.garfield.weishu.session.session.emoji.MoonUtil;
 import com.garfield.weishu.ui.view.HeadImageView;
@@ -20,7 +20,7 @@ import static com.garfield.weishu.session.sessionlist.SessionListFragment.RECENT
  * Created by gaowei3 on 2016/10/27.
  */
 
-public class SessionListViewHolder extends TRecyclerViewHolder<RecentContact> {
+public class SessionListViewHolder extends BaseRecyclerViewHolder<RecentContact> {
 
     private HeadImageView mHeadImageView;
     private TextView mNameTextView;

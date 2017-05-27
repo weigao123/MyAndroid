@@ -3,7 +3,6 @@ package com.garfield.weishu.discovery.news.head;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -12,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.viewpager.TPagerAdapter;
+import com.garfield.weishu.base.viewpager.view.BasePagerAdapter;
 import com.garfield.weishu.discovery.news.bean.netease.NewsBean;
 
 import java.util.ArrayList;
@@ -76,7 +75,7 @@ public class NewsHeadView extends FrameLayout {
         setVisibility(items.isEmpty() ? GONE : VISIBLE);
         mItems.clear();
         mItems.addAll(items);
-        TPagerAdapter.ItemEventListener itemEventListener = null;
+        BasePagerAdapter.ItemEventListener itemEventListener = null;
         if (mAdapter != null) {
             itemEventListener = mAdapter.getItemEventListener();
         }
@@ -88,7 +87,7 @@ public class NewsHeadView extends FrameLayout {
         showPagerPoint();
     }
 
-    public void setItemEventListener(TPagerAdapter.ItemEventListener itemEventListener) {
+    public void setItemEventListener(BasePagerAdapter.ItemEventListener itemEventListener) {
         mAdapter.setItemEventListener(itemEventListener);
     }
 

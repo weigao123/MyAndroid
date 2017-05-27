@@ -1,4 +1,4 @@
-package com.garfield.weishu.base.viewpager;
+package com.garfield.weishu.base.viewpager.view;
 
 import android.os.Build;
 import android.util.SparseArray;

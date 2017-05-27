@@ -4,14 +4,14 @@ import android.widget.ImageView;
 
 import com.garfield.baselib.utils.http.image.ImageHelper;
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.viewpager.TPagerViewHolder;
+import com.garfield.weishu.base.viewpager.view.BasePagerViewHolder;
 import com.garfield.weishu.discovery.news.bean.netease.NewsBean;
 
 /**
  * Created by gaowei3 on 2016/10/31.
  */
 
-public class NewsHeadViewHolder extends TPagerViewHolder<NewsBean> {
+public class NewsHeadViewHolder extends BasePagerViewHolder<NewsBean> {
 
     private ImageView mHeadImage;
 
