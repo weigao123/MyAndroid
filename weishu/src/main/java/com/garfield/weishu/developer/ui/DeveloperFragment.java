@@ -11,13 +11,11 @@ import android.widget.TextView;
 
 import com.garfield.baselib.utils.system.L;
 import com.garfield.baselib.utils.system.ScreenUtil;
-import com.garfield.weishu.BuildConfig;
 import com.garfield.weishu.R;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.base.recyclerview.BaseRecyclerAdapter;
 import com.garfield.weishu.base.recyclerview.BaseRecyclerViewHolder;
-import com.garfield.weishu.developer.JavaTest;
 import com.garfield.weishu.developer.music.ui.MusicControlFragment;
 import com.garfield.weishu.developer.test.DeveloperTestFragment;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
@@ -61,10 +59,8 @@ public class DeveloperFragment extends AppBaseFragment implements BaseRecyclerAd
 
         //mData.add("15、音乐控制");
         //mData.add("16、fitsSystemWindows");
-        if (BuildConfig.DEBUG) {
-            mData.add("100、Test Java");
-            mData.add("101、UI");
-        }
+        mData.add("99、UI");
+
 
         DevelopAdapter adapter = new DevelopAdapter(getContext(), mData);
         adapter.setItemEventListener(this);
@@ -113,10 +109,8 @@ public class DeveloperFragment extends AppBaseFragment implements BaseRecyclerAd
                 break;
 
 
-            case 100:
-                new JavaTest().doTest();
-                break;
-            case 101:
+
+            case 99:
                 EventDispatcher.startFragmentEvent(new DeveloperTestFragment());
                 break;
         }

@@ -1,7 +1,6 @@
 package com.garfield.weishu.ui.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -11,9 +10,11 @@ import android.view.ViewGroup;
 
 import com.garfield.baselib.fragmentation.SupportFragment;
 import com.garfield.baselib.ui.widget.BottomBarTransition;
-import com.garfield.baselib.utils.system.L;
+import com.garfield.weishu.BuildConfig;
 import com.garfield.weishu.R;
+import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.contact.ContactFragment;
+import com.garfield.weishu.developer.test.TestViewPagerFragment;
 import com.garfield.weishu.discovery.DiscoveryFragment;
 import com.garfield.weishu.nim.NimConfig;
 import com.garfield.weishu.session.sessionlist.SessionListFragment;
@@ -89,6 +90,9 @@ public class MainFragment extends AppBaseFragment implements BottomBarTransition
 
     @Override
     public void onTabReselected(int position) {
+        if (BuildConfig.DEBUG && position == 3) {
+            EventDispatcher.startFragmentEvent(new TestViewPagerFragment());
+        }
     }
 
     private void updateNotification(int position) {

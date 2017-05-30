@@ -25,11 +25,6 @@ public class PhotoListViewHolder extends BaseListViewHolder<String> {
     }
 
     @Override
-    public void setView() {
-
-    }
-
-    @Override
     protected void refresh(String item) {
         if ("Camera".equals(item)) {
             mImageView.setImageResource(R.drawable.ic_camera_pressed);
@@ -39,8 +34,4 @@ public class PhotoListViewHolder extends BaseListViewHolder<String> {
 
     }
 
-    @Override
-    protected PhotoListAdapter getAdapter() {
-        return (PhotoListAdapter)mAdapter;
-    }
 }

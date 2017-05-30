@@ -8,20 +8,56 @@
 
     <include layout="@layout/include_toolbar" />
 
-    <com.garfield.weishu.developer.view.TouchableFrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:clipChildren="false">
-        <android.support.v4.view.ViewPager
-            android:id="@+id/test_viewpager"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <com.garfield.weishu.developer.view.TouchableFrameLayout
             android:layout_width="match_parent"
-            android:layout_height="205dp"
+            android:layout_height="150dp"
+            android:clipChildren="false">
+            <android.support.v4.view.ViewPager
+                android:id="@+id/test_viewpager_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_gravity="center"
+                android:clipChildren="false">
+            </android.support.v4.view.ViewPager>
+        </com.garfield.weishu.developer.view.TouchableFrameLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/test_viewpager_2"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="15dp"
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"
             android:layout_gravity="center"
             android:clipChildren="false">
-
         </android.support.v4.view.ViewPager>
-    </com.garfield.weishu.developer.view.TouchableFrameLayout>
 
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <TextView
+            android:id="@+id/test_viewpager_btn"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:layout_margin="6dp"
+            android:text="按键"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:textColor="@color/mainTextColorWhite"
+            android:background="@drawable/bg_primary_button" />
+
+    </FrameLayout>
 </LinearLayout>

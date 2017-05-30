@@ -14,6 +14,7 @@ import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.base.recyclerview.BaseRecyclerAdapter;
 import com.garfield.weishu.base.recyclerview.BaseRecyclerViewHolder;
+import com.garfield.weishu.developer.JavaTest;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class DeveloperTestFragment extends AppBaseFragment implements BaseRecycl
 
         mData.add("ViewPager");
         mData.add("RecyclerView");
-        mData.add("1");
+        mData.add("TestJava");
         mData.add("1");
         mData.add("1");
         TestAdapter adapter = new TestAdapter(getContext(), mData);
@@ -64,7 +65,9 @@ public class DeveloperTestFragment extends AppBaseFragment implements BaseRecycl
             case "ViewPager":
                 EventDispatcher.startFragmentEvent(new TestViewPagerFragment());
                 break;
-
+            case "TestJava":
+                new JavaTest().doTest();
+                break;
         }
 
     }

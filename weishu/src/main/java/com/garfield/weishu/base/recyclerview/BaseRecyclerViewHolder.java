@@ -65,8 +65,9 @@ public abstract class BaseRecyclerViewHolder<T> {
 
     }
 
-    protected BaseRecyclerAdapter getAdapter() {
-        return mAdapter;
+    @SuppressWarnings("unchecked")
+    protected <M extends BaseRecyclerAdapter> M getAdapter() {
+        return (M) mAdapter;
     }
 
     protected <M extends View> M findView(int resId) {

@@ -62,7 +62,7 @@ public abstract class BasePagerAdapter<T> extends PagerAdapter {
         }
         BasePagerViewHolder holder = (BasePagerViewHolder) convertView.getTag();
         holder.refresh(mItems.get(position), position);
-        L.d("instantiateItem:" + container.getChildCount());
+        //L.d("instantiateItem:" + container.getChildCount());
         /**
          * 功能就是add这个view
          */
@@ -122,7 +122,9 @@ public abstract class BasePagerAdapter<T> extends PagerAdapter {
         }
     }
 
-    public abstract int getViewTypeCount();
+    public int getViewTypeCount() {
+        return 1;
+    }
 
     public abstract Class getViewHolderClassAtPosition(int position);
 

@@ -10,7 +10,7 @@ import android.view.View;
 public abstract class BasePagerViewHolder<T> {
     protected View mRootView;
     protected BasePagerAdapter mAdapter;
-    protected int mPosition;
+    private int mPosition;
 
     /**
      * 入口
@@ -59,8 +59,9 @@ public abstract class BasePagerViewHolder<T> {
 
     protected abstract void refresh(T item);
 
-    protected BasePagerAdapter getAdapter() {
-        return mAdapter;
+    @SuppressWarnings("unchecked")
+    protected <M extends BasePagerAdapter> M getAdapter() {
+        return (M) mAdapter;
     }
 
     @SuppressWarnings("unchecked")

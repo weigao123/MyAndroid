@@ -20,11 +20,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.garfield.baselib.utils.system.ScreenUtil;
-import com.garfield.weishu.R;
-import com.garfield.weishu.base.listview.BaseListViewHolder;
-import com.garfield.weishu.base.event.EventDispatcher;
-import com.garfield.weishu.ui.view.HeadImageView;
 import com.garfield.baselib.utils.system.TimeUtil;
+import com.garfield.weishu.R;
+import com.garfield.weishu.base.event.EventDispatcher;
+import com.garfield.weishu.base.listview.BaseListViewHolder;
+import com.garfield.weishu.ui.view.HeadImageView;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
@@ -216,11 +216,6 @@ public abstract class MsgListViewHolderBase extends BaseListViewHolder<IMMessage
         }
     }
 
-    @Override
-    protected MsgListAdapter getAdapter() {
-        return (MsgListAdapter) mAdapter;
-    }
-
     protected boolean isReceivedMessage() {
         return mMessage.getDirect() == MsgDirectionEnum.In;
     }
@@ -267,4 +262,8 @@ public abstract class MsgListViewHolderBase extends BaseListViewHolder<IMMessage
         return false;
     }
 
+    @Override
+    protected MsgListAdapter getAdapter() {
+        return super.getAdapter();
+    }
 }

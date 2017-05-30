@@ -120,7 +120,9 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
 
     public abstract Class getViewHolderClassAtPosition(int position);
 
-    public abstract int getViewHolderCount();
+    public int getViewHolderCount() {
+        return 1;
+    }
 
     /**
      * 这会屏蔽ListView的OnItemClickListener

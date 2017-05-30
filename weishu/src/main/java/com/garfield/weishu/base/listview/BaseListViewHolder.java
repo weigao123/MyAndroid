@@ -10,7 +10,7 @@ import android.view.View;
 public abstract class BaseListViewHolder<T> {
 
     protected View mRootView;
-    protected BaseListAdapter mAdapter;
+    private BaseListAdapter mAdapter;
     protected int mPosition;
     protected boolean mRegisterRootListener = true;
 
@@ -64,8 +64,12 @@ public abstract class BaseListViewHolder<T> {
 
     protected abstract void refresh(T item);
 
-    protected abstract BaseListAdapter getAdapter();
+    @SuppressWarnings("unchecked")
+    protected <M extends BaseListAdapter> M getAdapter() {
+        return (M) mAdapter;
+    }
 
+    @SuppressWarnings("unchecked")
     protected <M extends View> M findView(int resId) {
         return (M) (mRootView.findViewById(resId));
     }
