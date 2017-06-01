@@ -90,7 +90,7 @@ public class MainFragment extends AppBaseFragment implements BottomBarTransition
 
     @Override
     public void onTabReselected(int position) {
-        if (BuildConfig.DEBUG && position == 3) {
+        if (BuildConfig.DEBUG && position == 0) {
             EventDispatcher.startFragmentEvent(new TestViewPagerFragment());
         }
     }

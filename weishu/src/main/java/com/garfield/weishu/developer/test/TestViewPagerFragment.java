@@ -40,6 +40,9 @@ public class TestViewPagerFragment extends AppBaseFragment {
     VPageAdapter mAdapter1;
     FmAdapter mAdapter2;
 
+    private MyOnPageChangeListener mPageChangeListener1;
+    private MyOnPageChangeListener mPageChangeListener2;
+
     private List<String> mData = new ArrayList<>();
     private static int[] mColors = new int[]{Color.RED, Color.YELLOW, Color.BLUE, Color.GREEN, Color.GRAY};
 
@@ -67,7 +70,8 @@ public class TestViewPagerFragment extends AppBaseFragment {
         mAdapter1 = new VPageAdapter(mActivity, mData);
         mViewPager1.setAdapter(mAdapter1);
         //mViewPager1.setOffscreenPageLimit(2);
-        mViewPager1.addOnPageChangeListener(new MyOnPageChangeListener());
+        mPageChangeListener1 = new MyOnPageChangeListener(mViewPager1);
+        mViewPager1.addOnPageChangeListener(mPageChangeListener1);
         mViewPager1.setCurrentItem(1, false);
 
         mAdapter2 = new FmAdapter(getChildFragmentManager());
@@ -76,7 +80,10 @@ public class TestViewPagerFragment extends AppBaseFragment {
         mAdapter2.addFragment(MyFragment.newInstance(2));
         mAdapter2.addFragment(MyFragment.newInstance(3));
         mAdapter2.addFragment(MyFragment.newInstance(4));
+        mPageChangeListener2 = new MyOnPageChangeListener(mViewPager2);
+        mViewPager2.addOnPageChangeListener(mPageChangeListener2);
         mViewPager2.setAdapter(mAdapter2);
+        mViewPager2.setCurrentItem(2, false);
     }
 
     public static class VPageAdapter extends BasePagerAdapter<String> {
@@ -135,7 +142,7 @@ public class TestViewPagerFragment extends AppBaseFragment {
 
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
-            L.d("num:"+position+"  setPrimaryItem");
+            //L.d("num:"+position+"  setPrimaryItem");
             super.setPrimaryItem(container, position, object);
         }
 
@@ -156,11 +163,11 @@ public class TestViewPagerFragment extends AppBaseFragment {
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            L.d("num:"+num+"  onCreate");
+            //L.d("num:"+num+"  onCreate");
         }
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            L.d("num:"+num+"  onCreateView");
+            //L.d("num:"+num+"  onCreateView");
             View view = inflater.inflate(R.layout.page_string, container, false);
             ((TextView)view.findViewById(R.id.page_string_text)).setText(String.valueOf(num));
             return view;
@@ -168,34 +175,46 @@ public class TestViewPagerFragment extends AppBaseFragment {
         @Override
         public void setUserVisibleHint(boolean isVisibleToUser) {
             super.setUserVisibleHint(isVisibleToUser);
-            L.d("num:"+num+"  isVisibleToUser:"+isVisibleToUser);
+            //L.d("num:"+num+"  isVisibleToUser:"+isVisibleToUser);
         }
         @Override
         public void onDestroyView() {
             super.onDestroyView();
-            L.d("num:"+num+"  onDestroyView");
+            //L.d("num:"+num+"  onDestroyView");
         }
         @Override
         public void onDestroy() {
             super.onDestroy();
-            L.d("num:"+num+"  onDestroy");
+            //L.d("num:"+num+"  onDestroy");
         }
     }
 
 
     @OnClick(R.id.test_viewpager_btn)
     void click() {
-        //mViewPager2.setAdapter(mAdapter2);
         mAdapter2.notifyDataSetChanged();
+
+        //mViewPager2.setAdapter(mAdapter2);
+        //mPageChangeListener2 = new MyOnPageChangeListener(mViewPager2);
+        //mViewPager2.clearOnPageChangeListeners();
+        //mViewPager2.setCurrentItem(2, false);
+        //mViewPager2.addOnPageChangeListener(mPageChangeListener2);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mViewPager1.clearOnPageChangeListeners();
+        mViewPager1.removeOnPageChangeListener(mPageChangeListener1);
+        mViewPager2.removeOnPageChangeListener(mPageChangeListener2);
     }
 
     private class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
+
+        private ViewPager mViewPager;
+
+        private MyOnPageChangeListener(ViewPager viewPager) {
+            mViewPager = viewPager;
+        }
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -205,7 +224,7 @@ public class TestViewPagerFragment extends AppBaseFragment {
         @Override
         public void onPageSelected(int position) {
             //L.d("onPageSelected: #" +position);
-//            {
+//            if (mViewPager == mViewPager1) {
 //                //两边各多放2个
 //                int current = mViewPager.getCurrentItem();
 //                int lastReal = mAdapter1.getCount() - 4;
@@ -219,7 +238,7 @@ public class TestViewPagerFragment extends AppBaseFragment {
 //                    mViewPager.setCurrentItem(4, false);
 //                }
 //            }
-            {
+            if (mViewPager == mViewPager1) {
                 // 两边各多放1个
                 int current = mViewPager1.getCurrentItem();
                 int lastReal = mAdapter1.getCount() - 2;
@@ -229,11 +248,14 @@ public class TestViewPagerFragment extends AppBaseFragment {
                     mViewPager1.setCurrentItem(1, false);
                 }
             }
+            if (mViewPager == mViewPager2) {
+                L.d("onPageSelected");
+            }
         }
 
         @Override
         public void onPageScrollStateChanged(int state) {
-            L.d("onPageScrollStateChanged: #" + state);
+            //L.d("onPageScrollStateChanged: #" + state);
         }
     }
 }
