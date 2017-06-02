@@ -38,7 +38,7 @@ public class TestViewPagerFragment extends AppBaseFragment {
     ViewPager mViewPager2;
 
     VPageAdapter mAdapter1;
-    FmAdapter mAdapter2;
+    FmPagerAdapter mAdapter2;
 
     private MyOnPageChangeListener mPageChangeListener1;
     private MyOnPageChangeListener mPageChangeListener2;
@@ -74,16 +74,17 @@ public class TestViewPagerFragment extends AppBaseFragment {
         mViewPager1.addOnPageChangeListener(mPageChangeListener1);
         mViewPager1.setCurrentItem(1, false);
 
-        mAdapter2 = new FmAdapter(getChildFragmentManager());
-        mAdapter2.addFragment(MyFragment.newInstance(0));
-        mAdapter2.addFragment(MyFragment.newInstance(1));
-        mAdapter2.addFragment(MyFragment.newInstance(2));
-        mAdapter2.addFragment(MyFragment.newInstance(3));
-        mAdapter2.addFragment(MyFragment.newInstance(4));
+        mAdapter2 = new FmPagerAdapter(getChildFragmentManager());
+        mAdapter2.setInfinite(true);
+        mAdapter2.addFragment(OneFragment.newInstance(0));
+        mAdapter2.addFragment(OneFragment.newInstance(1));
+        mAdapter2.addFragment(OneFragment.newInstance(2));
+        //mAdapter2.addFragment(OneFragment.newInstance(3));
+        //mAdapter2.addFragment(OneFragment.newInstance(4));
         mPageChangeListener2 = new MyOnPageChangeListener(mViewPager2);
         mViewPager2.addOnPageChangeListener(mPageChangeListener2);
         mViewPager2.setAdapter(mAdapter2);
-        mViewPager2.setCurrentItem(2, false);
+        //mViewPager2.setCurrentItem(100, false);
     }
 
     public static class VPageAdapter extends BasePagerAdapter<String> {
@@ -129,36 +130,20 @@ public class TestViewPagerFragment extends AppBaseFragment {
         }
     }
 
-    public static class FmAdapter extends BaseFmPagerAdapter {
+    public static class FmPagerAdapter extends BaseFmPagerAdapter {
 
-        public FmAdapter(FragmentManager fm) {
+        public FmPagerAdapter(FragmentManager fm) {
             super(fm);
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            return super.instantiateItem(container, position);
-        }
-
-        @Override
-        public void setPrimaryItem(ViewGroup container, int position, Object object) {
-            //L.d("num:"+position+"  setPrimaryItem");
-            super.setPrimaryItem(container, position, object);
-        }
-
-        @Override
-        public int getItemPosition(Object object) {
-            return POSITION_NONE;
         }
     }
 
-    public static class MyFragment extends Fragment {
+    public static class OneFragment extends Fragment {
 
         private int num;
-        public static MyFragment newInstance(int num) {
-            MyFragment myFragment = new MyFragment();
-            myFragment.num = num;
-            return myFragment;
+        public static OneFragment newInstance(int num) {
+            OneFragment oneFragment = new OneFragment();
+            oneFragment.num = num;
+            return oneFragment;
         }
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -192,9 +177,15 @@ public class TestViewPagerFragment extends AppBaseFragment {
 
     @OnClick(R.id.test_viewpager_btn)
     void click() {
-        mAdapter2.notifyDataSetChanged();
+        mAdapter2 = new FmPagerAdapter(getChildFragmentManager());
+        mAdapter2.addFragment(OneFragment.newInstance(3));
+        mAdapter2.addFragment(OneFragment.newInstance(4));
+        mAdapter2.addFragment(OneFragment.newInstance(5));
 
-        //mViewPager2.setAdapter(mAdapter2);
+        mViewPager2.setAdapter(mAdapter2);
+
+        //mAdapter2.notifyDataSetChanged();
+
         //mPageChangeListener2 = new MyOnPageChangeListener(mViewPager2);
         //mViewPager2.clearOnPageChangeListeners();
         //mViewPager2.setCurrentItem(2, false);

@@ -54,7 +54,7 @@ public class InfinitePagerAdapter extends BasePagerAdapter<NewsBean> {
         super.destroyItem(container, realPosition, object);
     }
 
-    public int getRealPosition(int position) {
+    int getRealPosition(int position) {
         return position % getItems().size();
     }
 

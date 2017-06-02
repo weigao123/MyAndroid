@@ -3,6 +3,7 @@ package com.garfield.weishu.base.viewpager.fragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +14,9 @@ import java.util.List;
 
 public class BaseFmStatePagerAdapter extends FragmentStatePagerAdapter {
 
-    private List<Fragment> mItems;
-    private List<String> mTitles;
+    protected List<Fragment> mItems;
+    protected List<String> mTitles;
+    protected boolean mIsInfinite;
 
     public BaseFmStatePagerAdapter(FragmentManager fm) {
         super(fm);
@@ -50,17 +52,39 @@ public class BaseFmStatePagerAdapter extends FragmentStatePagerAdapter {
     }
 
     @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        int realPosition = getRealPosition(position);
+        return super.instantiateItem(container, realPosition);
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        int realPosition = getRealPosition(position);
+        super.destroyItem(container, realPosition, object);
+    }
+
+    @Override
     public Fragment getItem(int position) {
         return mItems.get(position);
     }
 
     @Override
     public int getCount() {
-        return mItems == null ? 0 : mItems.size();
+        return mItems == null ? 0 : mIsInfinite ? Integer.MAX_VALUE : mItems.size();
     }
 
     public CharSequence getPageTitle(int position) {
         return mTitles == null ? "" : mTitles.get(position);
     }
 
+    /**
+     * 必须有4个或以上个数的Page
+     */
+    public void setInfinite(boolean infinite) {
+        mIsInfinite = infinite;
+    }
+
+    public int getRealPosition(int position) {
+        return mIsInfinite ? position % mItems.size() : position;
+    }
 }
