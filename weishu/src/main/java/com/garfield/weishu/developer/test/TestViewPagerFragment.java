@@ -79,12 +79,14 @@ public class TestViewPagerFragment extends AppBaseFragment {
         mAdapter2.addFragment(OneFragment.newInstance(0));
         mAdapter2.addFragment(OneFragment.newInstance(1));
         mAdapter2.addFragment(OneFragment.newInstance(2));
-        //mAdapter2.addFragment(OneFragment.newInstance(3));
-        //mAdapter2.addFragment(OneFragment.newInstance(4));
+        mAdapter2.addFragment(OneFragment.newInstance(3));
+        mAdapter2.addFragment(OneFragment.newInstance(4));
+        mAdapter2.addFragment(OneFragment.newInstance(5));
         mPageChangeListener2 = new MyOnPageChangeListener(mViewPager2);
         mViewPager2.addOnPageChangeListener(mPageChangeListener2);
         mViewPager2.setAdapter(mAdapter2);
-        //mViewPager2.setCurrentItem(100, false);
+        mViewPager2.setOffscreenPageLimit(2);
+        mViewPager2.setCurrentItem(100, false);
     }
 
     public static class VPageAdapter extends BasePagerAdapter<String> {
@@ -177,12 +179,24 @@ public class TestViewPagerFragment extends AppBaseFragment {
 
     @OnClick(R.id.test_viewpager_btn)
     void click() {
-        mAdapter2 = new FmPagerAdapter(getChildFragmentManager());
-        mAdapter2.addFragment(OneFragment.newInstance(3));
-        mAdapter2.addFragment(OneFragment.newInstance(4));
-        mAdapter2.addFragment(OneFragment.newInstance(5));
+//        mAdapter2 = new FmPagerAdapter(getChildFragmentManager());
+//        mAdapter2.addFragment(OneFragment.newInstance(3));
+//        mAdapter2.addFragment(OneFragment.newInstance(4));
+//        mAdapter2.addFragment(OneFragment.newInstance(5));
 
-        mViewPager2.setAdapter(mAdapter2);
+
+        List<Fragment> items = new ArrayList<>();
+        items.add(OneFragment.newInstance(3));
+        items.add(OneFragment.newInstance(4));
+        items.add(OneFragment.newInstance(5));
+        items.add(OneFragment.newInstance(6));
+        items.add(OneFragment.newInstance(7));
+        items.add(OneFragment.newInstance(8));
+        mAdapter2.changeFragments(items);
+        //mViewPager2.setCurrentItem(100, false);
+
+
+        //mViewPager2.setAdapter(mAdapter2);
 
         //mAdapter2.notifyDataSetChanged();
 

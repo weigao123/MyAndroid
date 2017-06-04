@@ -78,13 +78,21 @@ public class BaseFmStatePagerAdapter extends FragmentStatePagerAdapter {
     }
 
     /**
-     * 必须有4个或以上个数的Page
+     * setOffscreenPageLimit
+     * 1 不能全部
+     * 2 如果是默认，必须有4个或以上个数的Page
+     * 3 如果是2，必须有6个或以上的Page？
      */
     public void setInfinite(boolean infinite) {
         mIsInfinite = infinite;
     }
 
     public int getRealPosition(int position) {
-        return mIsInfinite ? position % mItems.size() : position;
+        return (mIsInfinite && mItems.size() != 0) ? position % mItems.size() : position;
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 }

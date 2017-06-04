@@ -61,7 +61,7 @@ android {
                 if (variant.buildType.name == "release") {
                     fileName = "weishu_${variant.productFlavors[0].name}_" + getReleaseTime() + ".apk"
                 } else {
-                    fileName = "weishu_debug_" + getReleaseTime() + ".apk"
+                    fileName = "weishu_debug_" + ".apk"
                 }
                 output.outputFile = new File(outputFile.parent, fileName);
             }
