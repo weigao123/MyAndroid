@@ -14,7 +14,8 @@ import android.widget.TextView;
 
 import com.garfield.baselib.utils.system.L;
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.viewpager.fragment.BaseFmPagerAdapter;
+import com.garfield.weishu.base.viewpager.fragment.InfiniteFmAdapter;
+import com.garfield.weishu.base.viewpager.fragment.InfiniteFmStateAdapter;
 import com.garfield.weishu.base.viewpager.view.BasePagerAdapter;
 import com.garfield.weishu.base.viewpager.view.BasePagerViewHolder;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
@@ -37,11 +38,17 @@ public class TestViewPagerFragment extends AppBaseFragment {
     @BindView(R.id.test_viewpager_2)
     ViewPager mViewPager2;
 
+    @BindView(R.id.test_viewpager_3)
+    ViewPager mViewPager3;
+
     VPageAdapter mAdapter1;
-    FmPagerAdapter mAdapter2;
+    InfiniteFmAdapter mAdapter2;
+    InfiniteStateAdapter mAdapter3;
 
     private MyOnPageChangeListener mPageChangeListener1;
     private MyOnPageChangeListener mPageChangeListener2;
+
+    private int mRealCount = 1;
 
     private List<String> mData = new ArrayList<>();
     private static int[] mColors = new int[]{Color.RED, Color.YELLOW, Color.BLUE, Color.GREEN, Color.GRAY};
@@ -66,7 +73,6 @@ public class TestViewPagerFragment extends AppBaseFragment {
         mData.add("3");
         mData.add("4");
         mData.add("0");
-
         mAdapter1 = new VPageAdapter(mActivity, mData);
         mViewPager1.setAdapter(mAdapter1);
         //mViewPager1.setOffscreenPageLimit(2);
@@ -74,19 +80,25 @@ public class TestViewPagerFragment extends AppBaseFragment {
         mViewPager1.addOnPageChangeListener(mPageChangeListener1);
         mViewPager1.setCurrentItem(1, false);
 
-        mAdapter2 = new FmPagerAdapter(getChildFragmentManager());
-        mAdapter2.setInfinite(true);
-        mAdapter2.addFragment(OneFragment.newInstance(0));
-        mAdapter2.addFragment(OneFragment.newInstance(1));
-        mAdapter2.addFragment(OneFragment.newInstance(2));
-        mAdapter2.addFragment(OneFragment.newInstance(3));
-        mAdapter2.addFragment(OneFragment.newInstance(4));
-        mAdapter2.addFragment(OneFragment.newInstance(5));
+
         mPageChangeListener2 = new MyOnPageChangeListener(mViewPager2);
         mViewPager2.addOnPageChangeListener(mPageChangeListener2);
-        mViewPager2.setAdapter(mAdapter2);
         mViewPager2.setOffscreenPageLimit(2);
+        List<Fragment> fragmentList = new ArrayList<>();
+        fragmentList.add(OneFragment.newInstance(0));
+        fragmentList.add(OneFragment.newInstance(1));
+        fragmentList.add(OneFragment.newInstance(2));
+        fragmentList.add(OneFragment.newInstance(3));
+        fragmentList.add(OneFragment.newInstance(4));
+        fragmentList.add(OneFragment.newInstance(5));
+        mAdapter2 = new InfiniteFmAdapter(getChildFragmentManager(), fragmentList);
+        mViewPager2.setAdapter(mAdapter2);
         mViewPager2.setCurrentItem(100, false);
+
+
+        mAdapter3 = new InfiniteStateAdapter(getChildFragmentManager());
+        mViewPager3.setAdapter(mAdapter3);
+        mViewPager3.setCurrentItem(1000);
     }
 
     public static class VPageAdapter extends BasePagerAdapter<String> {
@@ -132,10 +144,20 @@ public class TestViewPagerFragment extends AppBaseFragment {
         }
     }
 
-    public static class FmPagerAdapter extends BaseFmPagerAdapter {
+    private class InfiniteStateAdapter extends InfiniteFmStateAdapter {
 
-        public FmPagerAdapter(FragmentManager fm) {
+        InfiniteStateAdapter(FragmentManager fm) {
             super(fm);
+        }
+
+        @Override
+        public Fragment getRealItem(int position) {
+            return OneFragment.newInstance(position);
+        }
+
+        @Override
+        public int getRealCount() {
+            return mRealCount;
         }
     }
 
@@ -150,11 +172,11 @@ public class TestViewPagerFragment extends AppBaseFragment {
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            //L.d("num:"+num+"  onCreate");
+            L.d("num:"+num+"  onCreate");
         }
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            //L.d("num:"+num+"  onCreateView");
+            L.d("num:"+num+"  onCreateView");
             View view = inflater.inflate(R.layout.page_string, container, false);
             ((TextView)view.findViewById(R.id.page_string_text)).setText(String.valueOf(num));
             return view;
@@ -179,7 +201,7 @@ public class TestViewPagerFragment extends AppBaseFragment {
 
     @OnClick(R.id.test_viewpager_btn)
     void click() {
-//        mAdapter2 = new FmPagerAdapter(getChildFragmentManager());
+//        mAdapter2 = new InfiniteStateAdapter(getChildFragmentManager());
 //        mAdapter2.addFragment(OneFragment.newInstance(3));
 //        mAdapter2.addFragment(OneFragment.newInstance(4));
 //        mAdapter2.addFragment(OneFragment.newInstance(5));
@@ -192,18 +214,20 @@ public class TestViewPagerFragment extends AppBaseFragment {
         items.add(OneFragment.newInstance(6));
         items.add(OneFragment.newInstance(7));
         items.add(OneFragment.newInstance(8));
-        mAdapter2.changeFragments(items);
+        //mAdapter2.changeFragments(items);
         //mViewPager2.setCurrentItem(100, false);
 
 
         //mViewPager2.setAdapter(mAdapter2);
 
-        //mAdapter2.notifyDataSetChanged();
 
-        //mPageChangeListener2 = new MyOnPageChangeListener(mViewPager2);
-        //mViewPager2.clearOnPageChangeListeners();
-        //mViewPager2.setCurrentItem(2, false);
-        //mViewPager2.addOnPageChangeListener(mPageChangeListener2);
+
+
+        mRealCount = 5;
+        //mViewPager3.setAdapter(mAdapter3);
+        mAdapter3.notifyDataSetChanged();
+
+
     }
 
     @Override

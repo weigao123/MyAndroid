@@ -41,6 +41,17 @@
             android:clipChildren="false">
         </android.support.v4.view.ViewPager>
 
+        <android.support.v4.view.ViewPager
+            android:id="@+id/test_viewpager_3"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_gravity="center"
+            android:clipChildren="false">
+        </android.support.v4.view.ViewPager>
+
     </LinearLayout>
 
     <FrameLayout

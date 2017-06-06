@@ -12,33 +12,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by gaowei on 2017/5/27.
+ * Created by gaowei on 2017/6/6.
  */
 
-public class BaseFmPagerAdapter extends FragmentPagerAdapter {
+public class InfiniteFmAdapter extends FragmentPagerAdapter {
 
     protected List<Fragment> mItems;
-    protected List<String> mTitles;
-    protected boolean mIsInfinite;
     private FragmentManager mFragmentManager;
-    private FragmentTransaction mCurTransaction = null;
 
-    public BaseFmPagerAdapter(FragmentManager fm) {
-        super(fm);
-        mFragmentManager = fm;
+    public InfiniteFmAdapter(FragmentManager fm) {
+        this(fm, null);
     }
 
-    public BaseFmPagerAdapter(FragmentManager fm, List<Fragment> items) {
+    public InfiniteFmAdapter(FragmentManager fm, List<Fragment> items) {
         super(fm);
-        mItems = items;
         mFragmentManager = fm;
-    }
-
-    public BaseFmPagerAdapter(FragmentManager fm, List<Fragment> items, List<String> titles) {
-        super(fm);
         mItems = items;
-        mTitles = titles;
-        mFragmentManager = fm;
     }
 
     public void addFragment(Fragment fragment) {
@@ -46,17 +35,6 @@ public class BaseFmPagerAdapter extends FragmentPagerAdapter {
             mItems = new ArrayList<>();
         }
         mItems.add(fragment);
-    }
-
-    public void addFragment(Fragment fragment, String title) {
-        if (mItems == null) {
-            mItems = new ArrayList<>();
-        }
-        if (mTitles == null) {
-            mTitles = new ArrayList<>();
-        }
-        mItems.add(fragment);
-        mTitles.add(title);
     }
 
     public void changeFragments(List<Fragment> newItems) {
@@ -76,7 +54,7 @@ public class BaseFmPagerAdapter extends FragmentPagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         // 规避setAdapter后又setCurrentItem，重复执行本方法，而只能add同一个fragment一次
         // 避开此问题
-        if (mIsInfinite && position < 10) {
+        if (position < 10) {
             return new Fragment();
         }
         int realPosition = getRealPosition(position);
@@ -98,25 +76,17 @@ public class BaseFmPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return mItems == null ? 0 : mIsInfinite ? Integer.MAX_VALUE : mItems.size();
-    }
-
-    public CharSequence getPageTitle(int position) {
-        return mTitles == null ? "" : mTitles.get(position);
+        return mItems == null ? 0 : Integer.MAX_VALUE;
     }
 
     /**
      * setOffscreenPageLimit
      * 1 不能全部
-     * 2 如果是默认，必须有4个或以上个数的Page
+     * 2 如果是默认1，必须有4个或以上个数的Page
      * 3 如果是2，必须有6个或以上的Page
      */
-    public void setInfinite(boolean infinite) {
-        mIsInfinite = infinite;
-    }
-
     public int getRealPosition(int position) {
-        return (mIsInfinite && mItems.size() != 0) ? position % mItems.size() : position;
+        return (mItems.size() != 0) ? position % mItems.size() : position;
     }
 
     public List<Fragment> getItems() {

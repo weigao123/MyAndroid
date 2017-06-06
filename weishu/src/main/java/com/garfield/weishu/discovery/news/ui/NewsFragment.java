@@ -6,7 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.garfield.weishu.R;
-import com.garfield.weishu.base.viewpager.fragment.BaseFmPagerAdapter;
+import com.garfield.weishu.base.viewpager.fragment.FmAdapter;
 import com.garfield.weishu.discovery.news.api.NeteaseApi;
 import com.garfield.weishu.ui.fragment.AppBaseFragment;
 
@@ -33,7 +33,7 @@ public class NewsFragment extends AppBaseFragment {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        BaseFmPagerAdapter pagerAdapter = new BaseFmPagerAdapter(getChildFragmentManager());
+        FmAdapter pagerAdapter = new FmAdapter(getChildFragmentManager());
         pagerAdapter.addFragment(NewsListFragment.newInstance(NeteaseApi.NEWS_TYPE_TOP), "头条");
         pagerAdapter.addFragment(NewsListFragment.newInstance(NeteaseApi.NEWS_TYPE_TECHNOLOGY), "科技");
         pagerAdapter.addFragment(NewsListFragment.newInstance(NeteaseApi.NEWS_TYPE_ENTERTAINMENT), "娱乐");
