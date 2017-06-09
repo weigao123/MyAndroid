@@ -3,6 +3,9 @@ package com.garfield.weishu.base.viewpager.fragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.ViewGroup;
+
+import com.garfield.baselib.utils.system.L;
 
 /**
  * Created by gaowei on 2017/6/6.
@@ -12,6 +15,18 @@ public abstract class InfiniteFmStateAdapter extends FragmentStatePagerAdapter {
 
     public InfiniteFmStateAdapter(FragmentManager fm) {
         super(fm);
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        L.d("instantiateItem: "+position);
+        return super.instantiateItem(container, position);
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        L.d("destroyItem: "+position);
+        super.destroyItem(container, position, object);
     }
 
     @Override

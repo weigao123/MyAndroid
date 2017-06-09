@@ -48,7 +48,7 @@ public class TestViewPagerFragment extends AppBaseFragment {
     private MyOnPageChangeListener mPageChangeListener1;
     private MyOnPageChangeListener mPageChangeListener2;
 
-    private int mRealCount = 1;
+    private int mRealCount = 2;
 
     private List<String> mData = new ArrayList<>();
     private static int[] mColors = new int[]{Color.RED, Color.YELLOW, Color.BLUE, Color.GREEN, Color.GRAY};
@@ -98,7 +98,7 @@ public class TestViewPagerFragment extends AppBaseFragment {
 
         mAdapter3 = new InfiniteStateAdapter(getChildFragmentManager());
         mViewPager3.setAdapter(mAdapter3);
-        mViewPager3.setCurrentItem(1000);
+        //mViewPager3.setCurrentItem(1000);
     }
 
     public static class VPageAdapter extends BasePagerAdapter<String> {
@@ -172,19 +172,14 @@ public class TestViewPagerFragment extends AppBaseFragment {
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            L.d("num:"+num+"  onCreate");
+            //L.d("OneFragment onCreate: "+num);
         }
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            L.d("num:"+num+"  onCreateView");
+            //L.d("OneFragment onCreateView: "+num);
             View view = inflater.inflate(R.layout.page_string, container, false);
             ((TextView)view.findViewById(R.id.page_string_text)).setText(String.valueOf(num));
             return view;
-        }
-        @Override
-        public void setUserVisibleHint(boolean isVisibleToUser) {
-            super.setUserVisibleHint(isVisibleToUser);
-            //L.d("num:"+num+"  isVisibleToUser:"+isVisibleToUser);
         }
         @Override
         public void onDestroyView() {
@@ -224,8 +219,8 @@ public class TestViewPagerFragment extends AppBaseFragment {
 
 
         mRealCount = 5;
-        //mViewPager3.setAdapter(mAdapter3);
-        mAdapter3.notifyDataSetChanged();
+        mViewPager3.setAdapter(mAdapter3);
+        //mAdapter3.notifyDataSetChanged();
 
 
     }
