@@ -726,6 +726,7 @@ public class RequestCreator {
       setPlaceholder(target, getPlaceholderDrawable());
     }
 
+    // 传入创建好的picasso和request
     Action action =
         new ImageViewAction(picasso, target, request, memoryPolicy, networkPolicy, errorResId,
             errorDrawable, requestKey, tag, callback, noFade);
