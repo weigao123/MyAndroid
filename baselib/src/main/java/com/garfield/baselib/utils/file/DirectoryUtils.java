@@ -1,12 +1,16 @@
 package com.garfield.baselib.utils.file;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Environment;
+import android.os.StatFs;
 
 import com.garfield.baselib.Cache;
-import com.nostra13.universalimageloader.utils.StorageUtils;
 
 import java.io.File;
+
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR2;
 
 /**
  * Created by gaowei3 on 2016/10/21.
@@ -57,6 +61,25 @@ public class DirectoryUtils {
         return new File(cachePath + File.separator + uniqueName);
     }
 
+    /**
+     * Picasso计算缓存容量
+     */
+    @TargetApi(JELLY_BEAN_MR2)
+    static long calculateDiskCacheSize(File dir) {
+        long available = 0;
+        try {
+            StatFs statFs = new StatFs(dir.getAbsolutePath());
+            //noinspection deprecation
+            long blockCount =
+                    SDK_INT < JELLY_BEAN_MR2 ? (long) statFs.getBlockCount() : statFs.getBlockCountLong();
+            //noinspection deprecation
+            long blockSize =
+                    SDK_INT < JELLY_BEAN_MR2 ? (long) statFs.getBlockSize() : statFs.getBlockSizeLong();
+            available = blockCount * blockSize;
+        } catch (IllegalArgumentException ignored) {
+        }
+        return available;
+    }
 
     private static boolean hasExternalStoragePermission(Context context) {
         int perm = context.checkCallingOrSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE");
