@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
     useLibrary 'org.apache.http.legacy'
@@ -66,6 +67,11 @@ android {
                 output.outputFile = new File(outputFile.parent, fileName);
             }
         }
+    }
+
+    greendao {
+        targetGenDir 'src/main/java'
+        daoPackage 'com.garfield.weishu.dao.gen'
     }
 }
 
