@@ -3,6 +3,7 @@ package com.garfield.weishu.ui.fragment;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +18,12 @@ import com.garfield.baselib.fragmentation.anim.DefaultHorizontalAnimator;
 import com.garfield.baselib.fragmentation.anim.FragmentAnimator;
 import com.garfield.baselib.swipeback.SwipeBackFragment;
 import com.garfield.baselib.utils.system.ScreenUtil;
+import com.garfield.weishu.BuildConfig;
 import com.garfield.weishu.R;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.contact.ContactFragment;
+import com.garfield.weishu.developer.test.JavaTestFragment;
 import com.garfield.weishu.discovery.DiscoveryFragment;
 import com.garfield.weishu.discovery.news.ui.NewsListFragment;
 import com.garfield.weishu.discovery.scan.ScanFragment;
@@ -82,12 +85,20 @@ public class AppBaseFragment extends SwipeBackFragment {
                     mToolbar.findViewById(R.id.toolbar_back_container).setVisibility(View.VISIBLE);
                     TextView title2View = (TextView) mToolbar.findViewById(R.id.toolbar_title2);
                     title2View.setText(onGetToolbarTitle());
-                    title2View.setTextColor(getResources().getColor(R.color.mainTextColorWhite));
+                    title2View.setTextColor(ContextCompat.getColor(mActivity, R.color.mainTextColorWhite));
                 } else {
                     TextView title1View = (TextView) mToolbar.findViewById(R.id.toolbar_title1);
                     title1View.setText(onGetToolbarTitle());
-                    title1View.setTextColor(getResources().getColor(R.color.mainTextColorWhite));
+                    title1View.setTextColor(ContextCompat.getColor(mActivity, R.color.mainTextColorWhite));
                     title1View.setVisibility(View.VISIBLE);
+                    title1View.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (BuildConfig.DEBUG && AppBaseFragment.this.getClass() == MainFragment.class) {
+                                EventDispatcher.startFragmentEvent(new JavaTestFragment());
+                            }
+                        }
+                    });
                     //mToolbar.setTitle(onGetToolbarTitle());
                     //mToolbar.setTitleTextAppearance(mActivity, R.style.toolbar_text);
                     mToolbar.findViewById(R.id.toolbar_control_view).setVisibility(View.VISIBLE);

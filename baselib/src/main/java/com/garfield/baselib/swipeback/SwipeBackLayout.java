@@ -17,7 +17,6 @@ import android.widget.FrameLayout;
 
 import com.garfield.baselib.R;
 import com.garfield.baselib.fragmentation.SupportFragment;
-import com.garfield.baselib.utils.system.L;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -415,6 +414,7 @@ public class SwipeBackLayout extends FrameLayout {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (!mEnable) return super.onTouchEvent(event);
+        super.onTouchEvent(event);
         mDragHelper.processTouchEvent(event);
         return true;
     }
