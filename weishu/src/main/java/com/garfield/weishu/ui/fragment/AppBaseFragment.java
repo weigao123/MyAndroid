@@ -23,7 +23,7 @@ import com.garfield.weishu.R;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.base.event.EventDispatcher;
 import com.garfield.weishu.contact.ContactFragment;
-import com.garfield.weishu.developer.test.JavaTestFragment;
+import com.garfield.weishu.developer.test.TestBinderFragment;
 import com.garfield.weishu.discovery.DiscoveryFragment;
 import com.garfield.weishu.discovery.news.ui.NewsListFragment;
 import com.garfield.weishu.discovery.scan.ScanFragment;
@@ -95,7 +95,7 @@ public class AppBaseFragment extends SwipeBackFragment {
                         @Override
                         public void onClick(View v) {
                             if (BuildConfig.DEBUG && AppBaseFragment.this.getClass() == MainFragment.class) {
-                                EventDispatcher.startFragmentEvent(new JavaTestFragment());
+                                EventDispatcher.startFragmentEvent(new TestBinderFragment());
                             }
                         }
                     });

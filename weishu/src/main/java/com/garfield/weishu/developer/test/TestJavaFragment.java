@@ -11,7 +11,7 @@ import com.garfield.weishu.ui.fragment.AppBaseFragment;
  * Created by gaowei on 2017/6/16.
  */
 
-public class JavaTestFragment extends AppBaseFragment {
+public class TestJavaFragment extends AppBaseFragment {
 
     private JavaTest mJavaTest;
 
@@ -22,7 +22,7 @@ public class JavaTestFragment extends AppBaseFragment {
 
     @Override
     protected int onGetFragmentLayout() {
-        return R.layout.fragment_java_test;
+        return R.layout.fragment_test_java;
     }
 
     @Override
@@ -36,6 +36,8 @@ public class JavaTestFragment extends AppBaseFragment {
                 mJavaTest.touch();
             }
         });
+
+
     }
 
 

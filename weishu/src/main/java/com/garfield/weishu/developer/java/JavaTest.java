@@ -24,7 +24,8 @@ public class JavaTest {
             @Override
             public String call() throws Exception {
                 L.d("start");
-                Thread.sleep(5000);
+                Thread.sleep(1000);
+                L.d(Thread.currentThread().getState());
                 L.d("finish");
                 return "ok";
             }
