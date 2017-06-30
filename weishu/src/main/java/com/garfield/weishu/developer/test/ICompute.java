@@ -33,6 +33,11 @@ public interface ICompute extends android.os.IInterface {
             return new Stub.Proxy(obj);
         }
 
+        /**
+         * 目的是通过接口形式的引用返回自己的实例
+         * IMessenger mTarget;
+         * return mTarget.asBinder();
+         */
         @Override
         public android.os.IBinder asBinder() {
             return this;
