@@ -19,7 +19,7 @@ import com.garfield.baselib.utils.file.FileUtils;
 import com.garfield.baselib.utils.drawable.PhotoUtil;
 import com.garfield.baselib.utils.system.L;
 import com.garfield.baselib.utils.system.ScreenUtil;
-import com.garfield.baselib.utils.system.TaskUtils;
+import com.garfield.baselib.utils.thread.TaskUtils;
 import com.garfield.weishu.app.AppCache;
 import com.garfield.weishu.R;
 import com.garfield.weishu.base.event.EventDispatcher;

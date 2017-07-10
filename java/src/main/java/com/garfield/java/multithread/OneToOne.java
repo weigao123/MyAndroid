@@ -14,12 +14,12 @@ class OneToOne {
     private Lock lock = new ReentrantLock();
     private Condition condition = lock.newCondition();
 
-    private volatile boolean hasValue;
+    private boolean hasValue;
 
     void set() {
         L.p("set1");
         lock.lock();
-        L.p("set2");
+        L.p("set2: "+hasValue);
         if (hasValue) {
             L.cwait(condition);
         }
@@ -33,7 +33,7 @@ class OneToOne {
     void get() {
         L.p("get1");
         lock.lock();
-        L.p("get2");
+        L.p("get: "+hasValue);
         if (!hasValue) {
             L.cwait(condition);
         }

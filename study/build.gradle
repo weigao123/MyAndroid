@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -11,11 +12,28 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    signingConfigs {
+        release {
+            storeFile file("../MyAndroid.jks")
+            storePassword "android"
+            keyAlias "weishu"
+            keyPassword "android"
+        }
+    }
     buildTypes {
+        debug {
+            signingConfig signingConfigs.release
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
+    }
+
+    greendao {
+        targetGenDir 'src/main/java'
+        daoPackage 'com.garfield.study.greendao.gen'
     }
 }
 
@@ -24,4 +42,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.nineoldandroids:library:2.4.0'
     compile project(':baselib')
+
+    compile 'org.greenrobot:greendao:3.2.2'
+    compile project(':annotation')
+    annotationProcessor project(':compiler')
 }

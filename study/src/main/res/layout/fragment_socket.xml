@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
+
+    <Button
+        android:id="@+id/socket_connect"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:text="connect"
+        android:layout_marginTop="30dp"
+        android:textAllCaps="false"
+        android:onClick="onClick"/>
+
+    <Button
+        android:id="@+id/socket_session"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:text="session"
+        android:layout_marginTop="30dp"
+        android:textAllCaps="false"
+        android:onClick="onClick"/>
+
+    <Button
+        android:id="@+id/socket_photo"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:text="拍照"
+        android:layout_marginTop="30dp"
+        android:textAllCaps="false"
+        android:onClick="onClick"/>
+
+    <TextView
+        android:id="@+id/socket_receive"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

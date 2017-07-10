@@ -1,1 +1,1 @@
-include ':baselib', ':study', ':weishu', ':picasso', ':java'
+include ':baselib', ':study', ':weishu', ':picasso', ':java', ':compiler', ':annotation'

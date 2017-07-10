@@ -58,6 +58,12 @@ public class MyApplication extends Application {
         }
     }
 
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        L.d("onTerminate");
+    }
+
     public class CrashHandler implements Thread.UncaughtExceptionHandler {
         @Override
         public void uncaughtException(Thread thread, Throwable ex) {

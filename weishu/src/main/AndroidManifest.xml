@@ -62,13 +62,6 @@
             android:theme="@style/TransparentActivity"
             android:name=".ui.activity.ThemeMaskActivity"/>
 
-        <service
-            android:name=".developer.test.ComputerService"
-            android:process=":new_process">
-            <intent-filter>
-                <action android:name="com.garfield.weishu.aidl" />
-            </intent-filter>
-        </service>
 
         <!--网易云信-->
         <!-- APP key, 可以在这里设置，也可以在 SDKOptions 中提供。

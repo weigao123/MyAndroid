@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.garfield.study"
-    android:versionCode="1"
-    android:versionName="1.0" >
-
-    <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="19" />
+    package="com.garfield.study">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.STO" />
 
     <application
         android:allowBackup="true"
@@ -18,7 +11,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LauncherActivity"
+            android:name=".app.SingleFragmentActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,15 +20,17 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.garfield.study.viewdraghelper.activity.MainActivity" />
-        <activity android:name="com.garfield.study.viewdraghelper.activity.ImageActivity" />
-        <activity android:name="com.garfield.study.touch.MainActivity" />
-        <activity android:name="com.garfield.study.ui.SpeedActivity" />
-        <activity android:name=".socket.SocketActivity" />
+        <activity android:name=".ui.viewdraghelper.activity.MainActivity" />
+        <activity android:name=".ui.viewdraghelper.activity.ImageActivity" />
 
-        <activity
-            android:name="com.garfield.study.ui.SwipeBackTestActivity"
-            android:theme="@style/AppTheme.SwipeBack"/>
+        <service
+            android:name=".aidl.ComputerService"
+            android:process=":new_process">
+            <intent-filter>
+                <action android:name="com.garfield.weishu.aidl" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

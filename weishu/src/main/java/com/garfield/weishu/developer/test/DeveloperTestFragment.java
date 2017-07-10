@@ -48,7 +48,6 @@ public class DeveloperTestFragment extends AppBaseFragment implements BaseRecycl
 
         mData.add("ViewPager");
         mData.add("RecyclerView");
-        mData.add("Binder");
 
         TestAdapter adapter = new TestAdapter(getContext(), mData);
         adapter.setItemEventListener(this);
@@ -62,9 +61,6 @@ public class DeveloperTestFragment extends AppBaseFragment implements BaseRecycl
         switch (item) {
             case "ViewPager":
                 EventDispatcher.startFragmentEvent(new TestViewPagerFragment());
-                break;
-            case "Binder":
-                EventDispatcher.startFragmentEvent(new TestBinderFragment());
                 break;
 
         }

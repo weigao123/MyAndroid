@@ -1,4 +1,4 @@
-<com.garfield.study.viewdraghelper.view.DragLayout
+<com.garfield.study.ui.viewdraghelper.view.DragLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/dl"
     android:layout_width="match_parent"
@@ -56,7 +56,7 @@
             android:textColor="#ffffff" />
     </RelativeLayout>
 
-    <com.garfield.study.viewdraghelper.view.MyRelativeLayout
+    <com.garfield.study.ui.viewdraghelper.view.MyRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#eeeeee" >
@@ -103,5 +103,5 @@
             android:contentDescription="@string/app_name"
             android:text="你的系统相册没有图片哦~"
             android:visibility="gone" />
-    </com.garfield.study.viewdraghelper.view.MyRelativeLayout>
-</com.garfield.study.viewdraghelper.view.DragLayout>
+    </com.garfield.study.ui.viewdraghelper.view.MyRelativeLayout>
+</com.garfield.study.ui.viewdraghelper.view.DragLayout>
