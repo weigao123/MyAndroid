@@ -1,20 +1,21 @@
 package com.garfield.compiler;
 
 import com.garfield.annotation.Factory;
+import com.garfield.compiler.utils.Logger;
 import com.google.auto.service.AutoService;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
-import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
+import javax.annotation.processing.SupportedAnnotationTypes;
+import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
@@ -25,19 +26,20 @@ import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
-import javax.tools.Diagnostic;
 
 /**
  * Created by gaowei on 2017/7/10.
  */
 
 @AutoService(Processor.class)
+@SupportedSourceVersion(SourceVersion.RELEASE_7)
+@SupportedAnnotationTypes("com.garfield.annotation.Factory")
 public class FactoryProcessor extends AbstractProcessor {
 
     private Types typeUtils;
     private Elements elementUtils;
     private Filer filer;
-    private Messager messager;
+    private Logger logger;
     private Map<String, FactoryGroupedClasses> factoryClasses = new LinkedHashMap<String, FactoryGroupedClasses>();
 
     @Override
@@ -46,39 +48,34 @@ public class FactoryProcessor extends AbstractProcessor {
         typeUtils = processingEnv.getTypeUtils();
         elementUtils = processingEnv.getElementUtils();
         filer = processingEnv.getFiler();
-        messager = processingEnv.getMessager();
+        logger = new Logger(processingEnv.getMessager());
     }
 
-    @Override
-    public Set<String> getSupportedAnnotationTypes() {
-        Set<String> annotataions = new LinkedHashSet<String>();
-        annotataions.add(Factory.class.getCanonicalName());
-        return annotataions;
-    }
-
-    @Override
-    public SourceVersion getSupportedSourceVersion() {
-        return SourceVersion.latestSupported();
-    }
+//    @Override
+//    public Set<String> getSupportedAnnotationTypes() {
+//        Set<String> annotations = new LinkedHashSet<String>();
+//        annotations.add(Factory.class.getCanonicalName());
+//        return annotations;
+//    }
+//
+//    @Override
+//    public SourceVersion getSupportedSourceVersion() {
+//        return SourceVersion.latestSupported();
+//    }
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-
-        System.out.print("gaowei");
         try {
-
-            // Scan classes
+            // 遍历所有被注解了@Factory的元素
             for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(Factory.class)) {
 
-                // Check if a class has been annotated with @Factory
+                // 判断具体的类型，Kind类型分的很细
                 if (annotatedElement.getKind() != ElementKind.CLASS) {
                     throw new ProcessingException(annotatedElement, "Only classes can be annotated with @%s",
                             Factory.class.getSimpleName());
                 }
 
-                // We can cast it, because we know that it of ElementKind.CLASS
                 TypeElement typeElement = (TypeElement) annotatedElement;
-
                 FactoryAnnotatedClass annotatedClass = new FactoryAnnotatedClass(typeElement);
 
                 checkValidClass(annotatedClass);
@@ -102,24 +99,18 @@ public class FactoryProcessor extends AbstractProcessor {
             }
             factoryClasses.clear();
         } catch (ProcessingException e) {
-            error(e.getElement(), e.getMessage());
+            //error(e.getElement(), e.getMessage());
+            logger.error(e);
         } catch (IOException e) {
-            error(null, e.getMessage());
+            //error(null, e.getMessage());
+            logger.error(e);
         }
 
         return true;
     }
 
-    public void error(Element e, String msg) {
-        messager.printMessage(Diagnostic.Kind.ERROR, msg, e);
-    }
-
-    /**
-     * Checks if the annotated element observes our rules
-     */
     private void checkValidClass(FactoryAnnotatedClass item) throws ProcessingException {
 
-        // Cast to TypeElement, has more type specific methods
         TypeElement classElement = item.getTypeElement();
 
         if (!classElement.getModifiers().contains(Modifier.PUBLIC)) {
@@ -127,7 +118,6 @@ public class FactoryProcessor extends AbstractProcessor {
                     classElement.getQualifiedName().toString());
         }
 
-        // Check if it's an abstract class
         if (classElement.getModifiers().contains(Modifier.ABSTRACT)) {
             throw new ProcessingException(classElement,
                     "The class %s is abstract. You can't annotate abstract classes with @%",

@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 
 import com.garfield.baselib.swipeback.SwipeBackActivity;
 import com.garfield.study.R;
+import com.garfield.study.aidl.AidlFragment;
 
 /**
  * Created by gaowei on 2017/7/10.
@@ -30,7 +31,7 @@ public class SingleFragmentActivity extends SwipeBackActivity {
         Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
 
         if (fragment == null) {
-            fragment = new AppBaseFragment();
+            fragment = new AidlFragment();
             fm.beginTransaction().add(R.id.fragmentContainer, fragment).commit();
         }
     }

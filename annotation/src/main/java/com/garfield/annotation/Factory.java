@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * Created by gaowei on 2017/7/10.
  */
 
-@Target(ElementType.TYPE)
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.CLASS)
 public @interface Factory {
     Class type();

@@ -3,6 +3,8 @@ package com.garfield.compiler;
 
 import com.garfield.annotation.Factory;
 
+import org.apache.commons.lang3.StringUtils;
+
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.MirroredTypeException;
@@ -17,15 +19,12 @@ public class FactoryAnnotatedClass {
     private String simpleFactoryGroupName;
     private String id;
 
-    /**
-     * @throws ProcessingException if id() from annotation is null
-     */
     public FactoryAnnotatedClass(TypeElement classElement) throws ProcessingException {
         this.annotatedClassElement = classElement;
         Factory annotation = classElement.getAnnotation(Factory.class);
         id = annotation.id();
 
-        if (id == null || "".equals(id)) {
+        if (StringUtils.isEmpty(id)) {
             throw new ProcessingException(classElement,
                     "id() in @%s for class %s is null or empty! that's not allowed",
                     Factory.class.getSimpleName(), classElement.getQualifiedName().toString());
