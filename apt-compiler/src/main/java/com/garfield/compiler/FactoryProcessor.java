@@ -39,8 +39,7 @@ public class FactoryProcessor extends AbstractProcessor {
     private Types typeUtils;
     private Elements elementUtils;
     private Filer filer;
-    private Logger logger;
-    private Map<String, FactoryGroupedClasses> factoryClasses = new LinkedHashMap<String, FactoryGroupedClasses>();
+    private Map<String, FactoryGroupedClasses> factoryClasses = new LinkedHashMap<>();
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
@@ -48,7 +47,13 @@ public class FactoryProcessor extends AbstractProcessor {
         typeUtils = processingEnv.getTypeUtils();
         elementUtils = processingEnv.getElementUtils();
         filer = processingEnv.getFiler();
-        logger = new Logger(processingEnv.getMessager());
+        Logger.setLogger(processingEnv.getMessager());
+        Logger.info("process init");
+        // 在这里打印gradle文件传进来的参数
+        Map<String, String> map = processingEnv.getOptions();
+        for (String key : map.keySet()) {
+            Logger.info("key：" + map.get(key));
+        }
     }
 
 //    @Override
@@ -65,11 +70,12 @@ public class FactoryProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+        Logger.info("process start");
         try {
             // 遍历所有被注解了@Factory的元素
             for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(Factory.class)) {
 
-                // 判断具体的类型，Kind类型分的很细
+                // 判断具体的类型，Kind类型分的很细，只能使用在Class上
                 if (annotatedElement.getKind() != ElementKind.CLASS) {
                     throw new ProcessingException(annotatedElement, "Only classes can be annotated with @%s",
                             Factory.class.getSimpleName());
@@ -80,16 +86,15 @@ public class FactoryProcessor extends AbstractProcessor {
 
                 checkValidClass(annotatedClass);
 
-                // Everything is fine, so try to add
-                FactoryGroupedClasses factoryClass =
-                        factoryClasses.get(annotatedClass.getQualifiedFactoryGroupName());
+                FactoryGroupedClasses factoryClass = factoryClasses.get(annotatedClass.getQualifiedFactoryGroupName());
                 if (factoryClass == null) {
                     String qualifiedGroupName = annotatedClass.getQualifiedFactoryGroupName();
                     factoryClass = new FactoryGroupedClasses(qualifiedGroupName);
+                    // 按type()值来分组，都一样所以是同一组
                     factoryClasses.put(qualifiedGroupName, factoryClass);
                 }
 
-                // Checks if id is conflicting with another @Factory annotated class with the same id
+                // 把id()值加入
                 factoryClass.add(annotatedClass);
             }
 
@@ -98,19 +103,17 @@ public class FactoryProcessor extends AbstractProcessor {
                 factoryClass.generateCode(elementUtils, filer);
             }
             factoryClasses.clear();
-        } catch (ProcessingException e) {
-            //error(e.getElement(), e.getMessage());
-            logger.error(e);
-        } catch (IOException e) {
-            //error(null, e.getMessage());
-            logger.error(e);
+        } catch (ProcessingException | IOException e) {
+            Logger.error(e);
         }
 
+        Logger.info("process end");
         return true;
     }
 
     private void checkValidClass(FactoryAnnotatedClass item) throws ProcessingException {
 
+        // 被@Factory修饰的TypeElement
         TypeElement classElement = item.getTypeElement();
 
         if (!classElement.getModifiers().contains(Modifier.PUBLIC)) {
@@ -124,11 +127,11 @@ public class FactoryProcessor extends AbstractProcessor {
                     classElement.getQualifiedName().toString(), Factory.class.getSimpleName());
         }
 
-        // Check inheritance: Class must be childclass as specified in @Factory.type();
-        TypeElement superClassElement =
-                elementUtils.getTypeElement(item.getQualifiedFactoryGroupName());
+        // 获取type参数的类名获取到对应的TypeElement
+        // 检查继承关系: @Factory修饰的类必须是@Factory.type()指定的类型子类
+        TypeElement superClassElement = elementUtils.getTypeElement(item.getQualifiedFactoryGroupName());
         if (superClassElement.getKind() == ElementKind.INTERFACE) {
-            // Check interface implemented
+            // type是个接口，检查是否被@Factory修饰的类实现了
             if (!classElement.getInterfaces().contains(superClassElement.asType())) {
                 throw new ProcessingException(classElement,
                         "The class %s annotated with @%s must implement the interface %s",
@@ -136,7 +139,7 @@ public class FactoryProcessor extends AbstractProcessor {
                         item.getQualifiedFactoryGroupName());
             }
         } else {
-            // Check subclassing
+            // type是个类，遍历所有的继承关系，检查是否被@Factory修饰的类继承了
             TypeElement currentClass = classElement;
             while (true) {
                 TypeMirror superClassType = currentClass.getSuperclass();
@@ -159,7 +162,7 @@ public class FactoryProcessor extends AbstractProcessor {
             }
         }
 
-        // Check if an empty public constructor is given
+        // 检查是否提供了默认公开构造函数
         for (Element enclosed : classElement.getEnclosedElements()) {
             if (enclosed.getKind() == ElementKind.CONSTRUCTOR) {
                 ExecutableElement constructorElement = (ExecutableElement) enclosed;

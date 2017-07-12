@@ -12,6 +12,15 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.CLASS)
 public @interface Factory {
+
+    /**
+     * 工厂的名字，同一个工厂要一致
+     * 生成的文件会放到这个接口所在的目录
+     */
     Class type();
+
+    /**
+     * 用来表示生成哪个对象的唯一id
+     */
     String id();
 }

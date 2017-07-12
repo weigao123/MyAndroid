@@ -1,1 +1,1 @@
-include ':baselib', ':study', ':weishu', ':picasso', ':java', ':compiler', ':annotation'
+include ':baselib', ':study', ':weishu', ':picasso', ':java', ':apt-compiler', ':apt-annotation'

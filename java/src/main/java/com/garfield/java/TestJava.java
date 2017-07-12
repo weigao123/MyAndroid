@@ -1,7 +1,5 @@
 package com.garfield.java;
 
-import com.garfield.java.multithread.TestMulti;
-
 public class TestJava {
 
     public static void main(String[] args) {
@@ -9,6 +7,9 @@ public class TestJava {
     }
 
     private void doTest() {
-        new TestMulti().doTest();
+        //new TestMulti().doTest();
+
     }
+
+
 }

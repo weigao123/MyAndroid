@@ -29,32 +29,25 @@ import javax.lang.model.util.Elements;
  */
 public class FactoryGroupedClasses {
 
-    /**
-     * Will be added to the name of the generated factory class
-     */
     private static final String SUFFIX = "Factory";
 
+    // type()对应的类全名
     private String qualifiedClassName;
 
-    private Map<String, FactoryAnnotatedClass> itemsMap =
-            new LinkedHashMap<String, FactoryAnnotatedClass>();
+    // id()和@Factory修饰的类
+    // 最主要的就是id()和对应的@Factory修饰的类
+    private Map<String, FactoryAnnotatedClass> itemsMap = new LinkedHashMap<>();
 
     public FactoryGroupedClasses(String qualifiedClassName) {
         this.qualifiedClassName = qualifiedClassName;
     }
 
-    /**
-     * Adds an annotated class to this factory.
-     *
-     * @throws ProcessingException if another annotated class with the same id is
-     * already present.
-     */
     public void add(FactoryAnnotatedClass toInsert) throws ProcessingException {
 
         FactoryAnnotatedClass existing = itemsMap.get(toInsert.getId());
         if (existing != null) {
 
-            // Alredy existing
+            // Already existing
             throw new ProcessingException(toInsert.getTypeElement(),
                     "Conflict: The class %s is annotated with @%s with id ='%s' but %s already uses the same id",
                     toInsert.getTypeElement().getQualifiedName().toString(), Factory.class.getSimpleName(),
@@ -82,7 +75,6 @@ public class FactoryGroupedClasses {
                 .endControlFlow();
 
         // Generate items map
-
         for (FactoryAnnotatedClass item : itemsMap.values()) {
             method.beginControlFlow("if ($S.equals(id))", item.getId())
                     .addStatement("return new $L()", item.getTypeElement().getQualifiedName().toString())

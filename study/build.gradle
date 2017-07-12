@@ -11,6 +11,11 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ moduleName : project.getName() ]   //设置给编译处理器的参数
+            }
+        }
     }
     signingConfigs {
         release {
@@ -30,7 +35,6 @@ android {
             signingConfig signingConfigs.release
         }
     }
-
     greendao {
         targetGenDir 'src/main/java'
         daoPackage 'com.garfield.study.greendao.gen'
@@ -44,6 +48,6 @@ dependencies {
     compile project(':baselib')
 
     compile 'org.greenrobot:greendao:3.2.2'
-    compile project(':annotation')
-    annotationProcessor project(':compiler')
+    compile project(':apt-annotation')
+    annotationProcessor project(':apt-compiler')
 }

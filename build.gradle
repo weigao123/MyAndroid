@@ -33,3 +33,10 @@ ext {
     buildToolsVersion = "24.0.2"
     supportVersion = "24.2.1"
 }
+
+task hello << {
+    println("hello world!")
+}
+hello.doLast {
+    println hello.name
+}

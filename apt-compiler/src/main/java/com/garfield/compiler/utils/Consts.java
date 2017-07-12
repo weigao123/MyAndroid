@@ -6,5 +6,5 @@ package com.garfield.compiler.utils;
 
 public class Consts {
 
-    static final String PREFIX_OF_LOGGER = "gaowei";
+    static final String PREFIX_OF_LOGGER = "gaowei: ";
 }
