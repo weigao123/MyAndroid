@@ -6,7 +6,6 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.3'
-        //classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -34,9 +33,32 @@ ext {
     supportVersion = "24.2.1"
 }
 
-task hello << {
-    println("hello world!")
-}
-hello.doLast {
-    println hello.name
-}
+//task hello << {
+//    println("hello world!")
+//}
+//hello.doLast(type: copy) {
+//    println hello.name
+//
+//    new Thread(new Runnable() {
+//        @Override
+//        void run() {
+//
+//        }
+//    }).start();
+//}
+//showDescription3 {
+//    description = 'this is task showDescription'
+//}
+//
+//
+//def iamList = [1,2,3,4,5]
+//iamList.each {}
+//
+//def  testClosure(Closure closure){
+//    //do something
+//    closure() //调用闭包
+//}
+//testClosure {}
+
+
+

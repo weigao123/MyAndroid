@@ -35,10 +35,44 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    productFlavors {
+        baidu {
+            println("baidu productFlavors")
+            applicationId "com.garfield.study.baidu"   //可以同时在手机上安装
+            resValue "string", "app_name", "Study"
+        }
+        xiaomi {
+            println("xiaomi productFlavors")
+            applicationIdSuffix "xiaomi"
+            resValue "string", "app_name", "Study_x"
+        }
+    }
+    sourceSets {
+        main {}
+        xiaomi {
+            assets.srcDirs = ['src/xiaomi/assets']   //默认就是
+        }
+        baidu {}
+    }
     greendao {
         targetGenDir 'src/main/java'
         daoPackage 'com.garfield.study.greendao.gen'
     }
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith(".apk")) {
+                def fileName;
+                if (variant.buildType.name == "release") {
+                    fileName = "study_${variant.productFlavors[0].name}_release"+ ".apk"
+                } else {
+                    fileName = "study_${variant.productFlavors[0].name}_debug" + ".apk"
+                }
+                output.outputFile = new File(outputFile.parent, fileName);
+            }
+        }
+    }
+
 }
 
 dependencies {
