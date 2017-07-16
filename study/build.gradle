@@ -4,7 +4,8 @@ apply plugin: 'org.greenrobot.greendao'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
-
+    // 默认配置，buildTypes和ProductFlavors都没有的配置默认使用
+    // 其可用属性是buildTypes和ProductFlavors之和
     defaultConfig {
         applicationId "com.garfield.study"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -25,35 +26,69 @@ android {
             keyPassword "android"
         }
     }
+    //构建版本（对内）
     buildTypes {
         debug {
             signingConfig signingConfigs.release
         }
         release {
-            minifyEnabled false
+            minifyEnabled false  //是否混淆
+            zipAlignEnabled true  //ZIP对齐优化
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            applicationIdSuffix ".debug"    //只能加后缀
+            versionNameSuffix ".debug"      //只能加后缀
+            buildConfigField "boolean", "IS_DEBUG", "true"
+            resValue "string", "app_name", "Study_Debug"
         }
+//        preview.initWith(buildTypes.debug)
+//        preview {
+//            applicationIdSuffix ".preview"
+//            resValue "string", "app_name", "Study_Preview"
+//        }
     }
+    // 生产版本（对外）
+    // 用来推出不同的版本，最终打出的APK的数量是buildTypes乘以productFlavors
+    // 同defaultConfig参数一样
+    // flavorDimensions("color", "channel")  //多维度构建，两两组合
     productFlavors {
         baidu {
-            println("baidu productFlavors")
+            //println("baidu productFlavors")
             applicationId "com.garfield.study.baidu"   //可以同时在手机上安装
-            resValue "string", "app_name", "Study"
+            //dimension "channel"
         }
         xiaomi {
-            println("xiaomi productFlavors")
-            applicationIdSuffix "xiaomi"
-            resValue "string", "app_name", "Study_x"
+            //println("xiaomi productFlavors")
+            applicationIdSuffix ".xiaomi"
+            //dimension "channel"
         }
+//        red {
+//            dimension "color"
+//        }
+//        blue {
+//            dimension "color"
+//        }
     }
-    sourceSets {
-        main {}
-        xiaomi {
-            assets.srcDirs = ['src/xiaomi/assets']   //默认就是
-        }
-        baidu {}
-    }
+//    // 修改对应目录
+//    sourceSets {
+//        main {}
+//        xiaomi {
+//            assets.srcDirs = ['src/xiaomi/assets']   //其实默认就是这个
+//        }
+//        baidu {}
+//    }
+//    lintOptions {
+//        abortOnError false   //是否在lint发生错误时终止构建
+//        ignoreWarnings true   //忽略警告，检查错误
+//    }
+//    dexOptions {
+//        preDexLibraries false
+//        javaMaxHeapSize '2048m'
+//    }
+//    compileOptions {
+//        sourceCompatibility '1.7'
+//        targetCompatibility '1.7'
+//    }
     greendao {
         targetGenDir 'src/main/java'
         daoPackage 'com.garfield.study.greendao.gen'
@@ -73,9 +108,27 @@ android {
         }
     }
 
+//    android.variantFilter { variant ->
+//        if(variant.buildType.name.equals('preview')) {
+//            variant.getFlavors().each() { flavor ->
+//                if (flavor.name.equals('red') || flavor.name.equals('blue')) {
+//                    variant.setIgnore(true);
+//                }
+//            }
+//        }
+//    }
+
+}
+
+tasks.whenTaskAdded { theTask ->
+    if (theTask.name.equals("assembleRelease")) {
+        println(theTask.name)
+        //theTask.dependsOn "getReleasePassword"
+    }
 }
 
 dependencies {
+    //组名:库名称:版本号
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.nineoldandroids:library:2.4.0'

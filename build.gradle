@@ -15,9 +15,10 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
-        maven { url "https://jitpack.io" }
-        //flatDir { dirs 'libs' }    //aar
+        jcenter()   //新的远程中央仓库，兼容maven中央仓库
+        maven { url "https://jitpack.io" }   //指定远程仓库
+        mavenLocal()   //从本地Maven仓库中获取依赖 本地地址: {user.home}\/.m2\/repository
+        flatDir { dirs 'libs' }    //本地仓库aar
     }
 }
 
@@ -32,6 +33,7 @@ ext {
     buildToolsVersion = "24.0.2"
     supportVersion = "24.2.1"
 }
+
 
 //task hello << {
 //    println("hello world!")
