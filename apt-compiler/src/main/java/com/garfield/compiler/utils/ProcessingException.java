@@ -1,4 +1,4 @@
-package com.garfield.compiler;
+package com.garfield.compiler.utils;
 
 import javax.lang.model.element.Element;
 

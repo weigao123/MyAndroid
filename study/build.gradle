@@ -32,8 +32,9 @@ android {
             signingConfig signingConfigs.release
         }
         release {
-            minifyEnabled false  //是否混淆
+            minifyEnabled false   //是否混淆
             zipAlignEnabled true  //ZIP对齐优化
+            shrinkResources true  //去除没有使用过的resource
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
             applicationIdSuffix ".debug"    //只能加后缀
@@ -121,10 +122,20 @@ android {
 }
 
 tasks.whenTaskAdded { theTask ->
-    if (theTask.name.equals("assembleRelease")) {
-        println(theTask.name)
-        //theTask.dependsOn "getReleasePassword"
+    //println("gaowei " + theTask.name)
+    if (theTask.name == "assembleRelease") {
+        theTask.dependsOn "releaseTask"
+    } else if (theTask.name == "assembleDebug") {
+        theTask.dependsOn "debugTask"
     }
+}
+
+task debugTask << {
+    println('gaowei debugTask')
+}
+
+task releaseTask << {
+    println('gaowei releaseTask')
 }
 
 dependencies {
@@ -134,6 +145,8 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile project(':baselib')
 
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.jakewharton:butterknife:8.4.0'
     compile 'org.greenrobot:greendao:3.2.2'
     compile project(':apt-annotation')
     annotationProcessor project(':apt-compiler')

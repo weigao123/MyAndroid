@@ -17,7 +17,7 @@
 package com.garfield.study.annotation;
 
 
-import com.garfield.annotation.Factory;
+import com.garfield.annotation.factory.Factory;
 
 /**
  * @author Hannes Dorfmann

@@ -1,7 +1,8 @@
-package com.garfield.compiler;
+package com.garfield.compiler.factory;
 
-import com.garfield.annotation.Factory;
+import com.garfield.annotation.factory.Factory;
 import com.garfield.compiler.utils.Logger;
+import com.garfield.compiler.utils.ProcessingException;
 import com.google.auto.service.AutoService;
 
 import java.io.IOException;
@@ -33,7 +34,7 @@ import javax.lang.model.util.Types;
 
 @AutoService(Processor.class)
 @SupportedSourceVersion(SourceVersion.RELEASE_7)
-@SupportedAnnotationTypes("com.garfield.annotation.Factory")
+@SupportedAnnotationTypes("com.garfield.annotation.factory.Factory")
 public class FactoryProcessor extends AbstractProcessor {
 
     private Types typeUtils;

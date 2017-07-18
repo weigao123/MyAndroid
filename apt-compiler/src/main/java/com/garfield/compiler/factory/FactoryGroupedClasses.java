@@ -1,6 +1,7 @@
-package com.garfield.compiler;
+package com.garfield.compiler.factory;
 
-import com.garfield.annotation.Factory;
+import com.garfield.annotation.factory.Factory;
+import com.garfield.compiler.utils.ProcessingException;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
