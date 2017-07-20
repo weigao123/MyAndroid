@@ -47,7 +47,7 @@ public class Logger {
     private static String formatStackTrace(StackTraceElement[] stackTrace) {
 //        StringWriter stackTrace = new StringWriter();
 //        e.printStackTrace(new PrintWriter(stackTrace));
-        
+
         StringBuilder sb = new StringBuilder();
         for (StackTraceElement element : stackTrace) {
             sb.append("    at ").append(element.toString());

@@ -40,7 +40,7 @@ android {
             applicationIdSuffix ".debug"    //只能加后缀
             versionNameSuffix ".debug"      //只能加后缀
             buildConfigField "boolean", "IS_DEBUG", "true"
-            resValue "string", "app_name", "Study_Debug"
+            //resValue "string", "app_name", "Study_Debug"
         }
 //        preview.initWith(buildTypes.debug)
 //        preview {
@@ -55,12 +55,12 @@ android {
     productFlavors {
         baidu {
             //println("baidu productFlavors")
-            applicationId "com.garfield.study.baidu"   //可以同时在手机上安装
+            applicationId "com.garfield.study"   //重定义
             //dimension "channel"
         }
         xiaomi {
             //println("xiaomi productFlavors")
-            applicationIdSuffix ".xiaomi"
+            applicationIdSuffix ".xiaomi"   //可以同时在手机上安装
             //dimension "channel"
         }
 //        red {

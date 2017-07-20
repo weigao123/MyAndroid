@@ -9,5 +9,9 @@
     <style name="AppTheme" parent="AppBaseTheme">
     </style>
 
+    <!-- 全透明 -->
+    <style name="TransparentActivity" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 
 </resources>
