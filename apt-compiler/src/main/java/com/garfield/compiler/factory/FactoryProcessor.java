@@ -7,6 +7,7 @@ import com.google.auto.service.AutoService;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,8 +16,6 @@ import javax.annotation.processing.Filer;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
-import javax.annotation.processing.SupportedAnnotationTypes;
-import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
@@ -33,8 +32,8 @@ import javax.lang.model.util.Types;
  */
 
 @AutoService(Processor.class)
-@SupportedSourceVersion(SourceVersion.RELEASE_7)
-@SupportedAnnotationTypes("com.garfield.annotation.factory.Factory")
+//@SupportedSourceVersion(SourceVersion.RELEASE_7)
+//@SupportedAnnotationTypes("com.garfield.annotation.factory.Factory")
 public class FactoryProcessor extends AbstractProcessor {
 
     private Types typeUtils;
@@ -57,17 +56,17 @@ public class FactoryProcessor extends AbstractProcessor {
         }
     }
 
-//    @Override
-//    public Set<String> getSupportedAnnotationTypes() {
-//        Set<String> annotations = new LinkedHashSet<String>();
-//        annotations.add(Factory.class.getCanonicalName());
-//        return annotations;
-//    }
-//
-//    @Override
-//    public SourceVersion getSupportedSourceVersion() {
-//        return SourceVersion.latestSupported();
-//    }
+    @Override
+    public Set<String> getSupportedAnnotationTypes() {
+        Set<String> annotations = new LinkedHashSet<>();
+        annotations.add(Factory.class.getCanonicalName());
+        return annotations;
+    }
+
+    @Override
+    public SourceVersion getSupportedSourceVersion() {
+        return SourceVersion.latestSupported();
+    }
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {

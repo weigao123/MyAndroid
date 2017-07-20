@@ -82,10 +82,10 @@ android {
 //        abortOnError false   //是否在lint发生错误时终止构建
 //        ignoreWarnings true   //忽略警告，检查错误
 //    }
-//    dexOptions {
-//        preDexLibraries false
-//        javaMaxHeapSize '2048m'
-//    }
+    dexOptions {
+        preDexLibraries false
+        javaMaxHeapSize '2g'
+    }
 //    compileOptions {
 //        sourceCompatibility '1.7'
 //        targetCompatibility '1.7'
