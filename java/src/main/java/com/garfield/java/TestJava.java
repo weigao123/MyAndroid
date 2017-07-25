@@ -1,7 +1,6 @@
 package com.garfield.java;
 
-import com.garfield.java.algorithm.StringAlgo;
-import com.garfield.java.util.L;
+import com.garfield.java.javacreate.Jssist;
 
 public class TestJava {
 
@@ -13,7 +12,11 @@ public class TestJava {
         //new TestMulti().doTest();
 
 
-        L.p(StringAlgo.transfer("1*223"));
+        try {
+            Jssist.test();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

@@ -17,6 +17,7 @@ android {
                 arguments = [ moduleName : project.getName() ]   //设置给编译处理器的参数
             }
         }
+        multiDexEnabled true
     }
     signingConfigs {
         release {
@@ -34,7 +35,6 @@ android {
         release {
             minifyEnabled false   //是否混淆
             zipAlignEnabled true  //ZIP对齐优化
-            shrinkResources true  //去除没有使用过的resource
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
             applicationIdSuffix ".debug"    //只能加后缀
@@ -85,6 +85,10 @@ android {
     dexOptions {
         preDexLibraries false
         javaMaxHeapSize '2g'
+        additionalParameters = ['--multi-dex',
+                                //'--main-dex-list=' + project.rootDir.absolutePath + '/app/maindexlist.txt',   //指明想哪些类打包到主dex
+                                //'--minimal-main-dex',   //最小化主dex，保证主dex中只有上面参数指定的类
+                                '--set-max-idx-number=30000']    //每个dex中最多的方法数
     }
 //    compileOptions {
 //        sourceCompatibility '1.7'
@@ -118,6 +122,8 @@ android {
 //            }
 //        }
 //    }
+
+
 
 }
 

@@ -8,7 +8,34 @@ import java.util.Stack;
 
 public class StringAlgo {
 
-    public static String transfer(String str) {
+    public static int transfer(String str) {
+        if (str == null) {
+            return 0;
+        }
+        int sum = 0;
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < str.length(); i++) {
+            char s = str.charAt(i);
+            stack.push(s);
+        }
+        boolean isFirstChar = true;
+        boolean isNegative = false;
+        while (!stack.empty()) {
+            char value = stack.pop();
+            if (isFirstChar && value == '-') {
+                isNegative = true;
+                isFirstChar = false;
+                continue;
+            } else if (value > '9' || value < '0') {
+                continue;
+            }
+            sum *= 10;
+            sum += value - '0';
+        }
+        return isNegative ? -sum : sum;
+    }
+
+    public static String revert(String str) {
         Stack<Character> stack = new Stack<>();
         for (int i = 0; i < str.length(); i++) {
             char s = str.charAt(i);

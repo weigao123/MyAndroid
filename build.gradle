@@ -28,39 +28,12 @@ task clean(type: Delete) {
 
 ext {
     minSdkVersion = 15
-    targetSdkVersion = 24
-    compileSdkVersion = 24
+    targetSdkVersion = 25
+    compileSdkVersion = 25
     buildToolsVersion = "25.0.0"
     supportVersion = "24.2.1"
 }
 
-
-//task hello << {
-//    println("hello world!")
-//}
-//hello.doLast(type: copy) {
-//    println hello.name
-//
-//    new Thread(new Runnable() {
-//        @Override
-//        void run() {
-//
-//        }
-//    }).start();
-//}
-//showDescription3 {
-//    description = 'this is task showDescription'
-//}
-//
-//
-//def iamList = [1,2,3,4,5]
-//iamList.each {}
-//
-//def  testClosure(Closure closure){
-//    //do something
-//    closure() //调用闭包
-//}
-//testClosure {}
 
 
 
