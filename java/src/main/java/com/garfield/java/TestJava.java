@@ -1,6 +1,8 @@
 package com.garfield.java;
 
-import com.garfield.java.javacreate.Jssist;
+import com.garfield.java.javacreate.JAssist;
+
+import sun.reflect.CallerSensitive;
 
 public class TestJava {
 
@@ -8,12 +10,14 @@ public class TestJava {
         new TestJava().doTest();
     }
 
+    @CallerSensitive
     private void doTest() {
         //new TestMulti().doTest();
 
 
+
         try {
-            Jssist.test();
+            new JAssist().test();
         } catch (Exception e) {
             e.printStackTrace();
         }

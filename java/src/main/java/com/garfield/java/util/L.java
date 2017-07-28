@@ -7,6 +7,7 @@ import java.util.concurrent.locks.Condition;
  */
 
 public class L {
+
     public static void p(Object s) {
         System.out.println(s);
     }
