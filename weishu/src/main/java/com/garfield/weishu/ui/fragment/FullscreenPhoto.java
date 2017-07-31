@@ -10,7 +10,6 @@ import com.garfield.baselib.utils.system.SystemUtil;
 import com.garfield.weishu.R;
 
 import butterknife.BindView;
-import uk.co.senab.photoview.PhotoView;
 
 import static com.garfield.weishu.setting.SelfProfileFragment.INFO_HEAD;
 
@@ -21,7 +20,7 @@ import static com.garfield.weishu.setting.SelfProfileFragment.INFO_HEAD;
 public class FullscreenPhoto extends AppBaseFragment {
 
     @BindView(R.id.fragment_fullscreen_photo)
-    PhotoView mFullscreenPhoto;
+    ImageView mFullscreenPhoto;
 
     private String mPhotoPath;
 

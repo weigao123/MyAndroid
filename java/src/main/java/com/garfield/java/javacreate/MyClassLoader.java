@@ -24,20 +24,20 @@ public class MyClassLoader extends URLClassLoader {
 
     @Override
     protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
-        L.p("[loadClass] name:" + name + "  resolve:" + resolve + "  findLoadedClass:" + super.findLoadedClass(name));
+        L.p("[loadClass] start name:" + name + "  resolve:" + resolve + "  findLoadedClass:" + super.findLoadedClass(name));
         //Class<?> result = super.loadClass(name, resolve);
-        Class<?> result = loadBySelfFirst(name, resolve);
-        L.p("[loadClass] result: " + result.getClassLoader());
+        Class<?> result = loadBySelfThenParent(name, resolve);
+        L.p("[loadClass] end name:" + name + "  result loader: " + (result.getClassLoader() == null ? "BootstrapClassloader" : result.getClassLoader()));
         return result;
     }
 
-    public Class<?> loadWithoutParent(String name) throws ClassNotFoundException {
-        return loadWithoutParent(name, false);
+    public Class<?> loadBySelf(String name) throws ClassNotFoundException {
+        return loadBySelf(name, false);
     }
 
-    public Class<?> loadWithoutParent(String name, boolean resolve) throws ClassNotFoundException {
+    private Class<?> loadBySelf(String name, boolean resolve) throws ClassNotFoundException {
         Class<?> loadedClass = super.findLoadedClass(name);
-        L.p("[loadWithoutParent] findLoadedClass:" + loadedClass);
+        L.p("[loadBySelf] start name:" + name + "  findLoadedClass:" + loadedClass);
         if (null != loadedClass) {
             return loadedClass;
         }
@@ -51,8 +51,15 @@ public class MyClassLoader extends URLClassLoader {
         } catch (ClassNotFoundException e) {
             //e.printStackTrace();
         }
-        L.p("[loadWithoutParent] result:" + clazz);
+        L.p("[loadBySelf] end name:" + name + "  result:" + (clazz == null ? "fail":"success"));
         return clazz;
+    }
+
+    private Class<?> loadByParent(String name, boolean resolve) throws ClassNotFoundException {
+        L.p("[loadByParent] start name:" + name);
+        Class<?> result = super.loadClass(name, resolve);
+        L.p("[loadByParent] end name:" + name + "  result:" + (result == null ? "fail":"success"));
+        return result;
     }
 
     public Class<?> load(String name) throws ClassNotFoundException {
@@ -63,14 +70,15 @@ public class MyClassLoader extends URLClassLoader {
         return loadClass(name, resolve);
     }
 
-    public Class<?> loadBySelfFirst(String name) throws ClassNotFoundException {
-        return loadBySelfFirst(name, false);
+    private Class<?> loadBySelfThenParent(String name) throws ClassNotFoundException {
+        return loadBySelfThenParent(name, false);
     }
 
-    public Class<?> loadBySelfFirst(String name, boolean resolve) throws ClassNotFoundException {
-        Class<?> result = loadWithoutParent(name, resolve);
+    private Class<?> loadBySelfThenParent(String name, boolean resolve) throws ClassNotFoundException {
+        L.p("[loadBySelfThenParent] name:" + name);
+        Class<?> result = loadBySelf(name, resolve);
         if (result == null) {
-            result = super.loadClass(name, resolve);
+            result = loadByParent(name, resolve);
         }
         return result;
     }

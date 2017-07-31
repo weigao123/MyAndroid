@@ -58,9 +58,5 @@ public abstract class AppBaseFragment extends SwipeBackFragment {
         return getView() == null ? null : getView().findViewById(resId);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mUnbinder.unbind();
-    }
+
 }

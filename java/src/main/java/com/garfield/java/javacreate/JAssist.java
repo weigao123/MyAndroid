@@ -18,9 +18,9 @@ public class JAssist {
         //clz.newInstance();
         //my1.load("com.garfield.java.javacreate.A");
 
+        L.p("\n");
         //clz.newInstance();
         L.p("[A] " + clz.getClassLoader());
-
 
 
 

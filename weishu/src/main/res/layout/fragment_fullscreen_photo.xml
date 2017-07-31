@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/black">
 
-    <uk.co.senab.photoview.PhotoView
+    <ImageView
         android:id="@+id/fragment_fullscreen_photo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

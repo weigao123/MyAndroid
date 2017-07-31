@@ -1,14 +1,12 @@
 package com.garfield.java.javacreate;
 
-import com.garfield.java.util.L;
-
 /**
  * Created by gaowei on 2017/7/26.
  */
 
 public class A extends Base {
 
-    private B b;
+    private static B b;
     private A a;
 
     public void setB(B b) {
@@ -23,9 +21,9 @@ public class A extends Base {
         return b;
     }
 
-    static {
-        //b = new B();
-        L.p("A.Static:  " + B.class.getClassLoader());
+    public static void test() {
+        new B();
+        //L.p("A.Static:  " + B.class.getClassLoader());
     }
 
 

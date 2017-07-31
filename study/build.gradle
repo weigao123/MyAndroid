@@ -53,16 +53,16 @@ android {
     // 同defaultConfig参数一样
     // flavorDimensions("color", "channel")  //多维度构建，两两组合
     productFlavors {
-        baidu {
-            //println("baidu productFlavors")
-            applicationId "com.garfield.study"   //重定义
-            //dimension "channel"
-        }
-        xiaomi {
-            //println("xiaomi productFlavors")
-            applicationIdSuffix ".xiaomi"   //可以同时在手机上安装
-            //dimension "channel"
-        }
+//        baidu {
+//            //println("baidu productFlavors")
+//            applicationId "com.garfield.study"   //重定义
+//            //dimension "channel"
+//        }
+//        xiaomi {
+//            //println("xiaomi productFlavors")
+//            applicationIdSuffix ".xiaomi"   //可以同时在手机上安装
+//            //dimension "channel"
+//        }
 //        red {
 //            dimension "color"
 //        }
@@ -88,7 +88,8 @@ android {
         additionalParameters = ['--multi-dex',
                                 //'--main-dex-list=' + project.rootDir.absolutePath + '/app/maindexlist.txt',   //指明想哪些类打包到主dex
                                 //'--minimal-main-dex',   //最小化主dex，保证主dex中只有上面参数指定的类
-                                '--set-max-idx-number=30000']    //每个dex中最多的方法数
+                                //'--set-max-idx-number=30000'    //每个dex中最多的方法数
+        ]
     }
 //    compileOptions {
 //        sourceCompatibility '1.7'
@@ -98,20 +99,20 @@ android {
         targetGenDir 'src/main/java'
         daoPackage 'com.garfield.study.greendao.gen'
     }
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            def outputFile = output.outputFile
-            if (outputFile != null && outputFile.name.endsWith(".apk")) {
-                def fileName;
-                if (variant.buildType.name == "release") {
-                    fileName = "study_${variant.productFlavors[0].name}_release"+ ".apk"
-                } else {
-                    fileName = "study_${variant.productFlavors[0].name}_debug" + ".apk"
-                }
-                output.outputFile = new File(outputFile.parent, fileName);
-            }
-        }
-    }
+//    applicationVariants.all { variant ->
+//        variant.outputs.each { output ->
+//            def outputFile = output.outputFile
+//            if (outputFile != null && outputFile.name.endsWith(".apk")) {
+//                def fileName;
+//                if (variant.buildType.name == "release") {
+//                    fileName = "study_${variant.productFlavors[0].name}_release"+ ".apk"
+//                } else {
+//                    fileName = "study_${variant.productFlavors[0].name}_debug" + ".apk"
+//                }
+//                output.outputFile = new File(outputFile.parent, fileName);
+//            }
+//        }
+//    }
 
 //    android.variantFilter { variant ->
 //        if(variant.buildType.name.equals('preview')) {
