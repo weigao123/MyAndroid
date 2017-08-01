@@ -1,7 +1,6 @@
 package com.garfield.java;
 
-import com.garfield.java.javacreate.JAssist;
-
+import com.garfield.java.dynamicproxy.ProxyMain;
 
 public class TestJava {
 
@@ -10,15 +9,8 @@ public class TestJava {
     }
 
     private void doTest() {
-        //new TestMulti().doTest();
 
-
-
-        try {
-            new JAssist().test();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        ProxyMain.main();
 
     }
 
