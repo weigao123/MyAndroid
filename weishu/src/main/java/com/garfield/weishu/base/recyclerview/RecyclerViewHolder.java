@@ -27,7 +27,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         this.mTViewHolder.bindViews(itemView, adapter);
     }
 
-    BaseRecyclerViewHolder getTViewHolder() {
+    public BaseRecyclerViewHolder getTViewHolder() {
         return mTViewHolder;
     }
 

@@ -9,7 +9,7 @@ import android.view.View;
 public abstract class BaseRecyclerViewHolder<T> {
 
     protected View mRootView;
-    protected int mPosition;
+    public int mPosition;
     protected BaseRecyclerAdapter mAdapter;
 
     void bindViews(View rootView, BaseRecyclerAdapter adapter) {
@@ -43,8 +43,10 @@ public abstract class BaseRecyclerViewHolder<T> {
     /**
      * 内部调用
      */
+    @SuppressWarnings("unchecked")
     void refresh(int position) {
         mPosition = position;
+        // 回调外部
         refresh((T)mAdapter.getItems().get(position));
     }
 
@@ -56,7 +58,7 @@ public abstract class BaseRecyclerViewHolder<T> {
 
     }
 
-    protected abstract void refresh(T t);
+    protected abstract void refresh(T item);
 
     /**
      * 外部调用，根据当前的item值(前提是主动set更新过了)，刷新当前单个Holder
@@ -70,6 +72,7 @@ public abstract class BaseRecyclerViewHolder<T> {
         return (M) mAdapter;
     }
 
+    @SuppressWarnings("unchecked")
     protected <M extends View> M findView(int resId) {
         return (M) (mRootView.findViewById(resId));
     }

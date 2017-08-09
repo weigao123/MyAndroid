@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
+    <com.garfield.weishu.developer.test.NonUI.MyTextView
         android:id="@+id/item_string_text"
         android:layout_width="match_parent"
         android:layout_height="45dp"
