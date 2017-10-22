@@ -14,7 +14,7 @@ public class TestJava {
         int r = StringMatch.simple2("abcdef".toCharArray(), "def".toCharArray());
         L.p(r);
 
-        int[] re = StringMatch.getNext("aaaa".toCharArray());
+        int[] re = StringMatch.kmpNext("abadabaf".toCharArray());
 
     }
 
