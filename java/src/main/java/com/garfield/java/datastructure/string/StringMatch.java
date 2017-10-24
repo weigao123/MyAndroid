@@ -1,4 +1,4 @@
-package com.garfield.java.algorithm.linear;
+package com.garfield.java.datastructure.string;
 
 /**
  * Created by gaowei on 2017/10/19.
@@ -8,7 +8,7 @@ public class StringMatch {
 
     public static int bf(char[] s, char[] t) {
         int i = 0, j = 0;
-        while (i < s.length && j < t.length) {    //在这里判断
+        while (i < s.length && j < t.length) {    // 在这里判断
             if (s[i] == t[j]) {
                 ++i;
                 ++j;
@@ -29,12 +29,12 @@ public class StringMatch {
             if (s[i] == t[j]) {
                 ++i;
                 ++j;
-                if (j == t.length) {    //匹配越界即成功，可以放到while中
-                    return i - j;            //退回匹配的起始
+                if (j == t.length) {    // 匹配越界即成功，可以放到while中
+                    return i - j;       // 退回匹配的起始
                 }
             } else {
-                i = i - j + 1;    //一旦不匹配，i回溯到上轮起始的下一个
-                j = 0;            //j重置
+                i = i - j + 1;    // 一旦不匹配，i回溯到上轮起始的下一个
+                j = 0;            // j重置
             }
         }
         return -1;
@@ -58,10 +58,10 @@ public class StringMatch {
         return -1;
     }
 
-    public static int[] kmpNext(char[] p) {
+    private static int[] kmpNext(char[] p) {
         int[] next = new int[p.length];
-        int k = -1;   //迭代求next时，前k位和后k位相同
-        int j = 0;    //p的index
+        int k = -1;   // 迭代求next时，前k位和后k位相同
+        int j = 0;    // p的index
         next[0] = -1;
         while (j < p.length - 1) {
             // k==-1，表示已经没有可以重复的字符了，next直接=0

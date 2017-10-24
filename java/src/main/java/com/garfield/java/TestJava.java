@@ -1,7 +1,6 @@
 package com.garfield.java;
 
-import com.garfield.java.algorithm.linear.StringMatch;
-import com.garfield.java.util.L;
+import com.garfield.java.datastructure.string.StringTransfer;
 
 public class TestJava {
 
@@ -11,11 +10,7 @@ public class TestJava {
 
     private void doTest() {
 
-        int r = StringMatch.simple2("abcdef".toCharArray(), "def".toCharArray());
-        L.p(r);
-
-        int[] re = StringMatch.kmpNext("abadabaf".toCharArray());
-
+        int a = StringTransfer.revertTransfer("135-");
     }
 
 
