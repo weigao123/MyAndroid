@@ -3,6 +3,7 @@ package com.garfield.study.app;
 import android.app.Application;
 import android.content.Context;
 
+import com.garfield.baselib.Cache;
 import com.garfield.study.multidex.MultiDex;
 
 /**
@@ -15,5 +16,11 @@ public class MyApplication extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Cache.setContext(this);
     }
 }

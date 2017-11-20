@@ -26,11 +26,19 @@ public class AidlFragment extends AppBaseFragment {
         public void onServiceConnected(ComponentName name, IBinder service) {
             L.toast("connected");
             mCompute = ICompute.Stub.asInterface(service);
+            L.d("AidlFragment serviceBinder:" + service);
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
             mCompute = null;
+        }
+    };
+
+    private ICallback mCallback = new ICallback.Stub() {
+        @Override
+        public void callback(String result) throws RemoteException {
+            L.toast("callback: " + result);
         }
     };
 
@@ -50,13 +58,16 @@ public class AidlFragment extends AppBaseFragment {
             @Override
             public void onClick(View v) {
                 if (mCompute == null) {
-                    Intent intent = new Intent("com.garfield.weishu.aidl");
-                    intent.setPackage("com.garfield.weishu");
+                    Intent intent = new Intent("com.garfield.study.aidl");
+                    intent.setPackage("com.garfield.study");
                     //Intent intent = new Intent(getContext(), ComputerService.class);
                     getContext().bindService(intent, mConnection, Service.BIND_AUTO_CREATE);
                 } else {
                     try {
+                        L.d("AidlFragment mCallbackBinder:" + mCallback);
                         int result = mCompute.add(1, 2);
+                        mCompute.register(mCallback);
+                        mCompute.register(mCallback);
                         L.toast("result: " + result);
                     } catch (RemoteException e) {
                         e.printStackTrace();

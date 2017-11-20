@@ -28,7 +28,7 @@
             android:name=".aidl.ComputerService"
             android:process=":new_process">
             <intent-filter>
-                <action android:name="com.garfield.weishu.aidl" />
+                <action android:name="com.garfield.study.aidl" />
             </intent-filter>
         </service>
 

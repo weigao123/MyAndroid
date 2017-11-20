@@ -28,7 +28,6 @@ public abstract class AppBaseFragment extends SwipeBackFragment {
         if (onGetFragmentLayout() != 0) {
             mRootView = inflater.inflate(onGetFragmentLayout(), container, false);
             mUnbinder = ButterKnife.bind(this, mRootView);
-            onInitViewAndData(mRootView, savedInstanceState);
 
             Toolbar toolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
             if (toolbar != null) {
@@ -41,6 +40,7 @@ public abstract class AppBaseFragment extends SwipeBackFragment {
         } else {
             mRootView = new View(getContext());
         }
+        onInitViewAndData(mRootView, savedInstanceState);
         return mRootView;
     }
 

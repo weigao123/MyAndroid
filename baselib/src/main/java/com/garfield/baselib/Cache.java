@@ -1,5 +1,7 @@
 package com.garfield.baselib;
 
+import android.annotation.SuppressLint;
+import android.app.Application;
 import android.content.Context;
 
 /**
@@ -7,6 +9,8 @@ import android.content.Context;
  */
 
 public class Cache {
+
+    @SuppressLint("StaticFieldLeak")
     private static Context context;
 
     public static Context getContext() {
@@ -14,6 +18,10 @@ public class Cache {
     }
 
     public static void setContext(Context context) {
-        Cache.context = context.getApplicationContext();
+        if (context instanceof Application) {
+            Cache.context = context;
+        } else {
+            Cache.context = context.getApplicationContext();
+        }
     }
 }

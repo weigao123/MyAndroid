@@ -18,8 +18,11 @@ public interface ICompute extends android.os.IInterface {
         }
 
         /**
+         * 将服务端Binder对象转换成客户端需要的AIDL接口对象
          * 运行在客户端，客户端在连接成功后主动去调用，是静态方法
-         * 参数是驱动返回的远程Binder，如果是本地进程就返回Binder实体，跨进程就返回的是BinderProxy，在native实现
+         * 参数是驱动返回的远程Binder，这个Binder是固定的
+         * 1、如果是本地进程就直接返回Binder实体
+         * 2、跨进程就返回的是BinderProxy代理对象
          * queryLocalInterface在Binder有值，在代理BinderProxy没有值
          */
         public static ICompute asInterface(android.os.IBinder obj) {
@@ -34,9 +37,9 @@ public interface ICompute extends android.os.IInterface {
         }
 
         /**
-         * 目的是通过接口形式的引用返回自己的实例
-         * IMessenger mTarget;
-         * return mTarget.asBinder();
+         * 将AIDL接口对象转换成Binder对象，这种方式最安全
+         * 1、如果是本地是就返回Stub.this
+         * 2、如果是跨进程的，就返回Stub.Proxy.mRemote
          */
         @Override
         public android.os.IBinder asBinder() {
@@ -67,13 +70,21 @@ public interface ICompute extends android.os.IInterface {
                     reply.writeInt(_result);
                     return true;
                 }
+                case TRANSACTION_register: {
+                    data.enforceInterface(DESCRIPTOR);
+                    com.garfield.study.aidl.ICallback _arg0;
+                    _arg0 = com.garfield.study.aidl.ICallback.Stub.asInterface(data.readStrongBinder());
+                    this.register(_arg0);
+                    reply.writeNoException();
+                    return true;
+                }
             }
             return super.onTransact(code, data, reply, flags);
         }
 
         /**
          * 代理类实现了IInterface，因此同样有了行为
-         * 内部组合了远程Binder的代理类BinderProxy
+         * mRemote是远程Binder的代理类BinderProxy
          */
         private static class Proxy implements ICompute {
             private android.os.IBinder mRemote;
@@ -115,10 +126,29 @@ public interface ICompute extends android.os.IInterface {
                 }
                 return _result;
             }
+
+            @Override
+            public void register(com.garfield.study.aidl.ICallback callback) throws android.os.RemoteException {
+                android.os.Parcel _data = android.os.Parcel.obtain();
+                android.os.Parcel _reply = android.os.Parcel.obtain();
+                try {
+                    _data.writeInterfaceToken(DESCRIPTOR);
+                    _data.writeStrongBinder((((callback!=null))?(callback.asBinder()):(null)));
+                    mRemote.transact(Stub.TRANSACTION_register, _data, _reply, 0);
+                    _reply.readException();
+                }
+                finally {
+                    _reply.recycle();
+                    _data.recycle();
+                }
+            }
         }
 
         static final int TRANSACTION_add = (android.os.IBinder.FIRST_CALL_TRANSACTION + 0);
+        static final int TRANSACTION_register = (android.os.IBinder.FIRST_CALL_TRANSACTION + 1);
     }
 
     public int add(int a, int b) throws android.os.RemoteException;
+    public void register(com.garfield.study.aidl.ICallback callback) throws android.os.RemoteException;
+
 }
