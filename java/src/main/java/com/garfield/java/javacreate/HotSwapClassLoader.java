@@ -21,13 +21,13 @@ public class HotSwapClassLoader extends URLClassLoader {
 
     @Override
     public Class<?> loadClass(String name) throws ClassNotFoundException {
-        L.p("loadClass1 "+name);
+        L.d("loadClass1 "+name);
         return super.loadClass(name);
     }
 
     @Override
     protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
-        L.p("loadClass2 "+name);
+        L.d("loadClass2 "+name);
         return super.loadClass(name, resolve);
     }
 

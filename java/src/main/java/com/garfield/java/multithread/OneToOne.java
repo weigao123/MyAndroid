@@ -17,28 +17,28 @@ class OneToOne {
     private boolean hasValue;
 
     void set() {
-        L.p("set1");
+        L.d("set1");
         lock.lock();
-        L.p("set2: "+hasValue);
+        L.d("set2: "+hasValue);
         if (hasValue) {
             L.cwait(condition);
         }
         hasValue = true;
-        L.p("set value");
+        L.d("set value");
         L.sleep(1000);
         condition.signal();
         lock.unlock();
     }
 
     void get() {
-        L.p("get1");
+        L.d("get1");
         lock.lock();
-        L.p("get: "+hasValue);
+        L.d("get: "+hasValue);
         if (!hasValue) {
             L.cwait(condition);
         }
         hasValue = false;
-        L.p("get value");
+        L.d("get value");
         L.sleep(1000);
         condition.signal();
         lock.unlock();

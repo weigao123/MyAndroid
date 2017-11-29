@@ -14,16 +14,16 @@ public class ClassLoaderTest {
 
 
         Object object = new Object();
-        L.p("main");
+        L.d("main");
         ClassLoader classLoader = new ClassLoader() {
             @Override
             public Class<?> loadClass(String name) throws ClassNotFoundException {
                 try {
-                    L.p("Name: "+name);
+                    L.d("Name: "+name);
                     String fileName = name.substring(name.lastIndexOf('.')+1)+".class";
                     InputStream inputStream = getClass().getResourceAsStream(fileName);
                     if (inputStream == null) {
-                        //L.p("inputStream null: "+fileName);
+                        //L.d("inputStream null: "+fileName);
                         return super.loadClass(name);
                     }
                     byte[] b = new byte[inputStream.available()];

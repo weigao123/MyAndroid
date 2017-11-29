@@ -18,14 +18,14 @@ public class JAssist {
         //clz.newInstance();
         //my1.load("com.garfield.java.javacreate.A");
 
-        L.p("\n");
+        L.d("\n");
         //clz.newInstance();
-        L.p("[A] " + clz.getClassLoader());
+        L.d("[A] " + clz.getClassLoader());
 
 
 
         //Class<?> clz = Class.forName("com.garfield.java.javacreate.A", true, my1);
-        //L.p(clz.getClassLoader());
+        //L.d(clz.getClassLoader());
 
 
 
@@ -45,9 +45,9 @@ public class JAssist {
 //            Class clazz = c1.load("com.garfield.java.javacreate.A");  // 用hot swap重新加载类A
 //            Object aInstance = clazz.newInstance();  // 创建A类对象
 //            //A newA = (A)aInstance;
-//            L.p(clazz.getClassLoader());
-//            L.p(a.getClass().getClassLoader());
-//            L.p(B.class.getClassLoader());
+//            L.d(clazz.getClassLoader());
+//            L.d(a.getClass().getClassLoader());
+//            L.d(B.class.getClassLoader());
 //            Method method1 = clazz.getMethod("setB", B.class);  // 获取setB(B b)方法
 //            //Method method2 = clazz.getMethod("setA", A.class);  // 获取setB(B b)方法
 //            method1.invoke(aInstance, b);    // 调用setB(b)方法，重新把b对象拷贝到A.b
