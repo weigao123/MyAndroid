@@ -23,7 +23,8 @@ public class TreeDepth {
     }
 
     /**
-     * 利用非递归遍历树时，后出栈元素的方法
+     * 利用非递归，深度优先遍历
+     * 后出栈元素，查找栈元素最大数量
      */
     public static int getDepthStack(TreeNode p) {
         int height = 0;
@@ -51,7 +52,9 @@ public class TreeDepth {
     }
 
     /**
-     * 利用非递归层级遍历
+     * 利用非递归，广度优先遍历
+     * 查找遍历的层数
+     * 两层while，第一层遍历层数，第二层遍历当前层
      */
     public static int getDepthQueue(TreeNode p) {
         int deep = 0;
@@ -60,11 +63,12 @@ public class TreeDepth {
         }
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(p);
+        // 必须要增加两个指针，用来判断是否在同一层
         int cur, last;
         while (!queue.isEmpty()) {
             cur = 0;                 //本层已经遍历的个数
             last = queue.size();     //当前层的总数
-            while (cur < last) {
+            while (cur < last) {     //弹出这一层的同时，把下一层的元素加入
                 p = queue.poll();
                 ++ cur;
                 if (p.left != null) {

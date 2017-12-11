@@ -6,10 +6,10 @@ import com.garfield.java.datastructure.util.ArrayUtils;
  * Created by gaowei on 17/1/2.
  */
 
-public class SimpleSelectionSort implements ISort {
+public class SelectSort implements ISort {
 
     /**
-     * 简单选择排序
+     * 选择排序
      */
     @Override
     public long sort(int[] array) {

@@ -14,6 +14,7 @@ public class BinarySearch {
         int right = array.length - 1;
         while (left <= right) {             // 最后left和right可能会重合
             int mid = (left + right) / 2;   // 如果是小数，就对应中间偏左的元素
+            // 用中间位置的数和目标去比较
             if (array[mid] == a) {
                 return mid;
             } else if (array[mid] < a) {    // 每次只移动其中一个方向

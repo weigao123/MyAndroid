@@ -4,7 +4,8 @@ package com.garfield.java.datastructure.sort;
  * Created by gaowei3 on 2017/1/5.
  */
 
-public class MergingSort implements ISort {
+public class MergeSort implements ISort {
+
     @Override
     public long sort(int[] array) {
         long current = System.currentTimeMillis();

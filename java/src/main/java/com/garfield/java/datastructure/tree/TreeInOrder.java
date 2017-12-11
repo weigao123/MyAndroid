@@ -10,6 +10,9 @@ import static com.garfield.java.datastructure.tree.TreeNode.visit;
 
 public class TreeInOrder {
 
+    /**
+     * 中序遍历
+     */
     public static void inOrderRec(TreeNode p) {
         if (p != null) {
             inOrderRec(p.left);

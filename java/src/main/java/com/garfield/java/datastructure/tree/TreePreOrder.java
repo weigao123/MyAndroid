@@ -19,9 +19,8 @@ public class TreePreOrder {
     }
 
     /**
-     * 1、入栈，所有左元素依次入栈
-     * 2、出栈，指向其右元素，继续1
-     * 3、两个while循环，第一层是依次入栈所有的左元素，第二层是依次出栈直到右元素非空
+     * 1、非空就入栈并指向左孩子，动一排元素
+     * 2、出栈并指向该元素的右孩子，只动一个元素
      */
     public static void preOrderStack(TreeNode p) {
         Stack<TreeNode> stack = new Stack<>();

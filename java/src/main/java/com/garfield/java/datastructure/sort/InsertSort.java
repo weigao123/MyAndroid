@@ -4,10 +4,10 @@ package com.garfield.java.datastructure.sort;
  * Created by gaowei on 17/1/2.
  */
 
-public class StraightInsertionSort implements ISort {
+public class InsertSort implements ISort {
 
     /**
-     * 直接插入排序
+     * 插入排序
      */
     @Override
     public long sort(int[] array) {

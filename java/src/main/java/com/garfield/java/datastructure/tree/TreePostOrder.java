@@ -23,8 +23,7 @@ public class TreePostOrder {
      *
      * 1、入栈，所有左元素依次入栈
      * 2、出栈，根据标记让能出栈的全出栈，访问出栈的元素，从L依次到I
-     * 2、不出栈，添加标记，指向其右元素，继续1
-     * 3、两个while循环，第一层是依次入栈所有的左元素，第二层是依次出栈并指向其右元素直到右元素非空
+     * 3、不出栈，添加标记，指向其右元素，继续1
      */
     public static void postOrderStack(TreeNode p) {
         Stack<TreeNode> stack = new Stack<>();
@@ -35,7 +34,9 @@ public class TreePostOrder {
                 tag.push(false);
                 p = p.left;
             }
-            // 必须得用while，把所有已标记的弹出
+            // 因为访问右孩子时未弹出，所以在这里弹出，必须得用while，把所有已标记的弹出
+            // 应该在向下一级到根之后，马上全部弹出，才能指向右孩子
+            // 在全部左孩子入栈以后，有可能这时就到根了
             while (!stack.empty() && tag.peek().equals(true)) {
                 tag.pop();
                 visit(stack.pop());
