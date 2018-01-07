@@ -20,15 +20,17 @@ public interface ICompute extends android.os.IInterface {
         /**
          * 将服务端Binder对象转换成客户端需要的AIDL接口对象
          * 运行在客户端，客户端在连接成功后主动去调用，是静态方法
-         * 参数是驱动返回的IBinder，多次绑定，这个IBinder是同一个实例
-         * 1、本地进程返回的是Binder实体
-         * 2、跨进程返回的是BinderProxy代理对象，都实现了IBinder接口
+         * 参数是驱动返回的Binder/BinderProxy，多次绑定，这个IBinder是同一个实例
+         * 1、本地进程参数是本地Binder实体即Stub，返回还是这个Binder实体Stub
+         * 2、跨进程参数是BinderProxy代理对象，返回时再包装一层即返回Stub.Proxy(BinderProxy)
+         * 3、都实现了IBinder接口
          * queryLocalInterface在Binder有值，在代理BinderProxy没有值
          */
         public static ICompute asInterface(android.os.IBinder obj) {
             if ((obj == null)) {
                 return null;
             }
+            // 返回Stub实体或者null
             android.os.IInterface iin = obj.queryLocalInterface(DESCRIPTOR);
             if (((iin != null) && (iin instanceof ICompute))) {
                 return ((ICompute) iin);
