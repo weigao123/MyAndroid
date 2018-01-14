@@ -44,4 +44,11 @@ public class QuickSort implements ISort {
         }
         return left;
     }
+
+
+    private int partition2(int[] array, int left, int right) {
+
+
+        return left;
+    }
 }

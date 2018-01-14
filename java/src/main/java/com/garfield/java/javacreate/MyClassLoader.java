@@ -12,6 +12,7 @@ import java.net.URLClassLoader;
 public class MyClassLoader extends URLClassLoader {
 
     /**
+     * 下面的路径属于系统级AppClassLoader，不会调用到自定义类加载器
      * new URL[]{ new URL("file:/C:/Projects/MyAndroid/java/build/classes/main/") }
      */
     public MyClassLoader(URL[] urls) {
