@@ -6,9 +6,7 @@ package com.garfield.java.datastructure.tree;
 
 public class TreeNode {
 
-    public static TreeNode treeNode = init2();
-
-    public char data;
+    public char value;
     public TreeNode left;
     public TreeNode right;
 
@@ -16,38 +14,45 @@ public class TreeNode {
         this(key, null, null);
     }
 
-    public TreeNode(char data, TreeNode left, TreeNode right) {
-        this.data = data;
+    public TreeNode(char value, TreeNode left, TreeNode right) {
+        this.value = value;
         this.left = left;
         this.right = right;
     }
 
-    static void visit(TreeNode p) {
-        System.out.print(p.data + " ");
+    @Override
+    public String toString() {
+        return String.valueOf(value);
     }
 
-    private static TreeNode init() {
+    public static TreeNode generateTree() {
         /**
          *        A
-         *      B    C
-         *    D    E    F
-         *  G  H    I
+         *      B      C
+         *    D      E    F
+         *  G  H      I
          *
          *  前序：ABDGHCEIF
          *  中序：GDHBAEICF
          *  后序：GHDBIEFCA
          */
-        // 必须逆序建立，先建立子节点，再逆序往上建立
         TreeNode g = new TreeNode('G');
         TreeNode h = new TreeNode('H');
-        TreeNode i = new TreeNode('I');
         TreeNode d = new TreeNode('D', g, h);
+        TreeNode b = new TreeNode('B', d, null);
+        TreeNode i = new TreeNode('I');
         TreeNode e = new TreeNode('E', null, i);
         TreeNode f = new TreeNode('F');
-        TreeNode b = new TreeNode('B', d, null);
         TreeNode c = new TreeNode('C', e, f);
         TreeNode a = new TreeNode('A', b, c);
         return a;
+    }
+
+    public static TreeNode generateSubTree() {
+        TreeNode g = new TreeNode('G');
+        TreeNode h = new TreeNode('H');
+        TreeNode d = new TreeNode('d', g, h);
+        return d;
     }
 
     private static TreeNode init2() {

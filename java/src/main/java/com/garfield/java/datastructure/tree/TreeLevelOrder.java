@@ -1,9 +1,9 @@
 package com.garfield.java.datastructure.tree;
 
+import com.garfield.java.util.L;
+
 import java.util.LinkedList;
 import java.util.Queue;
-
-import static com.garfield.java.datastructure.tree.TreeNode.visit;
 
 /**
  * Created by gaowei on 2017/10/24.
@@ -24,7 +24,7 @@ public class TreeLevelOrder {
         // 访问完一层，下一层的元素也就都在队列里了
         while (!queue.isEmpty()) {
             p = queue.poll();
-            visit(p);
+            L.d(p);
             if (p.left != null) {
                 queue.offer(p.left);
             }

@@ -1,5 +1,6 @@
 package com.garfield.java.util;
 
+import java.util.Arrays;
 import java.util.concurrent.locks.Condition;
 
 /**
@@ -8,8 +9,25 @@ import java.util.concurrent.locks.Condition;
 
 public class L {
 
-    public static void d(Object s) {
-        System.out.println(s);
+    public static void d(Object obj) {
+        String s;
+        if (obj instanceof int[]) {
+            s = Arrays.toString((int[])obj);
+        } else if (obj instanceof char[]) {
+            s = Arrays.toString((char[])obj);
+        } else {
+            s = obj.toString();
+        }
+        System.out.println(s + " ");
+    }
+
+    public static void d1(Object s) {
+        System.out.print(s + " ");
+    }
+
+    public static void c(char c) {
+        System.out.print(c);
+        System.out.print(" ");
     }
 
     public static void sleep(long time) {

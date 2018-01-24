@@ -1,4 +1,4 @@
-package com.garfield.java.datastructure.linearlist;
+package com.garfield.java.datastructure.list;
 
 /**
  * Created by gaowei3 on 2016/12/2.

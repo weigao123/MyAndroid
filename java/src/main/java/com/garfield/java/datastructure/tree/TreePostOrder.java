@@ -1,8 +1,8 @@
 package com.garfield.java.datastructure.tree;
 
-import java.util.Stack;
+import com.garfield.java.util.L;
 
-import static com.garfield.java.datastructure.tree.TreeNode.visit;
+import java.util.Stack;
 
 /**
  * Created by gaowei on 2017/10/24.
@@ -14,7 +14,7 @@ public class TreePostOrder {
         if (p != null) {
             postOrderRec(p.left);
             postOrderRec(p.right);
-            visit(p);
+            L.d(p);
         }
     }
 
@@ -39,7 +39,7 @@ public class TreePostOrder {
             // 在全部左孩子入栈以后，有可能这时就到根了
             while (!stack.empty() && tag.peek().equals(true)) {
                 tag.pop();
-                visit(stack.pop());
+                L.d(stack.pop());
             }
             if (!stack.empty()) {
                 // 添加标记
@@ -68,7 +68,7 @@ public class TreePostOrder {
             }
         }
         while (!result.empty()) {
-            visit(result.pop());
+            L.d(result.pop());
         }
     }
 }

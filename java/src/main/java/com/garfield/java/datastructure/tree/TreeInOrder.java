@@ -1,8 +1,8 @@
 package com.garfield.java.datastructure.tree;
 
-import java.util.Stack;
+import com.garfield.java.util.L;
 
-import static com.garfield.java.datastructure.tree.TreeNode.visit;
+import java.util.Stack;
 
 /**
  * Created by gaowei on 2017/10/24.
@@ -16,7 +16,7 @@ public class TreeInOrder {
     public static void inOrderRec(TreeNode p) {
         if (p != null) {
             inOrderRec(p.left);
-            visit(p);
+            L.d(p);
             inOrderRec(p.right);
         }
     }
@@ -30,7 +30,7 @@ public class TreeInOrder {
             }
             if (!stack.empty()) {
                 p = stack.pop();
-                visit(p);
+                L.d(p);
                 p = p.right;
             }
         }

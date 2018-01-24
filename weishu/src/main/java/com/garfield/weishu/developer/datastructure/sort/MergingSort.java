@@ -8,18 +8,20 @@ public class MergingSort implements ISort {
     @Override
     public long sort(int[] array) {
         long current = System.currentTimeMillis();
-        int size = array.length;
-        mSort(array, array, 0, size - 1);
+        sort(array, 0, array.length - 1);
         return System.currentTimeMillis() - current;
     }
 
-    private void mSort(int[] sa, int[] ta, int first, int last) {
-//        if (first == last) {
-//            ta[first] = sa[first];
-//        } else {
-//            int[] tmp =
-//            int m = (first + last) / 2;
-//            mSort(sa, );
+    private void sort(int[] sa, int low, int high) {
+//        int mid = (low + high) / 2;
+//        if (low < high) {
+//            // 左边
+//            mergeSort(a, low, mid);
+//            // 右边
+//            mergeSort(a, mid + 1, high);
+//            // 左右归并
+//            merge(a, low, mid, high);
+//            System.out.println(Arrays.toString(a));
 //        }
     }
 

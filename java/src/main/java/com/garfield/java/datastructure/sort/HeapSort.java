@@ -10,51 +10,41 @@ public class HeapSort implements ISort {
 
     /**
      * 堆排序
-     * 最后一行和书不一样
+     * O(nlogn), O(1), 不稳定
      */
     @Override
     public long sort(int[] array) {
         long current = System.currentTimeMillis();
         int size = array.length;
 
-        // 从最后一个有叶子的结点(size-1)/2开始
-        // 从下往上排，这样保证了每次headAdjust时，两个叶子为顶点的堆，已经是大顶堆
+        // 逆序，从最后一个有叶子的结点开始到0分别作为top，end不变
         // 执行完后整个树是大顶堆
-        for (int i = (size - 1) / 2; i >= 0; i --) {
-            // 因为每一个结点都不是大顶堆，所以要从小到大依次构建
-            headAdjust(array, i, size - 1);
+        for (int i = size / 2 - 1; i >= 0; i--) {
+            headAdjust(array, i, size - 1);      // top变end不变
         }
-
-        for (int i = size - 1; i > 0; i --) {
-            // 把最大的值放最后去
-            ArrayUtils.swap(array, i, 0);
-            // 因为第一个结点的两个叶子结点都已经是大顶堆了，所以执行一次构建即可
-            headAdjust(array, 0, i - 1);
+        // 把最大的值放最后，再次调整大顶堆，每次交换后，只调整一次
+        for (int i = size - 1; i > 0; i--) {          // 交换size-1次
+            ArrayUtils.swap(array, 0, i);
+            headAdjust(array, 0, i - 1);    // top不变end变
         }
         return System.currentTimeMillis() - current;
     }
 
-    /**
-     * 把以start为顶的堆，排成大顶堆，顶最大
-     * 在调用时，需要保证两个叶子为顶点的堆，已经是大顶堆，所以从最后一个非叶子结点开始排序
-     */
-    private void headAdjust(int[] array, int start, int end) {
-
-        // 每一次循环pos都是左叶子的索引，++除外
-        // 交换后，可能会导致下面的叶子元素比下面的叶子小，所以要继续
-        for (int pos = start * 2 + 1; pos <= end; pos = pos * 2 + 1) {
-            // 找两个叶子里最大的那个，把最大的叶子和顶点交换
-            if (pos < end && array[pos] < array[pos + 1]) {
-                ++pos;
+    // 把以top为顶的堆，排成大顶堆
+    // 前提：top的两个孩子堆都已经是大顶堆了
+    private void headAdjust(int[] array, int top, int end) {
+        // 拿到左孩子，2x+1是左孩子
+        for (int i = top * 2 + 1; i <= end; i = i * 2 + 1) {   // pos肯定是左孩子，可以<=
+            // 拿到右孩子，比较出来大孩子
+            if (i < end && array[i] < array[i + 1]) {   // 可能没有右孩子，不能<=
+                ++i;
             }
-            // 因为叶子为顶点的堆都是已经排好序的，如果大于大叶子，后面的肯定也不需要再比较了
-            // 这个说明利用了以前处理好的结果，性能好
-            if (array[start] >= array[pos]) {
+            // 两个孩子都比父小，不需要任何操作了
+            if (array[top] >= array[i]) {
                 break;
             }
-            ArrayUtils.swap(array, start, pos);
-            // 下移一代
-            start = pos;
+            ArrayUtils.swap(array, top, i);   // 交换后，影响了这个孩子堆
+            top = i;   // top下移到和自己交换的那个孩子上
         }
     }
 }

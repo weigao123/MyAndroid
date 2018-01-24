@@ -1,9 +1,10 @@
 package com.garfield.java;
 
-import com.garfield.java.datastructure.sort.OnSort;
-import com.garfield.java.util.L;
-
-import java.util.Arrays;
+import com.garfield.java.datastructure.handle.HandleArray;
+import com.garfield.java.datastructure.handle.HandleLinked;
+import com.garfield.java.datastructure.handle.HandleTree;
+import com.garfield.java.datastructure.sort.ShellSort;
+import com.garfield.java.datastructure.util.ArrayUtils;
 
 public class TestJava {
 
@@ -12,14 +13,25 @@ public class TestJava {
     }
 
     private void doTest() {
+        HandleLinked.test();
+        HandleTree.test();
+        HandleArray.test();
 
-        int[] a = new int[]{3, 5, 3, 1, 3, 2, 3, 2};
-        new OnSort().sort(a);
 
-        L.d(Arrays.toString(a));
+        new ShellSort().sort(ArrayUtils.getRandomArray(28));
+        //TreePreOrder.preOrderStack2(TreeNode.treeNode);
+
+
+        //ISort sort = new SelectSort();
+        //int[]  a= ArrayUtils.getRandomArray(50);
+        //sort.sort(a);
+
 
 
     }
+
+
+
 
 
 }

@@ -1,5 +1,22 @@
 package com.garfield.baselib.utils.drawable;
 
+import android.annotation.TargetApi;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
+import android.os.Build.VERSION_CODES;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.os.StatFs;
+import android.support.v4.util.LruCache;
+import android.util.Log;
+import android.widget.ImageView;
+
+import com.garfield.baselib.utils.array.StringUtils;
+import com.garfield.baselib.utils.file.DirectoryUtils;
+import com.garfield.baselib.utils.system.SystemUtil;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -15,23 +32,6 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import com.garfield.baselib.utils.file.DirectoryUtils;
-import com.garfield.baselib.utils.array.StringUtils;
-import com.garfield.baselib.utils.system.SystemUtil;
-
-import android.annotation.TargetApi;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Build;
-import android.os.Build.VERSION_CODES;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.os.StatFs;
-import android.support.v4.util.LruCache;
-import android.util.Log;
-import android.widget.ImageView;
 
 public class MyImageLoader {
 
@@ -72,7 +72,6 @@ public class MyImageLoader {
         public void handleMessage(Message msg) {
             LoaderResult result = (LoaderResult) msg.obj;
             ImageView imageView = result.imageView;
-            imageView.setImageBitmap(result.bitmap);
             String uri = (String) imageView.getTag(TAG_KEY_URI);
             if (uri.equals(result.uri)) {
                 imageView.setImageBitmap(result.bitmap);
@@ -132,6 +131,7 @@ public class MyImageLoader {
             return;
         }
 
+        // 线程对象持有ImageView和url的引用，对比ImageView的tag中url是否改变
         Runnable loadBitmapTask = new Runnable() {
             @Override
             public void run() {
