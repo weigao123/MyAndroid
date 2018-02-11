@@ -20,11 +20,11 @@ public class TreeLevelOrder {
         }
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(p);
-        // 一边出队列一边进队列，都把它们的孩子再放入队列
+        // 【一边出队列一边进队列】，都把它们的孩子再放入队列
         // 访问完一层，下一层的元素也就都在队列里了
         while (!queue.isEmpty()) {
             p = queue.poll();
-            L.d(p);
+            L.dl(p);
             if (p.left != null) {
                 queue.offer(p.left);
             }

@@ -62,11 +62,11 @@ public class ArrayUtils {
     public static void printMatrix(int[][] matrix) {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
-                L.d1(matrix[i][j]);
+                L.ds(matrix[i][j]);
             }
-            L.d("");
+            L.dl("");
         }
-        L.d("");
+        L.dl("");
     }
 
     public static void printStack(Stack<Character> stack) {
@@ -78,7 +78,7 @@ public class ArrayUtils {
         while (!tmp2.isEmpty()) {
             L.c(tmp2.pop());
         }
-        L.d("");
+        L.dl("");
     }
 
     public static int calStack(Stack<Character> stack) {

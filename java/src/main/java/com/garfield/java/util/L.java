@@ -18,11 +18,35 @@ public class L {
         } else {
             s = obj.toString();
         }
-        System.out.println(s + " ");
+        System.out.print(s);
     }
 
-    public static void d1(Object s) {
+    public static void dl(Object obj) {
+        String s;
+        if (obj instanceof int[]) {
+            s = Arrays.toString((int[])obj);
+        } else if (obj instanceof char[]) {
+            s = Arrays.toString((char[])obj);
+        } else {
+            s = obj.toString();
+        }
+        System.out.println(s);
+    }
+
+    public static void ds(Object obj) {
+        String s;
+        if (obj instanceof int[]) {
+            s = Arrays.toString((int[])obj);
+        } else if (obj instanceof char[]) {
+            s = Arrays.toString((char[])obj);
+        } else {
+            s = obj.toString();
+        }
         System.out.print(s + " ");
+    }
+
+    public static void println() {
+        System.out.println();
     }
 
     public static void c(char c) {

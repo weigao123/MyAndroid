@@ -6,6 +6,4 @@ package com.garfield.java.testclass;
 
 public class A {
 
-
-
 }

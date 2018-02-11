@@ -16,7 +16,7 @@ public class TreeInOrder {
     public static void inOrderRec(TreeNode p) {
         if (p != null) {
             inOrderRec(p.left);
-            L.d(p);
+            L.dl(p);
             inOrderRec(p.right);
         }
     }
@@ -30,7 +30,7 @@ public class TreeInOrder {
             }
             if (!stack.empty()) {
                 p = stack.pop();
-                L.d(p);
+                L.dl(p);
                 p = p.right;
             }
         }

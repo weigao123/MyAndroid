@@ -4,6 +4,8 @@ import com.garfield.java.datastructure.tree.TreeNode;
 import com.garfield.java.datastructure.util.ArrayUtils;
 import com.garfield.java.util.L;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 /**
@@ -18,13 +20,17 @@ public class HandleTree {
         TreeNode head = TreeNode.generateTree();
 
         //包含子树
-        //L.d(hasSubTree(head, TreeNode.generateSubTree()));
+        //L.dl(hasSubTree(head, TreeNode.generateSubTree()));
 
         //二叉树镜像
         //mirrorTree(head);
 
         //查找二叉树路径和的值
         //findPath(head, 'A'+'B'+'D'+'H');
+
+        //L.dl(getNodeNumOfFloorRec(head, 2));
+
+        //L.dl(TreeDepth.getDepthQueue(head));
     }
 
     /**——————————————————————————————是否包含子树————————————————————————————————————————————*/
@@ -105,7 +111,7 @@ public class HandleTree {
         if (node.left == null && node.right == null) {
             if (ArrayUtils.calStack(stack) == t) {
                 ArrayUtils.printStack(stack);
-                L.d("ok");
+                L.dl("ok");
             }
         }
 
@@ -120,5 +126,47 @@ public class HandleTree {
 
     /**——————————————————————————————判断是否平衡二叉树——————————————————————————————————*/
     // 任意结点的左右子树深度相差不超过1
+
+
+    /**——————————————————————————————求第k层结点个数(从0开始)————————————————————————————*/
+    private static int getNodeNumOfFloorRec(TreeNode node, int k) {
+        if (node == null) {
+            return 0;
+        }
+        if (k == 0) {
+            return 1;
+        }
+        return getNodeNumOfFloorRec(node.left, k - 1) + getNodeNumOfFloorRec(node.right, k - 1);
+    }
+    // 利用层级求深度
+    private static int getNodeNumOfFloor(TreeNode node, int k) {
+        if (node == null) {
+            return 0;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(node);
+        int cur, last;
+        int floor = -1;   //正在遍历的当前层
+        while (!queue.isEmpty()) {
+            ++ floor;
+            if (floor == k) {
+                break;
+            }
+            cur = 0;                 //本层已经遍历的个数
+            last = queue.size();     //当前层的总数
+            while (cur < last) {     //弹出这一层的同时，把下一层的元素加入
+                node = queue.poll();
+                ++ cur;
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+
+        }
+        return queue.size();
+    }
 
 }

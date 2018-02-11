@@ -14,7 +14,7 @@ public class TreePostOrder {
         if (p != null) {
             postOrderRec(p.left);
             postOrderRec(p.right);
-            L.d(p);
+            L.dl(p);
         }
     }
 
@@ -39,7 +39,7 @@ public class TreePostOrder {
             // 在全部左孩子入栈以后，有可能这时就到根了
             while (!stack.empty() && tag.peek().equals(true)) {
                 tag.pop();
-                L.d(stack.pop());
+                L.dl(stack.pop());
             }
             if (!stack.empty()) {
                 // 添加标记
@@ -68,7 +68,7 @@ public class TreePostOrder {
             }
         }
         while (!result.empty()) {
-            L.d(result.pop());
+            L.dl(result.pop());
         }
     }
 }

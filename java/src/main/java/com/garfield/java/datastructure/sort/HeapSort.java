@@ -30,20 +30,19 @@ public class HeapSort implements ISort {
         return System.currentTimeMillis() - current;
     }
 
-    // 把以top为顶的堆，排成大顶堆
-    // 前提：top的两个孩子堆都已经是大顶堆了
+    // 大顶堆就是父>=两个孩子
+    // 在top的两个孩子堆都已经是大顶堆的基础上，把top也调整为大顶堆
     private void headAdjust(int[] array, int top, int end) {
-        // 拿到左孩子，2x+1是左孩子
-        for (int i = top * 2 + 1; i <= end; i = i * 2 + 1) {   // pos肯定是左孩子，可以<=
-            // 拿到右孩子，比较出来大孩子
-            if (i < end && array[i] < array[i + 1]) {   // 可能没有右孩子，不能<=
+        // 每轮任务：拿到top的左孩子，i=2*top+1是左孩子。然后和右孩子以及父进行比较
+        // i一直是大孩子，top一直是要调整的顶点
+        for (int i = top * 2 + 1; i <= end; i = top * 2 + 1) {
+            if (i < end && array[i] < array[i + 1]) {   // 拿到大孩子，i<end才能有右兄弟
                 ++i;
             }
-            // 两个孩子都比父小，不需要任何操作了
-            if (array[top] >= array[i]) {
+            if (array[top] >= array[i]) {     // 两个孩子都比父小，已经是大顶堆了
                 break;
             }
-            ArrayUtils.swap(array, top, i);   // 交换后，影响了这个孩子堆
+            ArrayUtils.swap(array, top, i);   // 只要交换，就可能影响这个孩子的堆
             top = i;   // top下移到和自己交换的那个孩子上
         }
     }

@@ -12,10 +12,11 @@ public class HandleArray {
 
     public static void test() {
 
+        //group(new char[]{'a', 'b', 'c'});
 
         //斐波那契数列
-        //L.d(frogJump(8));
-        //L.d(frogJumpRec(8));
+        //L.dl(frogJump(8));
+        //L.dl(frogJumpRec(8));
 
         //汉诺塔
         //hanoiMove(3, 'A', 'B', 'C');
@@ -27,15 +28,15 @@ public class HandleArray {
         //printClockWise(ArrayUtils.generateIncMatrix());
 
         //循环数组
-        //L.d(find(new int[]{1,3,5,6,8,9}, 7));
-        //L.d(findCircleMin(new int[]{6,7,9,4,5}));
-        //L.d(findCircleMin(new int[]{1,0,1,1,1}));
+        //L.dl(find(new int[]{1,3,5,6,8,9}, 7));
+        //L.dl(findCircleMin(new int[]{6,7,9,4,5}));
+        //L.dl(findCircleMin(new int[]{1,0,1,1,1}));
 
         //大数问题
         //printToNBit(5);
 
         //奇偶数顺序
-        //L.d(adjustOrder(new int[]{3,8,2,6,1,5}));
+        //L.dl(adjustOrder(new int[]{3,8,2,6,1,5}));
 
         //个数大于一半的数字
         //findCenterNumBM(new int[]{1,8,9,8,1,8,8});
@@ -45,29 +46,53 @@ public class HandleArray {
 
     }
     /**——————————————————————————————字符串有序全排列———————————————————————————————————*/
-    // 实现思想：将整组数中的所有的数分别与第一个数交换，这样就总是在处理后n-1个数的全排列
+    // 方法1：n*n数组，有n^n种排序，但是很多组合含有重复元素，每次遍历时去掉包含重复的组合
+    // 方法2：通过内部交换，实现所有的组合
+    // 固定第一个数，通过和后面的数交换来保证后面的组合没有这个数，这样就总是在处理后n-1个数的全排列
+    // 而交换的目的，不仅让后面的元素不能有这个数，防止重复，还产生了不同的组合
     // https://www.cnblogs.com/zyoung/p/6764371.html
-    private static void permutation(char[] str, int i) {
-        if (i == str.length - 1) {      // 只剩下一个元素，就可以打印了
-            L.d(String.valueOf(str));
-        } else {
-            // 还有多个元素待排列，递归产生排列
-            // 第一个元素和后面每一个进行交换，然后递归
-            for (int j = i; j < str.length; j++) {
-                ArrayUtils.swap(str, i, j);  // 从固定的数后第一个依次交换
-                permutation(str, i + 1);
-                ArrayUtils.swap(str, i, j);  // 这组递归完成之后需要交换回来
-            }
+    private static void permutation(char[] str) {
+        permutationInner(str, 0);
+    }
+    // i表示从哪个位置开始，一开始是0
+    private static void permutationInner(char[] str, int start) {
+        if (start == str.length - 1) {      // 到最后一个元素了，就可以打印了
+            L.dl(String.valueOf(str));
+            return;
+        }
+        // 每次都是从头开始依次交换，依次交换后，第一个元素就算完全变了一遍了
+        for (int j = start; j < str.length; j++) {
+            ArrayUtils.swap(str, start, j);       // 通过交换，固定第一个，后面的继续递归
+            permutationInner(str, start + 1);   // 这个方法导致元素位置全变了
+            ArrayUtils.swap(str, start, j);       // 打印完后，返回时需要归位，依次交换回来
         }
     }
     /**——————————————————————————————字符串无序全组合———————————————————————————————————*/
-
+    // 每一位都可以是有或无，不能全无，所以共有2^n-1种
+    private static void group(char[] str) {
+        groupInner(str, 0);
+    }
+    private static void groupInner(char[] str, int start) {
+        if (start == str.length) {          //越界后再打印
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < str.length; i++) {
+                builder.append(str[i] == '0' ? "" : str[i]);
+            }
+            L.dl(builder.toString());
+            return;
+        }
+        groupInner(str, start + 1);
+        char tmp = str[start];
+        str[start] = '0';
+        groupInner(str, start + 1);
+        str[start] = tmp;
+    }
 
     /**——————————————————————————————汉诺塔———————————————————————————————————————————*/
     // n个板，从A借助B移动到C上
     private static void hanoiMove(int n, char A, char B, char C) {
         if (n == 1) {
-            L.d(A + "->" + C);
+            L.dl(A + "->" + C);
             return;
         }
         hanoiMove(n - 1, A, C, B);
@@ -130,7 +155,7 @@ public class HandleArray {
         int j = matrix[0].length - 1;
         while (i < matrix.length && j >= 0) {
             if (matrix[i][j] == target) {
-                L.d("i:"+i+" j:"+j);
+                L.dl("i:"+i+" j:"+j);
                 return true;
             } else if (matrix[i][j] > target) {
                 --j;
@@ -150,33 +175,33 @@ public class HandleArray {
             done = false;
             for (int i = circle; i < column - circle; i++) {
                 done = true;
-                L.d1(matrix[circle][i]);
+                L.ds(matrix[circle][i]);
             }
             if (!done) return;
 
             done = false;
             for (int i = circle + 1; i < row - circle; i++) {
                 done = true;
-                L.d1(matrix[i][column - circle - 1]);
+                L.ds(matrix[i][column - circle - 1]);
             }
             if (!done) return;
 
             done = false;
             for (int i = column - circle - 2; i >= circle; i--) {
                 done = true;
-                L.d1(matrix[row - circle - 1][i]);
+                L.ds(matrix[row - circle - 1][i]);
             }
             if (!done) return;
 
             done = false;
             for (int i = row - circle - 2; i > circle; i--) {
                 done = true;
-                L.d1(matrix[i][circle]);
+                L.ds(matrix[i][circle]);
             }
             if (!done) return;
 
             ++ circle;
-            L.d("");
+            L.dl("");
         }
     }
 
@@ -291,7 +316,7 @@ public class HandleArray {
                 --j;
             }
             ArrayUtils.swap(array, i, j);
-            // if (i == j) L.d("最后肯定重合");
+            // if (i == j) L.dl("最后肯定重合");
         }
         return array;
     }
@@ -338,7 +363,7 @@ public class HandleArray {
                 j = pivot - 1;
             }
         }
-        L.d(array[mid]);
+        L.dl(array[mid]);
         return array[mid];
     }
     // BM多数投票算法
@@ -359,7 +384,7 @@ public class HandleArray {
         }
         // BM算法必须要检查，如果没有大于一半的数这个结果就没有意义
         int result = checkHalfNum(array, candidate) ? candidate : -1;
-        L.d("candidate:"+candidate+"  half:"+result);
+        L.dl("candidate:"+candidate+"  half:"+result);
         return result;
     }
     private static boolean checkHalfNum(int[] array, int candidate) {
@@ -387,7 +412,7 @@ public class HandleArray {
         if (start > -1 && end > -1) {
             count = end - start + 1;
         }
-        L.d("count: "+count);
+        L.dl("count: "+count);
         return count;
     }
     // 返回第一个k的位置
@@ -397,7 +422,7 @@ public class HandleArray {
             int mid = (i + j) >> 1;
             if (array[mid] == t) {
                 if (mid == 0 || array[mid - 1] < t) {
-                    L.d("start:" + mid);
+                    L.dl("start:" + mid);
                     return mid;
                 } else {
                     j = mid - 1;
@@ -416,7 +441,7 @@ public class HandleArray {
             int mid = (i + j) >> 1;
             if (array[mid] == t) {
                 if (mid == array.length - 1 || array[mid + 1] > t) {
-                    L.d("end:" + mid);
+                    L.dl("end:" + mid);
                     return mid;
                 } else {
                     i = mid + 1;
@@ -429,4 +454,67 @@ public class HandleArray {
         }
         return -1;
     }
+
+    /**——————————————————————————————最长的回文长度————————————————————————————————————*/
+    // https://juejin.im/entry/58c7936944d90400699c2db4
+    // 方法1：遍历出所有的子串，每个串判断，O(n^3)
+    // 方法2：中心扩展法，O(n^2)
+    // 方法3：动态规划，O(n)
+    private static int getLongestPalindrome(char[] str) {
+        int max = 0;
+        int tempMax = 0;
+        for (int i = 0; i < str.length; i++) {
+            //当回文串位数为奇数时
+            for (int j = 0; (i - j) >= 0 && (i + j) < str.length; j++) {
+                if (str[i - j] != str[i + j])
+                    break;
+                tempMax = 2 * j + 1;
+            }
+            if (tempMax > max)
+                max = tempMax;
+            //当回文串位数为偶数时
+            for (int j = 0; (i - j) >= 0 && (i + j + 1) < str.length; j++) {
+                if (str[i - j] != str[i + j + 1])
+                    break;
+                tempMax = 2 * j + 2;
+            }
+            if (tempMax > max)
+                max = tempMax;
+        }
+        return max;
+    }
+    private static int getPalindromeLength(String str) {
+        StringBuilder newStr = new StringBuilder();
+        newStr.append('#');
+        for (int i = 0; i < str.length(); i ++) {
+            newStr.append(str.charAt(i));
+            newStr.append('#');
+        }
+        int [] rad = new int[newStr.length()];
+        int right = -1;
+        int id = -1;
+        for (int i = 0; i < newStr.length(); i ++) {
+            int r = 1;
+            if (i <= right) {
+                r = Math.min(rad[id] - i + id, rad[2 * id - i]);
+            }
+            while (i - r >= 0 && i + r < newStr.length() && newStr.charAt(i - r) == newStr.charAt(i + r)) {
+                r++;
+            }
+            if (i + r - 1> right) {
+                right = i + r - 1;
+                id = i;
+            }
+            rad[i] = r;
+        }
+        int maxLength = 0;
+        for (int r : rad) {
+            if (r > maxLength) {
+                maxLength = r;
+            }
+        }
+        return maxLength - 1;
+    }
+
+
 }

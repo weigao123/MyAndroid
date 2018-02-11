@@ -23,21 +23,21 @@ public class HandleLinked {
         //print(mergeRec(LinkedNode.generateCross1(), LinkedNode.generateCross2()));
 
         //倒数第k个结点
-        //L.d(getKBack(pHead, 20));
+        //L.dl(getKBack(pHead, 20));
     }
 
     /**——————————————————————————————正向打印————————————————————————————————————————————————*/
     private static void print(LinkedNode pHead) {
         LinkedNode curNode = pHead;
         while (curNode != null) {
-            L.d(curNode.value);
+            L.dl(curNode.value);
             curNode = curNode.next;
         }
 
     }
     private static void printRec(LinkedNode pHead) {
         if (pHead != null) {
-            L.d(pHead.value);
+            L.dl(pHead.value);
             printRec(pHead.next);
         }
     }
@@ -48,7 +48,7 @@ public class HandleLinked {
             return;
         }
         reversePrintRec(pHead.next);
-        L.d(pHead.value);
+        L.dl(pHead.value);
     }
     /**——————————————————————————————链表反转————————————————————————————————————————————————*/
     private static LinkedNode reverseRec(LinkedNode pHead) {

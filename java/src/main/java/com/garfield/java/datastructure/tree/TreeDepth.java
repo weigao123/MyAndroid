@@ -23,8 +23,7 @@ public class TreeDepth {
     }
 
     /**
-     * 利用非递归，深度优先遍历
-     * 后出栈元素，查找栈元素最大数量
+     * 利用非递归，深度优先(后序)遍历，查找栈元素最大数量
      */
     public static int getDepthStack(TreeNode p) {
         int height = 0;
@@ -57,20 +56,17 @@ public class TreeDepth {
      * 两层while，第一层遍历层数，第二层遍历当前层
      */
     public static int getDepthQueue(TreeNode p) {
-        int deep = 0;
         if (p == null) {
-            return deep;
+            return 0;
         }
+        int deep = 0;
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(p);
-        // 必须要增加两个指针，用来判断是否在同一层
-        int cur, last;
         while (!queue.isEmpty()) {
-            cur = 0;                 //本层已经遍历的个数
-            last = queue.size();     //当前层的总数
-            while (cur < last) {     //弹出这一层的同时，把下一层的元素加入
-                p = queue.poll();
-                ++ cur;
+            ++deep;                            //正在遍历的当前深度
+            int size = queue.size();           //现在的queue全都是这一层的，必须记住这一层的size
+            for (int i = 0; i < size; i++) {   //把这一层全弹出来
+                p = queue.poll();              //弹出这一层的同时，把下一层的元素加入
                 if (p.left != null) {
                     queue.offer(p.left);
                 }
@@ -78,7 +74,6 @@ public class TreeDepth {
                     queue.offer(p.right);
                 }
             }
-            ++ deep;
         }
         return deep;
     }

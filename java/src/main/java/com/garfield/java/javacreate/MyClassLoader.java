@@ -25,10 +25,10 @@ public class MyClassLoader extends URLClassLoader {
 
     @Override
     protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
-        L.d("[loadClass] start name:" + name + "  resolve:" + resolve + "  findLoadedClass:" + super.findLoadedClass(name));
+        L.dl("[loadClass] start name:" + name + "  resolve:" + resolve + "  findLoadedClass:" + super.findLoadedClass(name));
         //Class<?> result = super.loadClass(name, resolve);
         Class<?> result = loadBySelfThenParent(name, resolve);
-        L.d("[loadClass] end name:" + name + "  result loader: " + (result.getClassLoader() == null ? "BootstrapClassloader" : result.getClassLoader()));
+        L.dl("[loadClass] end name:" + name + "  result loader: " + (result.getClassLoader() == null ? "BootstrapClassloader" : result.getClassLoader()));
         return result;
     }
 
@@ -38,7 +38,7 @@ public class MyClassLoader extends URLClassLoader {
 
     private Class<?> loadBySelf(String name, boolean resolve) throws ClassNotFoundException {
         Class<?> loadedClass = super.findLoadedClass(name);
-        L.d("[loadBySelf] start name:" + name + "  findLoadedClass:" + loadedClass);
+        L.dl("[loadBySelf] start name:" + name + "  findLoadedClass:" + loadedClass);
         if (null != loadedClass) {
             return loadedClass;
         }
@@ -52,14 +52,14 @@ public class MyClassLoader extends URLClassLoader {
         } catch (ClassNotFoundException e) {
             //e.printStackTrace();
         }
-        L.d("[loadBySelf] end name:" + name + "  result:" + (clazz == null ? "fail":"success"));
+        L.dl("[loadBySelf] end name:" + name + "  result:" + (clazz == null ? "fail":"success"));
         return clazz;
     }
 
     private Class<?> loadByParent(String name, boolean resolve) throws ClassNotFoundException {
-        L.d("[loadByParent] start name:" + name);
+        L.dl("[loadByParent] start name:" + name);
         Class<?> result = super.loadClass(name, resolve);
-        L.d("[loadByParent] end name:" + name + "  result:" + (result == null ? "fail":"success"));
+        L.dl("[loadByParent] end name:" + name + "  result:" + (result == null ? "fail":"success"));
         return result;
     }
 
@@ -76,7 +76,7 @@ public class MyClassLoader extends URLClassLoader {
     }
 
     private Class<?> loadBySelfThenParent(String name, boolean resolve) throws ClassNotFoundException {
-        L.d("[loadBySelfThenParent] name:" + name);
+        L.dl("[loadBySelfThenParent] name:" + name);
         Class<?> result = loadBySelf(name, resolve);
         if (result == null) {
             result = loadByParent(name, resolve);
