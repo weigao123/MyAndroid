@@ -32,6 +32,13 @@
             </intent-filter>
         </service>
 
+        <receiver android:name=".aidl.BinderReceiver"
+            android:process=":new_process2">
+            <intent-filter>
+                <action android:name="com.garfield.study.broadcast" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

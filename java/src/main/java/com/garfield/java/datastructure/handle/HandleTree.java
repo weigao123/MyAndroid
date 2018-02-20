@@ -34,39 +34,31 @@ public class HandleTree {
     }
 
     /**——————————————————————————————是否包含子树————————————————————————————————————————————*/
+    // 其实就是先序遍历所有的node1，依次与node2比较
     private static boolean hasSubTree(TreeNode node1, TreeNode node2) {
         if (node1 == null || node2 == null) {
             return false;
         }
-        boolean result = false;
-        if (node1.value == node2.value) {
-            result = isSameSub(node1, node2);
-        }
+        boolean result = isSameSub(node1, node2);
         if (!result) {
-            result = hasSubTree(node1.left, node2);
+            result = hasSubTree(node1.left, node2);   //条件遍历
         }
         if (!result) {
             result = hasSubTree(node1.right, node2);
         }
         return result;
     }
+    // 两个头结点对齐，是否是子树
     private static boolean isSameSub(TreeNode node1, TreeNode node2) {
         if (node2 == null) {
             return true;
         } else if (node1 == null) {
             return false;
         }
-        boolean result = false;
-        if (node1.value == node2.value) {
-            result = true;
+        if (node1.value != node2.value) {
+            return false;
         }
-        if (result) {
-            result = isSameSub(node1.left, node2.left);
-        }
-        if (result) {
-            result = isSameSub(node1.right, node2.right);
-        }
-        return result;
+        return isSameSub(node1.left, node2.left) && isSameSub(node1.right, node2.right);
     }
 
     /**——————————————————————————————二叉树的镜像——————————————————————————————————————————*/
@@ -90,7 +82,7 @@ public class HandleTree {
         Stack<Character> stack = new Stack<>();
         findPathInner(pHead, stack, t);
     }
-    // 先序遍历
+    // 递归形式的先序遍历，也可以求深度？
     // 叶子结点就是左孩子和右孩子同时是空
     // 每次开启栈帧时，保存结点，销毁栈帧时移除结点，所以这个栈就一直有从根结点到当前结点的链路
     // 想象成一个串行栈帧序列
@@ -100,8 +92,7 @@ public class HandleTree {
         }
 
         // 开启栈帧，保存结点
-        char value = node.value;
-        stack.push(value);
+        stack.push(node.value);
 
         // 这里可以打印出根节点到每一个结点的路径
         // 每一次执行到一个栈帧时，左右的栈帧要么还没开启，要么已经销毁，所以当前肯定是尾部
@@ -129,6 +120,8 @@ public class HandleTree {
 
 
     /**——————————————————————————————求第k层结点个数(从0开始)————————————————————————————*/
+    // 求第5层的结点数 = 以左结点为根求第4层结点数 + 以右结点为根求第4层结点数
+    // 还是要分而治之
     private static int getNodeNumOfFloorRec(TreeNode node, int k) {
         if (node == null) {
             return 0;

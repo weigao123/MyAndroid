@@ -31,22 +31,19 @@ public class TreePostOrder {
         while (p != null || !stack.empty()) {
             while (p != null) {
                 stack.push(p);
-                tag.push(false);
+                tag.push(false);  // 第一次访问
                 p = p.left;
             }
-            // 因为访问右孩子时未弹出，所以在这里弹出，必须得用while，把所有已标记的弹出
-            // 应该在向下一级到根之后，马上全部弹出，才能指向右孩子
-            // 在全部左孩子入栈以后，有可能这时就到根了
+            // 必须得用while，把所有【已标记】的弹出
+            // tag==true，说明是第三次访问，即后序
             while (!stack.empty() && tag.peek().equals(true)) {
                 tag.pop();
-                L.dl(stack.pop());
+                L.dl(stack.pop());     // 第三次访问，打印
             }
             if (!stack.empty()) {
-                // 添加标记
                 tag.pop();
-                tag.push(true);
-                // 不出栈
-                p = stack.peek();
+                tag.push(true);    // 第二次访问，修改tag
+                p = stack.peek();  // 不能弹出，因为一会还要再访问
                 p = p.right;
             }
         }

@@ -33,11 +33,11 @@ public class MergeSort implements ISort {
 
     // mid属于左边
     private static void merge(int[] a, int low, int mid, int high) {
-        int[] tmp = new int[high - low + 1];
+        int[] tmp = new int[high - low + 1];    //不定长
         int i = low;
         int j = mid + 1;
         int k = 0;
-        while (i <= mid && j <= high) {
+        while (i <= mid && j <= high) {    //防止任何一边越界
             if (a[i] < a[j]) {
                 tmp[k++] = a[i++];
             } else {
@@ -50,8 +50,9 @@ public class MergeSort implements ISort {
         while (j <= high) {
             tmp[k++] = a[j++];
         }
-        for (int k2 = 0; k2 < tmp.length; k2++) {
-            a[k2 + low] = tmp[k2];
+        k = 0;
+        while (k < tmp.length) {
+            a[low++] = tmp[k++];
         }
     }
 

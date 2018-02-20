@@ -19,7 +19,7 @@ public class BubbleSort implements ISort {
 
         int size = array.length;
         boolean need = true;     // 上一轮循环是否交换过，认为交换过
-        for (int i = 0; i < size - 1 && need; i++) {   // 循环size-1次，把size-1个泡泡冒出
+        for (int i = 0; i < size - 1 && need; i++) {       // 循环size-1轮，把size-1个泡泡冒出
             need = false;        // 重置这一轮还没有交换过
             for (int j = size - 1; j >= i + 1; j--) {      // 从下往上比较，比到i，最小的放最上面
                 if (array[j - 1] > array[j]) {

@@ -3,7 +3,10 @@ package com.garfield.java;
 import com.garfield.java.datastructure.handle.HandleArray;
 import com.garfield.java.datastructure.handle.HandleLinked;
 import com.garfield.java.datastructure.handle.HandleTree;
+import com.garfield.java.datastructure.sort.MergeSort;
+import com.garfield.java.datastructure.util.ArrayUtils;
 import com.garfield.java.testclass.A;
+import com.garfield.java.util.L;
 
 public class TestJava extends A {
 
@@ -16,6 +19,8 @@ public class TestJava extends A {
         HandleTree.test();
         HandleArray.test();
 
+
+        L.d(new MergeSort().sort(ArrayUtils.getRandomArray(100)));
 
     }
 

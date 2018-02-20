@@ -45,7 +45,7 @@ public class HandleArray {
         //findCountInOrder(new int[]{1,2,3,5,5,5,5,5,6}, 5);
 
     }
-    /**——————————————————————————————字符串有序全排列———————————————————————————————————*/
+    /**——————————————————————————————字符串有序全排列，每个排列都是全部字母———————————————*/
     // 方法1：n*n数组，有n^n种排序，但是很多组合含有重复元素，每次遍历时去掉包含重复的组合
     // 方法2：通过内部交换，实现所有的组合
     // 固定第一个数，通过和后面的数交换来保证后面的组合没有这个数，这样就总是在处理后n-1个数的全排列
@@ -67,8 +67,10 @@ public class HandleArray {
             ArrayUtils.swap(str, start, j);       // 打印完后，返回时需要归位，依次交换回来
         }
     }
-    /**——————————————————————————————字符串无序全组合———————————————————————————————————*/
+    /**——————————————————————————————字符串无序全组合，每个组合字符数不定—————————————————*/
     // 每一位都可以是有或无，不能全无，所以共有2^n-1种
+    // 类似二进制
+    // 方法同上，分治思想
     private static void group(char[] str) {
         groupInner(str, 0);
     }
@@ -81,11 +83,11 @@ public class HandleArray {
             L.dl(builder.toString());
             return;
         }
-        groupInner(str, start + 1);
+        groupInner(str, start + 1);   //1
         char tmp = str[start];
         str[start] = '0';
-        groupInner(str, start + 1);
-        str[start] = tmp;
+        groupInner(str, start + 1);   //0
+        str[start] = tmp;                   //必须换回来
     }
 
     /**——————————————————————————————汉诺塔———————————————————————————————————————————*/
@@ -95,11 +97,12 @@ public class HandleArray {
             L.dl(A + "->" + C);
             return;
         }
-        hanoiMove(n - 1, A, C, B);
-        hanoiMove(1, A, B, C);
-        hanoiMove(n - 1, B, A, C);
+        hanoiMove(n - 1, A, C, B);  //A->B
+        hanoiMove(1, A, B, C);      //A->C
+        hanoiMove(n - 1, B, A, C);  //B->C
     }
     /**——————————————————————————————类斐波那契数列—————————————————————————————————————*/
+    // 一次只能一阶，或两阶
     private static int frogJumpRec(int n) {
         if (n <= 0) {
             return 0;
@@ -112,6 +115,7 @@ public class HandleArray {
         }
         return frogJumpRec(n - 1) + frogJumpRec(n - 2);
     }
+    // 后面的是前面两个的和
     private static int frogJump(int n) {
         if (n <= 0) {
             return 0;
@@ -134,10 +138,11 @@ public class HandleArray {
     }
 
     /**——————————————————————————————矩阵查找值——————————————————————————————————————*/
+    // 矩阵转置
     private static int[][] exchange(int[][] matrix) {
         if (matrix != null && matrix.length > 0 && matrix.length == matrix[0].length) {
             for (int i = 0; i < matrix.length; i++) {
-                for (int j = 0; j < matrix.length; j++) {
+                for (int j = 0; j < matrix.length; j++) {   //遍历每一个点，知道一个，就知道对面的
                     if (i >= j) continue;   //必须有，否则又换回去了
                     int tmp = matrix[i][j];
                     matrix[i][j] = matrix[j][i];
@@ -152,7 +157,7 @@ public class HandleArray {
         if (matrix == null)
             return false;
         int i = 0;
-        int j = matrix[0].length - 1;
+        int j = matrix[0].length - 1;   //i是行j是列
         while (i < matrix.length && j >= 0) {
             if (matrix[i][j] == target) {
                 L.dl("i:"+i+" j:"+j);
@@ -169,7 +174,7 @@ public class HandleArray {
     private static void printClockWise(int[][] matrix) {
         int row = matrix.length;
         int column = matrix[0].length;
-        int circle = 0;
+        int circle = 0;    //必须有
         boolean done;
         while (true) {
             done = false;
@@ -207,25 +212,9 @@ public class HandleArray {
 
 
     /**——————————————————————————————旋转数组的最小数———————————————————————————————————*/
-    // 普通二分查找
-    private static boolean find(int[] array, int t) {
-        if (array == null) return false;
-        int i = 0, j = array.length - 1;
-        while (i <= j) {
-            int mid = (i + j) / 2;
-            if (array[mid] == t) {
-                return true;
-            } else if (array[mid] > t) {
-                j = mid - 1;
-            } else {
-                i = mid + 1;
-            }
-        }
-        return false;
-    }
     // 345612 10111
     // 性质：第二个递增数组的最大值(最后一个数)<=第一个递增数组的最小值(第一个数)
-    // 要始终保持两个指针一个在第一个递增数组，一个在第二个递增数组，只要不对mid进行+-1
+    // 要始终保持两个指针一个在第一个递增数组，一个在第二个递增数组，只要【不对mid进行+-1】
     private static int findCircleMin(int[] array) {
         if (array == null || array.length < 1) return -1;
         int part = array[array.length - 1];
@@ -265,6 +254,7 @@ public class HandleArray {
         return result;
     }
     /**——————————————————————————————大数问题————————————————————————————————————————*/
+    // 用字符数字，打印小于n位的1~999所有数字
     private static void printToNBit(int n) {
         char[] num = new char[n];
         for (int i = 0; i < n; i++) {
@@ -283,25 +273,29 @@ public class HandleArray {
             System.out.println();
         }
     }
+    // 当前值+1，从最低位开始，返回值表示是否可以打印，即没超过999越界
     private static boolean increase(char[] num) {
         int n = num.length;
-        int carry = 1;
+        int carry = 1;   //进位标志，每轮都加1
         for (int i = n - 1; i >= 0; i--) {
+            if (carry == 0)
+                break;
             char next = (char) (num[i] + carry);
             if (i == 0 && next > '9') {
                 return false;
             }
             if (next > '9') {
                 num[i] = '0';
+                carry = 1;   //进位
             } else {
                 num[i] = next;
-                break;
+                carry = 0;
             }
         }
         return true;
     }
     /**——————————————————————————————奇数前，偶数后—————————————————————————————————————*/
-    // 使用分类算法，快速排序的分段法
+    // 因为只有两类，正好使用快速排序的分段法
     // 最后肯定紧贴，想象然后，要么指针移动变为重合，要么先交换再移动变为重合
     // <最终肯定是重合>
     private static int[] adjustOrder(int[] array) {
@@ -309,7 +303,7 @@ public class HandleArray {
         int i = 0, j = array.length - 1;
         // 可以用i!=j
         while (i < j) {
-            while (i < j && (array[i] & 1) == 1) {
+            while (i < j && (array[i] & 1) == 1) {   //最后一位是1肯定是奇数，
                 ++i;
             }
             while (i < j && (array[j] & 1) == 0) {
@@ -335,26 +329,26 @@ public class HandleArray {
                 maxSum = currentSum;
             }
             if (currentSum < 0) {
-                currentSum = 0;
+                currentSum = 0;    //重新开始计算
             }
         }
         return maxSum;
     }
-    /**——————————————————————————————数组中出现次数超过一半的数字————————————————————————*/
+    /**——————————————————————————————出现次数超过一半的数字；最小的k个数—————————————————————*/
     // 多数投票问题
     // 其实就是相当于找到排序后中间的数，偶数个就是中间的下一个
     // -> 修改原数组
-    // 方法1：普通排序，O(logn)
-    // 方法2：改进快速排序，O(n)
+    // 方法1：普通排序，O(nlogn)
+    // 方法2：单边快速排序，O(n)
     // -> 不修改原数组
     // 方法3：散列表，O(n)+O(n)
     // 方法4：BM算法，O(n)
     private static int findCenterNum(int[] array) {         // 快排
         if (array == null || array.length == 0) return -1;
         int i = 0, j = array.length - 1;
-        int mid = array.length >> 1;       //因为最后要超过一半
+        int mid = array.length >> 1;       //注意位置要超过一半
         while (i <= j) {
-            int pivot = QuickSort.part(array, i, j);
+            int pivot = QuickSort.part(array, i, j);    //一遍，所以可以用while，2边就得递归，因为会变成4边8边
             if (pivot == mid) {
                 break;
             } else if (pivot < mid) {
@@ -374,7 +368,7 @@ public class HandleArray {
         int count = 0;
         for (int i = 0; i < array.length; i++) {
             if (count == 0) {
-                candidate = array[i];
+                candidate = array[i];    //改变候选
                 count = 1;
             } else if (array[i] == candidate) {
                 ++ count;
@@ -382,6 +376,7 @@ public class HandleArray {
                 -- count;
             }
         }
+        // BM算法的前提是确实有多于一半的数字
         // BM算法必须要检查，如果没有大于一半的数这个结果就没有意义
         int result = checkHalfNum(array, candidate) ? candidate : -1;
         L.dl("candidate:"+candidate+"  half:"+result);
@@ -403,7 +398,7 @@ public class HandleArray {
 
     /**——————————————————————————————数字在有序数组中出现的个数—————————————————————————*/
     // 方法1：普通二分查找，再加普通查找，O(n)
-    // 方法2：改进二分查找，先要找到起始位置和结束位置，O(nlogn)
+    // 方法2：改进二分查找，一直用二分查找找到起始和结束，O(logn)
     private static int findCountInOrder(int[] array, int t) {
         if (array == null) return 0;
         int start = findStart(array, t);
@@ -425,7 +420,7 @@ public class HandleArray {
                     L.dl("start:" + mid);
                     return mid;
                 } else {
-                    j = mid - 1;
+                    j = mid - 1;    //继续用二分查找
                 }
             } else if (array[mid] > t) {
                 j = mid - 1;
@@ -444,7 +439,7 @@ public class HandleArray {
                     L.dl("end:" + mid);
                     return mid;
                 } else {
-                    i = mid + 1;
+                    i = mid + 1;    //继续用二分查找
                 }
             } else if (array[mid] > t) {
                 j = mid - 1;
@@ -460,6 +455,7 @@ public class HandleArray {
     // 方法1：遍历出所有的子串，每个串判断，O(n^3)
     // 方法2：中心扩展法，O(n^2)
     // 方法3：动态规划，O(n)
+    // 中心扩展法
     private static int getLongestPalindrome(char[] str) {
         int max = 0;
         int tempMax = 0;

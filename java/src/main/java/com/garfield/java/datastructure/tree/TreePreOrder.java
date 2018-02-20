@@ -30,7 +30,7 @@ public class TreePreOrder {
     public static void preOrderRec(TreeNode p) {
         // 开启栈帧
         if (p != null) {
-            L.dl(p);                 //当前栈帧的处理
+            L.dl(p);                //当前栈帧的处理
             preOrderRec(p.left);    //左结点放到新栈帧
             preOrderRec(p.right);   //右结点放到新栈帧
         }
@@ -43,18 +43,17 @@ public class TreePreOrder {
      */
     public static void preOrderStack(TreeNode p) {
         Stack<TreeNode> stack = new Stack<>();
-        // 有新一级或者栈里有元素
+        // 是新一级或者栈里有元素
         while (p != null || !stack.empty()) {
-            // 遍历自己以及左侧全部，依次入栈
+            // 是新一级，搞到底
             while (p != null) {
-                // 入栈时访问
                 stack.push(p);
-                L.dl(p);
+                L.dl(p);        // 入栈时访问
                 p = p.left;
             }
-            // 出栈并拿到右元素，新一级的首元素
+            // 出栈+指向右元素(新一级头)
             if (!stack.empty()) {
-                p = stack.pop();
+                p = stack.pop();    // 必须弹出
                 p = p.right;
             }
         }

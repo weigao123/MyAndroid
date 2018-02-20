@@ -18,7 +18,7 @@ public class SelectSort implements ISort {
 
         int size = array.length;
         for (int i = 0; i < size - 1; i++) {   // 和冒泡一样，需要size-1轮，把size-1个泡泡冒出
-            int minIndex = i;    // 先默认第一个是最小的
+            int minIndex = i;    // 每一轮都默认第一个是最小的
             for (int j = size - 1; j >= i + 1; j--) {   // 和冒泡一样
                 if (array[j] < array[minIndex]) {
                     minIndex = j;

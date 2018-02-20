@@ -24,9 +24,8 @@ public class AidlFragment extends AppBaseFragment {
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            L.toast("connected");
             mCompute = ICompute.Stub.asInterface(service);
-            L.d("AidlFragment serviceBinder:" + service);
+            L.d("AidlFragment connected [IBinder]:" + service);
         }
 
         @Override
@@ -64,11 +63,24 @@ public class AidlFragment extends AppBaseFragment {
                     getContext().bindService(intent, mConnection, Service.BIND_AUTO_CREATE);
                 } else {
                     try {
-                        L.d("AidlFragment mCallbackBinder:" + mCallback);
                         int result = mCompute.add(1, 2);
-                        mCompute.register(mCallback);
-                        mCompute.register(mCallback);
                         L.toast("result: " + result);
+                        mCompute.register(mCallback);
+                        mCompute.register(mCallback);
+
+
+                        Intent intent = new Intent("com.garfield.study.broadcast");
+                        Bundle bundle = new Bundle();
+                        bundle.putBinder("binder", mCallback.asBinder());
+                        intent.putExtras(bundle);
+                        getContext().sendBroadcast(intent);
+
+                        intent = new Intent("com.garfield.study.broadcast");
+                        bundle = new Bundle();
+                        bundle.putBinder("binder", mCallback.asBinder());
+                        intent.putExtras(bundle);
+                        getContext().sendBroadcast(intent);
+
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }

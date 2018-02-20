@@ -19,7 +19,7 @@ public class ShellSort implements ISort {
             // 把距离为step的元素编为一个组，共step组，每一组都要进行直接插入排序
             // 连续的i实际属于不同的组，把所有的组里所有的数字都拿出来，其实就是连续的i
             // 所以是i++，但是都和i-step比较
-            for (int i = step; i < size; i++) {
+            for (int i = step; i < size; i++) {   //注意是i++
                 if (array[i] >= array[i - step])
                     continue;
                 int target = array[i];

@@ -22,6 +22,7 @@ public class QuickSort implements ISort {
 
     /**
      * 完整的二叉树层次，类似【前序】，最上面一层先排序
+     * 为什么不能用while？
      */
     private void qSort(int[] array, int left, int right) {
         // 递归终止条件
@@ -49,7 +50,7 @@ public class QuickSort implements ISort {
         // 完全可以使用i!=j
         while (i < j) {
             // 这是左移动的结束标记
-            // 只能i<j，如果i<=j，当i==j时会造成下面的++i出界
+            // 只能i<j，如果一开始就是分好了的就会一直移动，当i==j时会造成下面的++i出界
             // 总结：循环里直接++或--的，判断条件都不能带上=，while的条件类似for(;i<n;i++)中间的条件
             while (i < j && array[i] <= base) {
                 ++i;
@@ -96,10 +97,10 @@ public class QuickSort implements ISort {
      * 结果就是i和左边的仍然是小于基准，j变成了大于基准
      */
     private int partOneWay(int[] array, int left, int right) {
-        int base = array[right];
+        int base = array[right];   // 确定基准位置，不一定是最后一个位置
         // i一直指向下一个应该小于基准的位置，也是最左边第一个大于基准的位置
         // j是用来遍历
-        int i = left, j = left;
+        int i = left, j = left;   // 同时起步
         while (j < right) {
             // 在前进的路上发现了小于基准的，就扔到后面的篮子里
             if (array[j] < base) {
