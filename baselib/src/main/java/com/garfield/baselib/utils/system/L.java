@@ -27,15 +27,15 @@ public class L {
     public static void d(Object content) {
         //Log.d(TAG, content);
         if (content instanceof Throwable) {
-            Logger.d(Log.getStackTraceString((Throwable)content));
+            Log.d(TAG, Log.getStackTraceString((Throwable)content));
         } else {
-            Logger.d(content);
+            Log.d(TAG, content.toString());
         }
     }
 
     public static void d(String TAG, Object content) {
-        //Log.d(TAG, TAG2 + ": " + content);
-        Logger.t(TAG).d(content);
+        Log.d(TAG, content.toString());
+        //Logger.t(TAG).d(content);
     }
 
     public static void json(String json) {

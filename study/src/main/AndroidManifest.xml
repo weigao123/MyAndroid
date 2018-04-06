@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".app.MyApplication"
@@ -38,6 +39,11 @@
                 <action android:name="com.garfield.study.broadcast" />
             </intent-filter>
         </receiver>
+
+        <provider
+            android:name=".provider.TestProvider"
+            android:authorities="com.test.provider"
+            android:process=":new_process"/>
 
     </application>
 
