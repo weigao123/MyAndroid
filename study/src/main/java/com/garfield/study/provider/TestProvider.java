@@ -14,11 +14,12 @@ import com.garfield.baselib.utils.system.L;
 public class TestProvider extends ContentProvider {
 
     private DBOpenHelper mDBOpenHelper;
+    private Context mContext;
 
     @Override
     public boolean onCreate() {
-        Context context = getContext();
-        mDBOpenHelper = new DBOpenHelper(context,"contact.db",null,1);
+        mContext = getContext();
+        mDBOpenHelper = new DBOpenHelper(mContext, "contact.db", null, 1);
         L.d("TestProvider: onCreate");
         return true;
     }
@@ -30,7 +31,7 @@ public class TestProvider extends ContentProvider {
         Cursor cursor = db.query("book", projection, selection, selectionArgs, null, null, sortOrder);
         L.d("TestProvider: query: " + cursor);
 
-        //cursor.setNotificationUri(getContext().getContentResolver(), Uri.parse("content://com.test.provider/content"));
+        cursor.setNotificationUri(mContext.getContentResolver(), Uri.parse("content://com.test.provider/content"));
         return cursor;
     }
 
@@ -47,7 +48,7 @@ public class TestProvider extends ContentProvider {
         //db.insert("book", null, values);
         L.d("TestProvider: insert");
 
-        getContext().getContentResolver().notifyChange(Uri.parse("content://com.test.provider/content"), null);
+        mContext.getContentResolver().notifyChange(Uri.parse("content://com.test.provider/content"), null);
         return uri;
     }
 
