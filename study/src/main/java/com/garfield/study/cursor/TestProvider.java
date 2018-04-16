@@ -1,4 +1,4 @@
-package com.garfield.study.provider;
+package com.garfield.study.cursor;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -12,6 +12,9 @@ import android.support.annotation.Nullable;
 import com.garfield.baselib.utils.system.L;
 
 public class TestProvider extends ContentProvider {
+
+    public static final String BASE_URI_STRING = "content://com.test.provider/content";
+    public static final Uri BASE_URI = Uri.parse(BASE_URI_STRING);
 
     private DBOpenHelper mDBOpenHelper;
     private Context mContext;
@@ -31,7 +34,7 @@ public class TestProvider extends ContentProvider {
         Cursor cursor = db.query("book", projection, selection, selectionArgs, null, null, sortOrder);
         L.d("TestProvider: query: " + cursor);
 
-        cursor.setNotificationUri(mContext.getContentResolver(), Uri.parse("content://com.test.provider/content"));
+        cursor.setNotificationUri(mContext.getContentResolver(), BASE_URI);
         return cursor;
     }
 

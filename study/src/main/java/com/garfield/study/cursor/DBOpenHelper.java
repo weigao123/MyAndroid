@@ -1,4 +1,4 @@
-package com.garfield.study.provider;
+package com.garfield.study.cursor;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
