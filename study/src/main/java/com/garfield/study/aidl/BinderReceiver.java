@@ -16,7 +16,9 @@ public class BinderReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
-        IBinder binder = bundle.getBinder("binder");
-        L.d("BinderReceiver [IBinder]:"+binder);
+        if (bundle != null) {
+            IBinder binder = bundle.getBinder("binder");
+            L.d("BinderReceiver [IBinder]:" + binder);
+        }
     }
 }

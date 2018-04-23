@@ -1,18 +1,15 @@
 package com.garfield.study.task;
 
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.garfield.baselib.utils.system.L;
 import com.garfield.study.app.AppBaseFragment;
 
 public class TaskFragment extends AppBaseFragment {
-
-    JobScheduler mJobScheduler;
 
     @Override
     protected int onGetFragmentLayout() {
@@ -21,27 +18,22 @@ public class TaskFragment extends AppBaseFragment {
 
     @Override
     protected void onInitViewAndData(View rootView, Bundle savedInstanceState) {
-        mJobScheduler = (JobScheduler) mActivity.getSystemService( Context.JOB_SCHEDULER_SERVICE );
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startJobService();
+                //WakeJobService.startJobService(mActivity);
+                startAlarmManager();
             }
         });
     }
 
+    private void startAlarmManager() {
+        AlarmManager am = (AlarmManager) mActivity.getSystemService(Context.ALARM_SERVICE);
 
-    private void startJobService() {
-        JobInfo.Builder builder = new JobInfo.Builder(1, new ComponentName(mActivity.getPackageName(), WakeJobService.class.getName()));
-        builder.setPeriodic(3000);     //每隔三秒运行一次
-        //builder.setMinimumLatency(1000);      //设置任务的延迟执行时间
-        //builder.setOverrideDeadline(5000);     //设置任务最晚的延迟时间。如果到了规定的时间其他条件还未满足，任务也会被启动
-        //builder.setRequiredNetworkType(int networkType)      //只有在满足指定的网络条件时才会被执行
-        builder.setRequiresCharging(true);   //只有当设备在充电时这个任务才会被执行
-        //builder.setPersisted(boolean isPersisted)         //当设备重启之后你的任务是否还要继续执行
-
-        int jobId = mJobScheduler.schedule(builder.build());
-        L.d(""+jobId);
+        Intent intent = new Intent("com.garfield.study.broadcast");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(mActivity, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        am.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 3000, pendingIntent);
     }
+
 
 }

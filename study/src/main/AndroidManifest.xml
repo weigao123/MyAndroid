@@ -40,7 +40,7 @@
             android:permission="android.permission.BIND_JOB_SERVICE"/>
 
         <receiver android:name=".aidl.BinderReceiver"
-            android:process=":new_process2">
+            >
             <intent-filter>
                 <action android:name="com.garfield.study.broadcast" />
             </intent-filter>
