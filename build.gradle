@@ -13,12 +13,16 @@ buildscript {
     }
 }
 
-allprojects {
+allprojects {   //为所有Project服务
     repositories {
         jcenter()   //新的远程中央仓库，兼容maven中央仓库
+        maven { url "file:///Users/didi/code/maven" }
         maven { url "https://jitpack.io" }   //指定远程仓库
         mavenLocal()   //从本地Maven仓库中获取依赖 本地地址: {user.home}\/.m2\/repository
-        flatDir { dirs 'libs' }    //本地仓库aar
+        flatDir { dirs 'libs' }
+    }
+    ext {    //所有Project可以直接使用
+
     }
 }
 
@@ -26,14 +30,14 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+//所有Project必须通过rootProject使用
 ext {
     minSdkVersion = 21
     targetSdkVersion = 25
     compileSdkVersion = 25
     buildToolsVersion = "25.0.3"
     supportVersion = "25.3.1"
+
+    VERSION_ANDROID_SUPPORT_MAXIMUM = "26.0.1"
 }
-
-
-
 

@@ -1,1 +1,4 @@
 include ':baselib', ':study', ':weishu', ':picasso', ':java', ':apt-compiler', ':apt-annotation'
+gradle
+settings
+//project

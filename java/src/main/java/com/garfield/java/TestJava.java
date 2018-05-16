@@ -8,6 +8,9 @@ import com.garfield.java.datastructure.util.ArrayUtils;
 import com.garfield.java.testclass.A;
 import com.garfield.java.util.L;
 
+import java.util.Calendar;
+import java.util.Locale;
+
 public class TestJava extends A {
 
     public static void main(String[] args) {
@@ -20,7 +23,6 @@ public class TestJava extends A {
         HandleArray.test();
 
 
-        L.d(new MergeSort().sort(ArrayUtils.getRandomArray(100)));
 
     }
 

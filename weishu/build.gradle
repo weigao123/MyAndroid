@@ -62,6 +62,9 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile project(':baselib')
+    //compile(name:'baselib-debug', ext:'aar')
+    //compile 'com.garfield:baselib:1.0-SNAPSHOT'
+
     compile 'com.afollestad.material-dialogs:core:0.9.2.3'
 
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
@@ -76,4 +79,36 @@ dependencies {
 
 static def getReleaseTime() {
     return new Date().format("yyyy_MM_dd", TimeZone.getTimeZone("UTC")).toString();
+}
+
+
+configurations.all {    //必须放到module的project中，因为root的project没有依赖
+    resolutionStrategy {
+        eachDependency { DependencyResolveDetails details ->
+            def requested = details.requested
+            if (requested.group == 'com.android.support') {
+                if (!requested.name.startsWith("multidex")) {
+                    try {
+                        println "support: " + requested.group + "  " + requested.version
+                        List versionArr = requested.version.replace('+', '').split('\\.')
+                        List limit = rootProject.ext.VERSION_ANDROID_SUPPORT_MAXIMUM.split('\\.')
+                        for (int i = 0; i < 3; i++) {    //一般最多3位
+                            int v = Integer.valueOf(versionArr[i] == null ? '0' : versionArr[i])
+                            int l = Integer.valueOf(limit[i] == null ? '0' : limit[i])
+                            if (v != l) {
+                                if (v > l) {
+                                    println "support lib is too new"
+                                    //throw new StopActionException("support lib is too new")
+                                }
+                                break
+                            }
+                        }
+                    } catch (NumberFormatException e) {
+                        println e
+                    }
+                    //details.useVersion '25.3.1'
+                }
+            }
+        }
+    }
 }
