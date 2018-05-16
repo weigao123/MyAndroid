@@ -17,12 +17,31 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile "com.android.support:appcompat-v7:${rootProject.ext.supportVersion}"
-    compile 'com.squareup.okhttp3:okhttp:3.4.2'
-    compile 'com.squareup.okio:okio:1.11.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
+    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportVersion}"
+    api 'com.squareup.okhttp3:okhttp:3.7.0'
+    api 'com.squareup.okio:okio:1.12.0'
 }
+
+apply plugin: 'maven'
+
+uploadArchives {     //这是maven自定义的Task
+    repositories {
+        mavenDeployer {
+            repository(url: 'file://localhost/Users/didi/code/maven')
+            pom.version = '1.0-SNAPSHOT'
+            pom.groupId = 'com.garfield'
+            pom.artifactId = 'picasso'
+        }
+    }
+}
+
+println "-----Picasso configure-----"

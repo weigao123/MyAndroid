@@ -1,8 +1,9 @@
 apply plugin: 'java'
+apply plugin : 'application'
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.squareup:javapoet:1.9.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.squareup:javapoet:1.9.0'
 }
 
 tasks.withType(JavaCompile) {
@@ -11,3 +12,13 @@ tasks.withType(JavaCompile) {
 
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
+
+mainClassName = 'com.garfield.java.TestJava'
+
+task test1 {
+    doLast {
+        println "java test1"
+    }
+}
+
+println "-----Java configure-----"
