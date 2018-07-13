@@ -1,10 +1,13 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+// 脚本文件本身所需要的外部依赖设置，供所有子工程apply plugin时使用
 buildscript {
+    // 脚本所依赖插件的仓库
     repositories {
         google()
         jcenter()
     }
+    // 脚本所依赖插件的名字和版本
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.3'
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
@@ -14,28 +17,32 @@ buildscript {
     }
 }
 
-//为根p和所有子p服务
+// 所有module在dependencies时需要的外部依赖设置
+// 为根p和所有module服务
 allprojects {
+    // module依赖库所在的仓库
     repositories {
         google()
-        jcenter()   //新的远程中央仓库，兼容maven中央仓库
+        jcenter()
         maven { url "file:///Users/didi/code/maven" }
-        maven { url "https://jitpack.io" }   //指定远程仓库
+        maven { url "https://jitpack.io" }
         mavenLocal()   //从本地Maven仓库中获取依赖 本地地址: {user.home}\/.m2\/repository
         flatDir { dirs 'libs' }
     }
+    // 所有工程都可以直接使用
     ext {
         xx = 3   //只能在ext中增加新属性，其他地方不行
     }
 }
 
-//同上，仅为所有子p服务，不包括根p
+// 同上，仅为所有module服务，不包括根p
 subprojects {
+    //apply plugin : 'java'
     repositories {}
     ext {}
 }
 
-//只为根p添加属性，子p必须通过rootProject使用
+// 只为根p添加属性，module必须通过rootProject使用
 ext {
     minSdkVersion = 21
     targetSdkVersion = 27
@@ -51,6 +58,8 @@ task clean(type: Delete) {
 task test1 {
     doLast {
         println "MyAndroid test1"
+        minSdkVersion = 22
+        println "${minSdkVersion}"
     }
 }
 

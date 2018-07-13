@@ -48,7 +48,7 @@
 
         <provider
             android:name=".cursor.TestProvider"
-            android:authorities="com.test.provider"
+            android:authorities="${applicationId}.com.test.provider"
             android:process=":new_process"/>
 
     </application>

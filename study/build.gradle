@@ -30,24 +30,30 @@ android {
     //构建版本（对内）
     buildTypes {
         debug {
+            applicationIdSuffix ".debug"    //只能加后缀
             signingConfig signingConfigs.release
+            resValue "string", "app_name", "Study_Debug"
+            buildConfigField "String", "MyBuildTypes", "\"debug\""
         }
         release {
             minifyEnabled false   //是否混淆
             zipAlignEnabled true  //ZIP对齐优化
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            applicationIdSuffix ".debug"    //只能加后缀
-            versionNameSuffix ".debug"      //只能加后缀
-            buildConfigField "boolean", "IS_DEBUG", "true"
-            //resValue "string", "app_name", "Study_Debug"
+            resValue "string", "app_name", "Study_Release"
+            buildConfigField "String", "MyBuildTypes", "\"release\""
         }
-//        preview.initWith(buildTypes.debug)
-//        preview {
-//            applicationIdSuffix ".preview"
-//            resValue "string", "app_name", "Study_Preview"
-//        }
+        // 3.0要求子模块也必须有这个类型
+        //preview.initWith(buildTypes.debug)
+        preview {
+            applicationIdSuffix ".preview"
+            signingConfig signingConfigs.release
+            resValue "string", "app_name", "Study_Preview"
+            buildConfigField "String", "MyBuildTypes", "\"preview\""
+            //matchingFallbacks = ['preview', 'debug', 'release']    //如果子模块没有host和sub都使用哪一个
+        }
     }
+
 
     // 表示不同的类型
     // money表示付费类型，channel表示渠道类型，最终打出apk个数等于所有的付费类型数*所有的渠道类型数*2(debug/release)

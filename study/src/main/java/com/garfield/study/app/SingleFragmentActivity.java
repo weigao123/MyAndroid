@@ -4,8 +4,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import com.garfield.baselib.BuildConfig;
 import com.garfield.baselib.swipeback.SwipeBackActivity;
+import com.garfield.baselib.utils.system.L;
 import com.garfield.study.R;
+import com.garfield.study.screenshot.ScreenshotFragment;
 import com.garfield.study.task.TaskFragment;
 
 /**
@@ -30,12 +33,13 @@ public class SingleFragmentActivity extends SwipeBackActivity {
         Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
 
         if (fragment == null) {
-            fragment = new TaskFragment();
+            fragment = new ScreenshotFragment();
             fm.beginTransaction().add(R.id.fragmentContainer, fragment).commit();
         }
 
         attachToSwipeBack();
         setSwipeBackEnable(true);
+        L.d("gaowei study", BuildConfig.BUILD_TYPE);
     }
 
 
