@@ -33,4 +33,5 @@ proguard/
 #mac specific file
 .DS_Store
 
-bugly/
+/bugly
+/maven

@@ -29,8 +29,6 @@ public class TestJava extends A {
         HandleTree.test();
         HandleArray.test();
 
-
-
     }
 
 

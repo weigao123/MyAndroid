@@ -1,5 +1,4 @@
 apply plugin : 'java'
-apply plugin : 'application'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -13,12 +12,30 @@ tasks.withType(JavaCompile) {
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
 
-mainClassName = 'com.garfield.java.TestJava'
-
-task test1 {
-    doLast {
-        println "java test1"
-    }
-}
 
 println "-----Java configure-----"
+
+
+apply plugin: 'maven'
+
+task publishType(type:Jar)   //jar/zip/war
+artifacts {
+    archives publishType
+}
+
+version '1.0'
+
+group 'com.garfield.java'
+
+uploadArchives {
+    repositories {
+        flatDir {     //发布到本地
+            name 'liyyyyybs'
+            dirs "../maven"
+        }
+        mavenDeployer {     //发布到maven
+            repository(url: uri('../maven'))
+            //snapshotRepository(url: 'file://localhost/Users/didi/code/maven')
+        }
+    }
+}

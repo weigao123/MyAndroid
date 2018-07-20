@@ -24,6 +24,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url uri('./maven') }
         maven { url "file:///Users/didi/code/maven" }
         maven { url "https://jitpack.io" }
         mavenLocal()   //从本地Maven仓库中获取依赖 本地地址: {user.home}\/.m2\/repository
@@ -55,22 +56,33 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-task test1 {
+task testRoot(type: CustomTask) {
+    group '组Root'
+    doFirst {
+        println "testRoot doFirst"
+    }
     doLast {
-        println "MyAndroid test1"
-        minSdkVersion = 22
-        println "${minSdkVersion}"
+        println "testRoot doLast"
+    }
+    onlyIf {    //闭包返回false就跳过
+        true
     }
 }
+
+class CustomTask extends DefaultTask {
+    @TaskAction
+    def doSelf() {
+        println "CustomTask 自己"
+    }
+}
+
+task('task2').doLast {
+    println "打印Task -> Root task2"
+
+}
+
 
 println "-----MyAndroid configure-----"
 
-
-task printProps {
-    doLast {
-        //println commandLineProjectProp    //-P commandLineProjectProp=3，增加工程属性
-        //println systemProjectProp       //-D org.gradle.project.systemProjectProp=3，增加系统属性
-        println gradlePropertiesProp
-        println System.properties['system']
-    }
-}
+//println gradlePropertiesProp           //aa
+//println System.properties['system']    //bb

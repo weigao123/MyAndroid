@@ -1,10 +1,14 @@
-apply plugin: 'java'
+apply plugin: 'groovy'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation gradleApi()
+    implementation localGroovy()
 }
 
-sourceCompatibility = "1.7"
-targetCompatibility = "1.7"
+//sourceCompatibility = "1.7"
+//targetCompatibility = "1.7"
 
 println "-----Plugin configure-----"
+

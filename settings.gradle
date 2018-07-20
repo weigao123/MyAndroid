@@ -1,4 +1,11 @@
-include ':baselib', ':study', ':weishu', ':picasso', ':java', ':apt-compiler', ':apt-annotation', ':plugin'
+include ':baselib',
+        ':study',
+        ':weishu',
+        ':picasso',
+        ':java',
+        ':apt-compiler',
+        ':apt-annotation',
+        ':plugin'
 gradle
 settings
 //project

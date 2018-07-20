@@ -64,20 +64,32 @@ dependencies {
 
 apply plugin: 'maven'
 
-uploadArchives {     //这是maven自定义的Task
+task publish(type:Zip)
+artifacts {
+    archives publish
+}
+
+version '1.9'
+
+uploadArchives {
     repositories {
-        mavenDeployer {
-            repository(url: 'file://localhost/Users/didi/code/maven')
-            pom.version = '1.0-SNAPSHOT'
-            pom.groupId = 'com.garfield'
-            pom.artifactId = 'baselib'
+        flatDir {     //发布到本地
+            name 'libs'
+            dirs "$projectDir/libs"
         }
+//        mavenDeployer {     //发布到maven
+//            repository(url: 'file://localhost/Users/didi/code/maven')
+//            pom.version = '1.0-SNAPSHOT'
+//            pom.groupId = 'com.garfield'
+//            pom.artifactId = 'baselib'
+//        }
     }
 }
 
 task test1 {
+    group "组baselib"
     doLast {
-        println "baselib test1"
+        println "打印Task -> baselib test1"
     }
 }
 
