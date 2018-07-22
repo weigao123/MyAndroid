@@ -1,4 +1,5 @@
 apply plugin : 'java'
+apply from: '../upload.gradle'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -15,27 +16,4 @@ targetCompatibility = "1.7"
 
 println "-----Java configure-----"
 
-
 apply plugin: 'maven'
-
-task publishType(type:Jar)   //jar/zip/war
-artifacts {
-    archives publishType
-}
-
-version '1.0'
-
-group 'com.garfield.java'
-
-uploadArchives {
-    repositories {
-        flatDir {     //发布到本地
-            name 'liyyyyybs'
-            dirs "../maven"
-        }
-        mavenDeployer {     //发布到maven
-            repository(url: uri('../maven'))
-            //snapshotRepository(url: 'file://localhost/Users/didi/code/maven')
-        }
-    }
-}

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply from: '../upload.gradle'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -26,7 +27,6 @@ android {
     lintOptions {
         abortOnError false
     }
-    defaultPublishConfig 'release1'   //一旦指明，assembleXxx都只会打pre包，没啥用
 }
 
 dependencies {
@@ -62,29 +62,7 @@ dependencies {
 }
 
 
-apply plugin: 'maven'
 
-task publish(type:Zip)
-artifacts {
-    archives publish
-}
-
-version '1.9'
-
-uploadArchives {
-    repositories {
-        flatDir {     //发布到本地
-            name 'libs'
-            dirs "$projectDir/libs"
-        }
-//        mavenDeployer {     //发布到maven
-//            repository(url: 'file://localhost/Users/didi/code/maven')
-//            pom.version = '1.0-SNAPSHOT'
-//            pom.groupId = 'com.garfield'
-//            pom.artifactId = 'baselib'
-//        }
-    }
-}
 
 task test1 {
     group "组baselib"

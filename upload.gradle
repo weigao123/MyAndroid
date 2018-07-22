@@ -1,0 +1,42 @@
+
+//def getVersionNameAdvanced(){
+//    defxmlFile = project.file("AndroidManifest.xml")
+//    defrootManifest = new XmlSlurper().parse(xmlFile)
+//    return rootManifest['@android:versionName']
+//}
+//
+//ext{
+//    getVersionNameAdvanced = this.&getVersionNameAdvanced
+//}
+
+
+apply plugin: 'maven'
+
+def v = true
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+//            flatDir {     //发布到本地
+//                dirs "../maven"
+//            }
+            if (v) {
+                repository(url: repo_release) {
+                    authentication(userName: repo_username, password: repo_password)
+                }
+                snapshotRepository(url: repo_snapshot) {
+                    authentication(userName: repo_username, password: repo_password)
+                }
+            } else {
+                repository(url: '../maven/release')
+                snapshotRepository(url: repo_snapshot)
+            }
+            // 三要素，group:artifact:version
+            pom.project {
+                groupId GROUP_ID
+                artifactId ARTIFACT_ID
+                version VERSION
+            }
+        }
+    }
+}

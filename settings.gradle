@@ -9,3 +9,9 @@ include ':baselib',
 gradle
 settings
 //project
+
+// 多层目录
+// include ':libs:study'
+// 或
+// include ':study'
+// project(':study').projectDir = new File('libs/study')

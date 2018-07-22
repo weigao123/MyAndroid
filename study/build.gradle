@@ -2,23 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
-    // 默认配置，buildTypes和ProductFlavors都没有的配置默认使用
-    // 其可用属性是buildTypes和ProductFlavors之和
-    defaultConfig {
-        applicationId "com.garfield.study"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [ moduleName : project.getName() ]   //设置给编译处理器的参数
-            }
-        }
-        multiDexEnabled true
-    }
     signingConfigs {
         release {
             storeFile file("../MyAndroid.jks")
@@ -27,19 +10,60 @@ android {
             keyPassword "android"
         }
     }
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    // 是一个ProductFlavor，可以被ProductFlavor覆盖
+    // 如果ProductFlavor没有特殊指定，使用如下的配置
+    defaultConfig {
+        applicationId "com.garfield.study"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        signingConfig signingConfigs.release
+        multiDexEnabled false
+        proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ moduleName : project.getName() ]   //设置给编译处理器的参数
+            }
+        }
+    }
+    compileOptions {
+        encoding 'utf-8'
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+    adbOptions {
+        timeOutInMs = 5000
+        installOptions '-r', '-d', '-g'
+    }
+    dexOptions {
+        javaMaxHeapSize '2g'
+        threadCount 2
+        preDexLibraries false
+        additionalParameters = ['--multi-dex',
+                                //'--main-dex-list=' + project.rootDir.absolutePath + '/app/maindexlist.txt',   //指明想哪些类打包到主dex
+                                //'--minimal-main-dex',   //最小化主dex，保证主dex中只有上面参数指定的类
+                                //'--set-max-idx-number=30000'    //每个dex中最多的方法数
+        ]
+    }
     //构建版本（对内）
+    // 每个buildTypes会生成相应的assemble任务，assembleDebug
     buildTypes {
+        // 只有debug才可以在设备上调试
         debug {
-            applicationIdSuffix ".debug"    //只能加后缀
-            signingConfig signingConfigs.release
+            debuggable true
+            multiDexEnabled true
+            applicationIdSuffix ".debug"    //只能加后缀，没有重设id
             resValue "string", "app_name", "Study_Debug"
             buildConfigField "String", "MyBuildTypes", "\"debug\""
         }
         release {
-            minifyEnabled false   //是否混淆
-            zipAlignEnabled true  //ZIP对齐优化
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            minifyEnabled false    //混淆+清理代码，反射代码失败，要keep
+            shrinkResources false  //清理资源，反射资源失败，要keep
+            zipAlignEnabled false  //ZIP对齐优化
             resValue "string", "app_name", "Study_Release"
             buildConfigField "String", "MyBuildTypes", "\"release\""
         }
@@ -54,69 +78,63 @@ android {
         }
     }
 
+    // 表示不同的类型，是productFlavors的维度，为之分组
+    // payment表示付费类型，channel表示渠道类型，最终打出apk个数等于所有的付费类型数*所有的渠道类型数*2(debug/release)
+    // 优先级非常重要
+    // 1、文件名顺序
+    // 2、会替换代码资源配置，channel>payment>main/defaultConfig
+    flavorDimensions("channel", "payment")  //要求productFlavors的每一个都属于flavorDimensions中的一类
 
-    // 表示不同的类型
-    // money表示付费类型，channel表示渠道类型，最终打出apk个数等于所有的付费类型数*所有的渠道类型数*2(debug/release)
-    // flavorDimensions("money", "channel")  //要求productFlavors的每一个都属于flavorDimensions中的一类
+    // 每个productFlavors会生成相应的assemble任务，assembleGoogle
     productFlavors {
-//        baidu {
-//            //println("baidu productFlavors")
-//            applicationId "com.garfield.study"   //重定义
-//            //dimension "channel"
-//        }
-//        xiaomi {
-//            //println("xiaomi productFlavors")
-//            applicationIdSuffix ".xiaomi"        //可以同时在手机上安装
-//            //dimension "channel"
-//        }
-//        pay {
-//            dimension "money"
-//        }
-//        free {
-//            dimension "money"
-//        }
+        baidu {
+            dimension "channel"
+            applicationIdSuffix ".baidu"
+            manifestPlaceholders.put("key", "value")
+            // 生成的内容都在generated文件夹里
+            buildConfigField "String", "Flavors_ConfigField", '"baidu"'   //双引号不能省，或"\"release\""
+            resValue "string", "Flavors_resValue", "baidu"
+            resConfigs 'zh'     //只保留一类资源，比如中文
+        }
+        google {
+            dimension "channel"
+        }
+        charge {
+            dimension "payment"
+        }
+        free {
+            dimension "payment"
+        }
     }
-//    // 修改对应目录
-//    sourceSets {
-//        main {}
-//        xiaomi {
-//            assets.srcDirs = ['src/xiaomi/assets']   //其实默认就是这个
-//        }
-//        baidu {}
-//    }
-//    lintOptions {
-//        abortOnError false   //是否在lint发生错误时终止构建
-//        ignoreWarnings true   //忽略警告，检查错误
-//    }
-    dexOptions {
-        preDexLibraries false
-        //javaMaxHeapSize '2g'
-        additionalParameters = ['--multi-dex',
-                                //'--main-dex-list=' + project.rootDir.absolutePath + '/app/maindexlist.txt',   //指明想哪些类打包到主dex
-                                //'--minimal-main-dex',   //最小化主dex，保证主dex中只有上面参数指定的类
-                                //'--set-max-idx-number=30000'    //每个dex中最多的方法数
-        ]
+    // all是提供给DomainObjectCollection的方法，类似遍历sourceSets
+    productFlavors.all { flavor ->
+        // 占位符可以替代Manifest文件中任何${var}
+        manifestPlaceholders.put("key", "value")
     }
-//    compileOptions {
-//        sourceCompatibility '1.7'
-//        targetCompatibility '1.7'
-//    }
-    greendao {
-        targetGenDir 'src/main/java'
-        daoPackage 'com.garfield.study.greendao.gen'
+    // 修改对应目录，两两合并，最后都和main合并
+    sourceSets {
+        main {
+            java.srcDirs 'src/main/java'
+            resources.srcDirs 'src/main/res'
+            assets.srcDirs 'src/main/assets'
+        }
+        debug {}
+        release {}
+        baidu {}
+        google {}
+        charge {}
+        free {}
     }
+    lintOptions {
+        abortOnError false    //是否在lint发生错误时终止构建
+        ignoreWarnings true   //忽略警告，检查错误
+    }
+
+
+    // 遍历构建产物，项目用applicationVariants，模块用libraryVariant
 //    applicationVariants.all { variant ->
-//        variant.outputs.each { output ->
-//            def outputFile = output.outputFile
-//            if (outputFile != null && outputFile.name.endsWith(".apk")) {
-//                def fileName;
-//                if (variant.buildType.name == "release") {
-//                    fileName = "study_${variant.productFlavors[0].name}_release"+ ".apk"
-//                } else {
-//                    fileName = "study_${variant.productFlavors[0].name}_debug" + ".apk"
-//                }
-//                output.outputFile = new File(outputFile.parent, fileName);
-//            }
+//        variant.outputs.all { output ->
+//            outputFileName = "xxx.apk"
 //        }
 //    }
 
@@ -130,6 +148,12 @@ android {
 //        }
 //    }
 
+    useLibrary 'org.apache.http.legacy'
+
+    greendao {
+        targetGenDir 'src/main/java'
+        daoPackage 'com.garfield.study.greendao.gen'
+    }
 }
 
 
