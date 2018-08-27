@@ -34,4 +34,4 @@ proguard/
 .DS_Store
 
 /bugly
-/maven
+/.aar

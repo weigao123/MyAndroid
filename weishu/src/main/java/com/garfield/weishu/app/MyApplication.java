@@ -12,7 +12,6 @@ import com.garfield.weishu.nim.NimConfig;
 import com.garfield.weishu.nim.cache.DataCacheManager;
 import com.garfield.weishu.nim.cache.LoginSyncHelper;
 import com.squareup.leakcanary.LeakCanary;
-import com.tencent.bugly.Bugly;
 
 
 /**
@@ -37,7 +36,7 @@ public class MyApplication extends Application {
             L.d("MyApplication");
 
             Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
-            Bugly.init(getApplicationContext(), "cdced5fee1", true);
+            //Bugly.init(getApplicationContext(), "cdced5fee1", true);
             LeakCanary.install(this);
 
             ImageLoaderHelper.init();

@@ -1,0 +1,62 @@
+println "-----AptTest start-----"
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.garfield.apt.plugin'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+//    flavorDimensions("channel", "payment")
+//
+//    productFlavors {
+//        baidu {
+//            dimension "channel"
+//        }
+//        google {
+//            dimension "channel"
+//        }
+//        charge {
+//            dimension "payment"
+//        }
+//        free {
+//            dimension "payment"
+//        }
+//    }
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+
+    api 'com.android.support:appcompat-v7:27.1.1'
+    api 'com.android.support.constraint:constraint-layout:1.1.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+
+    //api project(':apt:apt-module')
+    //api 'com.xiaoju.nova:apt-module:0.1'
+    //api project(':apt:apt-annotation')
+    //annotationProcessor project(':apt:apt-compiler')
+
+    implementation 'com.garfield:apt-annotation:0.1'
+
+    //compileOnly project(":apt:apt-plugin")   //用于task依赖，只有这样它才可以配置
+}
+
+println "-----AptTest end-----"

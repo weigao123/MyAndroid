@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="black">#000000</color>
+    <color name="black_gray">#636262</color>
+    <color name="black_gray2">#8c8c8c</color>
+    <color name="black_gray3">#bab9b9</color>
+
+    <color name="black_trans">#b0282525</color>
+
+    <color name="gray">#d4d4d4</color>
+    <color name="gray_white">#ededed</color>
+
+    <color name="gray_trans">#64161616</color>
+
+    <color name="white">#FFFFFF</color>
+
+    <color name="green">#00FF00</color>
+    <color name="green_deep">#0dba04</color>
+
+    <color name="red">#FF0000</color>
+
+    <color name="pure_trans">#00000000</color>
+</resources>

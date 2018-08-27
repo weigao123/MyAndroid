@@ -1,0 +1,30 @@
+apply plugin: 'groovy'
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile gradleApi()
+    compile localGroovy()
+    compile "com.android.tools.lint:lint-api:26.1.3"
+    compileOnly "com.android.tools.lint:lint-checks:26.1.3"   //实现了Android原生Lint规则
+}
+
+//sourceCompatibility = "1.7"
+//targetCompatibility = "1.7"
+
+task getPassword {
+    doLast {
+        def pw = ''
+        File file = project.file('private.properties')
+        if (file.exists()) {
+            Properties properties = new Properties()
+            properties.load(file.newDataInputStream())
+            pw = properties.getProperty('key')
+            println pw
+        }
+    }
+}
+
+println "-----Plugin configure-----"
+
+

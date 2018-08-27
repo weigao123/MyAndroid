@@ -1,0 +1,48 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+//println 'group: ' + group
+//println 'name: ' + name
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
+    api "com.android.support:appcompat-v7:${rootProject.ext.supportVersion}"
+    api 'com.android.support.constraint:constraint-layout:1.1.2'
+
+    // 为了让编译出jar
+    compileOnly project(':lint:lint-jar')
+}
+
+//task copyLint(type: Copy) {
+//    // 创建文件并写入内容
+////    new File("lint.version").withPrintWriter { printWriter ->
+////        printWriter.println(version)
+////    }
+//
+//    from(project(':lint:lint-jar').buildDir.path + '/libs/lint.jar')
+//    into(buildDir.path + '/intermediates/lint')
+//    duplicatesStrategy DuplicatesStrategy.FAIL
+//}
+
+//project(":lint:lint-jar").afterEvaluate {
+//    project(":lint:lint-jar").tasks['jar'].dependsOn copyLint
+//}

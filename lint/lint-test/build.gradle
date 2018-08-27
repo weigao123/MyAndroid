@@ -1,0 +1,49 @@
+apply plugin: 'com.android.library'
+//apply plugin: 'com.garfield.lint.plugin'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        //disable ''     //关闭
+        //enable ''      //在默认基础上，再增加
+        //check 'NewApi', 'InlinedApi'    //仅仅检查这些，忽略disable/enable/default
+        //abortOnError false    //是否在lint发生错误时终止构建
+        //ignoreWarnings true   //忽略警告，只检查错误
+
+        //error 'Wakelock', 'TextViewEdits'   // 设置给定问题的严重级别为error
+        //warning 'ResourceAsColor'
+        //ignore ''
+        //lintConfig file("default-lint.xml")
+    }
+}
+
+//copy {
+//    def root = rootProject.rootDir.path
+//    from(root + '/lint/lint-aar/build/outputs/aar')
+//    into(root + '/lint/lint-test/libs')
+//}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
+    api "com.android.support:appcompat-v7:${rootProject.ext.supportVersion}"
+    api 'com.android.support.constraint:constraint-layout:1.1.2'
+
+    //api(name: 'lint-aar-debug', ext: 'aar')
+}

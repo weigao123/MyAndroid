@@ -1,0 +1,12 @@
+apply plugin: 'java'   //不要用java-library，否则父工程找不到类
+apply plugin: 'groovy'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation gradleApi()
+    implementation localGroovy()
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"

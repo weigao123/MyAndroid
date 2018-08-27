@@ -1,3 +1,4 @@
+println "-----Study start-----"
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
 
@@ -67,29 +68,33 @@ android {
             resValue "string", "app_name", "Study_Release"
             buildConfigField "String", "MyBuildTypes", "\"release\""
         }
-        // 3.0要求子模块也必须有这个类型
+        // 3.0要求子模块必须有这个类型
         //preview.initWith(buildTypes.debug)
-        preview {
-            applicationIdSuffix ".preview"
-            signingConfig signingConfigs.release
-            resValue "string", "app_name", "Study_Preview"
-            buildConfigField "String", "MyBuildTypes", "\"preview\""
-            //matchingFallbacks = ['preview', 'debug', 'release']    //如果子模块没有host和sub都使用哪一个
-        }
+//        preview {
+//            applicationIdSuffix ".preview"
+//            signingConfig signingConfigs.release
+//            resValue "string", "app_name", "Study_Preview"
+//            buildConfigField "String", "MyBuildTypes", "\"preview\""
+//            //matchingFallbacks = ['preview', 'debug', 'release']    //如果子模块没有host和sub都使用哪一个
+//        }
     }
 
     // 表示不同的类型，是productFlavors的维度，为之分组
     // payment表示付费类型，channel表示渠道类型，最终打出apk个数等于所有的付费类型数*所有的渠道类型数*2(debug/release)
     // 优先级非常重要
     // 1、文件名顺序
-    // 2、会替换代码资源配置，channel>payment>main/defaultConfig
+    // 2、会替换代码资源配置，buildType>channel>payment>main/defaultConfig>lib
     flavorDimensions("channel", "payment")  //要求productFlavors的每一个都属于flavorDimensions中的一类
 
     // 每个productFlavors会生成相应的assemble任务，assembleGoogle
+    // 同defaultConfig中的配置
     productFlavors {
         baidu {
             dimension "channel"
             applicationIdSuffix ".baidu"
+            manifestPlaceholders = [
+                    "key": "value"
+            ]
             manifestPlaceholders.put("key", "value")
             // 生成的内容都在generated文件夹里
             buildConfigField "String", "Flavors_ConfigField", '"baidu"'   //双引号不能省，或"\"release\""
@@ -126,27 +131,32 @@ android {
         free {}
     }
     lintOptions {
+        //disable ''     //关闭
+        //enable ''      //在默认基础上，再增加
+        //check 'NewApi', 'InlinedApi'    //仅仅检查这些，忽略disable/enable/default
         abortOnError false    //是否在lint发生错误时终止构建
         ignoreWarnings true   //忽略警告，检查错误
     }
 
 
-    // 遍历构建产物，项目用applicationVariants，模块用libraryVariant
-//    applicationVariants.all { variant ->
+    // 遍历构建产物
+    applicationVariants.all { variant ->
 //        variant.outputs.all { output ->
-//            outputFileName = "xxx.apk"
+//            println "study: " + output.name
+//            //outputFileName = "xxx.apk"
 //        }
-//    }
+    }
 
-//    android.variantFilter { variant ->
-//        if(variant.buildType.name.equals('preview')) {
-//            variant.getFlavors().each() { flavor ->
-//                if (flavor.name.equals('red') || flavor.name.equals('blue')) {
-//                    variant.setIgnore(true);
-//                }
-//            }
-//        }
-//    }
+    // variant过滤器
+    variantFilter { variant ->
+        if(variant.buildType.name.equals('preview')) {
+            variant.getFlavors().each() { flavor ->
+                if (flavor.name.equals('red') || flavor.name.equals('blue')) {
+                    variant.setIgnore(true)
+                }
+            }
+        }
+    }
 
     useLibrary 'org.apache.http.legacy'
 
@@ -159,17 +169,15 @@ android {
 
 dependencies {
     //组名:库名称:版本号
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
-    implementation 'com.nineoldandroids:library:2.4.0'
-    implementation project(':baselib')
+    api 'com.nineoldandroids:library:2.4.0'
+    api project(':abase:baselib')
 
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
-    implementation 'com.jakewharton:butterknife:8.4.0'
-    implementation 'org.greenrobot:greendao:3.2.2'
-    implementation project(':apt-annotation')
-    annotationProcessor project(':apt-compiler')
+    api 'com.jakewharton:butterknife:8.4.0'
+    api 'org.greenrobot:greendao:3.2.2'
+    //api 'com.garfield:lint-aar:1.0'
 }
 
-
-println "-----Study configure-----"
+println "-----Study end-----"

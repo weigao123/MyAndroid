@@ -1,47 +1,63 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+println "-----MyAndroid configure start-----"
 
-// 脚本文件本身所需要的外部依赖设置，供所有子工程apply plugin时使用
+// 入口是这里，就算前面有代码也在它之后执行
+// 适用于apply plugin
 buildscript {
-    // 脚本所依赖插件的仓库
+    ext {
+        //def repo2 = 'file:../build/maven'
+        //repo_snapshot = 'http://localhost:9999/nexus/content/repositories'
+
+        repo_snapshot = "${rootProject.rootDir.path}/.aar/maven/libs-snapshot"
+        repo_release = "${rootProject.rootDir.path}/.aar/maven/libs-release"
+        repo_username = 'admin'
+        repo_password = 'admin123'
+    }
+    // plugin的仓库
     repositories {
+        maven { url uri(repo_snapshot) }
+        maven { url uri(repo_release) }
         google()
         jcenter()
     }
-    // 脚本所依赖插件的名字和版本
+    // plugin的名字和版本
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.3'
+        classpath 'com.android.tools.build:gradle:3.1.4'
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
+        classpath 'com.garfield:apt-plugin:0.1'
+    }
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+    configurations.all {
+        resolutionStrategy {
+            cacheChangingModulesFor 0, 'seconds'
+        }
     }
 }
 
-// 所有module在dependencies时需要的外部依赖设置
-// 为根p和所有module服务
+// 适用于dependencies
 allprojects {
     // module依赖库所在的仓库
     repositories {
-        google()
-        jcenter()
-        maven { url uri('./maven') }
-        maven { url 'https://jitpack.io' }
-        maven { url repo_snapshot}
-        maven { url repo_release}
+        maven { url uri(repo_snapshot) }
+        maven { url uri(repo_release) }
         mavenLocal()   //从本地Maven仓库中获取依赖 本地地址: {user.home}\/.m2\/repository
         flatDir { dirs 'libs' }
+        google()
+        jcenter()
+        maven { url 'https://jitpack.io' }
     }
     // 所有工程都可以直接使用
-    ext {
-        xx = 3   //只能在ext中增加新属性，其他地方不行
-    }
+    ext {}
 }
 
 // 同上，仅为所有module服务，不包括根p
 subprojects {
-    //apply plugin : 'java'
-    repositories {}
-    ext {}
+    project ->
+        project.afterEvaluate {
+            // 不能在配置之前调用，会导致依赖在pom中看不到
+            project.apply from: "${rootProject.rootDir.path}/upload.gradle"
+        }
+        repositories {}
+        ext {}
 }
 
 // 只为根p添加属性，module必须通过rootProject使用
@@ -83,7 +99,7 @@ task('task2').doLast {
 }
 
 
-println "-----MyAndroid configure-----"
+println "-----MyAndroid configure end-----"
 
 //println gradlePropertiesProp           //aa
 //println System.properties['system']    //bb

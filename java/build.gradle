@@ -1,19 +1,22 @@
+println "-----Java start-----"
 apply plugin : 'java'
-apply from: '../upload.gradle'
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.squareup:javapoet:1.9.0'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.squareup:javapoet:1.9.0'
+    compile project(':lint:lint-jar')
 }
 
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
 
+jar {
+    //from project.zipTree('libs/javassist.jar')   //把libs/jar打包进来，否则不包含这个jar
+}
+
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
 
+println "-----Java end-----"
 
-println "-----Java configure-----"
-
-apply plugin: 'maven'

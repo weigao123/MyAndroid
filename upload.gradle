@@ -12,31 +12,27 @@
 
 apply plugin: 'maven'
 
-def v = true
-
 uploadArchives {
     repositories {
         mavenDeployer {
 //            flatDir {     //发布到本地
 //                dirs "../maven"
 //            }
-            if (v) {
-                repository(url: repo_release) {
-                    authentication(userName: repo_username, password: repo_password)
-                }
-                snapshotRepository(url: repo_snapshot) {
-                    authentication(userName: repo_username, password: repo_password)
-                }
-            } else {
-                repository(url: '../maven/release')
-                snapshotRepository(url: repo_snapshot)
-            }
+
             // 三要素，group:artifact:version
             pom.project {
-                groupId GROUP_ID
-                artifactId ARTIFACT_ID
-                version VERSION
+                groupId project.hasProperty('GROUP_ID') ? GROUP_ID : 'com.garfield'
+                artifactId project.hasProperty('ARTIFACT_ID') ? ARTIFACT_ID : project.name
+                version project.hasProperty('VERSION') ? VERSION : '0.1'
             }
+
+            snapshotRepository(url: uri(repo_snapshot)) {
+                authentication(userName: repo_username, password: repo_password)
+            }
+            repository(url: uri(repo_release)) {
+                authentication(userName: repo_username, password: repo_password)
+            }
+
         }
     }
 }

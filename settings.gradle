@@ -1,17 +1,31 @@
-include ':baselib',
+include ':abase:baselib',
+        ':abase:basejava',
+//        ':gradle-source:gradle-3.1.3',
+//        ':gradle-source:gradle-core-3.1.3',
+//        ':gradle-source:gradle-api-3.1.3',
+        ':test',
         ':study',
         ':weishu',
         ':picasso',
         ':java',
-        ':apt-compiler',
-        ':apt-annotation',
-        ':plugin'
+        ':apt:apt-compiler',
+        ':apt:apt-annotation',
+        ':apt:apt-test',
+        ':apt:apt-plugin',
+        ':apt:apt-module',
+        ':lint:lint-plugin',
+        ':lint:lint-jar',
+        ':lint:lint-aar',
+        ':lint:lint-test',
+        ':didi:didi-module',
+        ':didi:didi-app'
+
+//project(':lint-jar').projectDir = new File('lint/lint-jar')
+
+
 gradle
 settings
 //project
 
 // 多层目录
 // include ':libs:study'
-// 或
-// include ':study'
-// project(':study').projectDir = new File('libs/study')

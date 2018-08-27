@@ -35,7 +35,7 @@ public class WelcomeActivity extends AppBaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (!BuildConfig.API_DEBUG && firstEnter && !isNotify()) {
+        if (!BuildConfig.BASE_DEBUG && firstEnter && !isNotify()) {
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
