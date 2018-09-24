@@ -1,0 +1,20 @@
+apply plugin: 'java'
+apply plugin: 'groovy'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //implementation project(':abase:basejava')
+    implementation 'com.squareup:javapoet:1.9.0'
+
+    implementation gradleApi()
+    implementation localGroovy()
+
+    implementation 'org.javassist:javassist:3.18.2-GA'
+    implementation 'com.squareup:javapoet:1.9.0'
+
+
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"

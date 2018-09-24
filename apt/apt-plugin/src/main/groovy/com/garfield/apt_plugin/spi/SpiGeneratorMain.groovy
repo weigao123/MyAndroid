@@ -14,17 +14,17 @@ class SpiGeneratorMain {
             project.android.applicationVariants.all { variant ->
 
                 FileCollection t_compileClassPath = project.files(
-                        //project.android.bootClasspath,
-                        //variant.javaCompile.classpath,
+                        project.android.bootClasspath,     //如果不加会造成无法识别系统类
+                        variant.javaCompile.classpath,
                         variant.javaCompile.destinationDir)
                 File t_spiSourceDir = project.file("${project.buildDir}/outputs2")
                 File t_spiServiceDir = project.file("${project.buildDir}/intermediates/spi/${variant.dirName}/services")
 
-//                // bootClasspath，List<File>，一个jar
+//                // bootClasspath，List<File>，一个android.jar
 //                project.android.bootClasspath.each {
 //                    Logger.d("bootClasspath: " + it)
 //                }
-//                // classpath，FileCollection，一堆jar
+//                // classpath，FileCollection，所有依赖的aar/jar
 //                variant.javaCompile.classpath.each {
 //                    Logger.d("classpath: " + it)
 //                }

@@ -33,4 +33,7 @@ dependencies {
     })
 
     implementation project(':apt:apt-annotation')
+
+    annotationProcessor project(':apt:apt-compiler')
+
 }

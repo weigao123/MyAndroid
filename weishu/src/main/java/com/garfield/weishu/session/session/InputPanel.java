@@ -103,6 +103,13 @@ class InputPanel implements IEmoticonSelectedListener, KeyboardLinearLayout.OnMe
 
             @Override
             public void afterTextChanged(Editable s) {
+//                String newStr = s.toString().replaceAll("[^\\d]", "");
+//                mInputEtx.removeTextChangedListener(this);
+//                mInputEtx.setText(newStr);
+//                int reduce = s.length() - newStr.length();
+//                mInputEtx.setSelection(start + count - reduce);
+//                mInputEtx.addTextChangedListener(this);
+
                 checkSendButtonEnable(mInputEtx);
                 MoonUtil.replaceEmoticons(AppCache.getContext(), s, start, count);
                 int editEnd = mInputEtx.getSelectionEnd();

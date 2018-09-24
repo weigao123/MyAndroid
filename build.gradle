@@ -62,7 +62,7 @@ subprojects {
 
 // 只为根p添加属性，module必须通过rootProject使用
 ext {
-    minSdkVersion = 21
+    minSdkVersion = 19
     targetSdkVersion = 27
     compileSdkVersion = 27
     buildToolsVersion = "27.0.3"

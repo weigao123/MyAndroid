@@ -57,16 +57,16 @@ public class PackGroup {
             typeNames.add(TypeName.get(elementUtils.getTypeElement(s).asType()));
         }
 
-        int index = 0;
-        while (true) {
-            try {
-                Class.forName("com.didi.sdk.NimbleDataGenerator$" + index);
-            } catch (ClassNotFoundException e) {
-                break;
-            }
-        }
+//        int index = 0;
+//        while (true) {
+//            try {
+//                Class.forName("com.didi.sdk.NimbleDataGenerator$" + index);
+//            } catch (ClassNotFoundException e) {
+//                break;
+//            }
+//        }
 
-        TypeSpec NimDataGenerator = TypeSpec.interfaceBuilder("NimDataGenerator$" + index)
+        TypeSpec NimDataGenerator = TypeSpec.interfaceBuilder("NimDataGenerator")
                 .addModifiers(Modifier.PUBLIC)
                 .addSuperinterfaces(typeNames)
                 .build();

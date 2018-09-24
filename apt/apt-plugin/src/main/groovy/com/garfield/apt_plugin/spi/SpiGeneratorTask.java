@@ -20,6 +20,7 @@ import java.util.jar.JarFile;
 
 import javassist.ClassPool;
 import javassist.CtClass;
+import javassist.NotFoundException;
 
 public class SpiGeneratorTask extends DefaultTask {
 
@@ -62,6 +63,12 @@ public class SpiGeneratorTask extends DefaultTask {
 
     private void doProcessCc(CtClass cc) {
         if (cc.hasAnnotation(PackType.class)) {
+            try {
+                CtClass c = cc.getSuperclass();
+                Logger.d("super: " + c.getName());
+            } catch (NotFoundException e) {
+                e.printStackTrace();
+            }
             Logger.d("===== " + cc.getName());
         }
     }
