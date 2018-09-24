@@ -72,7 +72,7 @@ public class PackGroup {
                 .build();
 
         JavaFile javaFile = JavaFile.builder("com.didi.sdk", NimDataGenerator).build();
-        javaFile.writeTo(filer);
+//        javaFile.writeTo(filer);
         javaFile.writeTo(System.out);
     }
 }

@@ -32,8 +32,9 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    implementation project(':apt:apt-annotation')
+    //implementation project(':apt:apt-annotation')
+    implementation 'com.garfield:apt-annotation:0.1'
 
-    annotationProcessor project(':apt:apt-compiler')
+    //annotationProcessor project(':apt:apt-compiler')
 
 }

@@ -61,6 +61,9 @@ public class PackProcessor extends AbstractProcessor {
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         try {
             for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(PackType.class)) {
+
+                Logger.info("===" + annotatedElement.getSimpleName());
+
                 if (!(annotatedElement instanceof TypeElement)) {
                     Logger.error("Only classes can be annotated with " + PackType.class.getSimpleName());
                     return true;

@@ -1,7 +1,7 @@
 println "-----AptTest start-----"
 
 apply plugin: 'com.android.application'
-apply plugin: 'com.garfield.apt.plugin'
+//apply plugin: 'com.garfield.apt.plugin'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -50,9 +50,9 @@ dependencies {
 
 
     //api project(':apt:apt-module')
-    //api 'com.xiaoju.nova:apt-module:0.1'
+    api 'com.garfield:apt-module:0.1'
     //api project(':apt:apt-annotation')
-    //annotationProcessor project(':apt:apt-compiler')
+    annotationProcessor project(':apt:apt-compiler')
 
     implementation 'com.garfield:apt-annotation:0.1'
 
