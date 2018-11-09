@@ -22,8 +22,9 @@ uploadArchives {
             // 三要素，group:artifact:version
             pom.project {
                 groupId project.hasProperty('GROUP_ID') ? GROUP_ID : 'com.garfield'
-                artifactId project.hasProperty('ARTIFACT_ID') ? ARTIFACT_ID : project.name
-                version project.hasProperty('VERSION') ? VERSION : '0.1'
+                artifactId project.name
+                version project.version != 'unspecified' ? project.version : '0.0.1'
+                description project.description ?: ''
             }
 
             snapshotRepository(url: uri(repo_snapshot)) {

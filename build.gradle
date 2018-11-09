@@ -5,7 +5,6 @@ println "-----MyAndroid configure start-----"
 buildscript {
     ext {
         //def repo2 = 'file:../build/maven'
-        //repo_snapshot = 'http://localhost:9999/nexus/content/repositories'
 
         repo_snapshot = "${rootProject.rootDir.path}/.aar/maven/libs-snapshot"
         repo_release = "${rootProject.rootDir.path}/.aar/maven/libs-release"
@@ -16,6 +15,7 @@ buildscript {
     repositories {
         maven { url uri(repo_snapshot) }
         maven { url uri(repo_release) }
+        mavenCentral()
         google()
         jcenter()
     }
@@ -23,7 +23,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.4'
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
-        classpath 'com.garfield:apt-plugin:0.1'
+        classpath 'com.garfield:test-plugin:0.0.1'
     }
 
     configurations.all {
@@ -39,11 +39,12 @@ allprojects {
     repositories {
         maven { url uri(repo_snapshot) }
         maven { url uri(repo_release) }
-        mavenLocal()   //从本地Maven仓库中获取依赖 本地地址: {user.home}\/.m2\/repository
-        flatDir { dirs 'libs' }
+        //mavenLocal()   //从本地Maven仓库中获取依赖 本地地址: {user.home}\/.m2\/repository
+        //flatDir { dirs 'libs' }
+        mavenCentral()
         google()
         jcenter()
-        maven { url 'https://jitpack.io' }
+        //maven { url 'https://jitpack.io' }
     }
     // 所有工程都可以直接使用
     ext {}

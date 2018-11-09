@@ -1,15 +1,18 @@
-apply plugin: 'com.android.application'
-apply plugin: 'com.garfield.test_plugin'
+apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion 27
+
+
 
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion 15
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -22,10 +25,9 @@ android {
 }
 
 dependencies {
-    api fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    api 'com.android.support:appcompat-v7:27.1.1'
-    api 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
