@@ -1,7 +1,7 @@
 package com.garfield.plugin.util
 
-import com.android.builder.model.Version
 import org.gradle.api.Project
+import com.android.builder.model.*
 
 class XmlUtil {
 

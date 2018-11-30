@@ -1,7 +1,7 @@
 println "-----AptTest start-----"
 
 apply plugin: 'com.android.application'
-//apply plugin: 'com.garfield.store.plugin'
+apply plugin: 'com.garfield.store.plugin'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -42,16 +42,16 @@ android {
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
 
-    api 'com.android.support:appcompat-v7:27.1.1'
-    api 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    api project(':store:annotation')
+    implementation project(':store:annotation')
 
-    api project(':store:store-lib')
-    //api 'com.garfield:store-lib:0.1'
+    //implementation project(':store:store_lib')
+    api 'com.garfield:store_lib:0.0.1'
 
     //annotationProcessor project(':apt:apt-compiler')
 

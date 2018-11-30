@@ -19,7 +19,6 @@ import java.util.jar.JarFile;
 
 import javassist.ClassPool;
 import javassist.CtClass;
-import javassist.NotFoundException;
 
 public class SpiTask extends DefaultTask {
 
@@ -40,7 +39,7 @@ public class SpiTask extends DefaultTask {
     private void startExecute() {
         try {
             for (File file : this.compileClassPath) {
-                Logger.d("scan path: " + file.getCanonicalPath());
+                //Logger.d("scan path: " + file.getCanonicalPath());
                 //pool.appendClassPath(file.getAbsolutePath());
             }
 

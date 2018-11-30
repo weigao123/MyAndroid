@@ -13,6 +13,6 @@ public class PluginEnter implements Plugin<Project> {
 
         Logger.d("apply");
         AppExtension android = project.getExtensions().getByType(AppExtension.class);
-        android.registerTransform(new MyTransform());
+        //android.registerTransform(new MyTransform());
     }
 }

@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.garfield.test_plugin'
+//apply plugin: 'com.garfield.test_plugin'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion

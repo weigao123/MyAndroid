@@ -23,7 +23,8 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.4'
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
-        classpath 'com.garfield:test-plugin:0.0.1'
+
+        classpath 'com.garfield:store_plugin:0.0.1'
     }
 
     configurations.all {

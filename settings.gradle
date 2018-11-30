@@ -1,22 +1,24 @@
 include ':abase:baselib',
         ':abase:basejava',
-        ':test:test-app',
-        ':test:test-lib',
-        ':test:test-java',
-        ':test:test-plugin',
         ':study',
         ':weishu',
-        ':picasso',
-        ':store:lint:lint-plugin',
+        ':picasso'
+
+include ':test:test-app',
+        ':test:test-lib',
+        ':test:test-java',
+        ':test:test-plugin'
+
+include ':store:lint:lint-plugin',
         ':store:lint:lint-jar',
         ':store:lint:lint-aar',
         ':store:lint:lint-test',
-        ':store:store-app',
-        ':store:store-lib',
-        ':store:annotation',
-        ':store:plugin',
-        ':store:java',
-        ':store:processor'
+        ':store:store_app',
+        ':store:store_lib',
+        ':store:store_plugin',
+        ':store:store_java',
+        ':store:processor',
+        ':store:annotation'
 
 //project(':lint-jar').projectDir = new File('lint/lint-jar')
 
