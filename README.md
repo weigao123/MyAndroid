@@ -1,3 +1,6 @@
+
+<a href='https://bintray.com/gwball/maven/drouter-plugin?source=watch' alt='Get automatic notifications about new "drouter-plugin" versions'><img src='https://www.bintray.com/docs/images/bintray_badge_color.png'></a>
+
 # 微书
 
 一款模仿微信界面的Android App，既是一款聊天工具，也是一款新闻客户端，更是一款开发者用来学习和实践的框架平台。
